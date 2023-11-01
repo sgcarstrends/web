@@ -4,6 +4,7 @@ import {
   CategoryScale,
   Chart as ChartJS,
   ChartData,
+  Colors,
   Legend,
   LinearScale,
   LineElement,
@@ -21,6 +22,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
+  Colors,
 );
 
 type LineChartProps = {
