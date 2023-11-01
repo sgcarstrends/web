@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import { FUEL_TYPE } from "@/config";
+import { sortByMake } from "@/lib/sortByMake";
 import type { Car } from "@/types";
 
 export const getCarRegistrationByMake = async (
@@ -34,7 +35,8 @@ export const getCarRegistrationByMake = async (
       }
 
       return result;
-    }, []);
+    }, [])
+    .sort(sortByMake);
 
   console.table(electricCars);
 
