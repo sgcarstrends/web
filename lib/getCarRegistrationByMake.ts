@@ -9,13 +9,13 @@ export const getCarRegistrationByMake = async (filePath: string) => {
     number: +car.number,
   }));
 
-  return carRegistrationByMake
+  const electricCars = carRegistrationByMake
     .filter(
       ({ fuel_type, number }) =>
         fuel_type === FUEL_TYPE.ELECTRIC && number !== 0,
     )
     .reduce((result: Car[], item: Car) => {
-      const { month, make, fuel_type, vehicle_type } = item;
+      const { month, make, fuel_type } = item;
       const existingItem = result.find(
         (item) => item.month === month && item.make === make,
       );
@@ -27,11 +27,14 @@ export const getCarRegistrationByMake = async (filePath: string) => {
           month,
           make,
           fuel_type,
-          vehicle_type,
           number: item.number,
         });
       }
 
       return result;
     }, []);
+
+  console.table(electricCars);
+
+  return electricCars;
 };
