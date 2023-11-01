@@ -6,6 +6,7 @@ import { generateUniqueRandomHexColours } from "@/lib/generateUniqueRandomHexCol
 import type { Car, ChartDataset, Dataset } from "@/types";
 
 const Home = async () => {
+  // TODO: This part here only works on local. Will need to host this file somewhere instead.
   const electricVehicles: Car[] = await getCarRegistrationByMake(
     `http://localhost:3000/data/M03-Car_Regn_by_make.csv`,
   );
