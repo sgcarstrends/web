@@ -1,9 +1,9 @@
-import Image from "next/image";
+import type { ChartData } from "chart.js";
 import { LineChart } from "@/components/LineChart";
 import { getCarRegistrationByMake } from "@/lib/getCarRegistrationByMake";
 import { transformDataToDatasets } from "@/lib/transformDataToDatasets";
 import { generateUniqueRandomHexColours } from "@/lib/generateUniqueRandomHexColours";
-import { Car } from "@/types";
+import type { ChartDataset, Dataset } from "@/types";
 
 const Home = async () => {
   const electricVehicles = await getCarRegistrationByMake(
@@ -11,16 +11,14 @@ const Home = async () => {
   );
 
   const datasetColour = generateUniqueRandomHexColours(electricVehicles);
-  const datasets = transformDataToDatasets(electricVehicles).map(
-    (ev: Car, i: number) => {
-      return {
-        ...ev,
-        borderColor: datasetColour[i],
-      };
-    },
-  );
+  const datasets: ChartDataset[] = transformDataToDatasets(
+    electricVehicles,
+  ).map((car: Dataset, i: number) => ({
+    ...car,
+    borderColor: datasetColour[i],
+  }));
 
-  const data = {
+  const data: ChartData<"line"> = {
     labels: [...new Set(electricVehicles.map(({ month }) => month))],
     datasets,
   };
