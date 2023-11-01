@@ -3,14 +3,15 @@ import { LineChart } from "@/components/LineChart";
 import { getCarRegistrationByMake } from "@/lib/getCarRegistrationByMake";
 import { transformDataToDatasets } from "@/lib/transformDataToDatasets";
 import { generateUniqueRandomHexColours } from "@/lib/generateUniqueRandomHexColours";
-import type { ChartDataset, Dataset } from "@/types";
+import type { Car, ChartDataset, Dataset } from "@/types";
 
 const Home = async () => {
-  const electricVehicles = await getCarRegistrationByMake(
+  const electricVehicles: Car[] = await getCarRegistrationByMake(
     `http://localhost:3000/data/M03-Car_Regn_by_make.csv`,
   );
 
-  const datasetColour = generateUniqueRandomHexColours(electricVehicles);
+  const datasetColour: string[] =
+    generateUniqueRandomHexColours(electricVehicles);
   const datasets: ChartDataset[] = transformDataToDatasets(
     electricVehicles,
   ).map((car: Dataset, i: number) => ({
