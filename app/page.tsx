@@ -1,4 +1,4 @@
-import type { ChartData } from "chart.js";
+import type { ChartData, ChartOptions } from "chart.js";
 import { LineChart } from "@/components/LineChart";
 import { getCarRegistrationByMake } from "@/lib/getCarRegistrationByMake";
 import { transformDataToDatasets } from "@/lib/transformDataToDatasets";
@@ -24,9 +24,22 @@ const Home = async () => {
     datasets,
   };
 
+  const options: ChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+      title: {
+        display: true,
+        text: "Singapore EV Trends",
+      },
+    },
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <LineChart data={data} />
+      <LineChart data={data} options={options} />
     </main>
   );
 };

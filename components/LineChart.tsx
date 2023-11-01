@@ -4,6 +4,7 @@ import {
   CategoryScale,
   Chart as ChartJS,
   ChartData,
+  ChartOptions,
   Colors,
   Legend,
   LinearScale,
@@ -27,8 +28,9 @@ ChartJS.register(
 
 type LineChartProps = {
   data: ChartData<"line">;
+  options?: ChartOptions;
 };
 
-export const LineChart = ({ data }: LineChartProps) => {
-  return <Line data={data} />;
+export const LineChart = ({ data, options }: LineChartProps) => {
+  return <Line data={data} options={options} />;
 };
