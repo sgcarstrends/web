@@ -1,6 +1,5 @@
 import React from "react";
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -30,7 +29,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           gtag('config', '${gaMeasurementId}');
         `}
       </Script>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <main className="max-w-6xl w-full mx-auto px-4 py-8">{children}</main>
+      </body>
     </html>
   );
 };

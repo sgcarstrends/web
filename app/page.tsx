@@ -26,22 +26,16 @@ const Home = async () => {
   };
 
   const options: ChartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top" as const,
-      },
-      title: {
-        display: true,
-        text: "Singapore EV Trends",
-      },
-    },
+    maintainAspectRatio: false,
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <LineChart data={data} options={options} />
-    </main>
+    <div className="flex flex-col items-center">
+      <h1>Singapore EV Trends</h1>
+      <div className="w-full h-screen">
+        <LineChart data={data} options={options} />
+      </div>
+    </div>
   );
 };
 
