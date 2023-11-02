@@ -32,7 +32,7 @@ const Home = async () => {
   return (
     <div className="flex flex-col items-center">
       <h1>Singapore EV Trends</h1>
-      <div className="w-full h-screen">
+      <div className="h-screen w-full">
         <LineChart data={data} options={options} />
       </div>
     </div>

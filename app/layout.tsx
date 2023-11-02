@@ -30,7 +30,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         `}
       </Script>
       <body className={inter.className}>
-        <main className="max-w-6xl w-full mx-auto px-4 py-8">{children}</main>
+        <main className="mx-auto w-full max-w-6xl px-4 py-8">{children}</main>
       </body>
     </html>
   );
