@@ -3,6 +3,8 @@ import { LineChart } from "@/components/LineChart";
 import { getCarRegistrationByMake } from "@/lib/getCarRegistrationByMake";
 import { transformDataToDatasets } from "@/lib/transformDataToDatasets";
 import { generateUniqueRandomHexColours } from "@/lib/generateUniqueRandomHexColours";
+import { BASE_URL } from "@/config";
+import { WebSite, WithContext } from "schema-dts";
 import type { Car, ChartDataset, Dataset } from "@/types";
 
 const Home = async () => {
@@ -29,13 +31,26 @@ const Home = async () => {
     maintainAspectRatio: false,
   };
 
+  const jsonLd: WithContext<WebSite> = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Singapore EV Trends",
+    url: BASE_URL,
+  };
+
   return (
-    <div className="flex flex-col items-center">
-      <h1>Singapore EV Trends</h1>
-      <div className="h-screen w-full">
-        <LineChart data={data} options={options} />
+    <section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="flex flex-col items-center">
+        <h1>Singapore EV Trends</h1>
+        <div className="h-screen w-full">
+          <LineChart data={data} options={options} />
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

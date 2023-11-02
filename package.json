@@ -16,7 +16,8 @@
     "next": "14.0.0",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "schema-dts": "^1.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.23.2",
