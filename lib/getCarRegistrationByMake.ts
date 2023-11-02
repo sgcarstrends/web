@@ -6,7 +6,9 @@ import type { Car } from "@/types";
 export const getCarRegistrationByMake = async (
   filePath: string,
 ): Promise<Car[]> => {
-  const csvContent: string = await fetch(filePath).then((res) => res.text());
+  const csvContent: string = await fetch(filePath, { cache: "no-store" }).then(
+    (res) => res.text(),
+  );
   const carRegistrationByMake: Car[] = d3.csvParse(csvContent, (car: Car) => ({
     ...car,
     number: +car.number,
