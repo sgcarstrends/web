@@ -1,3 +1,4 @@
+import React from "react";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import Script from "next/script";
@@ -13,16 +14,14 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
-  const nonce = headers().get("x-nonce") as string;
   const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
     <html lang="en">
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
-        nonce={nonce}
       />
-      <Script id="google-analytics" nonce={nonce}>
+      <Script id="google-analytics">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
