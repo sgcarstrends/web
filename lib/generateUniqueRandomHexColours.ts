@@ -6,11 +6,11 @@
 export const generateUniqueRandomHexColours = (items: any[]) => {
   const colours: string[] = [];
 
-  for (let i: number = 0; i < items.length; i++) {
+  items.forEach(() => {
     const randomColour: string = getRandomHexColour();
 
     colours.push(randomColour);
-  }
+  });
 
   return colours;
 };
