@@ -13,7 +13,7 @@ jobs:
   DeployApp:
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_GOOGLE_ANALYTICS: ${{ vars.NEXT_PUBLIC_GOOGLE_ANALYTICS }}
+      NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ vars.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v3
