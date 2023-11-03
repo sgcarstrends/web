@@ -3,6 +3,7 @@ export interface Car {
   make: string;
   fuel_type: string;
   number: any;
+  selected?: boolean;
 }
 
 export type Dataset = {
@@ -12,4 +13,5 @@ export type Dataset = {
 
 export interface ChartDataset extends Dataset {
   borderColor: string;
+  checked: boolean;
 }

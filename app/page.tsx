@@ -1,35 +1,14 @@
-import type { ChartData, ChartOptions } from "chart.js";
-import { LineChart } from "@/components/LineChart";
+import { Infographic } from "@/components/Infographic";
 import { getCarRegistrationByMake } from "@/lib/getCarRegistrationByMake";
-import { transformDataToDatasets } from "@/lib/transformDataToDatasets";
-import { generateUniqueRandomHexColours } from "@/lib/generateUniqueRandomHexColours";
 import { BASE_URL } from "@/config";
 import { WebSite, WithContext } from "schema-dts";
-import type { Car, ChartDataset, Dataset } from "@/types";
+import type { Car } from "@/types";
 
 const Home = async () => {
   // TODO: Temporary solution while building a more permanent one.
   const electricVehicles: Car[] = await getCarRegistrationByMake(
     `https://raw.githubusercontent.com/ruchernchong/singapore-ev-trends/main/public/data/M03-Car_Regn_by_make.csv`,
   );
-
-  const datasetColour: string[] =
-    generateUniqueRandomHexColours(electricVehicles);
-  const datasets: ChartDataset[] = transformDataToDatasets(
-    electricVehicles,
-  ).map((car: Dataset, i: number) => ({
-    ...car,
-    borderColor: datasetColour[i],
-  }));
-
-  const data: ChartData<"line"> = {
-    labels: [...new Set(electricVehicles.map(({ month }) => month))],
-    datasets,
-  };
-
-  const options: ChartOptions = {
-    maintainAspectRatio: false,
-  };
 
   const jsonLd: WithContext<WebSite> = {
     "@context": "https://schema.org",
@@ -50,9 +29,7 @@ const Home = async () => {
             Singapore <br className="md:hidden" /> EV Trends
           </h1>
         </div>
-        <div className="aspect-video w-full">
-          <LineChart data={data} options={options} />
-        </div>
+        <Infographic electricVehicles={electricVehicles} />
       </div>
     </section>
   );
