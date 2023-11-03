@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Singapore EV Trends",
   description:
-    "Stay ahead of the electric vehicle (EV) revolution in Singapore with the latest Singapore EV trends. Discover the future of sustainable transportation, charging infrastructure, government incentives, and more. Explore how Singapore is driving the shift towards eco-friendly mobility. Stay informed and make informed choices with Singapore EV Trends.",
+    "Stay ahead of the shift to Electric Vehicle (EV) in Singapore with the latest Singapore EV trends. Data provided by Land Transport Authority (LTA)",
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
