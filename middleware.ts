@@ -5,7 +5,7 @@ export const middleware = (request: NextRequest) => {
   const cspHeader = `
     default-src 'self';
     script-src 'self' 'unsafe-eval' 'unsafe-inline' *.googletagmanager.com;
-    style-src 'self' 'nonce-${nonce}';
+    style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data:;
     connect-src *;
     font-src 'self';
