@@ -1,8 +1,10 @@
+import { FUEL_TYPE } from "@/config";
+
 export interface Car {
   month: string;
   make: string;
-  fuel_type: string;
-  number: any;
+  fuel_type: FUEL_TYPE | string;
+  number: number;
   selected?: boolean;
 }
 

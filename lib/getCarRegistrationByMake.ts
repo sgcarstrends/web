@@ -9,35 +9,33 @@ export const getCarRegistrationByMake = async (
   const csvContent: string = await fetch(filePath, { cache: "no-store" }).then(
     (res) => res.text(),
   );
-  const carRegistrationByMake: Car[] = d3.csvParse(csvContent, (car: Car) => ({
-    ...car,
-    number: +car.number,
-  }));
+
+  const carRegistrationByMake = d3.csvParse(csvContent);
 
   const electricCars: Car[] = carRegistrationByMake
     .filter(
       ({ fuel_type, number }) =>
-        fuel_type === FUEL_TYPE.ELECTRIC && number !== 0,
+        fuel_type === FUEL_TYPE.ELECTRIC && +number !== 0,
     )
-    .reduce((result: Car[], item: Car) => {
-      const { month, make, fuel_type } = item;
-      const existingItem = result.find(
-        (item) => item.month === month && item.make === make,
+    .reduce((result: Car[], { month, make, fuel_type, number }) => {
+      const existingCar = result.find(
+        (car) => car.month === month && car.make === make,
       );
 
-      if (existingItem) {
-        existingItem.number += item.number;
+      if (existingCar) {
+        existingCar.number += Number(number);
       } else {
         result.push({
           month,
           make,
           fuel_type,
-          number: item.number,
+          number: Number(number),
         });
       }
 
       return result;
     }, [])
+    .map((car) => ({ ...car, number: +car.number }))
     .sort(sortByMake);
 
   console.table(electricCars);
