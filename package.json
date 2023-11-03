@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "chart.js": "^4.4.0",
+    "classnames": "^2.3.2",
     "d3": "^7.8.5",
     "next": "14.0.0",
     "react": "^18",
@@ -23,6 +24,7 @@
     "@babel/core": "^7.23.2",
     "@babel/preset-env": "^7.23.2",
     "@babel/preset-typescript": "^7.23.2",
+    "@tailwindcss/typography": "^0.5.10",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
     "@types/d3": "^7.4.2",

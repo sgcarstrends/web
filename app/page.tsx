@@ -44,9 +44,13 @@ const Home = async () => {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="flex flex-col items-center">
-        <h1>Singapore EV Trends</h1>
-        <div className="h-screen w-full">
+      <div className="flex flex-col items-center gap-8">
+        <div className="prose dark:prose-invert">
+          <h1>
+            Singapore <br className="md:hidden" /> EV Trends
+          </h1>
+        </div>
+        <div className="aspect-video w-full">
           <LineChart data={data} options={options} />
         </div>
       </div>

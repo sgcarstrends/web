@@ -2,6 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Inter } from "next/font/google";
+import classNames from "classnames";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -29,7 +30,12 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           gtag('config', '${gaMeasurementId}');
         `}
       </Script>
-      <body className={inter.className}>
+      <body
+        className={classNames(
+          inter.className,
+          "bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-50",
+        )}
+      >
         <main className="mx-auto w-full max-w-6xl px-4 py-8">{children}</main>
       </body>
     </html>
