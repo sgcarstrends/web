@@ -1,12 +1,12 @@
 import { Infographic } from "@/components/Infographic";
-import { getCarRegistrationByMake } from "@/lib/getCarRegistrationByMake";
+import { getElectricCarRegistrationByMake } from "@/lib/getElectricCarRegistrationByMake";
 import { BASE_URL } from "@/config";
 import { WebSite, WithContext } from "schema-dts";
 import type { Car } from "@/types";
 
 const Home = async () => {
   // TODO: Temporary solution while building a more permanent one.
-  const electricVehicles: Car[] = await getCarRegistrationByMake(
+  const electricCars: Car[] = await getElectricCarRegistrationByMake(
     `https://raw.githubusercontent.com/ruchernchong/singapore-ev-trends/main/public/data/M03-Car_Regn_by_make.csv`,
   );
 
@@ -24,12 +24,10 @@ const Home = async () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="flex flex-col items-center gap-8">
-        <div className="prose dark:prose-invert">
-          <h1>
-            Singapore <br className="md:hidden" /> EV Trends
-          </h1>
+        <div className="prose flex text-center dark:prose-invert">
+          <h1>Singapore EV Trends</h1>
         </div>
-        <Infographic electricVehicles={electricVehicles} />
+        <Infographic electricCars={electricCars} />
       </div>
     </section>
   );

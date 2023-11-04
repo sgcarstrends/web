@@ -3,7 +3,7 @@ import { FUEL_TYPE } from "@/config";
 import { sortByMake } from "@/lib/sortByMake";
 import type { Car } from "@/types";
 
-export const getCarRegistrationByMake = async (
+export const getElectricCarRegistrationByMake = async (
   filePath: string,
 ): Promise<Car[]> => {
   const csvContent: string = await fetch(filePath, { cache: "no-store" }).then(

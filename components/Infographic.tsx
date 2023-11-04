@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { LineChart } from "@/components/LineChart";
 import { ChartData, ChartOptions } from "chart.js";
 import { stringToUniqueColour } from "@/lib/stringToUniqueColour";
@@ -8,12 +8,12 @@ import { transformDataToDatasets } from "@/lib/transformDataToDatasets";
 import type { Car, ChartDataset, Dataset } from "@/types";
 
 type InfographicProps = {
-  electricVehicles: Car[];
+  electricCars: Car[];
 };
 
-export const Infographic = ({ electricVehicles }: InfographicProps) => {
+export const Infographic = ({ electricCars }: InfographicProps) => {
   const initialDatasets: ChartDataset[] = transformDataToDatasets(
-    electricVehicles,
+    electricCars,
   ).map((car: Dataset) => ({
     ...car,
     borderColor: stringToUniqueColour(car.label),
@@ -23,7 +23,7 @@ export const Infographic = ({ electricVehicles }: InfographicProps) => {
   const [datasets, setDatasets] = useState(initialDatasets);
 
   const data: ChartData<"line"> = {
-    labels: [...new Set(electricVehicles.map(({ month }) => month))],
+    labels: [...new Set(electricCars.map(({ month }) => month))],
     datasets: datasets.filter(({ checked }) => checked),
   };
 
@@ -39,18 +39,19 @@ export const Infographic = ({ electricVehicles }: InfographicProps) => {
 
   return (
     <>
-      <div className="aspect-video w-full">
+      <div className="min-h-screen w-full md:aspect-video md:min-h-full">
         <LineChart data={data} options={options} />
       </div>
-      <fieldset className="prose prose-neutral flex flex-wrap gap-2 dark:prose-invert">
-        <legend>Make</legend>
+      <div className="prose dark:prose-invert">
+        <h3>Make</h3>
+      </div>
+      <div className="flex flex-wrap gap-2">
         {datasets.map(({ label, checked }, index) => {
           const key = `make-${label}`;
 
           return (
-            <>
+            <div key={key} className="flex items-center gap-2">
               <input
-                key={key}
                 type="checkbox"
                 id={key}
                 value={label}
@@ -58,10 +59,10 @@ export const Infographic = ({ electricVehicles }: InfographicProps) => {
                 onChange={handleMakeChange(index)}
               />
               <label htmlFor={key}>{label}</label>
-            </>
+            </div>
           );
         })}
-      </fieldset>
+      </div>
     </>
   );
 };
