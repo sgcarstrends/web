@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { LineChart } from "@/components/LineChart";
 import { ChartData, ChartOptions } from "chart.js";
-import { generateUniqueRandomHexColours } from "@/lib/generateUniqueRandomHexColours";
+import { stringToUniqueColour } from "@/lib/stringToUniqueColour";
 import { transformDataToDatasets } from "@/lib/transformDataToDatasets";
 import type { Car, ChartDataset, Dataset } from "@/types";
 
@@ -12,20 +12,13 @@ type InfographicProps = {
 };
 
 export const Infographic = ({ electricVehicles }: InfographicProps) => {
-  const datasetColour: string[] =
-    generateUniqueRandomHexColours(electricVehicles);
-
   const initialDatasets: ChartDataset[] = transformDataToDatasets(
     electricVehicles,
-  ).map((car: Dataset, i: number) => {
-    const isPopular = car.data.some((item) => item >= 10);
-
-    return {
-      ...car,
-      borderColor: datasetColour[i],
-      checked: isPopular,
-    };
-  });
+  ).map((car: Dataset) => ({
+    ...car,
+    borderColor: stringToUniqueColour(car.label),
+    checked: car.data.some((item) => item >= 10),
+  }));
 
   const [datasets, setDatasets] = useState(initialDatasets);
 
@@ -49,7 +42,7 @@ export const Infographic = ({ electricVehicles }: InfographicProps) => {
       <div className="aspect-video w-full">
         <LineChart data={data} options={options} />
       </div>
-      <fieldset className="prose dark:prose-invert prose-neutral flex flex-wrap gap-2">
+      <fieldset className="prose prose-neutral flex flex-wrap gap-2 dark:prose-invert">
         <legend>Make</legend>
         {datasets.map(({ label, checked }, index) => {
           const key = `make-${label}`;
