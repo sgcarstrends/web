@@ -1,14 +1,10 @@
 import { Infographic } from "@/components/Infographic";
-import { getElectricCarRegistrationByMake } from "@/lib/getElectricCarRegistrationByMake";
-import { BASE_URL } from "@/config";
+import { API_URL, BASE_URL } from "@/config";
 import { WebSite, WithContext } from "schema-dts";
 import type { Car } from "@/types";
 
 const Home = async () => {
-  // TODO: Temporary solution while building a more permanent one.
-  const electricCars: Car[] = await getElectricCarRegistrationByMake(
-    `https://raw.githubusercontent.com/ruchernchong/singapore-ev-trends/main/public/data/M03-Car_Regn_by_make.csv`,
-  );
+  const electricCars: Car[] = await fetch(API_URL).then((res) => res.json());
 
   const jsonLd: WithContext<WebSite> = {
     "@context": "https://schema.org",
