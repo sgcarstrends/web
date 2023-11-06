@@ -33,18 +33,30 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
       intersect: false,
       mode: "index",
     },
-    plugins: {},
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
     scales: {
       x: {
         title: {
           display: true,
           text: "Month",
+          font: {
+            size: 16,
+            weight: "bold",
+          },
         },
       },
       y: {
         title: {
           display: true,
           text: "No. of Registration",
+          font: {
+            size: 16,
+            weight: "bold",
+          },
         },
       },
     },
