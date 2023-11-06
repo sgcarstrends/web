@@ -29,6 +29,7 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
 
   const options: ChartOptions = {
     maintainAspectRatio: false,
+    responsive: true,
     interaction: {
       intersect: false,
       mode: "index",
@@ -37,6 +38,18 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
       legend: {
         display: false,
       },
+      tooltip: {
+        callbacks: {
+          footer: (tooltipItems) => {
+            let sum = 0;
+
+            tooltipItems.forEach((tooltipItem) => {
+              sum += tooltipItem.parsed.y;
+            });
+            return `Total registration: ${sum}`;
+          },
+        },
+      },
     },
     scales: {
       x: {
@@ -44,7 +57,6 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
           display: true,
           text: "Month",
           font: {
-            size: 16,
             weight: "bold",
           },
         },
@@ -54,7 +66,6 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
           display: true,
           text: "No. of Registration",
           font: {
-            size: 16,
             weight: "bold",
           },
         },
