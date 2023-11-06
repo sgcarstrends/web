@@ -34,3 +34,5 @@ type LineChartProps = {
 export const LineChart = ({ data, options }: LineChartProps) => {
   return <Line data={data} options={options} className="bg-neutral-50 p-4" />;
 };
+
+export default LineChart;

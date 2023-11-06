@@ -1,7 +1,7 @@
 "use client";
 
-import { Fragment, useState } from "react";
-import { LineChart } from "@/components/LineChart";
+import { useState } from "react";
+import dynamic from "next/dynamic";
 import { ChartData, ChartOptions } from "chart.js";
 import { stringToUniqueColour } from "@/lib/stringToUniqueColour";
 import { transformDataToDatasets } from "@/lib/transformDataToDatasets";
@@ -10,6 +10,10 @@ import type { Car, ChartDataset, Dataset } from "@/types";
 type InfographicProps = {
   electricCars: Car[];
 };
+
+const DynamicLineChart = dynamic(() => import("../components/LineChart"), {
+  loading: () => <p>Loading...</p>,
+});
 
 export const Infographic = ({ electricCars }: InfographicProps) => {
   const initialDatasets: ChartDataset[] = transformDataToDatasets(
@@ -82,7 +86,7 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
   return (
     <>
       <div className="min-h-screen w-full md:aspect-video md:min-h-full">
-        <LineChart data={data} options={options} />
+        <DynamicLineChart data={data} options={options} />
       </div>
       <div className="prose dark:prose-invert">
         <h3>Make</h3>
