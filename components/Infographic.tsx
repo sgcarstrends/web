@@ -29,6 +29,25 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
 
   const options: ChartOptions = {
     maintainAspectRatio: false,
+    interaction: {
+      intersect: false,
+      mode: "index",
+    },
+    plugins: {},
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Month",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "No. of Registration",
+        },
+      },
+    },
   };
 
   const handleMakeChange = (index: number) => () => {
