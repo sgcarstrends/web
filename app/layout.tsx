@@ -18,6 +18,14 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <html lang="en">
+      <body
+        className={classNames(
+          inter.className,
+          "bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-50",
+        )}
+      >
+        <main className="mx-auto w-full max-w-6xl px-4 py-8">{children}</main>
+      </body>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
       />
@@ -30,14 +38,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           gtag('config', '${gaMeasurementId}');
         `}
       </Script>
-      <body
-        className={classNames(
-          inter.className,
-          "bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-50",
-        )}
-      >
-        <main className="mx-auto w-full max-w-6xl px-4 py-8">{children}</main>
-      </body>
     </html>
   );
 };
