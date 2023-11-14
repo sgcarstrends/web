@@ -4,7 +4,9 @@ import { WebSite, WithContext } from "schema-dts";
 import type { Car } from "@/types";
 
 const Home = async () => {
-  const electricCars: Car[] = await fetch(API_URL).then((res) => res.json());
+  const electricCars: Car[] = await fetch(API_URL, { cache: "no-store" }).then(
+    (res) => res.json(),
+  );
 
   const jsonLd: WithContext<WebSite> = {
     "@context": "https://schema.org",
