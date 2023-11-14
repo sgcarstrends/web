@@ -9,8 +9,8 @@ export default {
     };
   },
   stacks(app) {
-    app.stack(function Site({ stack }) {
-      const site = new NextjsSite(stack, "site", {
+    app.stack(function site({ stack }) {
+      const nextjsSite = new NextjsSite(stack, "site", {
         customDomain: {
           domainName: "singapore-ev-trends.ruchern.xyz",
           hostedZone: "ruchern.xyz",
@@ -18,7 +18,7 @@ export default {
       });
 
       stack.addOutputs({
-        SiteUrl: site.url,
+        SiteUrl: nextjsSite.url,
       });
     });
   },
