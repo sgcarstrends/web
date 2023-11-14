@@ -28,7 +28,7 @@ ChartJS.register(
 
 type LineChartProps = {
   data: ChartData<"line">;
-  options?: ChartOptions;
+  options?: ChartOptions<"line">;
 };
 
 export const LineChart = ({ data, options }: LineChartProps) => {

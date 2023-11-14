@@ -31,7 +31,7 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
     datasets: datasets.filter(({ checked }) => checked),
   };
 
-  const options: ChartOptions = {
+  const options: ChartOptions<"line"> = {
     maintainAspectRatio: false,
     responsive: true,
     interaction: {
