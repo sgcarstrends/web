@@ -11,9 +11,7 @@ type InfographicProps = {
   electricCars: Car[];
 };
 
-const DynamicLineChart = dynamic(() => import("../components/LineChart"), {
-  loading: () => <p>Loading...</p>,
-});
+const DynamicLineChart = dynamic(() => import("../components/LineChart"));
 
 export const Infographic = ({ electricCars }: InfographicProps) => {
   const initialDatasets: ChartDataset[] = transformDataToDatasets(
@@ -39,10 +37,8 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
       mode: "index",
     },
     plugins: {
-      legend: {
-        display: false,
-      },
       tooltip: {
+        itemSort: (a, b) => (b.raw as number) - (a.raw as number),
         callbacks: {
           footer: (tooltipItems) => {
             let sum = 0;
