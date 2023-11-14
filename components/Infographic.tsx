@@ -3,6 +3,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { ChartData, ChartOptions } from "chart.js";
+import { getUniqueMonths } from "@/lib/getUniqueMonths";
 import { stringToUniqueColour } from "@/lib/stringToUniqueColour";
 import { transformDataToDatasets } from "@/lib/transformDataToDatasets";
 import type { Car, ChartDataset, Dataset } from "@/types";
@@ -25,7 +26,7 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
   const [datasets, setDatasets] = useState(initialDatasets);
 
   const data: ChartData<"line"> = {
-    labels: [...new Set(electricCars.map(({ month }) => month))],
+    labels: getUniqueMonths(electricCars),
     datasets: datasets.filter(({ checked }) => checked),
   };
 
@@ -94,8 +95,8 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
           return (
             <div key={key} className="flex items-center gap-2">
               <input
-                type="checkbox"
                 id={key}
+                type="checkbox"
                 value={label}
                 defaultChecked={checked}
                 onChange={handleMakeChange(index)}
