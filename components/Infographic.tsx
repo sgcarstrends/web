@@ -4,7 +4,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import { ChartData, ChartOptions } from "chart.js";
 import { getUniqueMonths } from "@/lib/getUniqueMonths";
-import { stringToUniqueColour } from "@/lib/stringToUniqueColour";
+// import { stringToUniqueColour } from "@/lib/stringToUniqueColour";
 import { transformDataToDatasets } from "@/lib/transformDataToDatasets";
 import type { Car, ChartDataset, Dataset } from "@/types";
 
@@ -19,8 +19,8 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
     electricCars,
   ).map((car: Dataset) => ({
     ...car,
-    borderColor: stringToUniqueColour(car.label),
-    checked: car.data.some((item) => item >= 10),
+    // borderColor: stringToUniqueColour(car.label),
+    checked: car.data.some((item) => item >= 25),
   }));
 
   const [datasets, setDatasets] = useState(initialDatasets);
@@ -63,9 +63,10 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
         },
       },
       y: {
+        suggestedMin: 0,
         title: {
           display: true,
-          text: "No. of Registration",
+          text: "No. of Registrations",
           font: {
             weight: "bold",
           },

@@ -14,6 +14,6 @@ export type Dataset = {
 };
 
 export interface ChartDataset extends Dataset {
-  borderColor: string;
+  // borderColor: string;
   checked: boolean;
 }
