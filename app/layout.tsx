@@ -47,7 +47,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <body
         className={classNames(
           inter.className,
-          "bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-50",
+          "bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-50",
         )}
       >
         <main className="mx-auto w-full max-w-6xl px-4 py-8">{children}</main>
