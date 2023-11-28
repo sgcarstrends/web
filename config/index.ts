@@ -6,6 +6,13 @@ export const BASE_URL: string = !isProd
 
 export const API_URL: string = `https://api.singapore-ev-trends.ruchern.xyz`;
 
+/**
+ * List of make to be excluded from the dataset because they are usually part of the following:
+ * - BlueSG (BLUECAR)
+ * - Private Hire Cars (PHC)
+ */
+export const EXCLUSION_LIST: string[] = ["BLUECAR"];
+
 export enum FUEL_TYPE {
   DIESEL = "Diesel",
   ELECTRIC = "Electric",
