@@ -15,6 +15,9 @@ export default {
           domainName: "singapore-ev-trends.ruchern.xyz",
           hostedZone: "ruchern.xyz",
         },
+        experimental: {
+          disableIncrementalCache: true,
+        },
       });
 
       stack.addOutputs({
