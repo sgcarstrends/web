@@ -10,9 +10,10 @@ const inter = Inter({ subsets: ["latin"] });
 
 const title = `Singapore EV Trends`;
 const description = `Stay ahead of the shift to Electric Vehicle (EV) in Singapore with the latest Singapore EV trends. Data provided by Land Transport Authority (LTA)`;
+const url = new URL(BASE_URL);
 
 export const metadata: Metadata = {
-  metadataBase: new URL(BASE_URL),
+  metadataBase: url,
   title: {
     default: title,
     template: `%s | ${title}`,
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
-    url: BASE_URL,
+    url,
     siteName: title,
     locale: "en_SG",
     type: "website",
