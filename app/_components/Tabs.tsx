@@ -35,8 +35,11 @@ export const Tabs = ({ tabItems }: TabProps) => {
               <Link
                 href={href}
                 className={classNames(
-                  "group inline-flex items-center justify-center gap-x-2 rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-900 hover:text-gray-900",
-                  { "border-gray-900 text-gray-900": isActive(href) },
+                  `group inline-flex items-center justify-center gap-x-2 border-b-2 p-4 hover:border-gray-900 hover:text-gray-900 ${
+                    isActive(href)
+                      ? "border-gray-900 text-gray-900"
+                      : "border-transparent"
+                  }`,
                 )}
               >
                 <Icon path={icon} size={1} aria-hidden={true} />
