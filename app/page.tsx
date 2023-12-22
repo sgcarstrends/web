@@ -40,16 +40,16 @@ const Home = async () => {
               href: "/",
               icon: mdiCarElectric,
             },
-            {
-              title: "Petrol",
-              href: "/petrol",
-              icon: mdiGasStation,
-            },
-            {
-              title: "COE",
-              href: "/coe",
-              icon: mdiChartBellCurve,
-            },
+            // {
+            //   title: "Petrol",
+            //   href: "/petrol",
+            //   icon: mdiGasStation,
+            // },
+            // {
+            //   title: "COE",
+            //   href: "/coe",
+            //   icon: mdiChartBellCurve,
+            // },
           ]}
         />
         <Infographic electricCars={filteredElectricCars} />
