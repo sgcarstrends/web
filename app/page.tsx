@@ -5,6 +5,8 @@ import { sortByMake } from "@/lib/sortByMake";
 import type { Car } from "@/types";
 import { WebSite, WithContext } from "schema-dts";
 
+export const runtime = "edge";
+
 const Home = async () => {
   const electricCars: Car[] = await fetch(API_URL, { cache: "no-store" }).then(
     (res) => res.json(),
