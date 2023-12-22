@@ -104,7 +104,7 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
                 id={key}
                 value={label}
                 defaultChecked={checked}
-                className="rounded-xl text-gray-800 ring-2 checked:ring-gray-50"
+                className="rounded-lg text-gray-900 ring-2 ring-gray-900 checked:ring-gray-900"
                 onChange={handleMakeChange(index)}
               />
               <span>{label}</span>
