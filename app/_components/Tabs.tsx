@@ -4,12 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon } from "@mdi/react";
 import classNames from "classnames";
-
-interface TabItem {
-  title: string;
-  href: string;
-  icon: string;
-}
+import { TabItem } from "@/types";
 
 interface TabProps {
   tabItems: TabItem[];
@@ -27,7 +22,7 @@ export const Tabs = ({ tabItems }: TabProps) => {
   };
 
   return (
-    <div className="flex w-full justify-center border-b border-gray-600 text-center text-gray-400">
+    <div className="flex justify-center border-b border-gray-600 text-center text-gray-400">
       <ul className="-mb-px flex flex-wrap gap-x-2">
         {tabItems.map(({ title, href, icon }) => {
           return (

@@ -3,15 +3,15 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import classNames from "classnames";
-import { mdiCarElectric, mdiChartBellCurve, mdiGasStation } from "@mdi/js";
-import { Tabs } from "@/app/_components/Tabs";
+import { Footer } from "@/app/_components/Footer";
+import { Header } from "@/app/_components/Header";
 import { BASE_URL } from "@/config";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const title = `Singapore EV Trends`;
-const description = `Stay ahead of the shift to Electric Vehicle (EV) in Singapore with the latest Singapore EV trends. Data provided by Land Transport Authority (LTA)`;
+const title: string = `Singapore EV Trends`;
+const description: string = `Stay ahead of the shift to Electric Vehicle (EV) in Singapore with the latest Singapore EV trends. Data provided by Land Transport Authority (LTA)`;
 const url = new URL(BASE_URL);
 
 export const metadata: Metadata = {
@@ -46,33 +46,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className={classNames(inter.className, "bg-gray-50 text-gray-900")}>
-        <main className="mx-auto w-full max-w-6xl px-4 py-8">
-          <div className="flex flex-col items-center gap-8">
-            <div className="prose flex text-center">
-              <h1>Singapore EV Trends</h1>
-            </div>
-            <Tabs
-              tabItems={[
-                {
-                  title: "Electric",
-                  href: "/",
-                  icon: mdiCarElectric,
-                },
-                {
-                  title: "Petrol",
-                  href: "/petrol",
-                  icon: mdiGasStation,
-                },
-                {
-                  title: "COE",
-                  href: "/coe",
-                  icon: mdiChartBellCurve,
-                },
-              ]}
-            />
-          </div>
+        <Header />
+        <main className="mx-auto min-h-screen w-full max-w-6xl px-4 py-8">
           {children}
         </main>
+        <Footer />
       </body>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}

@@ -17,3 +17,9 @@ export interface ChartDataset extends Dataset {
   // borderColor: string;
   checked: boolean;
 }
+
+export interface TabItem {
+  title: string;
+  href: string;
+  icon: string;
+}
