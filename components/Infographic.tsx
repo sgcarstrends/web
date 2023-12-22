@@ -89,7 +89,7 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
       <div className="prose">
         <h3>Vehicle Make</h3>
       </div>
-      <div className="grid w-full grid-cols-2 md:grid-cols-6">
+      <div className="grid w-full grid-cols-2 gap-2 md:grid-cols-6">
         {datasets.map(({ label, checked }, index) => {
           const key = `make-${label}`;
 
