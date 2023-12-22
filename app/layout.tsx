@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import classNames from "classnames";
+import { mdiCarElectric, mdiChartBellCurve, mdiGasStation } from "@mdi/js";
+import { Tabs } from "@/app/_components/Tabs";
 import { BASE_URL } from "@/config";
 import "./globals.css";
 
@@ -44,7 +46,33 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className={classNames(inter.className, "bg-gray-50 text-gray-900")}>
-        <main className="mx-auto w-full max-w-6xl px-4 py-8">{children}</main>
+        <main className="mx-auto w-full max-w-6xl px-4 py-8">
+          <div className="flex flex-col items-center gap-8">
+            <div className="prose flex text-center">
+              <h1>Singapore EV Trends</h1>
+            </div>
+            <Tabs
+              tabItems={[
+                {
+                  title: "Electric",
+                  href: "/",
+                  icon: mdiCarElectric,
+                },
+                {
+                  title: "Petrol",
+                  href: "/petrol",
+                  icon: mdiGasStation,
+                },
+                {
+                  title: "COE",
+                  href: "/coe",
+                  icon: mdiChartBellCurve,
+                },
+              ]}
+            />
+          </div>
+          {children}
+        </main>
       </body>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}

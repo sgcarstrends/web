@@ -1,6 +1,4 @@
 import React from "react";
-import { mdiCarElectric, mdiChartBellCurve, mdiGasStation } from "@mdi/js";
-import { Tabs } from "@/app/_components/Tabs";
 import { Infographic } from "@/components/Infographic";
 import { API_URL, BASE_URL, EXCLUSION_LIST } from "@/config";
 import { sortByMake } from "@/lib/sortByMake";
@@ -30,28 +28,6 @@ const Home = async () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="flex flex-col items-center gap-8">
-        <div className="prose flex text-center">
-          <h1>Singapore EV Trends</h1>
-        </div>
-        <Tabs
-          tabItems={[
-            {
-              title: "Electric",
-              href: "/",
-              icon: mdiCarElectric,
-            },
-            // {
-            //   title: "Petrol",
-            //   href: "/petrol",
-            //   icon: mdiGasStation,
-            // },
-            // {
-            //   title: "COE",
-            //   href: "/coe",
-            //   icon: mdiChartBellCurve,
-            // },
-          ]}
-        />
         <Infographic electricCars={filteredElectricCars} />
       </div>
     </section>
