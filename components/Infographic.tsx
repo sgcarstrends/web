@@ -83,27 +83,32 @@ export const Infographic = ({ electricCars }: InfographicProps) => {
 
   return (
     <>
-      <div className="min-h-screen w-full md:aspect-video md:min-h-full">
+      <div className="aspect-video w-screen max-w-[1920px] md:min-h-full">
         <DynamicLineChart data={data} options={options} />
       </div>
-      <div className="prose dark:prose-invert">
-        <h3>Make</h3>
+      <div className="prose">
+        <h3>Vehicle Make</h3>
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className="grid w-full grid-cols-2 md:grid-cols-6">
         {datasets.map(({ label, checked }, index) => {
           const key = `make-${label}`;
 
           return (
-            <div key={key} className="flex items-center gap-2">
+            <label
+              key={key}
+              htmlFor={key}
+              className="flex cursor-pointer items-center gap-2"
+            >
               <input
-                id={key}
                 type="checkbox"
+                id={key}
                 value={label}
                 defaultChecked={checked}
+                className="rounded-xl text-gray-800 ring-2 checked:ring-gray-50"
                 onChange={handleMakeChange(index)}
               />
-              <label htmlFor={key}>{label}</label>
-            </div>
+              <span>{label}</span>
+            </label>
           );
         })}
       </div>
