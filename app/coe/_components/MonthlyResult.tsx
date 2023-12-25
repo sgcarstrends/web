@@ -1,17 +1,15 @@
 "use client";
 
-import { use } from "react";
 import dynamic from "next/dynamic";
-import { API_URL } from "@/config";
 import { COEResult } from "@/types";
 
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-export const MonthlyResult = () => {
-  const data: COEResult[] = use(
-    fetch(`${API_URL}/coe/latest`).then((res) => res.json()),
-  );
+interface MonthlyResultProps {
+  data: COEResult[];
+}
 
+export const MonthlyResult = ({ data }: MonthlyResultProps) => {
   const month = [...new Set(data.map(({ month }) => month))];
   const biddingExerciseNumber = [
     ...new Set(data.map(({ bidding_no }) => bidding_no)),
@@ -70,6 +68,7 @@ export const MonthlyResult = () => {
     stroke: {
       width: [0, 0, 0, 4],
     },
+    colors: ["#546E7A", "#D4526E", "#13D8AA", "#A5978B"],
     title: {
       text: graphTitle({
         month: month[0],
