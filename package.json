@@ -2,7 +2,6 @@
   "name": "singapore-ev-trends",
   "description": "Stay ahead of the electric vehicle (EV) revolution in Singapore with the latest Singapore EV trends. Discover the future of sustainable transportation, charging infrastructure, government incentives, and more. Explore how Singapore is driving the shift towards eco-friendly mobility. Stay informed and make informed choices with Singapore EV Trends.",
   "version": "1.0.0-beta.2",
-  "private": true,
   "scripts": {
     "dev": "sst bind next dev --turbo",
     "build": "next build",
@@ -14,8 +13,6 @@
     "@heroicons/react": "^2.1.1",
     "@mdi/js": "^7.3.67",
     "@mdi/react": "^1.6.1",
-    "@nivo/bar": "^0.84.0",
-    "@nivo/line": "^0.84.0",
     "apexcharts": "^3.45.1",
     "chart.js": "^4.4.0",
     "classnames": "^2.3.2",
@@ -26,7 +23,6 @@
     "react-apexcharts": "^1.4.1",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
-    "recharts": "^2.10.3",
     "schema-dts": "^1.1.2"
   },
   "devDependencies": {
