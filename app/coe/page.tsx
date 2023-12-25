@@ -225,6 +225,10 @@ const COEPage = () => {
     fetch(`${API_URL}/coe`).then((res) => res.json()),
   );
 
+  const month = [...new Set(data.map(({ month }) => month))];
+  const biddingExerciseNumber = [
+    ...new Set(data.map(({ bidding_no }) => bidding_no)),
+  ];
   const categories = data.map((item) => item.vehicle_class);
   const premium = data.map((item) => parseInt(item.premium, 10));
   const bidsReceived = data.map((item) =>
@@ -234,6 +238,15 @@ const COEPage = () => {
     parseInt(item.bids_success.replace(/,/g, ""), 10),
   );
   const quotas = data.map((item) => parseInt(item.quota, 10));
+
+  const graphTitle = ({ month, biddingExercise }) => {
+    const BIDDING_EXERCISE: Record<string, string> = {
+      1: "First Bidding Exercise",
+      2: "Second Bidding Exercise",
+    };
+
+    return `COE result for the ${BIDDING_EXERCISE[biddingExercise]} in ${month}`;
+  };
 
   const options = {
     chart: {
@@ -263,6 +276,12 @@ const COEPage = () => {
     },
     stroke: {
       width: [0, 0, 0, 4],
+    },
+    title: {
+      text: graphTitle({
+        month: month[0],
+        biddingExercise: biddingExerciseNumber[0],
+      }),
     },
     xaxis: {
       categories,
