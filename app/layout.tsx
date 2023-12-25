@@ -47,9 +47,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang="en">
       <body className={classNames(inter.className, "bg-gray-50 text-gray-900")}>
         <Header />
-        <main className="mx-auto min-h-screen w-full max-w-6xl px-4 py-8">
-          {children}
-        </main>
+        <main className="min-h-screen py-8">{children}</main>
         <Footer />
       </body>
       <Script

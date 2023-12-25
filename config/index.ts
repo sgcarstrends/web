@@ -1,7 +1,9 @@
 export const BASE_URL: string =
   process.env.NEXT_PUBLIC_BASE_URL || "https://singapore-ev-trends.ruchern.xyz";
 
-export const API_URL: string = `https://api.singapore-ev-trends.ruchern.xyz`;
+export const API_URL: string =
+  process.env.NEXT_PUBLIC_API_URL ||
+  `https://api.singapore-ev-trends.ruchern.xyz`;
 
 /**
  * List of make to be excluded from the dataset because they are usually part of the following:
