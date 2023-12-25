@@ -70,6 +70,7 @@ export const MonthlyResult = () => {
     stroke: {
       width: [0, 0, 0, 4],
     },
+    colors: ["#546E7A", "#D4526E", "#13D8AA", "#A5978B"],
     title: {
       text: graphTitle({
         month: month[0],
