@@ -3,9 +3,10 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import classNames from "classnames";
+import { Announcement } from "@/app/_components/Announcement";
 import { Footer } from "@/app/_components/Footer";
 import { Header } from "@/app/_components/Header";
-import { BASE_URL } from "@/config";
+import { ANNOUNCEMENT, BASE_URL } from "@/config";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -40,12 +41,13 @@ export const metadata: Metadata = {
   creator: "Ru Chern",
 };
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
+const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
     <html lang="en">
       <body className={classNames(inter.className, "bg-gray-50 text-gray-900")}>
+        <Announcement>{ANNOUNCEMENT}</Announcement>
         <Header />
         <main className="mx-auto min-h-screen w-full max-w-6xl px-4 py-8">
           {children}
