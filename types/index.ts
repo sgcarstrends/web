@@ -23,3 +23,14 @@ export interface TabItem {
   href: string;
   icon: string;
 }
+
+export interface COEResult {
+  _id: string;
+  month: string;
+  bidding_no: string;
+  vehicle_class: string;
+  quota: string;
+  bids_success: string;
+  bids_received: string;
+  premium: string;
+}

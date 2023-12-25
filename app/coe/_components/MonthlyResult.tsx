@@ -3,23 +3,13 @@
 import { use } from "react";
 import dynamic from "next/dynamic";
 import { API_URL } from "@/config";
+import { COEResult } from "@/types";
 
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-interface COEResult {
-  _id: string;
-  month: string;
-  bidding_no: string;
-  vehicle_class: string;
-  quota: string;
-  bids_success: string;
-  bids_received: string;
-  premium: string;
-}
-
 export const MonthlyResult = () => {
   const data: COEResult[] = use(
-    fetch(`${API_URL}/coe`).then((res) => res.json()),
+    fetch(`${API_URL}/coe/latest`).then((res) => res.json()),
   );
 
   const month = [...new Set(data.map(({ month }) => month))];
