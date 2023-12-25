@@ -4,7 +4,7 @@ interface AnnouncementProps extends PropsWithChildren {}
 
 export const Announcement = ({ children }: AnnouncementProps) => {
   return (
-    <div className="bg-yellow-500 p-4 text-center shadow shadow-yellow-600">
+    <div className="bg-blue-600 p-4 text-center text-gray-50 shadow-lg">
       {children}
     </div>
   );
