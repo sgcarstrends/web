@@ -1,214 +1,25 @@
-"use client";
-
+import { HistoricalResult } from "@/app/coe/_components/HistoricalResult";
 import { MonthlyResult } from "@/app/coe/_components/MonthlyResult";
+import { API_URL } from "@/config";
+import { COEResult } from "@/types";
 
-const MOCK_COE_RESULTS = [
-  {
-    _id: "65811d34b96c54983c4a4f13",
-    month: "2023-11",
-    bidding_no: "1",
-    vehicle_class: "Category A",
-    quota: "928",
-    bids_success: "923",
-    bids_received: "1,233",
-    premium: "88020",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f14",
-    month: "2023-11",
-    bidding_no: "1",
-    vehicle_class: "Category B",
-    quota: "638",
-    bids_success: "638",
-    bids_received: "933",
-    premium: "130100",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f15",
-    month: "2023-11",
-    bidding_no: "1",
-    vehicle_class: "Category C",
-    quota: "193",
-    bids_success: "188",
-    bids_received: "346",
-    premium: "71001",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f16",
-    month: "2023-11",
-    bidding_no: "1",
-    vehicle_class: "Category D",
-    quota: "529",
-    bids_success: "527",
-    bids_received: "731",
-    premium: "9858",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f17",
-    month: "2023-11",
-    bidding_no: "1",
-    vehicle_class: "Category E",
-    quota: "145",
-    bids_success: "136",
-    bids_received: "287",
-    premium: "133388",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f13",
-    month: "2023-11",
-    bidding_no: "2",
-    vehicle_class: "Category A",
-    quota: "928",
-    bids_success: "923",
-    bids_received: "1,233",
-    premium: "88020",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f14",
-    month: "2023-11",
-    bidding_no: "2",
-    vehicle_class: "Category B",
-    quota: "638",
-    bids_success: "638",
-    bids_received: "933",
-    premium: "130100",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f15",
-    month: "2023-11",
-    bidding_no: "2",
-    vehicle_class: "Category C",
-    quota: "193",
-    bids_success: "188",
-    bids_received: "346",
-    premium: "71001",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f16",
-    month: "2023-11",
-    bidding_no: "2",
-    vehicle_class: "Category D",
-    quota: "529",
-    bids_success: "527",
-    bids_received: "731",
-    premium: "9858",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f17",
-    month: "2023-11",
-    bidding_no: "2",
-    vehicle_class: "Category E",
-    quota: "145",
-    bids_success: "136",
-    bids_received: "287",
-    premium: "133388",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f13",
-    month: "2023-12",
-    bidding_no: "1",
-    vehicle_class: "Category A",
-    quota: "928",
-    bids_success: "923",
-    bids_received: "1,233",
-    premium: "88020",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f14",
-    month: "2023-12",
-    bidding_no: "1",
-    vehicle_class: "Category B",
-    quota: "638",
-    bids_success: "638",
-    bids_received: "933",
-    premium: "130100",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f15",
-    month: "2023-12",
-    bidding_no: "1",
-    vehicle_class: "Category C",
-    quota: "193",
-    bids_success: "188",
-    bids_received: "346",
-    premium: "71001",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f16",
-    month: "2023-12",
-    bidding_no: "1",
-    vehicle_class: "Category D",
-    quota: "529",
-    bids_success: "527",
-    bids_received: "731",
-    premium: "9858",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f17",
-    month: "2023-12",
-    bidding_no: "1",
-    vehicle_class: "Category E",
-    quota: "145",
-    bids_success: "136",
-    bids_received: "287",
-    premium: "133388",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f13",
-    month: "2023-12",
-    bidding_no: "2",
-    vehicle_class: "Category A",
-    quota: "928",
-    bids_success: "923",
-    bids_received: "1,233",
-    premium: "88020",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f14",
-    month: "2023-12",
-    bidding_no: "2",
-    vehicle_class: "Category B",
-    quota: "638",
-    bids_success: "638",
-    bids_received: "933",
-    premium: "130100",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f15",
-    month: "2023-12",
-    bidding_no: "2",
-    vehicle_class: "Category C",
-    quota: "193",
-    bids_success: "188",
-    bids_received: "346",
-    premium: "71001",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f16",
-    month: "2023-12",
-    bidding_no: "2",
-    vehicle_class: "Category D",
-    quota: "529",
-    bids_success: "527",
-    bids_received: "731",
-    premium: "9858",
-  },
-  {
-    _id: "65811d34b96c54983c4a4f17",
-    month: "2023-12",
-    bidding_no: "2",
-    vehicle_class: "Category E",
-    quota: "145",
-    bids_success: "136",
-    bids_received: "287",
-    premium: "133388",
-  },
-];
+const COEPage = async () => {
+  const fetchHistoricalResult: Promise<COEResult[]> = fetch(
+    `${API_URL}/coe`,
+  ).then((res) => res.json());
+  const fetchMonthlyResult: Promise<COEResult[]> = fetch(
+    `${API_URL}/coe/latest`,
+  ).then((res) => res.json());
 
-const COEPage = () => {
+  const [historicalResult, monthlyResult] = await Promise.all([
+    fetchHistoricalResult,
+    fetchMonthlyResult,
+  ]);
+
   return (
-    <div className="mx-auto max-w-7xl">
-      <MonthlyResult />
+    <div className="mx-auto flex max-w-7xl flex-col gap-y-8">
+      <HistoricalResult data={historicalResult} />
+      <MonthlyResult data={monthlyResult} />
     </div>
   );
 };
