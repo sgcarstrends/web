@@ -3,6 +3,8 @@ import { MonthlyResult } from "@/app/coe/_components/MonthlyResult";
 import { API_URL } from "@/config";
 import { COEResult } from "@/types";
 
+export const runtime = "edge";
+
 const COEPage = async () => {
   const fetchHistoricalResult: Promise<COEResult[]> = fetch(
     `${API_URL}/coe`,

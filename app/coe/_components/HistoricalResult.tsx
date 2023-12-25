@@ -10,8 +10,6 @@ interface PremiumMap {
   [key: string]: { [key: string]: number };
 }
 
-export const runtime = "edge";
-
 interface HistoricalResultProps {
   data: COEResult[];
 }
