@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export const BASE_URL: string =
   process.env.NEXT_PUBLIC_BASE_URL || "https://singapore-ev-trends.ruchern.xyz";
 
@@ -18,3 +20,6 @@ export enum FUEL_TYPE {
   OTHERS = "Others",
   PETROL = "Petrol",
 }
+
+export const ANNOUNCEMENT: string =
+  "🌟 Big Updates Ahead! Our website is getting an upgrade with awesome new features rolling out soon. Stay tuned!";
