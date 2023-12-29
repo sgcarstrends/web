@@ -22,7 +22,7 @@ export const Tabs = ({ tabItems }: TabProps) => {
   };
 
   return (
-    <div className="flex justify-center border-b border-gray-600 text-center text-gray-400">
+    <div className="flex justify-center border-b border-gray-600 text-center text-gray-900">
       <ul className="-mb-px flex flex-wrap gap-x-2">
         {tabItems.map(({ title, href, icon }) => {
           return (
@@ -30,10 +30,10 @@ export const Tabs = ({ tabItems }: TabProps) => {
               <Link
                 href={href}
                 className={classNames(
-                  `group inline-flex items-center justify-center gap-x-2 border-b-2 p-4 hover:border-gray-900 hover:text-gray-900 ${
+                  `group inline-flex items-center justify-center gap-x-2 border-b-2 p-4  ${
                     isActive(href)
-                      ? "border-gray-900 text-gray-900"
-                      : "border-transparent"
+                      ? "border-blue-600 text-blue-600"
+                      : "border-transparent hover:border-blue-600 hover:text-blue-600"
                   }`,
                 )}
               >
