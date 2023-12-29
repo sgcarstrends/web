@@ -54,7 +54,7 @@ export const HistoricalResult = ({ data }: HistoricalResultProps) => {
     stroke: { width: 3 },
     dataLabels: { enabled: false },
     fill: { opacity: 0.8 },
-    title: { text: "COE Result History" },
+    title: { text: "Historical COE Results" },
     xaxis: {
       type: "datetime" as "datetime",
       categories: months.map((month) => new Date(month).getTime()),
