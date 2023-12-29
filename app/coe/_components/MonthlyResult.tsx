@@ -74,6 +74,7 @@ export const MonthlyResult = ({ data }: MonthlyResultProps) => {
         month: month[0],
         biddingExercise: uniqueNumberOfBiddingExercise[0],
       }),
+      align: "center" as "center",
     },
     xaxis: {
       categories,
