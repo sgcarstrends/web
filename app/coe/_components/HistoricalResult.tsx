@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { format } from "date-fns";
+import { CHART_COLOURS } from "@/config";
 import { COEResult } from "@/types";
 
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -50,7 +51,7 @@ export const HistoricalResult = ({ data }: HistoricalResultProps) => {
       toolbar: { show: false },
       zoom: { enabled: false },
     },
-    colors: ["#546E7A", "#D4526E", "#13D8AA", "#A5978B"],
+    colors: CHART_COLOURS,
     stroke: { width: 3 },
     dataLabels: { enabled: false },
     fill: { opacity: 0.8 },
