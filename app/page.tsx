@@ -1,4 +1,5 @@
 import React from "react";
+import { CarHeatmap } from "@/app/_components/CarHeatmap";
 import { Infographic } from "@/app/_components/Infographic";
 import { API_URL, BASE_URL, EXCLUSION_LIST } from "@/config";
 import { sortByMake } from "@/lib/sortByMake";
@@ -49,6 +50,7 @@ const Home = async () => {
           electricCars={filteredElectricCars}
           isPopularMake={popularMakes}
         />
+        <CarHeatmap data={filteredElectricCars} />
       </div>
     </section>
   );
