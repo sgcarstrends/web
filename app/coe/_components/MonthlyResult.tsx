@@ -11,7 +11,7 @@ interface MonthlyResultProps {
 
 export const MonthlyResult = ({ data }: MonthlyResultProps) => {
   const month = [...new Set(data.map(({ month }) => month))];
-  const biddingExerciseNumber = [
+  const uniqueNumberOfBiddingExercise = [
     ...new Set(data.map(({ bidding_no }) => bidding_no)),
   ];
   const categories = data.map((item) => item.vehicle_class);
@@ -36,11 +36,13 @@ export const MonthlyResult = ({ data }: MonthlyResultProps) => {
       2: "Second Bidding Exercise",
     };
 
-    return `COE result for the ${BIDDING_EXERCISE[biddingExercise]} in ${month}`;
+    return `COE Result for the ${BIDDING_EXERCISE[biddingExercise]} in ${month}`;
   };
 
   const options = {
     chart: {
+      id: `monthly-result`,
+      group: "monthly-result",
       stacked: false,
       toolbar: { show: false },
       zoom: { enabled: false },
@@ -65,14 +67,12 @@ export const MonthlyResult = ({ data }: MonthlyResultProps) => {
         },
       },
     },
-    stroke: {
-      width: [0, 0, 0, 4],
-    },
+    stroke: { curve: "smooth" as "smooth", width: [0, 0, 0, 4] },
     colors: ["#546E7A", "#D4526E", "#13D8AA", "#A5978B"],
     title: {
       text: graphTitle({
         month: month[0],
-        biddingExercise: biddingExerciseNumber[0],
+        biddingExercise: uniqueNumberOfBiddingExercise[0],
       }),
     },
     xaxis: {

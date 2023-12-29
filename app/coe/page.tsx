@@ -13,15 +13,19 @@ const COEPage = async () => {
     `${API_URL}/coe/latest`,
   ).then((res) => res.json());
 
-  const [historicalResult, monthlyResult] = await Promise.all([
+  let [historicalResult, monthlyResult] = await Promise.all([
     fetchHistoricalResult,
     fetchMonthlyResult,
   ]);
 
+  const filterByBiddingRounds = (biddingRound: string) =>
+    monthlyResult.filter(({ bidding_no }) => bidding_no === biddingRound);
+
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-y-8">
       <HistoricalResult data={historicalResult} />
-      <MonthlyResult data={monthlyResult} />
+      <MonthlyResult data={filterByBiddingRounds("1")} />
+      <MonthlyResult data={filterByBiddingRounds("2")} />
     </div>
   );
 };
