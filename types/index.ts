@@ -9,12 +9,11 @@ export interface Car {
 }
 
 export type Dataset = {
-  label: string;
+  name: string;
   data: number[];
 };
 
 export interface ChartDataset extends Dataset {
-  // borderColor: string;
   checked: boolean;
 }
 

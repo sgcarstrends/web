@@ -1,5 +1,5 @@
 import React from "react";
-import { Infographic } from "@/components/Infographic";
+import { Infographic } from "@/app/_components/Infographic";
 import { API_URL, BASE_URL, EXCLUSION_LIST } from "@/config";
 import { sortByMake } from "@/lib/sortByMake";
 import type { Car } from "@/types";
@@ -11,6 +11,21 @@ const Home = async () => {
   const electricCars: Car[] = await fetch(API_URL, { cache: "no-store" }).then(
     (res) => res.json(),
   );
+
+  const totals = new Map();
+  electricCars.forEach((car) => {
+    if (totals.has(car.make)) {
+      totals.set(car.make, totals.get(car.make) + car.number);
+    } else {
+      totals.set(car.make, car.number);
+    }
+  });
+  const popularMakes = Array.from(totals, ([make, number]) => ({
+    make,
+    number,
+  }))
+    .sort((a, b) => b.number - a.number)
+    .slice(0, 10);
 
   const filteredElectricCars: Car[] = electricCars
     .sort(sortByMake)
@@ -29,8 +44,11 @@ const Home = async () => {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="flex flex-col items-center gap-8">
-        <Infographic electricCars={filteredElectricCars} />
+      <div className="flex flex-col gap-y-8">
+        <Infographic
+          electricCars={filteredElectricCars}
+          isPopularMake={popularMakes}
+        />
       </div>
     </section>
   );
