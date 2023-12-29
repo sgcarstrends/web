@@ -26,7 +26,7 @@ const Link = ({ href, rel, useIcon = true, children }: LinkProps) => {
 
 export const Footer = () => {
   return (
-    <footer className="flex justify-center gap-4 bg-gray-100 p-4">
+    <footer className="flex justify-center gap-4 bg-gray-100 px-4 py-8">
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center gap-y-4">
         <div className="flex gap-x-4">
           <span>
@@ -49,7 +49,7 @@ export const Footer = () => {
           </Link>
           . For more information, visit&nbsp;
           <Link
-            href="https://datamall.lta.gov.sg/content/datamall/en/static-data.html#Vehicle%20Registration"
+            href="https://datamall.lta.gov.sg/content/datamall/en/static-data.html"
             rel="nofollow"
             useIcon={false}
           >
