@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { compareAsc, format, parseISO } from "date-fns";
 import { API_URL, CHART_COLOURS } from "@/config";
+import { fetchApi } from "@/utils/fetchApi";
 import { Car } from "@/types";
 
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -18,12 +19,12 @@ export const CarHeatmap = ({ data }: CarHeatmapProps) => {
   const latestMonth = format(sortedMonth[sortedMonth.length - 1], "yyyy-MM");
 
   const [selectedMonth, setSelectedMonth] = useState(latestMonth);
-  const [cars, setCars] = useState<Car[]>();
+  const [cars, setCars] = useState<Car[]>([]);
 
   useEffect(() => {
-    fetch(`${API_URL}/cars/electric?month=${selectedMonth}`)
-      .then((res) => res.json())
-      .then((res) => setCars(res));
+    fetchApi<Car[]>(`${API_URL}/cars/electric?month=${selectedMonth}`).then(
+      (cars) => setCars(cars),
+    );
   }, [selectedMonth]);
 
   const options = {
