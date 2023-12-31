@@ -24,14 +24,14 @@ export const ANNOUNCEMENT: string =
   "🌟 Big Updates Ahead! Our website is getting an upgrade with awesome new features rolling out soon. Stay tuned!";
 
 export const CHART_COLOURS: string[] = [
-  "#546E7A",
-  "#D4526E",
-  "#13D8AA",
-  "#A5978B",
-  "#F3E9D2",
-  "#265C00",
   "#002D62",
   "#CB6D51",
+  "#546E7A",
+  "#D4526E",
+  "#265C00",
+  "#C77D95",
+  "#A5978B",
   "#B2C8A3",
+  "#13D8AA",
   "#FFDA47",
 ];
