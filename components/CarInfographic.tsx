@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { subMonths } from "date-fns";
+import { parse, subMonths } from "date-fns";
 import { CHART_COLOURS } from "@/config";
 import { ChartDataset } from "@/types";
 
@@ -14,6 +14,19 @@ export const CarInfographic = ({
   datasets,
   categories,
 }: CarInfographicProps) => {
+  const latestMonth = parse(
+    categories[categories.length - 1],
+    "yyyy-MM",
+    new Date(),
+  );
+
+  const grid = {
+    padding: {
+      left: 90,
+      right: 90,
+    },
+  };
+
   const chartOptions = {
     chart: {
       id: "target-chart",
@@ -22,8 +35,19 @@ export const CarInfographic = ({
         show: false,
       },
     },
+    plotOptions: {
+      bar: {
+        dataLabels: {
+          position: "top",
+        },
+      },
+    },
     dataLabels: {
-      enabled: false,
+      enabled: true,
+      offsetY: -20,
+      style: {
+        colors: ["#111827"], // text-gray-900
+      },
     },
     colors: CHART_COLOURS,
     title: {
@@ -36,7 +60,7 @@ export const CarInfographic = ({
     },
     yaxis: {
       title: {
-        text: "Number of electric cars registered",
+        text: "Number of Registrations",
       },
     },
     tooltip: {
@@ -46,6 +70,7 @@ export const CarInfographic = ({
         format: "MMM yyyy",
       },
     },
+    grid,
   };
 
   const brushOptions = {
@@ -60,7 +85,7 @@ export const CarInfographic = ({
         enabled: true,
         xaxis: {
           min: subMonths(new Date(), 7).getTime(),
-          max: subMonths(new Date(), 1).getTime(),
+          max: latestMonth.getTime(),
         },
       },
     },
@@ -68,9 +93,10 @@ export const CarInfographic = ({
     xaxis: {
       type: "datetime" as "datetime",
       categories,
+      max: latestMonth.getTime(),
     },
     yaxis: {
-      tickAmount: 2,
+      tickAmount: 1,
     },
     legend: { show: false },
   };
