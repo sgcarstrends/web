@@ -9,12 +9,12 @@ import { Car } from "@/types";
 
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-interface CarHeatmapProps {
+interface CarTreemapProps {
   data: Car[];
   popularMakes: any;
 }
 
-export const CarHeatmap = ({ data, popularMakes }: CarHeatmapProps) => {
+export const CarTreemap = ({ data, popularMakes }: CarTreemapProps) => {
   const months = [...new Set(data.map(({ month }) => month))];
   const sortedMonth = months.map((month) => parseISO(month)).sort(compareAsc);
   const latestMonth = format(sortedMonth[sortedMonth.length - 1], "yyyy-MM");

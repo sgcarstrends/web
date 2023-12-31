@@ -1,5 +1,5 @@
 import React from "react";
-import { CarHeatmap } from "@/components/CarHeatmap";
+import { CarTreemap } from "@/components/CarTreemap";
 import { Infographic } from "@/components/Infographic";
 import {
   API_URL,
@@ -54,7 +54,7 @@ const Home = async () => {
           electricCars={filteredElectricCars}
           isPopularMake={popularMakes}
         />
-        <CarHeatmap data={filteredElectricCars} popularMakes={popularMakes} />
+        <CarTreemap data={filteredElectricCars} popularMakes={popularMakes} />
       </div>
     </section>
   );
