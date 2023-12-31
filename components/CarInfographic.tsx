@@ -35,20 +35,7 @@ export const CarInfographic = ({
         show: false,
       },
     },
-    plotOptions: {
-      bar: {
-        dataLabels: {
-          position: "top",
-        },
-      },
-    },
-    dataLabels: {
-      enabled: true,
-      offsetY: -20,
-      style: {
-        colors: ["#111827"], // text-gray-900
-      },
-    },
+    dataLabels: { enabled: false },
     colors: CHART_COLOURS,
     title: {
       text: "Trend of registered electric cars in the last 12 months",
@@ -84,7 +71,7 @@ export const CarInfographic = ({
       selection: {
         enabled: true,
         xaxis: {
-          min: subMonths(new Date(), 7).getTime(),
+          min: subMonths(latestMonth, 6).getTime(),
           max: latestMonth.getTime(),
         },
       },
