@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 export const BASE_URL: string =
   process.env.NEXT_PUBLIC_BASE_URL || "https://singapore-ev-trends.ruchern.xyz";
 
