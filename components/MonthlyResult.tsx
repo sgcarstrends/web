@@ -86,7 +86,7 @@ export const MonthlyResult = ({ data }: MonthlyResultProps) => {
       { show: false, seriesName: "Quotas" },
       {
         opposite: true,
-        title: { text: "Premium" },
+        title: { text: "Quota Premium ($)" },
         labels: {
           formatter: (value: number) =>
             new Intl.NumberFormat("en-SG", {
@@ -99,6 +99,12 @@ export const MonthlyResult = ({ data }: MonthlyResultProps) => {
     tooltip: {
       shared: true,
       intersect: false,
+    },
+    grid: {
+      padding: {
+        left: 120,
+        right: 120,
+      },
     },
   };
 
