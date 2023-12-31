@@ -10,19 +10,26 @@ const COEPage = async () => {
   const fetchHistoricalResult = fetchApi<COEResult[]>(`${API_URL}/coe`);
   const fetchMonthlyResult = fetchApi<COEResult[]>(`${API_URL}/coe/latest`);
 
-  let [historicalResult, monthlyResult] = await Promise.all([
+  let [historicalResults, monthlyResults] = await Promise.all([
     fetchHistoricalResult,
     fetchMonthlyResult,
   ]);
 
+  const biddingRounds = [
+    ...new Set(monthlyResults.map(({ bidding_no }) => bidding_no)),
+  ];
+
   const filterByBiddingRounds = (biddingRound: string) =>
-    monthlyResult.filter(({ bidding_no }) => bidding_no === biddingRound);
+    monthlyResults.filter(({ bidding_no }) => bidding_no === biddingRound);
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-y-8">
-      <HistoricalResult data={historicalResult} />
-      <MonthlyResult data={filterByBiddingRounds("1")} />
-      <MonthlyResult data={filterByBiddingRounds("2")} />
+      <HistoricalResult data={historicalResults} />
+      {biddingRounds.map((round) => {
+        return (
+          <MonthlyResult key={round} data={filterByBiddingRounds(round)} />
+        );
+      })}
     </div>
   );
 };
