@@ -1,4 +1,4 @@
-import { ComingSoon } from "@/app/_components/ComingSoon";
+import { ComingSoon } from "@/components/ComingSoon";
 
 export const runtime = "edge";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { mdiCarElectric, mdiChartBellCurve, mdiGasStation } from "@mdi/js";
-import { Tabs } from "@/app/_components/Tabs";
+import { Tabs } from "@/components/Tabs";
 import { TabItem } from "@/types";
 
 const tabItems: TabItem[] = [

@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import classNames from "classnames";
-import { Announcement } from "@/app/_components/Announcement";
-import { Footer } from "@/app/_components/Footer";
-import { Header } from "@/app/_components/Header";
+import { Announcement } from "@/components/Announcement";
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
 import { ANNOUNCEMENT, BASE_URL } from "@/config";
 import "./globals.css";
 
