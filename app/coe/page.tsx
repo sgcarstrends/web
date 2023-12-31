@@ -1,17 +1,14 @@
 import { HistoricalResult } from "@/components/HistoricalResult";
 import { MonthlyResult } from "@/components/MonthlyResult";
 import { API_URL } from "@/config";
+import { fetchApi } from "@/utils/fetchApi";
 import { COEResult } from "@/types";
 
 export const runtime = "edge";
 
 const COEPage = async () => {
-  const fetchHistoricalResult: Promise<COEResult[]> = fetch(
-    `${API_URL}/coe`,
-  ).then((res) => res.json());
-  const fetchMonthlyResult: Promise<COEResult[]> = fetch(
-    `${API_URL}/coe/latest`,
-  ).then((res) => res.json());
+  const fetchHistoricalResult = fetchApi<COEResult[]>(`${API_URL}/coe`);
+  const fetchMonthlyResult = fetchApi<COEResult[]>(`${API_URL}/coe/latest`);
 
   let [historicalResult, monthlyResult] = await Promise.all([
     fetchHistoricalResult,

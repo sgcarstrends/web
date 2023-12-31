@@ -5,13 +5,12 @@ import { API_URL, BASE_URL, EXCLUSION_LIST } from "@/config";
 import { sortByMake } from "@/lib/sortByMake";
 import type { Car } from "@/types";
 import { WebSite, WithContext } from "schema-dts";
+import { fetchApi } from "@/utils/fetchApi";
 
 export const runtime = "edge";
 
 const Home = async () => {
-  const electricCars: Car[] = await fetch(API_URL, { cache: "no-store" }).then(
-    (res) => res.json(),
-  );
+  const electricCars = await fetchApi<Car[]>(API_URL, { cache: "no-store" });
 
   const totals = new Map();
   electricCars.forEach((car) => {
