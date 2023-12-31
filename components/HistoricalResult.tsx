@@ -54,6 +54,31 @@ export const HistoricalResult = ({ data }: HistoricalResultProps) => {
         show: false,
       },
     },
+    // TODO: Update annotations in a dynamic manner
+    annotations: {
+      xaxis: [
+        {
+          x: new Date("8 May 2023").getTime(),
+          strokeDashArray: 0,
+          borderColor: "#775DD0",
+          label: {
+            borderColor: "#775DD0",
+            style: { color: "#ffffff", background: "#775DD0" },
+            text: "MOT introduces Supply Smoothening Measure",
+          },
+        },
+        {
+          x: new Date("3 Nov 2023").getTime(),
+          strokeDashArray: 0,
+          borderColor: "#775DD0",
+          label: {
+            borderColor: "#775DD0",
+            style: { color: "#ffffff", background: "#775DD0" },
+            text: "Further increase to CAT A and B quotas",
+          },
+        },
+      ],
+    },
     colors: CHART_COLOURS,
     stroke: { curve: "smooth" as "smooth", width: 3 },
     dataLabels: { enabled: false },
