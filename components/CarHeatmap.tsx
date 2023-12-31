@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { compareAsc, format, parseISO } from "date-fns";
 import { API_URL, CHART_COLOURS } from "@/config";
@@ -11,14 +11,15 @@ const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 interface CarHeatmapProps {
   data: Car[];
+  popularMakes: any;
 }
 
-export const CarHeatmap = ({ data }: CarHeatmapProps) => {
-  const months: string[] = [...new Set(data.map(({ month }) => month))];
+export const CarHeatmap = ({ data, popularMakes }: CarHeatmapProps) => {
+  const months = [...new Set(data.map(({ month }) => month))];
   const sortedMonth = months.map((month) => parseISO(month)).sort(compareAsc);
   const latestMonth = format(sortedMonth[sortedMonth.length - 1], "yyyy-MM");
 
-  const [selectedMonth, setSelectedMonth] = useState(latestMonth);
+  const [selectedMonth, setSelectedMonth] = useState<string>(latestMonth);
   const [cars, setCars] = useState<Car[]>([]);
 
   useEffect(() => {
@@ -26,6 +27,14 @@ export const CarHeatmap = ({ data }: CarHeatmapProps) => {
       (cars) => setCars(cars),
     );
   }, [selectedMonth]);
+
+  const filteredCars = useMemo(
+    () =>
+      cars.filter((car) =>
+        popularMakes.some(({ make }: Pick<Car, "make">) => make === car.make),
+      ),
+    [cars, popularMakes],
+  );
 
   const options = {
     chart: {
@@ -43,18 +52,16 @@ export const CarHeatmap = ({ data }: CarHeatmapProps) => {
 
   const series = [
     {
-      data: cars
-        ? cars.map(({ make, number }) => ({
-            x: make,
-            y: number,
-          }))
-        : [],
+      data: filteredCars.map(({ make, number }) => ({
+        x: make,
+        y: number,
+      })),
     },
   ];
 
   return (
-    <div className="flex flex-col items-center gap-y-4">
-      {cars && (
+    filteredCars && (
+      <div className="flex flex-col items-center gap-y-4">
         <div className="h-[600px] w-full md:w-[600px]">
           <ApexChart
             options={options}
@@ -64,23 +71,23 @@ export const CarHeatmap = ({ data }: CarHeatmapProps) => {
             height="100%"
           />
         </div>
-      )}
-      <label htmlFor="months-select">
-        <select
-          name="months-select"
-          id="months-select"
-          defaultValue={selectedMonth}
-          onChange={(e) => setSelectedMonth(e.target.value)}
-        >
-          {months.map((month) => {
-            return (
-              <option key={month} value={month}>
-                {month}
-              </option>
-            );
-          })}
-        </select>
-      </label>
-    </div>
+        <label htmlFor="months-select">
+          <select
+            name="months-select"
+            id="months-select"
+            defaultValue={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+          >
+            {months.map((month) => {
+              return (
+                <option key={month} value={month}>
+                  {month}
+                </option>
+              );
+            })}
+          </select>
+        </label>
+      </div>
+    )
   );
 };

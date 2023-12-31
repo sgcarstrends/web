@@ -11,6 +11,7 @@ export const API_URL: string =
  * - Private Hire Cars (PHC)
  */
 export const EXCLUSION_LIST: string[] = ["BLUECAR"];
+export const POPULAR_MAKES_THRESHOLD = 8;
 
 export enum FUEL_TYPE {
   DIESEL = "Diesel",

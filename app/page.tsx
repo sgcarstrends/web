@@ -1,7 +1,12 @@
 import React from "react";
 import { CarHeatmap } from "@/components/CarHeatmap";
 import { Infographic } from "@/components/Infographic";
-import { API_URL, BASE_URL, EXCLUSION_LIST } from "@/config";
+import {
+  API_URL,
+  BASE_URL,
+  EXCLUSION_LIST,
+  POPULAR_MAKES_THRESHOLD,
+} from "@/config";
 import { sortByMake } from "@/lib/sortByMake";
 import type { Car } from "@/types";
 import { WebSite, WithContext } from "schema-dts";
@@ -25,7 +30,7 @@ const Home = async () => {
     number,
   }))
     .sort((a, b) => b.number - a.number)
-    .slice(0, 10);
+    .slice(0, POPULAR_MAKES_THRESHOLD);
 
   const filteredElectricCars: Car[] = electricCars
     .sort(sortByMake)
@@ -49,7 +54,7 @@ const Home = async () => {
           electricCars={filteredElectricCars}
           isPopularMake={popularMakes}
         />
-        <CarHeatmap data={filteredElectricCars} />
+        <CarHeatmap data={filteredElectricCars} popularMakes={popularMakes} />
       </div>
     </section>
   );
