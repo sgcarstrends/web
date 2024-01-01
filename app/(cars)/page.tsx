@@ -7,7 +7,7 @@ import {
   EXCLUSION_LIST,
   POPULAR_MAKES_THRESHOLD,
 } from "@/config";
-import { sortByMake } from "@/lib/sortByMake";
+import { sortByMake } from "@/utils/sortByMake";
 import type { Car } from "@/types";
 import { WebSite, WithContext } from "schema-dts";
 import { fetchApi } from "@/utils/fetchApi";

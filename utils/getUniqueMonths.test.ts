@@ -1,4 +1,4 @@
-import { getUniqueMonths } from "@/lib/getUniqueMonths";
+import { getUniqueMonths } from "@/utils/getUniqueMonths";
 
 describe("getUniqueMonths", () => {
   it("should return a unique set of dates", () => {

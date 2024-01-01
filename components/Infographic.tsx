@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import { CarInfographic } from "@/components/CarInfographic";
-import { getUniqueMonths } from "@/lib/getUniqueMonths";
-import { transformDataToDatasets } from "@/lib/transformDataToDatasets";
+import { getUniqueMonths } from "@/utils/getUniqueMonths";
+import { transformDataToDatasets } from "@/utils/transformDataToDatasets";
 import { Car, ChartDataset } from "@/types";
 
 interface InfographicProps {

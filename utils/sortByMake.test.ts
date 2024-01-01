@@ -1,4 +1,4 @@
-import { sortByMake } from "@/lib/sortByMake";
+import { sortByMake } from "@/utils/sortByMake";
 import type { Car } from "@/types";
 
 describe("sortByMake", () => {
