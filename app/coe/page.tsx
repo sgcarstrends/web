@@ -23,7 +23,7 @@ const COEPage = async () => {
     monthlyResults.filter(({ bidding_no }) => bidding_no === biddingRound);
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col gap-y-8">
+    <div className="flex flex-col gap-y-8">
       <HistoricalResult data={historicalResults} />
       {biddingRounds.map((round) => {
         return (

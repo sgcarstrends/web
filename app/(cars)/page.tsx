@@ -8,7 +8,7 @@ import {
   POPULAR_MAKES_THRESHOLD,
 } from "@/config";
 import { sortByMake } from "@/utils/sortByMake";
-import type { Car } from "@/types";
+import { Car } from "@/types";
 import { WebSite, WithContext } from "schema-dts";
 import { fetchApi } from "@/utils/fetchApi";
 
@@ -17,14 +17,15 @@ export const runtime = "edge";
 const Home = async () => {
   const electricCars = await fetchApi<Car[]>(API_URL, { cache: "no-store" });
 
-  const totals = new Map();
-  electricCars.forEach((car) => {
-    if (totals.has(car.make)) {
-      totals.set(car.make, totals.get(car.make) + car.number);
+  const totals: Map<string, number> = new Map();
+  electricCars.forEach(({ make, number }) => {
+    if (totals.has(make)) {
+      totals.set(make, (totals.get(make) as number) + number);
     } else {
-      totals.set(car.make, car.number);
+      totals.set(make, number);
     }
   });
+
   const popularMakes = Array.from(totals, ([make, number]) => ({
     make,
     number,

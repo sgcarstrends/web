@@ -30,7 +30,7 @@ export const CarTreemap = ({ data, popularMakes }: CarTreemapProps) => {
   const filteredCars = useMemo(
     () =>
       cars.filter((car) =>
-        popularMakes.some(({ make }: Pick<Car, "make">) => make === car.make),
+        popularMakes.some(({ make }: Car) => make === car.make),
       ),
     [cars, popularMakes],
   );
@@ -61,13 +61,13 @@ export const CarTreemap = ({ data, popularMakes }: CarTreemapProps) => {
   return (
     filteredCars && (
       <div className="flex flex-col items-center gap-y-4">
-        <div className="h-[600px] w-full md:w-[600px]">
+        <div className="w-full">
           <ApexChart
             options={options}
             series={series}
             type="treemap"
             width="100%"
-            height="100%"
+            height={600}
           />
         </div>
         <label htmlFor="months-select">
