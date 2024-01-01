@@ -12,5 +12,5 @@ export const fetchApi = async <T>(
     );
   }
 
-  return await response.json();
+  return response.json();
 };
