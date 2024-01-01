@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { CarInfographic } from "@/components/CarInfographic";
 import { getUniqueMonths } from "@/lib/getUniqueMonths";
@@ -17,7 +16,7 @@ export const Infographic = ({
 }: InfographicProps) => {
   const initialDatasets: ChartDataset[] = transformDataToDatasets(
     electricCars,
-  ).map((car: any) => ({
+  ).map((car) => ({
     ...car,
     checked: isPopularMake.some(({ make }) => make === car.name),
   }));

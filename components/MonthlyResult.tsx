@@ -1,5 +1,4 @@
 "use client";
-
 import dynamic from "next/dynamic";
 import { CHART_COLOURS } from "@/config";
 import { COEResult } from "@/types";

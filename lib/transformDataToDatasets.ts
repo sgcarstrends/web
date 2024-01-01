@@ -1,7 +1,9 @@
-import type { Car, Dataset } from "@/types";
+import { Car, Dataset } from "@/types";
 
-export const transformDataToDatasets = (inputData: Car[]): Dataset[] => {
-  const transformedData: Dataset[] = inputData.map(({ make, number }: Car) => ({
+export const transformDataToDatasets = <T extends Car>(
+  inputData: T[],
+): Dataset[] => {
+  const transformedData: Dataset[] = inputData.map(({ make, number }) => ({
     name: make,
     data: [number],
   }));

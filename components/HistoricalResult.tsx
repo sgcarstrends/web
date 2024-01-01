@@ -1,5 +1,4 @@
 "use client";
-
 import dynamic from "next/dynamic";
 import { format, parse, subMonths } from "date-fns";
 import { CHART_COLOURS } from "@/config";
@@ -7,7 +6,7 @@ import { COEResult } from "@/types";
 
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-interface PremiumMap {
+interface QuotaPremium {
   [key: string]: { [key: string]: number };
 }
 
@@ -17,7 +16,7 @@ interface HistoricalResultProps {
 
 export const HistoricalResult = ({ data }: HistoricalResultProps) => {
   const processCOEData = (data: COEResult[]) => {
-    const quotaPremiumMap: PremiumMap = {};
+    const quotaPremiumMap: QuotaPremium = {};
     const monthsSet = new Set<string>();
 
     data.forEach(({ month, premium, vehicle_class }) => {
@@ -34,7 +33,7 @@ export const HistoricalResult = ({ data }: HistoricalResultProps) => {
     };
   };
 
-  const createSeries = (premiumMap: PremiumMap, months: string[]) =>
+  const createSeries = (premiumMap: QuotaPremium, months: string[]) =>
     Object.entries(premiumMap)
       .map(([vehicleClass, premiums]) => ({
         name: vehicleClass,
