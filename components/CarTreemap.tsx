@@ -41,11 +41,24 @@ export const CarTreemap = ({ data, popularMakes }: CarTreemapProps) => {
     },
     dataLabels: {
       enabled: true,
+      formatter: (text, opts) => `${text} - ${opts.value}`,
     },
     colors: CHART_COLOURS,
     title: {
       text: `Electric Car Make Distribution for ${selectedMonth}`,
       align: "center" as "center",
+    },
+    xaxis: {
+      show: false,
+      labels: {
+        show: false,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
     },
   };
 

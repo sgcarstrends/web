@@ -81,7 +81,6 @@ export const HistoricalResult = ({ data }: HistoricalResultProps) => {
     colors: CHART_COLOURS,
     stroke: { curve: "smooth" as "smooth", width: 3 },
     dataLabels: { enabled: false },
-    fill: { opacity: 0.8 },
     title: { text: "Historical COE Results", align: "center" as "center" },
     xaxis: {
       type: "datetime" as "datetime",
@@ -98,14 +97,11 @@ export const HistoricalResult = ({ data }: HistoricalResultProps) => {
           new Intl.NumberFormat("en-SG", {
             style: "currency",
             currency: "SGD",
+            maximumFractionDigits: 0,
           }).format(value),
+        align: "left" as "left",
       },
-    },
-    grid: {
-      padding: {
-        left: 90,
-        right: 90,
-      },
+      floating: true,
     },
   };
 
@@ -132,6 +128,7 @@ export const HistoricalResult = ({ data }: HistoricalResultProps) => {
       max: latestMonth.getTime(),
     },
     yaxis: {
+      show: false,
       tickAmount: 1,
     },
     legend: { show: false },

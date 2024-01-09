@@ -49,6 +49,8 @@ export const MonthlyResult = ({ data }: MonthlyResultProps) => {
     },
     dataLabels: {
       enabled: true,
+      enabledOnSeries: [3],
+      // enabled: true,
       formatter: (value: number, option: any) => {
         if (option.seriesIndex === 3) {
           return new Intl.NumberFormat("en-SG", {
@@ -60,13 +62,13 @@ export const MonthlyResult = ({ data }: MonthlyResultProps) => {
         return value;
       },
     },
-    plotOptions: {
-      bar: {
-        dataLabels: {
-          position: "center",
-        },
-      },
-    },
+    // plotOptions: {
+    //   bar: {
+    //     dataLabels: {
+    //       position: "center",
+    //     },
+    //   },
+    // },
     stroke: { curve: "smooth" as "smooth", width: [0, 0, 0, 4] },
     colors: CHART_COLOURS,
     title: {
@@ -80,30 +82,29 @@ export const MonthlyResult = ({ data }: MonthlyResultProps) => {
       categories,
     },
     yaxis: [
-      { seriesName: "Quotas", title: { text: "Number of Bids" } },
+      {
+        show: false,
+        seriesName: "Quotas",
+      },
       { show: false, seriesName: "Quotas" },
       { show: false, seriesName: "Quotas" },
       {
         opposite: true,
-        title: { text: "Quota Premium ($)" },
         labels: {
           formatter: (value: number) =>
             new Intl.NumberFormat("en-SG", {
               style: "currency",
               currency: "SGD",
+              maximumFractionDigits: 0,
             }).format(value),
+          align: "right" as "right",
         },
+        floating: true,
       },
     ],
     tooltip: {
       shared: true,
       intersect: false,
-    },
-    grid: {
-      padding: {
-        left: 120,
-        right: 120,
-      },
     },
   };
 
