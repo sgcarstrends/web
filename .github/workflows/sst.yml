@@ -1,13 +1,5 @@
 name: SST workflow
-on:
-  push:
-    branches:
-    - main
-    tags-ignore:
-      - '**'
-  pull_request:
-    types:
-      - opened
+on: [push]
 
 concurrency:
   group: merge-${{ github.ref }}
@@ -17,8 +9,27 @@ permissions:
   contents: read # This is required for actions/checkout
 
 jobs:
+  TestAndBuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+      - name: Installing dependencies
+        run: |
+          bun install
+      - name: Run tests
+        run: |
+          bun run test
+      - name: Run build
+        run: |
+          bun run build
+
   DeployApp:
     runs-on: ubuntu-latest
+    environment: Production
+    needs: TestAndBuild
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     env:
       NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ vars.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
     steps:
@@ -30,6 +41,9 @@ jobs:
         with:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
           aws-region: ap-southeast-1
+      - name: Installing dependencies
+        run: |
+          bun install
       - name: Deploy app
         run: |
-          bun install && bun sst deploy --stage prod
+          bun sst deploy --stage prod
