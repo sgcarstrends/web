@@ -4,13 +4,13 @@ import dynamic from "next/dynamic";
 import { compareAsc, format, parseISO } from "date-fns";
 import { API_URL, CHART_COLOURS } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
-import { Car } from "@/types";
+import { Car, PopularMake } from "@/types";
 
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 interface CarTreemapProps {
   data: Car[];
-  popularMakes: any;
+  popularMakes: PopularMake[];
 }
 
 export const CarTreemap = ({ data, popularMakes }: CarTreemapProps) => {
@@ -30,7 +30,7 @@ export const CarTreemap = ({ data, popularMakes }: CarTreemapProps) => {
   const filteredCars = useMemo(
     () =>
       cars.filter((car) =>
-        popularMakes.some(({ make }: Car) => make === car.make),
+        popularMakes.some(({ make }: PopularMake) => make === car.make),
       ),
     [cars, popularMakes],
   );
@@ -41,7 +41,8 @@ export const CarTreemap = ({ data, popularMakes }: CarTreemapProps) => {
     },
     dataLabels: {
       enabled: true,
-      formatter: (text, opts) => `${text} - ${opts.value}`,
+      formatter: (text: string, opts: { value: number }) =>
+        `${text} - ${opts.value}`,
     },
     colors: CHART_COLOURS,
     title: {
