@@ -8,7 +8,7 @@ import {
   POPULAR_MAKES_THRESHOLD,
 } from "@/config";
 import { sortByMake } from "@/utils/sortByMake";
-import { Car } from "@/types";
+import { Car, PopularMake } from "@/types";
 import { WebSite, WithContext } from "schema-dts";
 import { fetchApi } from "@/utils/fetchApi";
 
@@ -26,7 +26,7 @@ const Home = async () => {
     }
   });
 
-  const popularMakes = Array.from(totals, ([make, number]) => ({
+  const popularMakes: PopularMake[] = Array.from(totals, ([make, number]) => ({
     make,
     number,
   }))

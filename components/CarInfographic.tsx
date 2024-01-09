@@ -20,13 +20,6 @@ export const CarInfographic = ({
     new Date(),
   );
 
-  const grid = {
-    padding: {
-      left: 90,
-      right: 90,
-    },
-  };
-
   const chartOptions = {
     chart: {
       id: "target-chart",
@@ -46,9 +39,7 @@ export const CarInfographic = ({
       categories,
     },
     yaxis: {
-      title: {
-        text: "Number of Registrations",
-      },
+      title: { text: "Number of Registrations" },
     },
     tooltip: {
       intersect: false,
@@ -57,7 +48,6 @@ export const CarInfographic = ({
         format: "MMM yyyy",
       },
     },
-    grid,
   };
 
   const brushOptions = {
@@ -71,7 +61,7 @@ export const CarInfographic = ({
       selection: {
         enabled: true,
         xaxis: {
-          min: subMonths(latestMonth, 6).getTime(),
+          min: subMonths(latestMonth, 3).getTime(),
           max: latestMonth.getTime(),
         },
       },
@@ -83,6 +73,7 @@ export const CarInfographic = ({
       max: latestMonth.getTime(),
     },
     yaxis: {
+      show: false,
       tickAmount: 1,
     },
     legend: { show: false },
