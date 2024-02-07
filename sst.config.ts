@@ -18,6 +18,7 @@ export default {
         experimental: {
           disableIncrementalCache: true,
         },
+        warm: 20,
       });
 
       stack.addOutputs({
