@@ -1,4 +1,4 @@
-import React from "react";
+import { Metadata } from "next";
 import { CarTreemap } from "@/app/components/CarTreemap";
 import { Infographic } from "@/app/components/Infographic";
 import {
@@ -11,6 +11,8 @@ import { sortByMake } from "@/utils/sortByMake";
 import { Car, PopularMake } from "@/types";
 import { WebSite, WithContext } from "schema-dts";
 import { fetchApi } from "@/utils/fetchApi";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 const Home = async () => {
   const electricCars = await fetchApi<Car[]>(API_URL);

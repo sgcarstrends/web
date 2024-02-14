@@ -1,8 +1,11 @@
+import { Metadata } from "next";
 import { HistoricalResult } from "@/app/components/HistoricalResult";
 import { MonthlyResult } from "@/app/components/MonthlyResult";
 import { API_URL } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import { COEResult } from "@/types";
+
+export const metadata: Metadata = { alternates: { canonical: "/coe" } };
 
 const COEPage = async () => {
   const fetchHistoricalResult = fetchApi<COEResult[]>(`${API_URL}/coe`);
