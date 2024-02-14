@@ -1,6 +1,8 @@
 import { SSTConfig } from "sst";
 import { NextjsSite } from "sst/constructs";
 
+const DOMAIN = "sgmotortrends.com";
+
 export default {
   config(_input) {
     return {
@@ -12,8 +14,8 @@ export default {
     app.stack(function site({ stack }) {
       const nextjsSite = new NextjsSite(stack, "site", {
         customDomain: {
-          domainName: "singapore-ev-trends.ruchern.xyz",
-          hostedZone: "ruchern.xyz",
+          domainName: DOMAIN,
+          domainAlias: `www.${DOMAIN}`,
         },
         experimental: {
           disableIncrementalCache: true,
