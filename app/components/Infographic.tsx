@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
-import { CarInfographic } from "@/components/CarInfographic";
+import { CarInfographic } from "@/app/components/CarInfographic";
 import { getUniqueMonths } from "@/utils/getUniqueMonths";
 import { transformDataToDatasets } from "@/utils/transformDataToDatasets";
-import { Car, ChartDataset } from "@/types";
+import { Car, ChartDataset, PopularMake } from "@/types";
 
 interface InfographicProps {
   electricCars: Car[];
-  isPopularMake: Pick<Car, "make" | "number">[];
+  isPopularMake: PopularMake[];
 }
 
 export const Infographic = ({

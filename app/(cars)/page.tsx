@@ -1,9 +1,9 @@
 import React from "react";
-import { CarTreemap } from "@/components/CarTreemap";
-import { Infographic } from "@/components/Infographic";
+import { CarTreemap } from "@/app/components/CarTreemap";
+import { Infographic } from "@/app/components/Infographic";
 import {
   API_URL,
-  BASE_URL,
+  SITE_URL,
   EXCLUSION_LIST,
   POPULAR_MAKES_THRESHOLD,
 } from "@/config";
@@ -38,8 +38,8 @@ const Home = async () => {
   const jsonLd: WithContext<WebSite> = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Singapore EV Trends",
-    url: BASE_URL,
+    name: "Singapore Motor Trends",
+    url: SITE_URL,
   };
 
   return (

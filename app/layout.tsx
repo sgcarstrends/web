@@ -3,17 +3,17 @@ import type { Metadata } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Inter } from "next/font/google";
 import classNames from "classnames";
-import { Announcement } from "@/components/Announcement";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { ANNOUNCEMENT, BASE_URL } from "@/config";
+import { Announcement } from "@/app/components/Announcement";
+import { Footer } from "@/app/components/Footer";
+import { Header } from "@/app/components/Header";
+import { ANNOUNCEMENT, SITE_URL } from "@/config";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const title: string = `Singapore EV Trends`;
-const description: string = `Stay ahead of the shift to Electric Vehicle (EV) in Singapore with the latest Singapore EV trends. Data provided by Land Transport Authority (LTA)`;
-const url = new URL(BASE_URL);
+const title: string = `Singapore Motor Trends`;
+const description: string = `Statistics for car trends in Singapore. Data provided by Land Transport Authority (LTA)`;
+const url = new URL(SITE_URL);
 
 export const metadata: Metadata = {
   metadataBase: url,

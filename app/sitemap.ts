@@ -1,10 +1,10 @@
 import { MetadataRoute } from "next";
-import { BASE_URL } from "@/config";
+import { SITE_URL } from "@/config";
 
 const sitemap = (): MetadataRoute.Sitemap => {
   return [
     {
-      url: BASE_URL,
+      url: SITE_URL,
       lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 1,

@@ -1,6 +1,6 @@
 import React from "react";
 import { mdiCarElectric, mdiChartBellCurve, mdiGasStation } from "@mdi/js";
-import { Tabs } from "@/components/Tabs";
+import { Tabs } from "@/app/components/Tabs";
 import { TabItem } from "@/types";
 
 const tabItems: TabItem[] = [
@@ -26,7 +26,7 @@ export const Header = () => {
     <>
       <div className="flex flex-col flex-wrap items-center px-4 py-8">
         <div className="prose flex text-center">
-          <h1>Singapore EV Trends</h1>
+          <h1>Singapore Motor Trends</h1>
         </div>
       </div>
       <div className="sticky top-0 z-50 bg-gray-50">

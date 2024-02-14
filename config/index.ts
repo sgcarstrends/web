@@ -1,8 +1,10 @@
-export const BASE_URL: string =
-  process.env.NEXT_PUBLIC_BASE_URL || "https://sgmotortrends.com";
+const DOMAIN_NAME: string = "sgmotortrends.com";
+
+export const SITE_URL: string =
+  process.env.NEXT_PUBLIC_SITE_URL || `https://${DOMAIN_NAME}`;
 
 export const API_URL: string =
-  process.env.NEXT_PUBLIC_API_URL || `https://api.sgmotortrends.com`;
+  process.env.NEXT_PUBLIC_API_URL || `https://api.${DOMAIN_NAME}`;
 
 /**
  * List of make to be excluded from the dataset because they are usually part of the following:
