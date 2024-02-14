@@ -15,7 +15,7 @@ import { fetchApi } from "@/utils/fetchApi";
 export const runtime = "edge";
 
 const Home = async () => {
-  const electricCars = await fetchApi<Car[]>(API_URL, { cache: "no-store" });
+  const electricCars = await fetchApi<Car[]>(API_URL);
 
   const totals: Map<string, number> = new Map();
   electricCars.forEach(({ make, number }) => {
