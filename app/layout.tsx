@@ -1,6 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
-import Script from "next/script";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Inter } from "next/font/google";
 import classNames from "classnames";
 import { Announcement } from "@/components/Announcement";
@@ -52,18 +52,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
         <main className="min-h-screen px-4 py-16">{children}</main>
         <Footer />
       </body>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
-      />
-      <Script id="google-analytics">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
- 
-          gtag('config', '${gaMeasurementId}');
-        `}
-      </Script>
+      <GoogleAnalytics gaId={gaMeasurementId} />
     </html>
   );
 };
