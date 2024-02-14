@@ -4,8 +4,6 @@ import { API_URL } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import { COEResult } from "@/types";
 
-export const runtime = "edge";
-
 const COEPage = async () => {
   const fetchHistoricalResult = fetchApi<COEResult[]>(`${API_URL}/coe`);
   const fetchMonthlyResult = fetchApi<COEResult[]>(`${API_URL}/coe/latest`);

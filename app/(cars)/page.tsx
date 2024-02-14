@@ -12,8 +12,6 @@ import { Car, PopularMake } from "@/types";
 import { WebSite, WithContext } from "schema-dts";
 import { fetchApi } from "@/utils/fetchApi";
 
-export const runtime = "edge";
-
 const Home = async () => {
   const electricCars = await fetchApi<Car[]>(API_URL);
 
