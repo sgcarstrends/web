@@ -1,4 +1,6 @@
+"use client";
 import { Metadata } from "next";
+import useSWR from "swr";
 import { CarTreemap } from "@/app/components/CarTreemap";
 import { Infographic } from "@/app/components/Infographic";
 import {
@@ -10,12 +12,16 @@ import {
 import { sortByMake } from "@/utils/sortByMake";
 import { Car, PopularMake } from "@/types";
 import { WebSite, WithContext } from "schema-dts";
-import { fetchApi } from "@/utils/fetchApi";
 
-export const metadata: Metadata = { alternates: { canonical: "/" } };
+// export const metadata: Metadata = { alternates: { canonical: "/" } };
 
-const Home = async () => {
-  const electricCars = await fetchApi<Car[]>(API_URL);
+const fetcher = (...args: [RequestInfo, RequestInit?]) =>
+  fetch(...args).then((res) => res.json());
+
+const Home = () => {
+  const { data: electricCars } = useSWR<Car[]>(API_URL, fetcher);
+
+  if (!electricCars) return null;
 
   const totals: Map<string, number> = new Map();
   electricCars.forEach(({ make, number }) => {

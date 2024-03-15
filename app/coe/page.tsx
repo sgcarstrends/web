@@ -1,20 +1,27 @@
+"use client";
 import { Metadata } from "next";
+import useSWR from "swr";
 import { HistoricalResult } from "@/app/components/HistoricalResult";
 import { MonthlyResult } from "@/app/components/MonthlyResult";
 import { API_URL } from "@/config";
-import { fetchApi } from "@/utils/fetchApi";
 import { COEResult } from "@/types";
 
-export const metadata: Metadata = { alternates: { canonical: "/coe" } };
+// export const metadata: Metadata = { alternates: { canonical: "/coe" } };
 
-const COEPage = async () => {
-  const fetchHistoricalResult = fetchApi<COEResult[]>(`${API_URL}/coe`);
-  const fetchMonthlyResult = fetchApi<COEResult[]>(`${API_URL}/coe/latest`);
+const fetcher = (...args: [RequestInfo, RequestInit?]) =>
+  fetch(...args).then((res) => res.json());
 
-  const [historicalResults, monthlyResults] = await Promise.all([
-    fetchHistoricalResult,
-    fetchMonthlyResult,
-  ]);
+const COEPage = () => {
+  const { data: historicalResults } = useSWR<COEResult[]>(
+    `${API_URL}/coe`,
+    fetcher,
+  );
+  const { data: monthlyResults } = useSWR<COEResult[]>(
+    `${API_URL}/coe/latest`,
+    fetcher,
+  );
+
+  if (!historicalResults || !monthlyResults) return null;
 
   const biddingRounds = [
     ...new Set(monthlyResults.map(({ bidding_no }) => bidding_no)),
