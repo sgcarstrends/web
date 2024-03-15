@@ -4,6 +4,7 @@ import { MonthlyResult } from "@/app/components/MonthlyResult";
 import { API_URL } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import { COEResult } from "@/types";
+import { ShowHideCOECategories } from "@/app/coe/ShowHideCOECategories";
 
 export const metadata: Metadata = { alternates: { canonical: "/coe" } };
 
@@ -25,6 +26,7 @@ const COEPage = async () => {
 
   return (
     <div className="flex flex-col gap-y-8">
+      <ShowHideCOECategories />
       <HistoricalResult data={historicalResults} />
       {biddingRounds.map((round) => {
         return (

@@ -1,5 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
+import { useAtomValue } from "jotai";
+import { showCategoriesAtom } from "@/atoms/coeAtom";
 import { CHART_COLOURS } from "@/config";
 import { COEResult } from "@/types";
 
@@ -10,19 +12,22 @@ interface MonthlyResultProps {
 }
 
 export const MonthlyResult = ({ data }: MonthlyResultProps) => {
-  const month = [...new Set(data.map(({ month }) => month))];
+  const categories = useAtomValue(showCategoriesAtom);
+  const filteredData = data.filter((item) => categories[item.vehicle_class]);
+
+  const month = [...new Set(filteredData.map(({ month }) => month))];
   const uniqueNumberOfBiddingExercise = [
-    ...new Set(data.map(({ bidding_no }) => bidding_no)),
+    ...new Set(filteredData.map(({ bidding_no }) => bidding_no)),
   ];
-  const categories = data.map((item) => item.vehicle_class);
-  const premium = data.map((item) => parseInt(item.premium, 10));
-  const bidsReceived = data.map((item) =>
+  const chartCategories = filteredData.map((item) => item.vehicle_class);
+  const premium = filteredData.map((item) => parseInt(item.premium, 10));
+  const bidsReceived = filteredData.map((item) =>
     parseInt(item.bids_received.replace(/,/g, ""), 10),
   );
-  const bidsSuccess = data.map((item) =>
+  const bidsSuccess = filteredData.map((item) =>
     parseInt(item.bids_success.replace(/,/g, ""), 10),
   );
-  const quotas = data.map((item) => parseInt(item.quota, 10));
+  const quotas = filteredData.map((item) => parseInt(item.quota, 10));
 
   const graphTitle = ({
     month,
@@ -79,7 +84,7 @@ export const MonthlyResult = ({ data }: MonthlyResultProps) => {
       align: "center" as "center",
     },
     xaxis: {
-      categories,
+      categories: chartCategories,
     },
     yaxis: [
       {

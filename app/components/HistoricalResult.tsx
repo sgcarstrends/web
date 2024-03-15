@@ -1,6 +1,8 @@
 "use client";
 import dynamic from "next/dynamic";
+import { useAtomValue } from "jotai";
 import { format, parse, subMonths } from "date-fns";
+import { showCategoriesAtom } from "@/atoms/coeAtom";
 import { CHART_COLOURS } from "@/config";
 import { COEResult } from "@/types";
 
@@ -15,11 +17,14 @@ interface HistoricalResultProps {
 }
 
 export const HistoricalResult = ({ data }: HistoricalResultProps) => {
+  const categories = useAtomValue(showCategoriesAtom);
+  const filteredData = data.filter((item) => categories[item.vehicle_class]);
+
   const processCOEData = (data: COEResult[]) => {
     const quotaPremiumMap: QuotaPremium = {};
     const monthsSet = new Set<string>();
 
-    data.forEach(({ month, premium, vehicle_class }) => {
+    filteredData.forEach(({ month, premium, vehicle_class }) => {
       monthsSet.add(month);
       quotaPremiumMap[vehicle_class] = {
         ...quotaPremiumMap[vehicle_class],
