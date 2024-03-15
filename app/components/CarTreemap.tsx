@@ -1,9 +1,9 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import { compareAsc, format, parseISO } from "date-fns";
+import useSWR from "swr";
 import { API_URL, CHART_COLOURS } from "@/config";
-import { fetchApi } from "@/utils/fetchApi";
 import { Car, PopularMake } from "@/types";
 
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -13,26 +13,24 @@ interface CarTreemapProps {
   popularMakes: PopularMake[];
 }
 
+const fetcher = (...args: [RequestInfo, RequestInit?]) =>
+  fetch(...args).then((res) => res.json());
+
 export const CarTreemap = ({ data, popularMakes }: CarTreemapProps) => {
   const months = [...new Set(data.map(({ month }) => month))];
   const sortedMonth = months.map((month) => parseISO(month)).sort(compareAsc);
   const latestMonth = format(sortedMonth[sortedMonth.length - 1], "yyyy-MM");
 
   const [selectedMonth, setSelectedMonth] = useState<string>(latestMonth);
-  const [cars, setCars] = useState<Car[]>([]);
+  const { data: cars } = useSWR<Car[]>(
+    `${API_URL}/cars/electric?month=${selectedMonth}`,
+    fetcher,
+  );
 
-  useEffect(() => {
-    fetchApi<Car[]>(`${API_URL}/cars/electric?month=${selectedMonth}`).then(
-      (cars) => setCars(cars),
-    );
-  }, [selectedMonth]);
+  if (!cars) return;
 
-  const filteredCars = useMemo(
-    () =>
-      cars.filter((car) =>
-        popularMakes.some(({ make }: PopularMake) => make === car.make),
-      ),
-    [cars, popularMakes],
+  const filteredCars = cars.filter((car) =>
+    popularMakes.some(({ make }: PopularMake) => make === car.make),
   );
 
   const options = {
