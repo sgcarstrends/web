@@ -6,6 +6,7 @@ import classNames from "classnames";
 import { Announcement } from "@/app/components/Announcement";
 import { Footer } from "@/app/components/Footer";
 import { Header } from "@/app/components/Header";
+import { Providers } from "@/app/Providers";
 import { ANNOUNCEMENT, SITE_URL } from "@/config";
 import "./globals.css";
 
@@ -49,7 +50,9 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
       <body className={classNames(inter.className, "bg-gray-50 text-gray-900")}>
         <Announcement>{ANNOUNCEMENT}</Announcement>
         <Header />
-        <main className="min-h-screen px-4 py-16">{children}</main>
+        <Providers>
+          <main className="min-h-screen px-4 py-16">{children}</main>
+        </Providers>
         <Footer />
       </body>
       <GoogleAnalytics gaId={gaMeasurementId} />
