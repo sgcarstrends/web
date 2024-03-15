@@ -9,11 +9,11 @@ const tabItems: TabItem[] = [
     href: "/",
     icon: mdiCarElectric,
   },
-  {
-    title: "Petrol",
-    href: "/petrol",
-    icon: mdiGasStation,
-  },
+  // {
+  //   title: "Petrol",
+  //   href: "/petrol",
+  //   icon: mdiGasStation,
+  // },
   {
     title: "COE",
     href: "/coe",
