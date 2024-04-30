@@ -4,6 +4,8 @@ export const fetchApi = async <T>(
   url: string,
   options: Options = {},
 ): Promise<T> => {
+  options = { cache: "no-store", ...options };
+
   const response = await fetch(url, options);
 
   if (!response.ok) {
