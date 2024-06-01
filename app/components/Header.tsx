@@ -1,15 +1,19 @@
 import React from "react";
-import { mdiCarElectric, mdiChartBellCurve } from "@mdi/js";
+import Link from "next/link";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MonthSelect } from "@/app/components/MonthSelect";
-import { Tabs } from "@/app/components/Tabs";
 import { TabItem } from "@/types";
 
 const tabItems: TabItem[] = [
   {
-    title: "Electric",
+    title: "Cars",
     href: "/",
-    icon: mdiCarElectric,
   },
+  // {
+  //   title: "Electric",
+  //   href: "/cars/electric",
+  //   icon: mdiCarElectric,
+  // },
   // {
   //   title: "Petrol",
   //   href: "/petrol",
@@ -18,23 +22,28 @@ const tabItems: TabItem[] = [
   {
     title: "COE",
     href: "/coe",
-    icon: mdiChartBellCurve,
   },
 ];
 
 export const Header = () => {
   return (
     <>
-      <div className="flex-1 gap-y-4 p-8">
-        <div className="flex items-center justify-between gap-y-2">
+      <div className="flex-1 p-8">
+        <div className="mb-4 flex items-center justify-between gap-y-4">
           <h2 className="text-3xl font-bold">Dashboard</h2>
           <div>
             <MonthSelect />
           </div>
         </div>
-      </div>
-      <div className="sticky top-0 z-50 bg-gray-50">
-        <Tabs tabItems={tabItems} />
+        <Tabs defaultValue={tabItems[0].title}>
+          <TabsList>
+            {tabItems.map(({ title, href }) => (
+              <Link key={title} href={href}>
+                <TabsTrigger value={title}>{title}</TabsTrigger>
+              </Link>
+            ))}
+          </TabsList>
+        </Tabs>
       </div>
     </>
   );

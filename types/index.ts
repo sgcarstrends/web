@@ -22,7 +22,6 @@ export interface ChartDataset extends Dataset {
 export interface TabItem {
   title: string;
   href: string;
-  icon: string;
 }
 
 export interface COEResult {
