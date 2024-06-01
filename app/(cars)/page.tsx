@@ -3,9 +3,9 @@ import { CarTreemap } from "@/app/components/CarTreemap";
 import { Infographic } from "@/app/components/Infographic";
 import {
   API_URL,
-  SITE_URL,
   EXCLUSION_LIST,
   POPULAR_MAKES_THRESHOLD,
+  SITE_URL,
 } from "@/config";
 import { sortByMake } from "@/utils/sortByMake";
 import { Car, PopularMake } from "@/types";
@@ -55,7 +55,7 @@ const Home = async () => {
           electricCars={filteredElectricCars}
           isPopularMake={popularMakes}
         />
-        <CarTreemap data={filteredElectricCars} popularMakes={popularMakes} />
+        <CarTreemap popularMakes={popularMakes} />
       </div>
     </section>
   );
