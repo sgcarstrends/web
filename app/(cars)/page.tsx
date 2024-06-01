@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { CarTreemap } from "@/app/components/CarTreemap";
-import { Infographic } from "@/app/components/Infographic";
 import {
   API_URL,
   EXCLUSION_LIST,
@@ -11,6 +10,7 @@ import { sortByMake } from "@/utils/sortByMake";
 import { Car, PopularMake } from "@/types";
 import { WebSite, WithContext } from "schema-dts";
 import { fetchApi } from "@/utils/fetchApi";
+import { DataTable } from "@/app/components/DataTable";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
@@ -51,11 +51,12 @@ const Home = async () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="flex flex-col gap-y-8">
-        <Infographic
-          electricCars={filteredElectricCars}
-          isPopularMake={popularMakes}
-        />
+        {/*<Infographic*/}
+        {/*  electricCars={filteredElectricCars}*/}
+        {/*  isPopularMake={popularMakes}*/}
+        {/*/>*/}
         <CarTreemap popularMakes={popularMakes} />
+        <DataTable data={filteredElectricCars} />
       </div>
     </section>
   );
