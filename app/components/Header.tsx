@@ -27,7 +27,7 @@ const tabItems: TabItem[] = [
 
 export const Header = () => {
   return (
-    <div className="flex p-8">
+    <div className="flex px-4 py-8">
       <Tabs defaultValue={tabItems[0].title}>
         <TabsList>
           {tabItems.map(({ title, href }) => (
