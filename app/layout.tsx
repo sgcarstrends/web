@@ -9,6 +9,7 @@ import { Header } from "@/app/components/Header";
 import { Providers } from "@/app/Providers";
 import { ANNOUNCEMENT, SITE_URL } from "@/config";
 import "./globals.css";
+import { GlobalStateProvider } from "@/context/GlobalStateContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -48,12 +49,14 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className={classNames(inter.className, "bg-gray-50 text-gray-900")}>
-        <Announcement>{ANNOUNCEMENT}</Announcement>
-        <Header />
-        <Providers>
-          <main className="min-h-screen px-4 py-16">{children}</main>
-        </Providers>
-        <Footer />
+        <GlobalStateProvider>
+          <Announcement>{ANNOUNCEMENT}</Announcement>
+          <Header />
+          <Providers>
+            <main className="min-h-screen px-4 py-16">{children}</main>
+          </Providers>
+          <Footer />
+        </GlobalStateProvider>
       </body>
       <GoogleAnalytics gaId={gaMeasurementId} />
     </html>

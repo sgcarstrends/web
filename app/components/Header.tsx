@@ -1,5 +1,6 @@
 import React from "react";
-import { mdiCarElectric, mdiChartBellCurve, mdiGasStation } from "@mdi/js";
+import { mdiCarElectric, mdiChartBellCurve } from "@mdi/js";
+import { MonthSelect } from "@/app/components/MonthSelect";
 import { Tabs } from "@/app/components/Tabs";
 import { TabItem } from "@/types";
 
@@ -24,9 +25,12 @@ const tabItems: TabItem[] = [
 export const Header = () => {
   return (
     <>
-      <div className="flex flex-col flex-wrap items-center px-4 py-8">
+      <div className="flex flex-col flex-wrap items-center gap-y-4 px-4 py-8">
         <div className="prose flex text-center">
           <h1>Singapore Motor Trends</h1>
+        </div>
+        <div>
+          <MonthSelect />
         </div>
       </div>
       <div className="sticky top-0 z-50 bg-gray-50">
