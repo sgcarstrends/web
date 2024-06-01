@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MonthSelect } from "@/app/components/MonthSelect";
 import { TabItem } from "@/types";
 
 const tabItems: TabItem[] = [

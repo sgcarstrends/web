@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { CarTreemap } from "@/app/components/CarTreemap";
+import { CarTreeMap } from "@/app/components/CarTreeMap";
 import {
   API_URL,
   EXCLUSION_LIST,
@@ -55,7 +55,7 @@ const Home = async () => {
       <div className="flex flex-col gap-y-8">
         <div className="flex-1">
           <div className="flex justify-between">
-            <h2 className="text-3xl font-bold">Cars</h2>
+            <h2 className="text-3xl font-bold">Electric Cars</h2>
             <div>
               <MonthSelect months={months} />
             </div>
@@ -65,7 +65,9 @@ const Home = async () => {
         {/*  electricCars={filteredElectricCars}*/}
         {/*  isPopularMake={popularMakes}*/}
         {/*/>*/}
-        <CarTreemap popularMakes={popularMakes} />
+        <div className="h-[600px]">
+          <CarTreeMap data={filteredElectricCars} />
+        </div>
         <DataTable data={filteredElectricCars} />
       </div>
     </section>
