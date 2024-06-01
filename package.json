@@ -17,6 +17,7 @@
     "@mdi/react": "^1.6.1",
     "@next/third-parties": "^14.1.0",
     "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-tabs": "^1.0.4",
     "apexcharts": "^3.45.1",
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.3.2",
