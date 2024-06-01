@@ -11,11 +11,13 @@ import { Car, PopularMake } from "@/types";
 import { WebSite, WithContext } from "schema-dts";
 import { fetchApi } from "@/utils/fetchApi";
 import { DataTable } from "@/app/components/DataTable";
+import { MonthSelect } from "@/app/components/MonthSelect";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 const Home = async () => {
   const electricCars = await fetchApi<Car[]>(API_URL);
+  const months = [...new Set(electricCars.map(({ month }) => month))];
 
   const totals: Map<string, number> = new Map();
   electricCars.forEach(({ make, number }) => {
@@ -51,6 +53,14 @@ const Home = async () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="flex flex-col gap-y-8">
+        <div className="flex-1">
+          <div className="flex justify-between">
+            <h2 className="text-3xl font-bold">Cars</h2>
+            <div>
+              <MonthSelect months={months} />
+            </div>
+          </div>
+        </div>
         {/*<Infographic*/}
         {/*  electricCars={filteredElectricCars}*/}
         {/*  isPopularMake={popularMakes}*/}
