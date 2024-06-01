@@ -25,12 +25,12 @@ const tabItems: TabItem[] = [
 export const Header = () => {
   return (
     <>
-      <div className="flex flex-col flex-wrap items-center gap-y-4 px-4 py-8">
-        <div className="prose flex text-center">
-          <h1>Singapore Motor Trends</h1>
-        </div>
-        <div>
-          <MonthSelect />
+      <div className="flex-1 gap-y-4 p-8">
+        <div className="flex items-center justify-between gap-y-2">
+          <h2 className="text-3xl font-bold">Dashboard</h2>
+          <div>
+            <MonthSelect />
+          </div>
         </div>
       </div>
       <div className="sticky top-0 z-50 bg-gray-50">

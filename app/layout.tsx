@@ -53,7 +53,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
           <Announcement>{ANNOUNCEMENT}</Announcement>
           <Header />
           <Providers>
-            <main className="min-h-screen px-4 py-16">{children}</main>
+            <main className="min-h-screen p-8">{children}</main>
           </Providers>
           <Footer />
         </GlobalStateProvider>
