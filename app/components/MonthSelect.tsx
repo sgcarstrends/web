@@ -16,7 +16,7 @@ import { groupByYear } from "@/utils/groupByYear";
 
 interface MonthSelectProps {
   months: string[];
-  selectedMonth?: string;
+  selectedMonth: string;
 }
 
 export const MonthSelect = ({ months, selectedMonth }: MonthSelectProps) => {
@@ -32,6 +32,14 @@ export const MonthSelect = ({ months, selectedMonth }: MonthSelectProps) => {
     }
   }, [dispatch, selectedMonth]);
 
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (state.selectedMonth) {
+      params.set("month", state.selectedMonth);
+    }
+    router.push(`${pathname}?${params.toString()}`);
+  }, [pathname, router, searchParams, state.selectedMonth]);
+
   const memoisedGroupByYear = useMemo(() => groupByYear, []);
   const sortedMonths = useMemo(
     () => Object.entries(memoisedGroupByYear(months)).slice().reverse(),
@@ -40,19 +48,13 @@ export const MonthSelect = ({ months, selectedMonth }: MonthSelectProps) => {
 
   const handleValueChange = useCallback(
     (month: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("month", month);
       dispatch({ type: "SET_SELECTED_MONTH", payload: month });
-      router.push(`${pathname}?${params.toString()}`);
     },
-    [dispatch, pathname, router, searchParams],
+    [dispatch],
   );
 
   return (
-    <Select
-      defaultValue={state.selectedMonth}
-      onValueChange={handleValueChange}
-    >
+    <Select value={state.selectedMonth} onValueChange={handleValueChange}>
       <SelectTrigger>
         <SelectValue placeholder="Select a month" />
       </SelectTrigger>
