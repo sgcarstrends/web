@@ -1,5 +1,6 @@
 "use client";
 
+import { Progress } from "@/app/components/Progress";
 import {
   Table,
   TableBody,
@@ -55,11 +56,13 @@ export const DataTable = ({ data }: DataTableProps) => {
               <TableCell>{item.make}</TableCell>
               <TableCell>{item.number}</TableCell>
               <TableCell>
-                {new Intl.NumberFormat("en-SG", {
-                  style: "percent",
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                }).format(getWeight(item.number))}
+                <Progress value={getWeight(item.number)}>
+                  {new Intl.NumberFormat("en-SG", {
+                    style: "percent",
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }).format(getWeight(item.number))}
+                </Progress>
               </TableCell>
             </TableRow>
           );

@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input";
 //   NavigationMenuTrigger,
 //   navigationMenuTriggerStyle,
 // } from "@/components/ui/navigation-menu";
-// import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TabItem } from "@/types";
 import { NavItem } from "@/app/components/NavItem";
 
@@ -18,28 +17,6 @@ const navItems = [
   { title: "Overview", href: "/" },
   { title: "Cars", href: "/" },
   { title: "COE", href: "/coe" },
-];
-
-const tabItems: TabItem[] = [
-  {
-    title: "Cars",
-    href: "/",
-  },
-  // {
-  //   title: "Electric",
-  //   href: "/cars/electric",
-  //   icon: mdiCarElectric,
-  // },
-  // {
-  //   title: "Petrol",
-  //   href: "/petrol",
-  //   icon: mdiGasStation,
-  // },
-  // {
-  //   title: "Hybrid",
-  //   href: "/hybrid",
-  //   icon: mdiGasStation,
-  // },
 ];
 
 export const Header = () => {
@@ -101,17 +78,6 @@ export const Header = () => {
           <Button type="submit">Search</Button>
         </div>
       </div>
-      {/*<div className="flex px-4 py-8">*/}
-      {/*<Tabs defaultValue={tabItems[0].title}>*/}
-      {/*  <TabsList>*/}
-      {/*    {tabItems.map(({ title, href }) => (*/}
-      {/*      <Link key={title} href={href}>*/}
-      {/*        <TabsTrigger value={title}>{title}</TabsTrigger>*/}
-      {/*      </Link>*/}
-      {/*    ))}*/}
-      {/*  </TabsList>*/}
-      {/*</Tabs>*/}
-      {/*</div>*/}
     </>
   );
 };

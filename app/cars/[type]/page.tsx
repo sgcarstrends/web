@@ -7,22 +7,34 @@ import {
   SITE_URL,
 } from "@/config";
 import { sortByMake } from "@/utils/sortByMake";
-import { Car, PopularMake } from "@/types";
+import { Car, PopularMake, TabItem } from "@/types";
 import { WebSite, WithContext } from "schema-dts";
 import { fetchApi } from "@/utils/fetchApi";
 import { DataTable } from "@/app/components/DataTable";
 import { MonthSelect } from "@/app/components/MonthSelect";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
+import { capitaliseWords } from "@/utils/capitaliseWords";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
-const CarsPage = async () => {
-  const electricCars = await fetchApi<Car[]>(API_URL);
-  const months = [...new Set(electricCars.map(({ month }) => month))];
+const tabItems: Record<string, string> = {
+  petrol: "/cars/petrol",
+  // hybrid: "/cars/hybrid",
+  electric: "/cars/electric",
+  diesel: "/cars/diesel",
+};
+
+const CarsPage = async ({ params }: any) => {
+  const { type } = params;
+
+  const cars = await fetchApi<Car[]>(`${API_URL}/cars/${type}`);
+  const months = [...new Set(cars.map(({ month }) => month))];
 
   const totals: Map<string, number> = new Map();
-  electricCars.forEach(({ make, number }) => {
+  cars.forEach(({ make, number }) => {
     if (totals.has(make)) {
-      totals.set(make, (totals.get(make) as number) + number);
+      totals.set(make, (totals.get(make) || 0) + number);
     } else {
       totals.set(make, number);
     }
@@ -35,7 +47,7 @@ const CarsPage = async () => {
     .sort((a, b) => b.number - a.number)
     .slice(0, POPULAR_MAKES_THRESHOLD);
 
-  const filteredElectricCars: Car[] = electricCars
+  const filteredCars: Car[] = cars
     .sort(sortByMake)
     .filter(({ make }) => !EXCLUSION_LIST.includes(make));
 
@@ -55,16 +67,29 @@ const CarsPage = async () => {
       <div className="flex flex-col gap-y-8">
         <div className="flex-1">
           <div className="flex justify-between">
-            <h2 className="text-3xl font-bold">Electric Cars</h2>
+            <h2 className="text-3xl font-bold">Passenger Cars</h2>
             <div>
               <MonthSelect months={months} />
             </div>
           </div>
+          <Tabs defaultValue={type}>
+            <TabsList>
+              {Object.entries(tabItems).map(([title, href]) => {
+                return (
+                  <Link key={title} href={href}>
+                    <TabsTrigger value={title}>
+                      {capitaliseWords(title)}
+                    </TabsTrigger>
+                  </Link>
+                );
+              })}
+            </TabsList>
+          </Tabs>
         </div>
         <div className="h-[600px]">
-          <CarTreeMap data={filteredElectricCars} />
+          <CarTreeMap data={filteredCars} />
         </div>
-        <DataTable data={filteredElectricCars} />
+        <DataTable data={filteredCars} />
       </div>
     </section>
   );
