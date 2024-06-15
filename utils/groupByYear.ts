@@ -1,9 +1,14 @@
-export const groupByYear = (dates: string[] = []) =>
-  dates?.reduce((acc: Record<string, string[]>, date) => {
+export const groupByYear = (dates: string[]) => {
+  if (!dates) {
+    return dates;
+  }
+
+  return dates.reduce((dates: Record<string, string[]>, date) => {
     const [year, month] = date.split("-");
-    if (!acc[year]) {
-      acc[year] = [];
+    if (!dates[year]) {
+      dates[year] = [];
     }
-    acc[year].push(month);
-    return acc;
+    dates[year].push(month);
+    return dates;
   }, {});
+};

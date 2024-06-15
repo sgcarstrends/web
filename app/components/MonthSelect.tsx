@@ -32,9 +32,10 @@ export const MonthSelect = ({ months, selectedMonth }: MonthSelectProps) => {
     }
   }, [dispatch, selectedMonth]);
 
+  const memoisedGroupByYear = useMemo(() => groupByYear, []);
   const sortedMonths = useMemo(
-    () => Object.entries(groupByYear(months)).reverse(),
-    [months],
+    () => Object.entries(memoisedGroupByYear(months)).slice().reverse(),
+    [memoisedGroupByYear, months],
   );
 
   const handleValueChange = useCallback(
@@ -59,15 +60,18 @@ export const MonthSelect = ({ months, selectedMonth }: MonthSelectProps) => {
         {sortedMonths.map(([year, months]) => (
           <SelectGroup key={year}>
             <SelectLabel>{year}</SelectLabel>
-            {months.reverse().map((month) => {
-              const date = `${year}-${month}`;
+            {months
+              .slice()
+              .reverse()
+              .map((month) => {
+                const date = `${year}-${month}`;
 
-              return (
-                <SelectItem key={month} value={date} className="cursor-pointer">
-                  {date}
-                </SelectItem>
-              );
-            })}
+                return (
+                  <SelectItem key={month} value={date}>
+                    {date}
+                  </SelectItem>
+                );
+              })}
           </SelectGroup>
         ))}
       </SelectContent>
