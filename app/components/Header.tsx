@@ -14,8 +14,8 @@ import { TabItem } from "@/types";
 import { NavItem } from "@/app/components/NavItem";
 
 const navItems = [
-  { title: "Overview", href: "/" },
-  { title: "Cars", href: "/cars" },
+  // { title: "Overview", href: "/" },
+  { title: "Cars", href: "/cars/petrol" },
   { title: "COE", href: "/coe" },
 ];
 
