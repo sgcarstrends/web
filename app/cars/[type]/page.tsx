@@ -16,7 +16,28 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 
-export const metadata: Metadata = { alternates: { canonical: "/" } };
+interface Props {
+  params: { type: string };
+  searchParams?: {
+    [key: string]: string | string[];
+  };
+}
+
+export const generateMetadata = async ({
+  params,
+  searchParams,
+}: Props): Promise<Metadata> => {
+  const { type } = params;
+  const month = searchParams?.month;
+
+  return {
+    title: capitaliseWords(type),
+    description: `Data trends for ${type} cars in Singapore for ${month}.`,
+    alternates: {
+      canonical: `/cars/${type}`,
+    },
+  };
+};
 
 const tabItems: Record<string, string> = {
   petrol: "/cars/petrol",
@@ -25,8 +46,9 @@ const tabItems: Record<string, string> = {
   diesel: "/cars/diesel",
 };
 
-const CarsPage = async ({ params }: any) => {
+const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   const { type } = params;
+  const month = searchParams?.month;
 
   const cars = await fetchApi<Car[]>(`${API_URL}/cars/${type}`);
   const months = [...new Set(cars.map(({ month }) => month))];
@@ -54,8 +76,8 @@ const CarsPage = async ({ params }: any) => {
   const jsonLd: WithContext<WebSite> = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Singapore Motor Trends",
-    url: SITE_URL,
+    name: `${capitaliseWords(type)} - Singapore Motor Trends`,
+    url: `${SITE_URL}/cars/${type}`,
   };
 
   return (
@@ -69,7 +91,7 @@ const CarsPage = async ({ params }: any) => {
           <div className="flex justify-between">
             <h2 className="text-3xl font-bold">Passenger Cars</h2>
             <div>
-              <MonthSelect months={months} />
+              <MonthSelect months={months} selectedMonth={month} />
             </div>
           </div>
           <Tabs defaultValue={type}>
@@ -95,4 +117,4 @@ const CarsPage = async ({ params }: any) => {
   );
 };
 
-export default CarsPage;
+export default CarsByFuelTypePage;
