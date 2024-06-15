@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useMemo } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -20,10 +19,6 @@ interface MonthSelectProps {
 }
 
 export const MonthSelect = ({ months, selectedMonth }: MonthSelectProps) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   const { state, dispatch } = useGlobalState();
 
   useEffect(() => {
@@ -31,14 +26,6 @@ export const MonthSelect = ({ months, selectedMonth }: MonthSelectProps) => {
       dispatch({ type: "SET_SELECTED_MONTH", payload: selectedMonth });
     }
   }, [dispatch, selectedMonth]);
-
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (state.selectedMonth) {
-      params.set("month", state.selectedMonth);
-    }
-    router.push(`${pathname}?${params.toString()}`);
-  }, [pathname, router, searchParams, state.selectedMonth]);
 
   const memoisedGroupByYear = useMemo(() => groupByYear, []);
   const sortedMonths = useMemo(
