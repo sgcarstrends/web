@@ -1,6 +1,9 @@
 "use client";
+
+import { Fragment } from "react";
 import { useSetAtom } from "jotai";
 import { showCategoriesAtom } from "@/atoms/coeAtom";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const EXCLUDED_CATEGORIES = ["Category C", "Category D"];
 
@@ -15,26 +18,22 @@ export const ShowHideCOECategories = () => {
       <div className="flex items-center gap-x-4">
         {EXCLUDED_CATEGORIES.map((category) => {
           return (
-            <label
-              key={category}
-              htmlFor={category}
-              className="flex items-center gap-x-2"
-            >
-              <input
-                type="checkbox"
-                name={category}
+            <Fragment key={category}>
+              <Checkbox
                 id={category}
                 value={category}
                 defaultChecked={EXCLUDED_CATEGORIES.includes(category)}
-                onChange={(e) => {
-                  setCategories((category) => ({
-                    ...category,
-                    [e.target.value]: !e.target.checked,
-                  }));
+                onCheckedChange={(checked) => {
+                  setCategories((categories) => {
+                    return {
+                      ...categories,
+                      [category]: !checked,
+                    };
+                  });
                 }}
               />
-              {category}
-            </label>
+              <label htmlFor={category}>{category}</label>
+            </Fragment>
           );
         })}
       </div>
