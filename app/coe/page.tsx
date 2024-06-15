@@ -21,7 +21,7 @@ const COEPage = async () => {
     ...new Set(monthlyResults.map(({ bidding_no }) => bidding_no)),
   ];
 
-  const filterByBiddingRounds = (biddingRound: string) =>
+  const filterByBiddingRounds = (biddingRound: number) =>
     monthlyResults.filter(({ bidding_no }) => bidding_no === biddingRound);
 
   return (

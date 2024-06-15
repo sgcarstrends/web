@@ -27,10 +27,10 @@ export interface TabItem {
 export interface COEResult {
   _id: string;
   month: string;
-  bidding_no: string;
+  bidding_no: number;
   vehicle_class: string;
-  quota: string;
-  bids_success: string;
-  bids_received: string;
-  premium: string;
+  quota: number;
+  bids_success: number;
+  bids_received: number;
+  premium: number;
 }

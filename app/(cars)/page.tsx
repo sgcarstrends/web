@@ -61,10 +61,6 @@ const Home = async () => {
             </div>
           </div>
         </div>
-        {/*<Infographic*/}
-        {/*  electricCars={filteredElectricCars}*/}
-        {/*  isPopularMake={popularMakes}*/}
-        {/*/>*/}
         <div className="h-[600px]">
           <CarTreeMap data={filteredElectricCars} />
         </div>
