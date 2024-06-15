@@ -44,6 +44,11 @@ const tabItems: Record<string, string> = {
   diesel: "/cars/diesel",
 };
 
+export const generateStaticParams = async () =>
+  Object.keys(tabItems).map((key) => ({
+    type: key,
+  }));
+
 const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   const { type } = params;
   const month = searchParams?.month as string;
