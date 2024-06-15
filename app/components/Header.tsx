@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 // } from "@/components/ui/navigation-menu";
 // import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TabItem } from "@/types";
+import { NavItem } from "@/app/components/NavItem";
 
 const navItems = [
   { title: "Overview", href: "/" },
@@ -48,9 +49,9 @@ export const Header = () => {
         <nav className="flex gap-x-4">
           {navItems.map(({ title, href }) => {
             return (
-              <Link key={title} href={href}>
+              <NavItem key={title} href={href}>
                 {title}
-              </Link>
+              </NavItem>
             );
           })}
           {/*<NavigationMenu>*/}
