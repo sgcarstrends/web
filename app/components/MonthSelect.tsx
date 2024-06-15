@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   Select,
@@ -32,7 +32,10 @@ export const MonthSelect = ({ months, selectedMonth }: MonthSelectProps) => {
     }
   }, [dispatch, selectedMonth]);
 
-  const sortedMonths = Object.entries(groupByYear(months)).reverse();
+  const sortedMonths = useMemo(
+    () => Object.entries(groupByYear(months)).reverse(),
+    [months],
+  );
 
   const handleValueChange = useCallback(
     (month: string) => {

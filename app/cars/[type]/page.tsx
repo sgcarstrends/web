@@ -18,9 +18,7 @@ import { capitaliseWords } from "@/utils/capitaliseWords";
 
 interface Props {
   params: { type: string };
-  searchParams?: {
-    [key: string]: string | string[];
-  };
+  searchParams?: { [key: string]: string | string[] };
 }
 
 export const generateMetadata = async ({
@@ -28,7 +26,7 @@ export const generateMetadata = async ({
   searchParams,
 }: Props): Promise<Metadata> => {
   const { type } = params;
-  const month = searchParams?.month;
+  const month = searchParams?.month as string;
 
   return {
     title: capitaliseWords(type),
@@ -48,7 +46,7 @@ const tabItems: Record<string, string> = {
 
 const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   const { type } = params;
-  const month = searchParams?.month;
+  const month = searchParams?.month as string;
 
   const cars = await fetchApi<Car[]>(`${API_URL}/cars/${type}`);
   const months = [...new Set(cars.map(({ month }) => month))];

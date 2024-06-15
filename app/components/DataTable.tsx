@@ -18,6 +18,12 @@ interface DataTableProps {
   data: any[];
 }
 
+const MEDAL_MAPPING: Record<number, string> = {
+  1: "🥇",
+  2: "🥈",
+  3: "🥉",
+};
+
 export const DataTable = ({ data }: DataTableProps) => {
   const { state } = useGlobalState();
   const { selectedMonth } = state;
@@ -52,7 +58,7 @@ export const DataTable = ({ data }: DataTableProps) => {
           const serial = index + 1;
           return (
             <TableRow key={item._id}>
-              <TableCell>{serial}</TableCell>
+              <TableCell>{MEDAL_MAPPING[serial] || serial}</TableCell>
               <TableCell>{item.make}</TableCell>
               <TableCell>{item.number}</TableCell>
               <TableCell>
