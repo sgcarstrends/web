@@ -15,7 +15,7 @@ import { NavItem } from "@/app/components/NavItem";
 
 const navItems = [
   { title: "Overview", href: "/" },
-  { title: "Cars", href: "/" },
+  { title: "Cars", href: "/cars" },
   { title: "COE", href: "/coe" },
 ];
 
