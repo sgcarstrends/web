@@ -15,7 +15,7 @@ import { MonthSelect } from "@/app/components/MonthSelect";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
-const Home = async () => {
+const CarsPage = async () => {
   const electricCars = await fetchApi<Car[]>(API_URL);
   const months = [...new Set(electricCars.map(({ month }) => month))];
 
@@ -70,4 +70,4 @@ const Home = async () => {
   );
 };
 
-export default Home;
+export default CarsPage;
