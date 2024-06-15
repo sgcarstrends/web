@@ -109,7 +109,7 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
         <div className="h-[600px]">
           <CarTreeMap data={filteredCars} />
         </div>
-        <DataTable data={filteredCars} />
+        <DataTable data={filteredCars} fuelType={type} />
       </div>
     </section>
   );

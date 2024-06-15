@@ -16,6 +16,7 @@ import { capitaliseWords } from "@/utils/capitaliseWords";
 
 interface DataTableProps {
   data: any[];
+  fuelType: string;
 }
 
 const MEDAL_MAPPING: Record<number, string> = {
@@ -24,7 +25,7 @@ const MEDAL_MAPPING: Record<number, string> = {
   3: "🥉",
 };
 
-export const DataTable = ({ data }: DataTableProps) => {
+export const DataTable = ({ data, fuelType }: DataTableProps) => {
   const { state } = useGlobalState();
   const { selectedMonth } = state;
 
@@ -42,7 +43,8 @@ export const DataTable = ({ data }: DataTableProps) => {
   return (
     <Table>
       <TableCaption>
-        Electric cars registration in Singapore for {selectedMonth}
+        {capitaliseWords(fuelType)} cars registration in Singapore for{" "}
+        {selectedMonth}
       </TableCaption>
       <TableHeader>
         <TableRow>
