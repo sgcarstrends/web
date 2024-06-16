@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 // } from "@/components/ui/navigation-menu";
 import { TabItem } from "@/types";
 import { NavItem } from "@/app/components/NavItem";
+import { FEATURE_FLAG_RELEASED } from "@/config";
 
 const navItems = [
   // { title: "Overview", href: "/" },
@@ -73,10 +74,12 @@ export const Header = () => {
           {/*  </NavigationMenuList>*/}
           {/*</NavigationMenu>*/}
         </nav>
-        <div className="flex gap-x-4">
-          <Input type="search" placeholder="Search..." />
-          <Button type="submit">Search</Button>
-        </div>
+        {FEATURE_FLAG_RELEASED && (
+          <div className="flex gap-x-4">
+            <Input type="search" placeholder="Search..." />
+            <Button type="submit">Search</Button>
+          </div>
+        )}
       </div>
     </>
   );

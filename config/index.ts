@@ -36,3 +36,6 @@ export const CHART_COLOURS: string[] = [
   "#13D8AA",
   "#FFDA47",
 ];
+
+export const FEATURE_FLAG_RELEASED =
+  process.env.NEXT_PUBLIC_FEATURE_FLAG_RELEASED === "true";
