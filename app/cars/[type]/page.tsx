@@ -6,7 +6,6 @@ import {
   POPULAR_MAKES_THRESHOLD,
   SITE_URL,
 } from "@/config";
-import { sortByMake } from "@/utils/sortByMake";
 import { Car, PopularMake, TabItem } from "@/types";
 import { WebSite, WithContext } from "schema-dts";
 import { fetchApi } from "@/utils/fetchApi";
@@ -39,7 +38,7 @@ export const generateMetadata = async ({
 
 const tabItems: Record<string, string> = {
   petrol: "/cars/petrol",
-  // hybrid: "/cars/hybrid",
+  hybrid: "/cars/hybrid",
   electric: "/cars/electric",
   diesel: "/cars/diesel",
 };
@@ -72,9 +71,9 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
     .sort((a, b) => b.number - a.number)
     .slice(0, POPULAR_MAKES_THRESHOLD);
 
-  const filteredCars: Car[] = cars
-    .sort(sortByMake)
-    .filter(({ make }) => !EXCLUSION_LIST.includes(make));
+  const filteredCars = cars.filter(
+    ({ make }) => !EXCLUSION_LIST.includes(make),
+  );
 
   const jsonLd: WithContext<WebSite> = {
     "@context": "https://schema.org",
