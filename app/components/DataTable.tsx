@@ -31,7 +31,13 @@ export const DataTable = ({ data, fuelType }: DataTableProps) => {
 
   data = data.filter(({ month }) => month === selectedMonth);
 
-  const excludeHeaders = ["_id", "month", "fuel_type"];
+  const excludeHeaders = [
+    "_id",
+    "importer_type",
+    "vehicle_type",
+    "month",
+    "fuel_type",
+  ];
   const tableHeaders = Object.keys(data.at(0))
     .filter((item) => !excludeHeaders.includes(item))
     .map((header) => capitaliseWords(header));
