@@ -29,7 +29,7 @@ export const generateMetadata = async ({
 
   return {
     title: capitaliseWords(type),
-    description: `Data trends for ${type} cars in Singapore for ${month}.`,
+    description: `Car registration for ${type} fuel type in Singapore for the month of ${month}.`,
     alternates: {
       canonical: `/cars/${type}`,
     },
