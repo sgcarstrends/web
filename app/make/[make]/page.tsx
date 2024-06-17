@@ -23,7 +23,9 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
   const { make } = params;
   const { month } = searchParams;
 
-  const cars = await fetchApi<Car[]>(`${API_URL}/make/${make}?month=${month}`);
+  const cars: Car[] = await fetchApi<Car[]>(
+    `${API_URL}/make/${make}?month=${month}`,
+  );
 
   const excludeHeaders = ["_id", "make", "importer_type"];
   const tableHeaders = Object.keys(cars[0])
