@@ -67,7 +67,7 @@ export const DataTable = ({ data, fuelType }: DataTableProps) => {
         {data.map((item, index) => {
           const serial = index + 1;
           return (
-            <TableRow key={item._id}>
+            <TableRow key={item._id} className="even:bg-muted">
               <TableCell>{MEDAL_MAPPING[serial] || serial}</TableCell>
               <TableCell>
                 <Link href={`/make/${item.make}`}>{item.make}</Link>

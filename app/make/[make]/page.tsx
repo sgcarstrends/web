@@ -52,7 +52,7 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
           {cars.map((car, index) => {
             const serial = index + 1;
             return (
-              <TableRow key={car._id}>
+              <TableRow key={car._id} className="even:bg-muted">
                 <TableCell>{serial}</TableCell>
                 <TableCell>{car.month}</TableCell>
                 <TableCell>
