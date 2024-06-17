@@ -14,6 +14,7 @@ import {
 import { fetchApi } from "@/utils/fetchApi";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import type { Car } from "@/types";
+import { StructuredData } from "@/components/StructuredData";
 
 interface Props {
   params: { make: string };
@@ -59,10 +60,7 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
 
   return (
     <section>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <StructuredData data={jsonLd} />
       <div className="flex flex-col gap-y-8">
         <div className="flex items-end gap-x-2">
           <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">

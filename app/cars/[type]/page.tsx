@@ -1,19 +1,20 @@
 import { Metadata } from "next";
+import Link from "next/link";
+import { WebSite, WithContext } from "schema-dts";
 import { CarTreeMap } from "@/app/components/CarTreeMap";
+import { DataTable } from "@/app/components/DataTable";
+import { MonthSelect } from "@/app/components/MonthSelect";
+import { StructuredData } from "@/components/StructuredData";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   API_URL,
   EXCLUSION_LIST,
   POPULAR_MAKES_THRESHOLD,
   SITE_URL,
 } from "@/config";
-import { Car, PopularMake, TabItem } from "@/types";
-import { WebSite, WithContext } from "schema-dts";
-import { fetchApi } from "@/utils/fetchApi";
-import { DataTable } from "@/app/components/DataTable";
-import { MonthSelect } from "@/app/components/MonthSelect";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Link from "next/link";
 import { capitaliseWords } from "@/utils/capitaliseWords";
+import { fetchApi } from "@/utils/fetchApi";
+import { Car, PopularMake } from "@/types";
 
 interface Props {
   params: { type: string };
@@ -84,10 +85,7 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
 
   return (
     <section>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <StructuredData data={jsonLd} />
       <div className="flex flex-col gap-y-8">
         <div className="flex justify-between">
           <div className="flex items-end gap-x-2">
