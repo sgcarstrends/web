@@ -38,13 +38,14 @@ export const DataTable = ({ data, fuelType }: DataTableProps) => {
     "month",
     "fuel_type",
   ];
-  const tableHeaders = Object.keys(data.at(0))
+  const tableHeaders = Object.keys(data[0])
     .filter((item) => !excludeHeaders.includes(item))
     .map((header) => capitaliseWords(header));
+
   const total = data.reduce((accum, curr) => accum + curr.number, 0);
   const getWeight = (number: number) => number / total;
 
-  data = data.sort((a, b) => getWeight(b.number) - getWeight(a.number));
+  data.sort((a, b) => getWeight(b.number) - getWeight(a.number));
 
   return (
     <Table>

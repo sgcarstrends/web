@@ -22,11 +22,8 @@ interface GlobalProviderProps extends PropsWithChildren {}
 
 type Action = { type: string; payload: any };
 
-const sortedMonths = months.reverse();
-const defaultMonth = sortedMonths.at(0);
-
 const initialState = {
-  selectedMonth: defaultMonth,
+  selectedMonth: months[0],
 };
 
 const globalStateReducer = (
