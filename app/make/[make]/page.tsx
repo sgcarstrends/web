@@ -19,6 +19,11 @@ interface Props {
   searchParams: { month: string };
 }
 
+export const generateStaticParams = async () => {
+  const makes = await fetchApi<string[]>(`${API_URL}/make`);
+  return makes.map((make) => ({ make }));
+};
+
 const CarMakePage = async ({ params, searchParams }: Props) => {
   const { make } = params;
   const { month } = searchParams;
