@@ -17,4 +17,9 @@ describe("capitaliseWords", () => {
     expect(capitaliseWords("hello")).toBe("Hello");
     expect(capitaliseWords("HELLO")).toBe("Hello");
   });
+
+  it("should return a capitalised format for a word with underscore", () => {
+    expect(capitaliseWords("HELLO_WORLD")).toBe("Hello World");
+    expect(capitaliseWords("hello_world")).toBe("Hello World");
+  });
 });

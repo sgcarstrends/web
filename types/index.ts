@@ -1,9 +1,11 @@
 import { FUEL_TYPE } from "@/config";
 
 export interface Car {
+  _id?: string;
   month: string;
   make: string;
   fuel_type: FUEL_TYPE | string;
+  vehicle_type?: string;
   number: number;
   selected?: boolean;
 }
