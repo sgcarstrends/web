@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Progress } from "@/app/components/Progress";
 import {
   Table,
@@ -68,7 +69,9 @@ export const DataTable = ({ data, fuelType }: DataTableProps) => {
           return (
             <TableRow key={item._id}>
               <TableCell>{MEDAL_MAPPING[serial] || serial}</TableCell>
-              <TableCell>{item.make}</TableCell>
+              <TableCell>
+                <Link href={`/make/${item.make}`}>{item.make}</Link>
+              </TableCell>
               <TableCell>{item.number}</TableCell>
               <TableCell>
                 <Progress value={getWeight(item.number)}>
