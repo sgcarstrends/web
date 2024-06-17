@@ -89,27 +89,30 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="flex flex-col gap-y-8">
-        <div className="flex-1">
-          <div className="flex justify-between">
-            <h2 className="text-3xl font-bold">Passenger Cars</h2>
-            <div>
-              <MonthSelect months={months} selectedMonth={month} />
-            </div>
+        <div className="flex justify-between">
+          <div className="flex items-end gap-x-2">
+            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+              {type.toUpperCase()}
+            </h1>
+            <p className="text-xl text-muted-foreground">Passenger Cars</p>
           </div>
-          <Tabs defaultValue={type}>
-            <TabsList>
-              {Object.entries(tabItems).map(([title, href]) => {
-                return (
-                  <Link key={title} href={href}>
-                    <TabsTrigger value={title}>
-                      {capitaliseWords(title)}
-                    </TabsTrigger>
-                  </Link>
-                );
-              })}
-            </TabsList>
-          </Tabs>
+          <div>
+            <MonthSelect months={months} selectedMonth={month} />
+          </div>
         </div>
+        <Tabs defaultValue={type}>
+          <TabsList>
+            {Object.entries(tabItems).map(([title, href]) => {
+              return (
+                <Link key={title} href={href}>
+                  <TabsTrigger value={title}>
+                    {capitaliseWords(title)}
+                  </TabsTrigger>
+                </Link>
+              );
+            })}
+          </TabsList>
+        </Tabs>
         <div className="h-[600px]">
           <CarTreeMap data={filteredCars} />
         </div>
