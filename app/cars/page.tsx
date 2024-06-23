@@ -160,7 +160,7 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
         <li>Yearly OR YTD if not a full year metrics</li>
         <li>Show trending Petrol/Electric/Hybrid makes</li>
       </ul>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <Card>
           <CardHeader>
             <CardTitle>Total</CardTitle>
@@ -173,7 +173,7 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
         </Card>
       </div>
       <div className="grid gap-4 lg:grid-cols-4">
-        <div className="grid gap-4 lg:col-span-3">
+        <div className="grid gap-4 lg:col-span-2 xl:col-span-3">
           <StatisticsCard
             title="By Fuel Type"
             data={numberByFuelType}
@@ -185,36 +185,38 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
             total={total}
           />
         </div>
-        <Card>
-          <CardHeader>
-            <CardTitle>Popularity</CardTitle>
-            <CardDescription>For the month of {month}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-2">
-              <PopularityList
-                title="Overall"
-                data={getPopularMakesByFuelType()}
-              />
-              <PopularityList
-                title="Petrol"
-                data={getPopularMakesByFuelType(FUEL_TYPE.PETROL)}
-              />
-              <PopularityList
-                title="Hybrid"
-                data={getPopularMakesByFuelType("hybrid")}
-              />
-              <PopularityList
-                title="Electric"
-                data={getPopularMakesByFuelType(FUEL_TYPE.ELECTRIC)}
-              />
-              <PopularityList
-                title="Diesel"
-                data={getPopularMakesByFuelType(FUEL_TYPE.DIESEL)}
-              />
-            </div>
-          </CardContent>
-        </Card>
+        <div className="grid gap-4 lg:col-span-2 xl:col-span-1">
+          <Card>
+            <CardHeader>
+              <CardTitle>Popularity</CardTitle>
+              <CardDescription>For the month of {month}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-2">
+                <PopularityList
+                  title="Overall"
+                  data={getPopularMakesByFuelType()}
+                />
+                <PopularityList
+                  title="Petrol"
+                  data={getPopularMakesByFuelType(FUEL_TYPE.PETROL)}
+                />
+                <PopularityList
+                  title="Hybrid"
+                  data={getPopularMakesByFuelType("hybrid")}
+                />
+                <PopularityList
+                  title="Electric"
+                  data={getPopularMakesByFuelType(FUEL_TYPE.ELECTRIC)}
+                />
+                <PopularityList
+                  title="Diesel"
+                  data={getPopularMakesByFuelType(FUEL_TYPE.DIESEL)}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
