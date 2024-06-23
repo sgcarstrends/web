@@ -75,7 +75,7 @@ const PopularityList = ({ title, data }: PopularityListProps) => (
         </li>
       ))}
     </ol>
-    <Separator className="my-2" />
+    <Separator className="my-2 last:hidden" />
   </>
 );
 
@@ -213,11 +213,25 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
                   title="Diesel"
                   data={getPopularMakesByFuelType(FUEL_TYPE.DIESEL)}
                 />
+                {/*TODO: Interim solution*/}
+                {Object.keys(numberByFuelType).includes(FUEL_TYPE.OTHERS) && (
+                  <PopularityList
+                    title="Others"
+                    data={getPopularMakesByFuelType(FUEL_TYPE.OTHERS)}
+                  />
+                )}
               </div>
             </CardContent>
           </Card>
         </div>
       </div>
+      {/*TODO: Interim solution*/}
+      {Object.keys(numberByFuelType).includes(FUEL_TYPE.OTHERS) && (
+        <p className="text-sm text-muted-foreground">
+          Note: We do not know what is the Land Transport Authority's exact
+          definition of "Others".
+        </p>
+      )}
     </div>
   );
 };
