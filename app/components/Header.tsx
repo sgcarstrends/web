@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import banner from "@/app/banner.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 // import {
@@ -24,7 +26,10 @@ export const Header = () => {
   return (
     <>
       <div className="flex items-center justify-between border-b-2 bg-white p-4">
-        <nav className="flex gap-x-4">
+        <nav className="flex items-center gap-x-4">
+          <Link href="/">
+            <Image src={banner} height={32} alt="Banner" />
+          </Link>
           {navItems.map(({ title, href }) => {
             return (
               <NavItem key={title} href={href}>
