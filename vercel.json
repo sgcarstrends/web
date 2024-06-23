@@ -3,11 +3,7 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/cars/petrol"
-    },
-    {
-      "source": "/cars",
-      "destination": "/cars/petrol"
+      "destination": "/cars"
     }
   ]
 }

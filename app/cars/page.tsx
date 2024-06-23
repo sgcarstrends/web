@@ -80,7 +80,15 @@ const PopularityList = ({ title, data }: PopularityListProps) => (
 );
 
 const CarsPage = async ({ searchParams }: CarsPageProps) => {
-  const { month } = searchParams;
+  let { month } = searchParams;
+  // TODO: Interim solution
+  if (!month) {
+    const latestMonths = await fetchApi<{ [key: string]: string }>(
+      `${API_URL}/months/latest`,
+    );
+    month = latestMonths.cars;
+  }
+
   const cars = await fetchApi<Car[]>(`${API_URL}/cars?month=${month}`);
   const total = cars.reduce((accum, curr) => accum + (curr.number || 0), 0);
 
