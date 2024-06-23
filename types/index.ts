@@ -1,11 +1,20 @@
 import { FUEL_TYPE } from "@/config";
 
+export type VEHICLE_TYPE =
+  | "Coupe/ Convertible"
+  | "Hatchback"
+  | "Multi-purpose Vehicle"
+  | "Multi-purpose Vehicle/Station-wagon"
+  | "Sedan"
+  | "Sports Utility Vehicle"
+  | "Station-wagon";
+
 export interface Car {
   _id?: string;
   month: string;
   make: string;
   fuel_type: FUEL_TYPE | string;
-  vehicle_type?: string;
+  vehicle_type: VEHICLE_TYPE | string;
   number: number;
   selected?: boolean;
 }
