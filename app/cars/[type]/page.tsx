@@ -92,7 +92,7 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
               {type.toUpperCase()}
             </h1>
-            <p className="text-xl text-muted-foreground">Passenger Cars</p>
+            <p className="text-xl text-muted-foreground">Cars</p>
           </div>
           <div>
             <MonthSelect months={months} selectedMonth={month} />
