@@ -40,7 +40,15 @@ export const generateStaticParams = async () => {
 
 const CarMakePage = async ({ params, searchParams }: Props) => {
   const { make } = params;
-  const { month } = searchParams;
+  let { month } = searchParams;
+
+  // TODO: Interim solution
+  if (!month) {
+    const latestMonth = await fetchApi<{ [key: string]: string }>(
+      `${API_URL}/months/latest`,
+    );
+    month = latestMonth.cars;
+  }
 
   const cars: Car[] = await fetchApi<Car[]>(
     `${API_URL}/make/${make}?month=${month}`,
