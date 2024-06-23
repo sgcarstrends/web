@@ -228,8 +228,8 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
       {/*TODO: Interim solution*/}
       {Object.keys(numberByFuelType).includes(FUEL_TYPE.OTHERS) && (
         <p className="text-sm text-muted-foreground">
-          Note: We do not know what is the Land Transport Authority's exact
-          definition of "Others".
+          Note: We do not know what is the Land Transport Authority&apos;s exact
+          definition of &quot;Others&quot;.
         </p>
       )}
     </div>
