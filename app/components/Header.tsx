@@ -18,7 +18,7 @@ import { FEATURE_FLAG_RELEASED } from "@/config";
 
 const navItems = [
   // { title: "Overview", href: "/" },
-  { title: "Cars", href: "/cars/petrol" },
+  { title: "Cars", href: "/cars" },
   { title: "COE", href: "/coe" },
 ];
 
