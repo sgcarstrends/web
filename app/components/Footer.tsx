@@ -1,63 +1,91 @@
-import { AnchorHTMLAttributes, PropsWithChildren } from "react";
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
 
-interface LinkProps
-  extends PropsWithChildren,
-    AnchorHTMLAttributes<HTMLAnchorElement> {
+interface FooterLink {
   href: string;
-  useIcon?: boolean;
+  label: string;
 }
 
-const Link = ({ href, rel, useIcon = true, children }: LinkProps) => {
-  rel = ["noopener", rel].join(" ");
+interface FooterSection {
+  title: string;
+  links: FooterLink[];
+}
 
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel={rel}
-      className="inline-flex items-center text-gray-900 underline underline-offset-4"
-    >
-      {children}
-      {useIcon && <ArrowTopRightOnSquareIcon width={16} height={16} />}
-    </a>
-  );
-};
+interface FooterSectionProps {
+  title: string;
+  links: FooterLink[];
+}
+
+const FooterSection = ({ title, links }: FooterSectionProps) => (
+  <div>
+    <h3 className="mb-2 font-semibold text-gray-900">{title}</h3>
+    <ul className="flex flex-col gap-y-2">
+      {links.map(({ href, label }) => (
+        <li key={label}>
+          <Link href={href} className="text-gray-600 hover:text-blue-600">
+            {label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 
 export const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="flex justify-center gap-4 bg-gray-100 px-4 py-8">
-      <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center gap-y-4">
-        <div className="flex gap-x-4">
-          <span>
-            Developed by <Link href="https://ruchern.xyz">Chong Ru Chern</Link>
-          </span>
-          <span>
-            <Link href="https://github.com/ruchernchong/singapore-ev-trends">
-              Source code
-            </Link>
-          </span>
+    <footer className="bg-gray-100 p-8">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-3">
+          {footerSections.map(({ title, links }) => (
+            <FooterSection key={title} title={title} links={links} />
+          ))}
         </div>
-        <div>
-          Data provided by{" "}
-          <Link
-            href="https://www.lta.gov.sg/content/ltagov/en.html"
-            rel="nofollow"
-            useIcon={false}
-          >
-            Land Transport Authority (LTA)
-          </Link>
-          . For more information, visit&nbsp;
-          <Link
-            href="https://datamall.lta.gov.sg/content/datamall/en/static-data.html"
-            rel="nofollow"
-            useIcon={false}
-          >
-            Land Transport Datamall
-          </Link>
-          . &copy; {new Date().getFullYear()}. All Rights Reserved.
+        <Separator className="my-4" />
+        <div className="flex flex-col items-center justify-between gap-4 text-sm text-gray-600 md:flex-row">
+          <div>
+            Data provided by{" "}
+            <a href="https://www.lta.gov.sg/content/ltagov/en.html">
+              Land Transport Authority (LTA)
+            </a>{" "}
+            <a
+              href="https://datamall.lta.gov.sg/content/datamall/en/static-data.html"
+              className="text-blue-600 hover:underline"
+            >
+              Land Transport Datamall
+            </a>
+          </div>
+          <div> &copy; {currentYear}. All Rights Reserved.</div>
         </div>
       </div>
     </footer>
   );
 };
+
+const footerSections: FooterSection[] = [
+  {
+    title: "Cars",
+    links: [
+      { href: "/cars", label: "All Cars" },
+      { href: "/cars/petrol", label: "Petrol Cars" },
+      { href: "/cars/hybrid", label: "Hybrid Cars" },
+      { href: "/cars/electric", label: "Electric Cars" },
+      { href: "/cars/diesel", label: "Diesel Cars" },
+    ],
+  },
+  {
+    title: "COE",
+    links: [
+      { href: "/coe/prices", label: "COE Prices" },
+      { href: "/coe/bidding", label: "COE Bidding" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { href: "/about", label: "About" },
+      { href: "/contact", label: "Contact" },
+    ],
+  },
+];
