@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { TabItem } from "@/types";
 import { NavItem } from "@/app/components/NavItem";
 import { FEATURE_FLAG_RELEASED } from "@/config";
+import { Search } from "lucide-react";
 
 const navItems = [
   // { title: "Overview", href: "/" },
@@ -80,9 +81,17 @@ export const Header = () => {
           {/*</NavigationMenu>*/}
         </nav>
         {FEATURE_FLAG_RELEASED && (
-          <div className="flex gap-x-4">
-            <Input type="search" placeholder="Search..." />
-            <Button type="submit">Search</Button>
+          <div className="flex items-center gap-x-4">
+            <div className="relative">
+              <Input
+                type="search"
+                placeholder="Search..."
+                className="border border-gray-300 pl-10 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <Search className="h-4 w-4 text-gray-400" />
+              </div>
+            </div>
           </div>
         )}
       </div>
