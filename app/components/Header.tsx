@@ -24,8 +24,8 @@ const navItems = [
 
 export const Header = () => {
   return (
-    <>
-      <div className="flex items-center justify-between border-b-2 bg-white p-4">
+    <header className="border-b-2 bg-white">
+      <div className="container flex items-center justify-between p-4">
         <nav className="flex items-center gap-x-4">
           <Link href="/">
             <Image src={banner} height={32} alt="Banner" />
@@ -86,6 +86,6 @@ export const Header = () => {
           </div>
         )}
       </div>
-    </>
+    </header>
   );
 };

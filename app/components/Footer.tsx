@@ -35,8 +35,8 @@ export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-100 p-8">
-      <div className="container mx-auto px-4">
+    <footer className="bg-gray-100">
+      <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-3">
           {footerSections.map(({ title, links }) => (
             <FooterSection key={title} title={title} links={links} />
