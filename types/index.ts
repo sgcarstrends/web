@@ -13,6 +13,7 @@ export interface Car {
   _id?: string;
   month: string;
   make: string;
+  importer_type?: string;
   fuel_type: FUEL_TYPE | string;
   vehicle_type: VEHICLE_TYPE | string;
   number: number;
@@ -42,4 +43,9 @@ export interface COEResult {
   bids_success: number;
   bids_received: number;
   premium: number;
+}
+
+export interface LatestMonth {
+  cars: string;
+  coe: string;
 }

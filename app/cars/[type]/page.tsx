@@ -64,7 +64,7 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   const cars = await fetchApi<Car[]>(`${API_URL}/cars/${type}`);
   const months = [...new Set(cars.map(({ month }) => month))];
 
-  const totals: Map<string, number> = new Map();
+  const totals = new Map();
   cars.forEach(({ make, number }) => {
     if (totals.has(make)) {
       totals.set(make, (totals.get(make) || 0) + number);

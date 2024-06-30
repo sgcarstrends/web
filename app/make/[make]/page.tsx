@@ -6,14 +6,13 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { fetchApi } from "@/utils/fetchApi";
 import { capitaliseWords } from "@/utils/capitaliseWords";
-import type { Car } from "@/types";
+import type { Car, LatestMonth } from "@/types";
 import { StructuredData } from "@/components/StructuredData";
 
 interface Props {
@@ -38,26 +37,40 @@ export const generateStaticParams = async () => {
   return makes.map((make) => ({ make }));
 };
 
+const mergeCarData = (cars: Car[]): Car[] => {
+  const carsMap = new Map();
+  cars.forEach((car) => {
+    const key = `${car.make}|${car.fuel_type}|${car.vehicle_type}`;
+
+    if (!carsMap.has(key)) {
+      const { importer_type, ...rest } = car;
+      carsMap.set(key, { ...rest, number: 0 });
+    }
+
+    carsMap.get(key).number += car.number || 0;
+  });
+
+  return Array.from(carsMap.values()).filter(({ number }) => number);
+};
+
 const CarMakePage = async ({ params, searchParams }: Props) => {
   const { make } = params;
   let { month } = searchParams;
 
   // TODO: Interim solution
   if (!month) {
-    const latestMonth = await fetchApi<{ [key: string]: string }>(
-      `${API_URL}/months/latest`,
-    );
+    const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
     month = latestMonth.cars;
   }
 
-  const cars: Car[] = await fetchApi<Car[]>(
-    `${API_URL}/make/${make}?month=${month}`,
-  );
+  const cars = await fetchApi<Car[]>(`${API_URL}/make/${make}?month=${month}`);
+  const filteredCars = mergeCarData(cars);
 
-  const excludeHeaders = ["_id", "make", "importer_type"];
-  const tableHeaders = Object.keys(cars[0])
+  // TODO: Interim solution
+  const excludeHeaders = ["_id", "make"];
+  const tableHeaders = Object.keys(filteredCars[0])
     .filter((item) => !excludeHeaders.includes(item))
-    .map((header) => capitaliseWords(header));
+    .map(capitaliseWords);
 
   const jsonLd: WithContext<WebSite> = {
     "@context": "https://schema.org",
@@ -87,29 +100,26 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {cars.map((car, index) => {
-              const serial = index + 1;
-              return (
-                <TableRow key={car._id} className="even:bg-muted">
-                  <TableCell>{serial}</TableCell>
-                  <TableCell>{car.month}</TableCell>
-                  <TableCell>
-                    <Link
-                      href={`/cars/${car.fuel_type.toLowerCase()}?month=${car.month}`}
-                      className="hover:underline"
-                    >
-                      {car.fuel_type}
-                    </Link>
-                  </TableCell>
-                  <TableCell>{car.vehicle_type}</TableCell>
-                  <TableCell>{car.number}</TableCell>
-                </TableRow>
-              );
-            })}
+            {filteredCars.map((car, index) => (
+              <TableRow
+                key={`${car.fuel_type}-${car.vehicle_type}`}
+                className="even:bg-muted"
+              >
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>{car.month}</TableCell>
+                <TableCell>
+                  <Link
+                    href={`/cars/${car.fuel_type.toLowerCase()}?month=${car.month}`}
+                    className="hover:underline"
+                  >
+                    {car.fuel_type}
+                  </Link>
+                </TableCell>
+                <TableCell>{car.vehicle_type}</TableCell>
+                <TableCell>{car.number}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
-          <TableFooter>
-            <TableRow></TableRow>
-          </TableFooter>
         </Table>
       </div>
     </section>
