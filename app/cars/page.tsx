@@ -1,3 +1,12 @@
+import Link from "next/link";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import {
   Card,
   CardContent,
@@ -8,7 +17,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { CarPieChart } from "@/components/CarPieChart";
-import { API_URL, FUEL_TYPE } from "@/config";
+import { API_URL, FEATURE_FLAG_RELEASED, FUEL_TYPE } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatPercent } from "@/utils/formatPercent";
 import type { Car } from "@/types";
@@ -151,7 +160,22 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-8">
+      {FEATURE_FLAG_RELEASED && (
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/">Home</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Cars</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      )}
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
         Dashboard
       </h1>

@@ -1,10 +1,20 @@
 import { Metadata } from "next";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { HistoricalResult } from "@/app/components/HistoricalResult";
 import { MonthlyResult } from "@/app/components/MonthlyResult";
-import { API_URL } from "@/config";
+import { API_URL, FEATURE_FLAG_RELEASED } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import { COEResult } from "@/types";
 import { ShowHideCOECategories } from "@/app/coe/ShowHideCOECategories";
+import Link from "next/link";
+import { capitaliseWords } from "@/utils/capitaliseWords";
 
 export const metadata: Metadata = { alternates: { canonical: "/coe" } };
 
@@ -26,6 +36,21 @@ const COEPage = async () => {
 
   return (
     <div className="flex flex-col gap-y-8">
+      {FEATURE_FLAG_RELEASED && (
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/">Home</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>COE</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      )}
       <ShowHideCOECategories />
       <HistoricalResult data={historicalResults} />
       {biddingRounds.map((round) => {

@@ -5,10 +5,19 @@ import { CarTreeMap } from "@/app/components/CarTreeMap";
 import { DataTable } from "@/app/components/DataTable";
 import { MonthSelect } from "@/app/components/MonthSelect";
 import { StructuredData } from "@/components/StructuredData";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   API_URL,
   EXCLUSION_LIST,
+  FEATURE_FLAG_RELEASED,
   POPULAR_MAKES_THRESHOLD,
   SITE_URL,
 } from "@/config";
@@ -87,6 +96,27 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
     <section>
       <StructuredData data={jsonLd} />
       <div className="flex flex-col gap-y-8">
+        {FEATURE_FLAG_RELEASED && (
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href="/">Home</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href="/cars">Cars</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{capitaliseWords(type)}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        )}
         <div className="flex justify-between">
           <div className="flex items-end gap-x-2">
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
