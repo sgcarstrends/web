@@ -18,12 +18,11 @@ import {
   API_URL,
   EXCLUSION_LIST,
   FEATURE_FLAG_RELEASED,
-  POPULAR_MAKES_THRESHOLD,
   SITE_URL,
 } from "@/config";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
-import { Car, PopularMake } from "@/types";
+import { Car } from "@/types";
 
 interface Props {
   params: { type: string };
@@ -73,13 +72,6 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
       totals.set(make, number);
     }
   });
-
-  const popularMakes: PopularMake[] = Array.from(totals, ([make, number]) => ({
-    make,
-    number,
-  }))
-    .sort((a, b) => b.number - a.number)
-    .slice(0, POPULAR_MAKES_THRESHOLD);
 
   const filteredCars = cars.filter(
     ({ make }) => !EXCLUSION_LIST.includes(make),

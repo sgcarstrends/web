@@ -19,8 +19,6 @@ export interface Car {
   selected?: boolean;
 }
 
-export type PopularMake = Pick<Car, "make" | "number">;
-
 export type Dataset = {
   name: string;
   data: number[];
