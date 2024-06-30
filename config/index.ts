@@ -37,5 +37,11 @@ export const CHART_COLOURS: string[] = [
   "#FFDA47",
 ];
 
+export const MEDAL_MAPPING: Record<number, string> = {
+  1: "🥇",
+  2: "🥈",
+  3: "🥉",
+};
+
 export const FEATURE_FLAG_RELEASED =
   process.env.NEXT_PUBLIC_FEATURE_FLAG_RELEASED === "true";

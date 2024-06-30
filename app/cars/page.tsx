@@ -17,7 +17,12 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { CarPieChart } from "@/components/CarPieChart";
-import { API_URL, FEATURE_FLAG_RELEASED, FUEL_TYPE } from "@/config";
+import {
+  API_URL,
+  FEATURE_FLAG_RELEASED,
+  FUEL_TYPE,
+  MEDAL_MAPPING,
+} from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatPercent } from "@/utils/formatPercent";
 import type { Car } from "@/types";
@@ -71,21 +76,6 @@ const StatisticsCard = ({
       </div>
     </CardContent>
   </Card>
-);
-
-const PopularityList = ({ title, data }: PopularityListProps) => (
-  <>
-    <div className="font-semibold">{title}</div>
-    <ol className="grid gap-2">
-      {data.map(({ make, number }) => (
-        <li key={make} className="flex items-center justify-between">
-          <span className="text-muted-foreground">{make}</span>
-          <span>{number}</span>
-        </li>
-      ))}
-    </ol>
-    <Separator className="my-2 last:hidden" />
-  </>
 );
 
 const CarsPage = async ({ searchParams }: CarsPageProps) => {
@@ -159,6 +149,25 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
     return popularMakes;
   };
 
+  const PopularityList = ({ title, data }: PopularityListProps) => (
+    <>
+      <div className="font-semibold">{title}</div>
+      <ol className="grid gap-2">
+        {data.map(({ make, number }, index) => (
+          <li key={make} className="flex items-center justify-between">
+            <span className="flex gap-x-2 text-muted-foreground">
+              {/*TODO: Switch this to the brand logos instead*/}
+              <span>{MEDAL_MAPPING[index + 1]}</span>
+              <Link href={`/make/${make}?month=${month}`}>{make}</Link>
+            </span>
+            <span>{number}</span>
+          </li>
+        ))}
+      </ol>
+      <Separator className="my-2 last:hidden" />
+    </>
+  );
+
   return (
     <div className="flex flex-col gap-8">
       {FEATURE_FLAG_RELEASED && (
@@ -209,6 +218,7 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
             total={total}
           />
         </div>
+        {/*TODO: Interim solution*/}
         <div className="grid gap-4 lg:col-span-2 xl:col-span-1">
           <Card>
             <CardHeader>

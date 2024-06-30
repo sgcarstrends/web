@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { MEDAL_MAPPING } from "@/config";
 import { useGlobalState } from "@/context/GlobalStateContext";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 
@@ -19,12 +20,6 @@ interface DataTableProps {
   data: any[];
   fuelType: string;
 }
-
-const MEDAL_MAPPING: Record<number, string> = {
-  1: "🥇",
-  2: "🥈",
-  3: "🥉",
-};
 
 export const DataTable = ({ data, fuelType }: DataTableProps) => {
   const { state } = useGlobalState();
