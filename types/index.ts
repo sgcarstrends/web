@@ -10,7 +10,6 @@ export type VEHICLE_TYPE =
   | "Station-wagon";
 
 export interface Car {
-  _id?: string;
   month: string;
   make: string;
   importer_type?: string;
@@ -35,7 +34,6 @@ export interface TabItem {
 }
 
 export interface COEResult {
-  _id: string;
   month: string;
   bidding_no: number;
   vehicle_class: string;
