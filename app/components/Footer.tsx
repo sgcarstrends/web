@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
+import banner from "@/app/banner.png";
 
 interface FooterLink {
   href: string;
@@ -42,7 +44,7 @@ export const Footer = () => {
             <FooterSection key={title} title={title} links={links} />
           ))}
         </div>
-        <Separator className="my-4" />
+        <Separator className="my-8" />
         <div className="flex flex-col items-center justify-between gap-4 text-sm text-gray-600 md:flex-row">
           <div>
             Data provided by{" "}

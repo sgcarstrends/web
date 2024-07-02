@@ -193,70 +193,72 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
         <li>Yearly OR YTD if not a full year metrics</li>
         <li>Show trending Petrol/Electric/Hybrid makes</li>
       </ul>
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <Card>
-          <CardHeader>
-            <CardTitle>Total</CardTitle>
-            <CardDescription>Last 4 weeks</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-lg font-semibold text-primary">{total}</div>
-          </CardContent>
-          <CardFooter></CardFooter>
-        </Card>
-      </div>
-      <div className="grid gap-4 lg:grid-cols-4">
-        <div className="grid gap-4 lg:col-span-2 xl:col-span-3">
-          <StatisticsCard
-            title="By Fuel Type"
-            data={numberByFuelType}
-            total={total}
-          />
-          <StatisticsCard
-            title="By Vehicle Type"
-            data={numberByVehicleType}
-            total={total}
-          />
-        </div>
-        {/*TODO: Interim solution*/}
-        <div className="grid gap-4 lg:col-span-2 xl:col-span-1">
+      <div className="flex flex-col gap-y-4">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <Card>
             <CardHeader>
-              <CardTitle>Popularity</CardTitle>
-              <CardDescription>For the month of {month}</CardDescription>
+              <CardTitle>Total</CardTitle>
+              <CardDescription>Last 4 weeks</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-2">
-                <PopularityList
-                  title="Overall"
-                  data={getPopularMakesByFuelType()}
-                />
-                <PopularityList
-                  title="Petrol"
-                  data={getPopularMakesByFuelType(FUEL_TYPE.PETROL)}
-                />
-                <PopularityList
-                  title="Hybrid"
-                  data={getPopularMakesByFuelType("hybrid")}
-                />
-                <PopularityList
-                  title="Electric"
-                  data={getPopularMakesByFuelType(FUEL_TYPE.ELECTRIC)}
-                />
-                <PopularityList
-                  title="Diesel"
-                  data={getPopularMakesByFuelType(FUEL_TYPE.DIESEL)}
-                />
-                {/*TODO: Interim solution*/}
-                {Object.keys(numberByFuelType).includes(FUEL_TYPE.OTHERS) && (
-                  <PopularityList
-                    title="Others"
-                    data={getPopularMakesByFuelType(FUEL_TYPE.OTHERS)}
-                  />
-                )}
-              </div>
+              <div className="text-lg font-semibold text-primary">{total}</div>
             </CardContent>
+            <CardFooter></CardFooter>
           </Card>
+        </div>
+        <div className="grid gap-4 lg:grid-cols-4">
+          <div className="grid gap-4 lg:col-span-2 xl:col-span-3">
+            <StatisticsCard
+              title="By Fuel Type"
+              data={numberByFuelType}
+              total={total}
+            />
+            <StatisticsCard
+              title="By Vehicle Type"
+              data={numberByVehicleType}
+              total={total}
+            />
+          </div>
+          {/*TODO: Interim solution*/}
+          <div className="grid gap-4 lg:col-span-2 xl:col-span-1">
+            <Card>
+              <CardHeader>
+                <CardTitle>Popularity</CardTitle>
+                <CardDescription>For the month of {month}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-2">
+                  <PopularityList
+                    title="Overall"
+                    data={getPopularMakesByFuelType()}
+                  />
+                  <PopularityList
+                    title="Petrol"
+                    data={getPopularMakesByFuelType(FUEL_TYPE.PETROL)}
+                  />
+                  <PopularityList
+                    title="Hybrid"
+                    data={getPopularMakesByFuelType("hybrid")}
+                  />
+                  <PopularityList
+                    title="Electric"
+                    data={getPopularMakesByFuelType(FUEL_TYPE.ELECTRIC)}
+                  />
+                  <PopularityList
+                    title="Diesel"
+                    data={getPopularMakesByFuelType(FUEL_TYPE.DIESEL)}
+                  />
+                  {/*TODO: Interim solution*/}
+                  {Object.keys(numberByFuelType).includes(FUEL_TYPE.OTHERS) && (
+                    <PopularityList
+                      title="Others"
+                      data={getPopularMakesByFuelType(FUEL_TYPE.OTHERS)}
+                    />
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
       {/*TODO: Interim solution*/}

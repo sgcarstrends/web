@@ -29,7 +29,7 @@ export const Header = () => {
       <div className="container flex items-center justify-between p-4">
         <nav className="flex items-center gap-x-4">
           <Link href="/">
-            <Image src={banner} height={32} alt="Banner" />
+            <Image src={banner} height={48} alt="Banner" />
           </Link>
           {navItems.map(({ title, href }) => {
             return (
