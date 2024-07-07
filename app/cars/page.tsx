@@ -21,6 +21,8 @@ import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { formatPercent } from "@/utils/formatPercent";
 import type { Car } from "@/types";
+import Typography from "@/components/Typography";
+import { AlertCircle } from "lucide-react";
 
 interface CarsPageProps {
   searchParams: { [key: string]: string };
@@ -123,64 +125,74 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
         Car Registrations for {formatDateToMonthYear(month)}
       </h1>
-      <div className="flex flex-col gap-y-4">
-        <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Total Registrations</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-4xl font-bold text-blue-600">{total}</p>
-            </CardContent>
-          </Card>
-          {FEATURE_FLAG_RELEASED && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Top Fuel Type</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-2xl font-bold text-green-600">
-                  Petrol Electric
-                </p>
-                <p className="text-gray-600">Highest adoption rate</p>
-              </CardContent>
-            </Card>
+      {/*TODO: Improvise*/}
+      {cars.length === 0 && (
+        <Typography.H3>
+          No data available for the selected period.
+        </Typography.H3>
+      )}
+      {cars.length > 0 && (
+        <>
+          <div className="flex flex-col gap-y-4">
+            <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Total Registrations</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-4xl font-bold text-blue-600">{total}</p>
+                </CardContent>
+              </Card>
+              {FEATURE_FLAG_RELEASED && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Top Fuel Type</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-2xl font-bold text-green-600">
+                      Petrol Electric
+                    </p>
+                    <p className="text-gray-600">Highest adoption rate</p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+            <div className="grid gap-4 lg:grid-cols-4">
+              <div className="grid gap-4 lg:col-span-2 xl:col-span-3">
+                <StatisticsCard
+                  title="By Fuel Type"
+                  data={numberByFuelType}
+                  total={total}
+                />
+                <StatisticsCard
+                  title="By Vehicle Type"
+                  data={numberByVehicleType}
+                  total={total}
+                />
+              </div>
+              <div className="grid gap-4 lg:col-span-2 xl:col-span-1">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Leaderboard</CardTitle>
+                    <CardDescription>
+                      For {formatDateToMonthYear(month)}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Leaderboard cars={cars} />
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+          {/*TODO: Interim solution*/}
+          {Object.keys(numberByFuelType).includes(FUEL_TYPE.OTHERS) && (
+            <p className="text-sm text-muted-foreground">
+              Note: We do not know what is the Land Transport Authority&apos;s
+              exact definition of &quot;Others&quot;.
+            </p>
           )}
-        </div>
-        <div className="grid gap-4 lg:grid-cols-4">
-          <div className="grid gap-4 lg:col-span-2 xl:col-span-3">
-            <StatisticsCard
-              title="By Fuel Type"
-              data={numberByFuelType}
-              total={total}
-            />
-            <StatisticsCard
-              title="By Vehicle Type"
-              data={numberByVehicleType}
-              total={total}
-            />
-          </div>
-          <div className="grid gap-4 lg:col-span-2 xl:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle>Leaderboard</CardTitle>
-                <CardDescription>
-                  For {formatDateToMonthYear(month)}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Leaderboard cars={cars} />
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
-      {/*TODO: Interim solution*/}
-      {Object.keys(numberByFuelType).includes(FUEL_TYPE.OTHERS) && (
-        <p className="text-sm text-muted-foreground">
-          Note: We do not know what is the Land Transport Authority&apos;s exact
-          definition of &quot;Others&quot;.
-        </p>
+        </>
       )}
     </div>
   );
