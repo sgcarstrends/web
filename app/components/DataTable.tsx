@@ -15,6 +15,7 @@ import {
 import { MEDAL_MAPPING } from "@/config";
 import { useGlobalState } from "@/context/GlobalStateContext";
 import { capitaliseWords } from "@/utils/capitaliseWords";
+import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 
 interface DataTableProps {
   data: any[];
@@ -45,10 +46,12 @@ export const DataTable = ({ data, fuelType }: DataTableProps) => {
 
   return (
     <Table>
-      <TableCaption>
-        {capitaliseWords(fuelType)} cars registration in Singapore for{" "}
-        {selectedMonth}
-      </TableCaption>
+      {selectedMonth && (
+        <TableCaption>
+          {capitaliseWords(fuelType)} cars registration in Singapore for{" "}
+          {formatDateToMonthYear(selectedMonth)}
+        </TableCaption>
+      )}
       <TableHeader>
         <TableRow>
           <TableHead>#</TableHead>

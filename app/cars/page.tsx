@@ -11,29 +11,19 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { CarPieChart } from "@/components/CarPieChart";
-import {
-  API_URL,
-  FEATURE_FLAG_RELEASED,
-  FUEL_TYPE,
-  MEDAL_MAPPING,
-} from "@/config";
+import { Leaderboard } from "@/components/Leaderboard";
+import { API_URL, FEATURE_FLAG_RELEASED, FUEL_TYPE } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
+import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { formatPercent } from "@/utils/formatPercent";
 import type { Car } from "@/types";
 
 interface CarsPageProps {
-  searchParams: { [key: string]: string | string[] };
-}
-
-interface PopularityListProps {
-  title: string;
-  data: Pick<Car, "make" | "number">[];
+  searchParams: { [key: string]: string };
 }
 
 const VEHICLE_TYPE_MAP: Record<string, string> = {
@@ -113,61 +103,6 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
     numberByVehicleType[vehicle_type] += number || 0;
   });
 
-  const getPopularMakesByFuelType = (fuelType?: string) => {
-    let popularMakeByType: Record<string, number> = {};
-    const filteredCars = cars.filter(({ fuel_type }) => fuel_type === fuelType);
-
-    if (!fuelType) {
-      cars.map(({ make, number }) => {
-        popularMakeByType[make] =
-          (popularMakeByType[make] || 0) + (number || 0);
-      });
-    } else if (fuelType === "hybrid") {
-      const HYBRIDS = [
-        "Petrol-Electric",
-        "Petrol-Electric (Plug-In)",
-        "Diesel-Electric",
-      ];
-      cars
-        .filter(({ fuel_type }) => HYBRIDS.includes(fuel_type))
-        .map(({ make, number }) => {
-          popularMakeByType[make] =
-            (popularMakeByType[make] || 0) + (number || 0);
-        });
-    } else {
-      filteredCars.map(({ make, number }) => {
-        popularMakeByType[make] =
-          (popularMakeByType[make] || 0) + (number || 0);
-      });
-    }
-
-    const popularMakes = Object.entries(popularMakeByType)
-      .map(([make, number]) => ({ make, number }))
-      .sort((a, b) => b.number - a.number)
-      .slice(0, 3);
-
-    return popularMakes;
-  };
-
-  const PopularityList = ({ title, data }: PopularityListProps) => (
-    <>
-      <div className="font-semibold">{title}</div>
-      <ol className="grid gap-2">
-        {data.map(({ make, number }, index) => (
-          <li key={make} className="flex items-center justify-between">
-            <span className="flex gap-x-2 text-muted-foreground">
-              {/*TODO: Switch this to the brand logos instead*/}
-              <span>{MEDAL_MAPPING[index + 1]}</span>
-              <Link href={`/make/${make}?month=${month}`}>{make}</Link>
-            </span>
-            <span>{number}</span>
-          </li>
-        ))}
-      </ol>
-      <Separator className="my-2 last:hidden" />
-    </>
-  );
-
   return (
     <div className="flex flex-col gap-8">
       {FEATURE_FLAG_RELEASED && (
@@ -186,25 +121,31 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
         </Breadcrumb>
       )}
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-        Dashboard
+        Car Registrations for {formatDateToMonthYear(month)}
       </h1>
-      <ul>
-        <li>Add links to the respective fuel type</li>
-        <li>Yearly OR YTD if not a full year metrics</li>
-        <li>Show trending Petrol/Electric/Hybrid makes</li>
-      </ul>
       <div className="flex flex-col gap-y-4">
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
           <Card>
             <CardHeader>
-              <CardTitle>Total</CardTitle>
-              <CardDescription>Last 4 weeks</CardDescription>
+              <CardTitle>Total Registrations</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-lg font-semibold text-primary">{total}</div>
+              <p className="text-4xl font-bold text-blue-600">{total}</p>
             </CardContent>
-            <CardFooter></CardFooter>
           </Card>
+          {FEATURE_FLAG_RELEASED && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Top Fuel Type</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold text-green-600">
+                  Petrol Electric
+                </p>
+                <p className="text-gray-600">Highest adoption rate</p>
+              </CardContent>
+            </Card>
+          )}
         </div>
         <div className="grid gap-4 lg:grid-cols-4">
           <div className="grid gap-4 lg:col-span-2 xl:col-span-3">
@@ -219,43 +160,16 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
               total={total}
             />
           </div>
-          {/*TODO: Interim solution*/}
           <div className="grid gap-4 lg:col-span-2 xl:col-span-1">
             <Card>
               <CardHeader>
-                <CardTitle>Popularity</CardTitle>
-                <CardDescription>For the month of {month}</CardDescription>
+                <CardTitle>Leaderboard</CardTitle>
+                <CardDescription>
+                  For {formatDateToMonthYear(month)}
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid gap-2">
-                  <PopularityList
-                    title="Overall"
-                    data={getPopularMakesByFuelType()}
-                  />
-                  <PopularityList
-                    title="Petrol"
-                    data={getPopularMakesByFuelType(FUEL_TYPE.PETROL)}
-                  />
-                  <PopularityList
-                    title="Hybrid"
-                    data={getPopularMakesByFuelType("hybrid")}
-                  />
-                  <PopularityList
-                    title="Electric"
-                    data={getPopularMakesByFuelType(FUEL_TYPE.ELECTRIC)}
-                  />
-                  <PopularityList
-                    title="Diesel"
-                    data={getPopularMakesByFuelType(FUEL_TYPE.DIESEL)}
-                  />
-                  {/*TODO: Interim solution*/}
-                  {Object.keys(numberByFuelType).includes(FUEL_TYPE.OTHERS) && (
-                    <PopularityList
-                      title="Others"
-                      data={getPopularMakesByFuelType(FUEL_TYPE.OTHERS)}
-                    />
-                  )}
-                </div>
+                <Leaderboard cars={cars} />
               </CardContent>
             </Card>
           </div>

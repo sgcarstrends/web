@@ -23,6 +23,8 @@ import {
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
 import { Car } from "@/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Typography from "@/components/Typography";
 
 interface Props {
   params: { type: string };

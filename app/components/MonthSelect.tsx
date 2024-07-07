@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useGlobalState } from "@/context/GlobalStateContext";
+import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { groupByYear } from "@/utils/groupByYear";
 
 interface MonthSelectProps {
@@ -57,7 +58,7 @@ export const MonthSelect = ({ months, selectedMonth }: MonthSelectProps) => {
 
                 return (
                   <SelectItem key={month} value={date}>
-                    {date}
+                    {formatDateToMonthYear(date)}
                   </SelectItem>
                 );
               })}
