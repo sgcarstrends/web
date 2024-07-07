@@ -1,15 +1,16 @@
-name: SST workflow
+name: Build
+
 on: [ push ]
 
 concurrency:
   group: merge-${{ github.ref }}
 
 permissions:
-  id-token: write # This is required for requesting the JWT
-  contents: read # This is required for actions/checkout
+  id-token: write
+  contents: read
 
 jobs:
-  TestAndBuild:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,18 +25,20 @@ jobs:
           node-version: 20
           cache: 'pnpm'
       - name: Install dependencies
-        run: |
-          pnpm install
+        run: pnpm install
       - name: Run tests
-        run: |
-          pnpm test
+        run: pnpm test
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+      #      - name: SonarCloud Scan
+      #        uses: SonarSource/sonarcloud-github-action@master
+      #        env:
+      #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Run build
-        run: |
-          pnpm build
+        run: pnpm build
         env:
           NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
 
