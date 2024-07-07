@@ -11,6 +11,7 @@ import months from "@/data/months.json";
 
 interface GlobalState {
   selectedMonth?: string;
+  selectedYear: string;
 }
 
 interface GlobalStateContextValue {
@@ -22,8 +23,9 @@ interface GlobalProviderProps extends PropsWithChildren {}
 
 type Action = { type: string; payload: any };
 
-const initialState = {
+const initialState: GlobalState = {
   selectedMonth: months[0],
+  selectedYear: (new Date().getFullYear() - 1).toString(),
 };
 
 const globalStateReducer = (
@@ -33,6 +35,8 @@ const globalStateReducer = (
   switch (action.type) {
     case "SET_SELECTED_MONTH":
       return { ...state, selectedMonth: action.payload };
+    case "SET_SELECTED_YEAR":
+      return { ...state, selectedYear: action.payload };
     default:
       return state;
   }
