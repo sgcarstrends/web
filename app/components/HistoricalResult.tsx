@@ -28,7 +28,7 @@ export const HistoricalResult = ({ data }: HistoricalResultProps) => {
       monthsSet.add(month);
       quotaPremiumMap[vehicle_class] = {
         ...quotaPremiumMap[vehicle_class],
-        [month]: parseInt(premium, 10),
+        [month]: premium,
       };
     });
 
