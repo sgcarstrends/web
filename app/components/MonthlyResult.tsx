@@ -20,14 +20,10 @@ export const MonthlyResult = ({ data }: MonthlyResultProps) => {
     ...new Set(filteredData.map(({ bidding_no }) => bidding_no)),
   ];
   const chartCategories = filteredData.map((item) => item.vehicle_class);
-  const premium = filteredData.map((item) => parseInt(item.premium, 10));
-  const bidsReceived = filteredData.map((item) =>
-    parseInt(item.bids_received.replace(/,/g, ""), 10),
-  );
-  const bidsSuccess = filteredData.map((item) =>
-    parseInt(item.bids_success.replace(/,/g, ""), 10),
-  );
-  const quotas = filteredData.map((item) => parseInt(item.quota, 10));
+  const premium = filteredData.map((item) => item.premium);
+  const bidsReceived = filteredData.map((item) => item.bids_received);
+  const bidsSuccess = filteredData.map((item) => item.bids_success);
+  const quotas = filteredData.map((item) => item.quota);
 
   const graphTitle = ({
     month,
