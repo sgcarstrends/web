@@ -8,7 +8,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ShowHideCOECategories } from "@/app/coe/ShowHideCOECategories";
 import { HistoricalResult } from "@/app/components/HistoricalResult";
 import { MonthlyResult } from "@/app/components/MonthlyResult";
 import { API_URL } from "@/config";
@@ -55,7 +54,6 @@ const COEPage = async () => {
           </BreadcrumbList>
         </Breadcrumb>
       </UnreleasedFeature>
-      <ShowHideCOECategories />
       <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
         Prices
       </h2>
