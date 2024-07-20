@@ -38,7 +38,6 @@ const COEPricesPage = async () => {
   const groupedData: COEBiddingResult[] = historicalResult.reduce(
     (acc: any, item) => {
       const key = `${item.month}-${item.bidding_no}`;
-      console.log(key);
 
       if (!acc[key]) {
         acc[key] = {
