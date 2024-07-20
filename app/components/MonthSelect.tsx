@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -13,20 +14,26 @@ import {
 import { useGlobalState } from "@/context/GlobalStateContext";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { groupByYear } from "@/utils/groupByYear";
+import { Month } from "@/types";
 
 interface MonthSelectProps {
-  months: string[];
-  selectedMonth: string;
+  months: Month[];
+  defaultMonth: Month;
 }
 
-export const MonthSelect = ({ months, selectedMonth }: MonthSelectProps) => {
+export const MonthSelect = ({ months, defaultMonth }: MonthSelectProps) => {
   const { state, dispatch } = useGlobalState();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const month = searchParams.get("month");
 
   useEffect(() => {
-    if (selectedMonth) {
-      dispatch({ type: "SET_SELECTED_MONTH", payload: selectedMonth });
+    if (month) {
+      dispatch({ type: "SET_SELECTED_MONTH", payload: month });
     }
-  }, [dispatch, selectedMonth]);
+  }, [dispatch, month]);
 
   const memoisedGroupByYear = useMemo(() => groupByYear, []);
   const sortedMonths = useMemo(
@@ -36,13 +43,17 @@ export const MonthSelect = ({ months, selectedMonth }: MonthSelectProps) => {
 
   const handleValueChange = useCallback(
     (month: string) => {
-      dispatch({ type: "SET_SELECTED_MONTH", payload: month });
+      const queryString = new URLSearchParams({ month }).toString();
+      router.replace(`${pathname}?${queryString}`);
     },
     [dispatch],
   );
 
   return (
-    <Select value={state.selectedMonth} onValueChange={handleValueChange}>
+    <Select
+      defaultValue={month || defaultMonth}
+      onValueChange={handleValueChange}
+    >
       <SelectTrigger>
         <SelectValue placeholder="Select a month" />
       </SelectTrigger>

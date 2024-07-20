@@ -13,10 +13,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { MEDAL_MAPPING } from "@/config";
+import Typography from "@/components/Typography";
 import { useGlobalState } from "@/context/GlobalStateContext";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
+import { CARS } from "@/constants";
 
+// TODO: Fix type
 interface DataTableProps {
   data: any[];
   fuelType: string;
@@ -28,21 +31,10 @@ export const DataTable = ({ data, fuelType }: DataTableProps) => {
 
   data = data.filter(({ month }) => month === selectedMonth);
 
-  const excludeHeaders = [
-    "_id",
-    "importer_type",
-    "vehicle_type",
-    "month",
-    "fuel_type",
-  ];
-  const tableHeaders = Object.keys(data[0])
-    .filter((item) => !excludeHeaders.includes(item))
-    .map((header) => capitaliseWords(header));
-
   const total = data.reduce((accum, curr) => accum + curr.number, 0);
-  const getWeight = (number: number) => number / total;
+  const marketShare = (number: number) => number / total;
 
-  data.sort((a, b) => getWeight(b.number) - getWeight(a.number));
+  data.sort((a, b) => marketShare(b.number) - marketShare(a.number));
 
   return (
     <Table>
@@ -54,41 +46,49 @@ export const DataTable = ({ data, fuelType }: DataTableProps) => {
       )}
       <TableHeader>
         <TableRow>
-          <TableHead>#</TableHead>
-          {tableHeaders.map((header) => (
+          {Object.values(CARS.TABLE.HEADERS).map((header) => (
             <TableHead key={header}>{header}</TableHead>
           ))}
-          <TableHead>Weightage</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((item, index) => {
-          const serial = index + 1;
-          return (
+        {data.length === 0 && (
+          <TableRow>
+            <TableCell
+              colSpan={Object.entries(CARS.TABLE.HEADERS).length}
+              className="text-center"
+            >
+              <Typography.H4>No data available</Typography.H4>
+            </TableCell>
+          </TableRow>
+        )}
+        {data.length > 0 &&
+          data.map((item, index) => (
             <TableRow key={item._id} className="even:bg-muted">
-              <TableCell>{MEDAL_MAPPING[serial] || serial}</TableCell>
+              <TableCell>{MEDAL_MAPPING[index + 1] || index + 1}</TableCell>
               <TableCell>
                 <Link href={`/make/${item.make}`}>{item.make}</Link>
               </TableCell>
               <TableCell>{item.number}</TableCell>
               <TableCell>
-                <Progress value={getWeight(item.number)}>
+                <Progress value={marketShare(item.number)}>
                   {new Intl.NumberFormat("en-SG", {
                     style: "percent",
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
-                  }).format(getWeight(item.number))}
+                  }).format(marketShare(item.number))}
                 </Progress>
               </TableCell>
             </TableRow>
-          );
-        })}
+          ))}
       </TableBody>
       <TableFooter>
-        <TableRow>
-          <TableCell colSpan={2}>Total</TableCell>
-          <TableCell colSpan={2}>{total}</TableCell>
-        </TableRow>
+        {data.length > 0 && (
+          <TableRow>
+            <TableCell colSpan={2}>Total</TableCell>
+            <TableCell colSpan={2}>{total}</TableCell>
+          </TableRow>
+        )}
       </TableFooter>
     </Table>
   );

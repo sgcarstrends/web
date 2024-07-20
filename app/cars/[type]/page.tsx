@@ -14,13 +14,11 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import { API_URL, EXCLUSION_LIST, SITE_URL } from "@/config";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
-import { Car } from "@/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Typography from "@/components/Typography";
-import { UnreleasedFeature } from "@/components/UnreleasedFeature";
+import { Car, LatestMonth, Month } from "@/types";
 
 interface Props {
   params: { type: string };
@@ -32,7 +30,7 @@ export const generateMetadata = async ({
   searchParams,
 }: Props): Promise<Metadata> => {
   const { type } = params;
-  const month = searchParams?.month as string;
+  const month = searchParams?.month;
 
   return {
     title: capitaliseWords(type),
@@ -50,17 +48,19 @@ const tabItems: Record<string, string> = {
   diesel: "/cars/diesel",
 };
 
-export const generateStaticParams = async () =>
+export const generateStaticParams = () =>
   Object.keys(tabItems).map((key) => ({
     type: key,
   }));
 
 const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   const { type } = params;
-  const month = searchParams?.month as string;
 
   const cars = await fetchApi<Car[]>(`${API_URL}/cars/${type}`);
-  const months = [...new Set(cars.map(({ month }) => month))];
+  const [months, latestMonth] = await Promise.all([
+    fetchApi<Month[]>(`${API_URL}/months`),
+    fetchApi<LatestMonth>(`${API_URL}/months/latest`),
+  ]);
 
   const totals = new Map();
   cars.forEach(({ make, number }) => {
@@ -72,7 +72,7 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   });
 
   const filteredCars = cars.filter(
-    ({ make }) => !EXCLUSION_LIST.includes(make),
+    ({ make, number }) => !EXCLUSION_LIST.includes(make) && number > 0,
   );
 
   const jsonLd: WithContext<WebSite> = {
@@ -115,7 +115,7 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
             <p className="text-xl text-muted-foreground">Cars</p>
           </div>
           <div>
-            <MonthSelect months={months} selectedMonth={month} />
+            <MonthSelect months={months} defaultMonth={latestMonth.cars} />
           </div>
         </div>
         <Tabs defaultValue={type}>
@@ -131,9 +131,7 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
             })}
           </TabsList>
         </Tabs>
-        <div className="h-[600px]">
-          <CarTreeMap data={filteredCars} />
-        </div>
+        <CarTreeMap data={filteredCars} />
         <DataTable data={filteredCars} fuelType={type} />
       </div>
     </section>

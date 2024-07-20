@@ -15,6 +15,7 @@ import { capitaliseWords } from "@/utils/capitaliseWords";
 import type { Car, LatestMonth } from "@/types";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
+import { MAKE } from "@/constants";
 
 interface Props {
   params: { make: string };
@@ -67,15 +68,6 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
   const cars = await fetchApi<Car[]>(`${API_URL}/make/${make}?month=${month}`);
   const filteredCars = mergeCarData(cars);
 
-  let tableHeaders: string[] = [];
-  if (filteredCars.length > 0) {
-    // TODO: Interim solution
-    const excludeHeaders = ["_id", "make"];
-    tableHeaders = Object.keys(filteredCars[0])
-      .filter((item) => !excludeHeaders.includes(item))
-      .map(capitaliseWords);
-  }
-
   const jsonLd: WithContext<WebSite> = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -93,45 +85,49 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
           </h1>
           <p className="text-xl text-muted-foreground">Registrations</p>
         </div>
-        {filteredCars.length === 0 && (
-          <Typography.Lead>No data available</Typography.Lead>
-        )}
-        {filteredCars.length > 0 && (
-          <Table>
-            <TableCaption>
-              Historical trends for {decodeURIComponent(make)}
-            </TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead>#</TableHead>
-                {tableHeaders.map((header) => (
-                  <TableHead key={header}>{header}</TableHead>
-                ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredCars.map((car, index) => (
-                <TableRow
-                  key={`${car.fuel_type}-${car.vehicle_type}`}
-                  className="even:bg-muted"
-                >
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{car.month}</TableCell>
-                  <TableCell>
-                    <Link
-                      href={`/cars/${car.fuel_type.toLowerCase()}?month=${car.month}`}
-                      className="hover:underline"
-                    >
-                      {car.fuel_type}
-                    </Link>
-                  </TableCell>
-                  <TableCell>{car.vehicle_type}</TableCell>
-                  <TableCell>{car.number}</TableCell>
-                </TableRow>
+        <Table>
+          <TableCaption>
+            Historical trends for {decodeURIComponent(make)}
+          </TableCaption>
+          <TableHeader>
+            <TableRow>
+              {Object.values(MAKE.TABLE.HEADERS).map((header) => (
+                <TableHead key={header}>{header}</TableHead>
               ))}
-            </TableBody>
-          </Table>
-        )}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredCars.length === 0 && (
+              <TableRow>
+                <TableCell
+                  colSpan={Object.entries(MAKE.TABLE.HEADERS).length}
+                  className="text-center"
+                >
+                  <Typography.H4>No data available</Typography.H4>
+                </TableCell>
+              </TableRow>
+            )}
+            {filteredCars.map((car, index) => (
+              <TableRow
+                key={`${car.fuel_type}-${car.vehicle_type}`}
+                className="even:bg-muted"
+              >
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>{car.month}</TableCell>
+                <TableCell>
+                  <Link
+                    href={`/cars/${car.fuel_type.toLowerCase()}?month=${car.month}`}
+                    className="hover:underline"
+                  >
+                    {car.fuel_type}
+                  </Link>
+                </TableCell>
+                <TableCell>{car.vehicle_type}</TableCell>
+                <TableCell>{car.number}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     </section>
   );
