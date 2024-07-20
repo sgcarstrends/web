@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 // } from "@/components/ui/navigation-menu";
 import { TabItem } from "@/types";
 import { NavItem } from "@/app/components/NavItem";
-import { FEATURE_FLAG_RELEASED } from "@/config";
+import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import { Search } from "lucide-react";
 
 const navItems = [
@@ -80,7 +80,7 @@ export const Header = () => {
           {/*  </NavigationMenuList>*/}
           {/*</NavigationMenu>*/}
         </nav>
-        {FEATURE_FLAG_RELEASED && (
+        <UnreleasedFeature>
           <div className="flex items-center gap-x-4">
             <div className="relative">
               <Input
@@ -93,7 +93,7 @@ export const Header = () => {
               </div>
             </div>
           </div>
-        )}
+        </UnreleasedFeature>
       </div>
     </header>
   );

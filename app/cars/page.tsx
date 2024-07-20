@@ -16,13 +16,13 @@ import {
 } from "@/components/ui/card";
 import { CarPieChart } from "@/components/CarPieChart";
 import { Leaderboard } from "@/components/Leaderboard";
-import { API_URL, FEATURE_FLAG_RELEASED, FUEL_TYPE } from "@/config";
+import { API_URL, FUEL_TYPE } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { formatPercent } from "@/utils/formatPercent";
 import type { Car } from "@/types";
 import Typography from "@/components/Typography";
-import { AlertCircle } from "lucide-react";
+import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 
 interface CarsPageProps {
   searchParams: { [key: string]: string };
@@ -107,7 +107,7 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
 
   return (
     <div className="flex flex-col gap-8">
-      {FEATURE_FLAG_RELEASED && (
+      <UnreleasedFeature>
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -121,7 +121,7 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-      )}
+      </UnreleasedFeature>
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
         Car Registrations for {formatDateToMonthYear(month)}
       </h1>
@@ -143,7 +143,7 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
                   <p className="text-4xl font-bold text-blue-600">{total}</p>
                 </CardContent>
               </Card>
-              {FEATURE_FLAG_RELEASED && (
+              <UnreleasedFeature>
                 <Card>
                   <CardHeader>
                     <CardTitle>Top Fuel Type</CardTitle>
@@ -155,7 +155,7 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
                     <p className="text-gray-600">Highest adoption rate</p>
                   </CardContent>
                 </Card>
-              )}
+              </UnreleasedFeature>
             </div>
             <div className="grid gap-4 lg:grid-cols-4">
               <div className="grid gap-4 lg:col-span-2 xl:col-span-3">

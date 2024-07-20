@@ -14,6 +14,7 @@ import { fetchApi } from "@/utils/fetchApi";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import type { Car, LatestMonth } from "@/types";
 import { StructuredData } from "@/components/StructuredData";
+import Typography from "@/components/Typography";
 
 interface Props {
   params: { make: string };
@@ -66,11 +67,14 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
   const cars = await fetchApi<Car[]>(`${API_URL}/make/${make}?month=${month}`);
   const filteredCars = mergeCarData(cars);
 
-  // TODO: Interim solution
-  const excludeHeaders = ["_id", "make"];
-  const tableHeaders = Object.keys(filteredCars[0])
-    .filter((item) => !excludeHeaders.includes(item))
-    .map(capitaliseWords);
+  let tableHeaders: string[] = [];
+  if (filteredCars.length > 0) {
+    // TODO: Interim solution
+    const excludeHeaders = ["_id", "make"];
+    tableHeaders = Object.keys(filteredCars[0])
+      .filter((item) => !excludeHeaders.includes(item))
+      .map(capitaliseWords);
+  }
 
   const jsonLd: WithContext<WebSite> = {
     "@context": "https://schema.org",
@@ -89,38 +93,45 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
           </h1>
           <p className="text-xl text-muted-foreground">Registrations</p>
         </div>
-        <Table>
-          <TableCaption>Historical trends for {make}</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead>#</TableHead>
-              {tableHeaders.map((header) => (
-                <TableHead key={header}>{header}</TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredCars.map((car, index) => (
-              <TableRow
-                key={`${car.fuel_type}-${car.vehicle_type}`}
-                className="even:bg-muted"
-              >
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{car.month}</TableCell>
-                <TableCell>
-                  <Link
-                    href={`/cars/${car.fuel_type.toLowerCase()}?month=${car.month}`}
-                    className="hover:underline"
-                  >
-                    {car.fuel_type}
-                  </Link>
-                </TableCell>
-                <TableCell>{car.vehicle_type}</TableCell>
-                <TableCell>{car.number}</TableCell>
+        {filteredCars.length === 0 && (
+          <Typography.Lead>No data available</Typography.Lead>
+        )}
+        {filteredCars.length > 0 && (
+          <Table>
+            <TableCaption>
+              Historical trends for {decodeURIComponent(make)}
+            </TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead>#</TableHead>
+                {tableHeaders.map((header) => (
+                  <TableHead key={header}>{header}</TableHead>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {filteredCars.map((car, index) => (
+                <TableRow
+                  key={`${car.fuel_type}-${car.vehicle_type}`}
+                  className="even:bg-muted"
+                >
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{car.month}</TableCell>
+                  <TableCell>
+                    <Link
+                      href={`/cars/${car.fuel_type.toLowerCase()}?month=${car.month}`}
+                      className="hover:underline"
+                    >
+                      {car.fuel_type}
+                    </Link>
+                  </TableCell>
+                  <TableCell>{car.vehicle_type}</TableCell>
+                  <TableCell>{car.number}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </div>
     </section>
   );

@@ -2,21 +2,19 @@ import { KeyStatistics } from "@/app/components/KeyStatistics";
 import { TotalNewCarRegistrationsByYear } from "@/app/components/TotalNewCarRegistrationsByYear";
 import { Top5CarMakesByYear } from "@/app/components/Top5CarMakesByYear";
 import Typography from "@/components/Typography";
-import { FEATURE_FLAG_RELEASED } from "@/config";
+import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 
 const HomePage = () => {
   return (
     <section className="flex flex-col gap-y-8">
       <Typography.H1>Dashboard</Typography.H1>
-      <div className="flex flex-col gap-y-4">
-        {FEATURE_FLAG_RELEASED && (
-          <>
-            <TotalNewCarRegistrationsByYear data={data} />
-            <KeyStatistics data={data} />
-            <Top5CarMakesByYear topMakes2023={topMakes2023} />
-          </>
-        )}
-      </div>
+      <UnreleasedFeature>
+        <div className="flex flex-col gap-y-4">
+          <TotalNewCarRegistrationsByYear data={data} />
+          <KeyStatistics data={data} />
+          <Top5CarMakesByYear topMakes2023={topMakes2023} />
+        </div>
+      </UnreleasedFeature>
     </section>
   );
 };

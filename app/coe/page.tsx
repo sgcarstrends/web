@@ -11,9 +11,10 @@ import {
 import { ShowHideCOECategories } from "@/app/coe/ShowHideCOECategories";
 import { HistoricalResult } from "@/app/components/HistoricalResult";
 import { MonthlyResult } from "@/app/components/MonthlyResult";
-import { API_URL, FEATURE_FLAG_RELEASED } from "@/config";
+import { API_URL } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import { COEResult } from "@/types";
+import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 
 export const metadata: Metadata = { alternates: { canonical: "/coe" } };
 
@@ -39,7 +40,7 @@ const COEPage = async () => {
 
   return (
     <div className="flex flex-col gap-y-8">
-      {FEATURE_FLAG_RELEASED && (
+      <UnreleasedFeature>
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -53,7 +54,7 @@ const COEPage = async () => {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-      )}
+      </UnreleasedFeature>
       <ShowHideCOECategories />
       <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
         Prices

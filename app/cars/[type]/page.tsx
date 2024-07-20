@@ -14,17 +14,13 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  API_URL,
-  EXCLUSION_LIST,
-  FEATURE_FLAG_RELEASED,
-  SITE_URL,
-} from "@/config";
+import { API_URL, EXCLUSION_LIST, SITE_URL } from "@/config";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
 import { Car } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Typography from "@/components/Typography";
+import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 
 interface Props {
   params: { type: string };
@@ -90,7 +86,7 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
     <section>
       <StructuredData data={jsonLd} />
       <div className="flex flex-col gap-y-8">
-        {FEATURE_FLAG_RELEASED && (
+        <UnreleasedFeature>
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -110,7 +106,7 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-        )}
+        </UnreleasedFeature>
         <div className="flex justify-between">
           <div className="flex items-end gap-x-2">
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
