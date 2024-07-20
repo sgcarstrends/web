@@ -47,3 +47,13 @@ export interface LatestMonth {
   cars: string;
   coe: string;
 }
+
+export interface COEBiddingResult {
+  month: string;
+  biddingNo: number;
+  "Category A": number;
+  "Category B": number;
+  "Category C": number;
+  "Category D": number;
+  "Category E": number;
+}

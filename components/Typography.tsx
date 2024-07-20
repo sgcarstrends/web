@@ -124,6 +124,17 @@ const Lead = React.forwardRef<
 ));
 Lead.displayName = "Lead";
 
+const Small = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
+  ({ className, ...props }, ref) => (
+    <small
+      ref={ref}
+      className={cn("text-sm font-medium leading-none", className)}
+      {...props}
+    />
+  ),
+);
+Small.displayName = "Small";
+
 const Typography = {
   H1,
   H2,
@@ -134,6 +145,7 @@ const Typography = {
   List,
   InlineCode,
   Lead,
+  Small,
 };
 
 export default Typography;

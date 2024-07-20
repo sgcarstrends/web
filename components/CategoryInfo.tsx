@@ -1,3 +1,5 @@
+"use client";
+
 import { useAtom } from "jotai";
 import { LucideIcon } from "lucide-react";
 import { showCategoriesAtom } from "@/atoms/coeAtom";
@@ -29,10 +31,13 @@ export const CategoryInfo = ({
 
   return (
     <div
-      className={cn("mb-4 flex items-center gap-x-2", {
-        "cursor-pointer": canFilter,
-        "rounded-lg border border-primary p-2": categories[category],
-      })}
+      className={cn(
+        "mb-4 flex cursor-not-allowed items-center gap-x-2 rounded-lg border border-transparent p-2",
+        {
+          "cursor-pointer": canFilter,
+          "border-primary": categories[category],
+        },
+      )}
       onClick={handleFilterCategories}
     >
       <Icon className="h-6 w-6" />

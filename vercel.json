@@ -4,6 +4,10 @@
     {
       "source": "/",
       "destination": "/cars"
+    },
+    {
+      "source": "/coe",
+      "destination": "/coe/prices"
     }
   ]
 }
