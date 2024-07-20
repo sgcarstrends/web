@@ -55,15 +55,19 @@ export const KeyStatistics = ({ data }: KeyStatisticsProps) => {
           <p>
             Highest Year:{" "}
             {
-              data.reduce((max, item) => (item.total > max.total ? item : max))
-                .year
+              data.reduce(
+                (max, item) => (item.total > max.total ? item : max),
+                { total: -Infinity, year: 0 },
+              ).year
             }
           </p>
           <p>
             Lowest Year:{" "}
             {
-              data.reduce((min, item) => (item.total < min.total ? item : min))
-                .year
+              data.reduce(
+                (min, item) => (item.total < min.total ? item : min),
+                { total: Infinity, year: 0 },
+              ).year
             }
           </p>
         </div>
