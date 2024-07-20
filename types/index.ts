@@ -43,6 +43,8 @@ export interface COEResult {
   premium: number;
 }
 
+export type Month = string;
+
 export interface LatestMonth {
   cars: string;
   coe: string;

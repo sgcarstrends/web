@@ -59,7 +59,7 @@ export const COEPremiumChart = ({ data }: COEPremiumChartProps) => {
             <Tooltip />
             <Legend />
             {Object.entries(filterCategories)
-              .sort()
+              .sort(([a], [b]) => a.localeCompare(b))
               .map(
                 ([category, value], index) =>
                   value && (
