@@ -46,7 +46,7 @@ export const MonthSelect = ({ months, defaultMonth }: MonthSelectProps) => {
       const queryString = new URLSearchParams({ month }).toString();
       router.replace(`${pathname}?${queryString}`);
     },
-    [dispatch],
+    [dispatch, pathname, router],
   );
 
   return (
