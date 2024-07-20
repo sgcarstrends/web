@@ -1,6 +1,6 @@
 "use client";
 
-import { Bike, Car, CircleDollarSign, LucideIcon, Truck } from "lucide-react";
+import { Bike, Car, CircleDollarSign, Truck } from "lucide-react";
 import {
   Bar,
   BarChart,
@@ -13,29 +13,33 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-interface CategoryInfoProps {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-}
-
-const CategoryInfo = ({
-  icon: Icon,
-  title,
-  description,
-}: CategoryInfoProps) => (
-  <div className="mb-4 flex items-center space-x-2">
-    <Icon className="h-6 w-6" />
-    <div>
-      <h4 className="font-semibold">{title}</h4>
-      <p className="text-sm text-gray-600">{description}</p>
-    </div>
-  </div>
-);
+import { CategoryInfo } from "@/components/CategoryInfo";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useAtomValue } from "jotai";
+import { showCategoriesAtom } from "@/atoms/coeAtom";
 
 const COEPricesPage = () => {
+  const categories = useAtomValue(showCategoriesAtom);
+  const filteredData = data.map((item) =>
+    Object.entries(item).reduce((acc: any, [key, value]) => {
+      if (
+        key === "month" ||
+        (key.startsWith("Category") &&
+          categories[`Category ${key.slice(-1)}`]) ||
+        (key.startsWith("Bids") && categories[`Category ${key.slice(-1)}`])
+      ) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {}),
+  );
+
   return (
     <div className="flex flex-col gap-y-8">
       <h2 className="mb-4 text-2xl font-bold text-gray-800">
@@ -49,7 +53,7 @@ const COEPricesPage = () => {
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={400}>
-                <LineChart data={data}>
+                <LineChart data={filteredData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
@@ -67,18 +71,22 @@ const COEPricesPage = () => {
                     stroke="#82ca9d"
                     name="Category B"
                   />
-                  <Line
-                    type="monotone"
-                    dataKey="CategoryC"
-                    stroke="#ffc658"
-                    name="Category C"
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="CategoryD"
-                    stroke="#ff8042"
-                    name="Category D"
-                  />
+                  {categories["Category C"] && (
+                    <Line
+                      type="monotone"
+                      dataKey="CategoryC"
+                      stroke="#ffc658"
+                      name="Category C"
+                    />
+                  )}
+                  {categories["Category D"] && (
+                    <Line
+                      type="monotone"
+                      dataKey="CategoryD"
+                      stroke="#ff8042"
+                      name="Category D"
+                    />
+                  )}
                   <Line
                     type="monotone"
                     dataKey="CategoryE"
@@ -95,7 +103,7 @@ const COEPricesPage = () => {
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={400}>
-                <BarChart data={data}>
+                <BarChart data={filteredData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
@@ -103,8 +111,12 @@ const COEPricesPage = () => {
                   <Legend />
                   <Bar dataKey="BidsA" fill="#8884d8" name="Category A" />
                   <Bar dataKey="BidsB" fill="#82ca9d" name="Category B" />
-                  <Bar dataKey="BidsC" fill="#ffc658" name="Category C" />
-                  <Bar dataKey="BidsD" fill="#ff8042" name="Category D" />
+                  {categories["Category C"] && (
+                    <Bar dataKey="BidsC" fill="#ffc658" name="Category C" />
+                  )}
+                  {categories["Category D"] && (
+                    <Bar dataKey="BidsD" fill="#ff8042" name="Category D" />
+                  )}
                   <Bar dataKey="BidsE" fill="#0088FE" name="Category E" />
                 </BarChart>
               </ResponsiveContainer>
@@ -114,33 +126,37 @@ const COEPricesPage = () => {
         <div className="grid gap-4 lg:col-span-2 xl:col-span-1">
           <Card>
             <CardHeader>
-              <CardTitle>COE Categories</CardTitle>
+              <CardTitle>Categories</CardTitle>
+              <CardDescription>Filter based on Category</CardDescription>
             </CardHeader>
             <CardContent>
               <CategoryInfo
                 icon={Car}
-                title="Category A"
+                category="Category A"
                 description="Cars up to 1600cc & 97kW"
+                canFilter={false}
               />
               <CategoryInfo
                 icon={Car}
-                title="Category B"
+                category="Category B"
                 description="Cars above 1600cc or 97kW"
+                canFilter={false}
               />
               <CategoryInfo
                 icon={Truck}
-                title="Category C"
+                category="Category C"
                 description="Goods vehicles & buses"
               />
               <CategoryInfo
                 icon={Bike}
-                title="Category D"
+                category="Category D"
                 description="Motorcycles"
               />
               <CategoryInfo
                 icon={CircleDollarSign}
-                title="Category E"
+                category="Category E"
                 description="Open Category"
+                canFilter={false}
               />
             </CardContent>
           </Card>
