@@ -22,7 +22,7 @@ interface COEPremiumChartProps {
 
 export const COEPremiumChart = ({ data }: COEPremiumChartProps) => {
   const filterCategories = useAtomValue(showCategoriesAtom);
-  const filteredData = data.map((item) =>
+  const filteredData: COEBiddingResult[] = data.map((item) =>
     Object.entries(item).reduce((acc: any, [key, value]) => {
       if (
         key === "month" ||
