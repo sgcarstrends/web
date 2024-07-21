@@ -27,9 +27,7 @@ const COEPricesPage = async () => {
     [],
   );
 
-  const data: COEBiddingResult[] = Object.values(groupedData).sort(
-    (a, b) => a.biddingNo - b.biddingNo,
-  );
+  const data: COEBiddingResult[] = Object.values(groupedData);
 
   return (
     <div className="flex flex-col gap-y-8">
