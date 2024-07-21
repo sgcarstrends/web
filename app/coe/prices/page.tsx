@@ -32,7 +32,7 @@ import Typography from "@/components/Typography";
 
 const COEPricesPage = async () => {
   const historicalResult: COEResult[] = await fetchApi<COEResult[]>(
-    `${API_URL}/coe`,
+    `${API_URL}/coe?orderBy=asc`,
   );
 
   const groupedData: COEBiddingResult[] = historicalResult.reduce(
