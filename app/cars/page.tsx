@@ -20,7 +20,7 @@ import { API_URL, FUEL_TYPE } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { formatPercent } from "@/utils/formatPercent";
-import type { Car } from "@/types";
+import type { Car, VEHICLE_TYPE } from "@/types";
 import Typography from "@/components/Typography";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 
@@ -95,7 +95,7 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
   const numberByVehicleType: Record<string, number> = {};
   cars.map(({ vehicle_type, number }) => {
     if (VEHICLE_TYPE_MAP.hasOwnProperty(vehicle_type)) {
-      vehicle_type = VEHICLE_TYPE_MAP[vehicle_type];
+      vehicle_type = VEHICLE_TYPE_MAP[vehicle_type] as VEHICLE_TYPE;
     }
 
     if (!numberByVehicleType[vehicle_type]) {

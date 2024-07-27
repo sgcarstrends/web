@@ -1,12 +1,11 @@
-import { ChartDataset } from "@/types";
-import { BarDatum, ResponsiveBar } from "@nivo/bar";
+import { ResponsiveBar } from "@nivo/bar";
 
 interface CarInfographicProps {
-  datasets: ChartDataset[] | BarDatum[];
+  datasets: [];
 }
 
 export const CarInfographic = ({ datasets }: CarInfographicProps) => {
-  const series = datasets.filter(({ checked }) => checked) as BarDatum[];
+  const series = datasets.filter(({ checked }) => checked);
 
   return <ResponsiveBar data={series} keys={[]} />;
 };

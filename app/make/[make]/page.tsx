@@ -11,7 +11,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { fetchApi } from "@/utils/fetchApi";
-import { capitaliseWords } from "@/utils/capitaliseWords";
 import type { Car, LatestMonth } from "@/types";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";

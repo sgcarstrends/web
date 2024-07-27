@@ -1,7 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
-import banner from "@/app/banner.png";
 
 interface FooterLink {
   href: string;

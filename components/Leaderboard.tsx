@@ -1,4 +1,4 @@
-import { Fragment, ReactNode } from "react";
+import { ReactNode } from "react";
 import Link from "next/link";
 import { BatteryCharging, Droplet, Fuel, Trophy, Zap } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";

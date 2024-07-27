@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import banner from "@/app/banner.png";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 // import {
 //   NavigationMenu,
@@ -12,7 +11,6 @@ import { Input } from "@/components/ui/input";
 //   NavigationMenuTrigger,
 //   navigationMenuTriggerStyle,
 // } from "@/components/ui/navigation-menu";
-import { TabItem } from "@/types";
 import { NavItem } from "@/app/components/NavItem";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import { Search } from "lucide-react";

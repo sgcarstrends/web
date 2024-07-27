@@ -14,15 +14,14 @@ import {
 import { useGlobalState } from "@/context/GlobalStateContext";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { groupByYear } from "@/utils/groupByYear";
-import { Month } from "@/types";
 
 interface MonthSelectProps {
-  months: Month[];
-  defaultMonth: Month;
+  months: string[];
+  defaultMonth: string;
 }
 
 export const MonthSelect = ({ months, defaultMonth }: MonthSelectProps) => {
-  const { state, dispatch } = useGlobalState();
+  const { dispatch } = useGlobalState();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

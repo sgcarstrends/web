@@ -18,7 +18,7 @@ import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import { API_URL, EXCLUSION_LIST, SITE_URL } from "@/config";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
-import { Car, LatestMonth, Month } from "@/types";
+import { Car, LatestMonth } from "@/types";
 
 interface Props {
   params: { type: string };
@@ -60,7 +60,7 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
     next: { tags: ["cars"] },
   });
   const [months, latestMonth] = await Promise.all([
-    fetchApi<Month[]>(`${API_URL}/months`, { next: { tags: ["cars"] } }),
+    fetchApi<string[]>(`${API_URL}/months`, { next: { tags: ["cars"] } }),
     fetchApi<LatestMonth>(`${API_URL}/months/latest`, {
       next: { tags: ["cars"] },
     }),

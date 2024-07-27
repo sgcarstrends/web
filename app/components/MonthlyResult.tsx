@@ -1,22 +1,25 @@
 "use client";
 
-import { type BarDatum, ResponsiveBar } from "@nivo/bar";
+import { ResponsiveBar } from "@nivo/bar";
 import { useAtomValue } from "jotai";
 import { showCategoriesAtom } from "@/atoms/coeAtom";
 import { COEResult } from "@/types";
 
 interface MonthlyResultProps {
-  data: COEResult[] | BarDatum[];
+  data: COEResult[];
 }
 
 export const MonthlyResult = ({ data }: MonthlyResultProps) => {
   const categories = useAtomValue(showCategoriesAtom);
-  const filteredData = data.filter((item) => categories[item.vehicle_class]);
+  const filteredData = data.filter(
+    (item: COEResult) => categories[item.vehicle_class],
+  );
 
   return (
     <div className="h-[600px]">
       <ResponsiveBar
-        data={filteredData as BarDatum[]}
+        // @ts-ignore
+        data={filteredData}
         keys={["bids_received", "bids_success", "quota"]}
         indexBy="vehicle_class"
         margin={{ top: 50, right: 0, bottom: 50, left: 30 }}

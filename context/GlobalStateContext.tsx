@@ -5,6 +5,7 @@ import {
   Dispatch,
   PropsWithChildren,
   useContext,
+  useMemo,
   useReducer,
 } from "react";
 import months from "@/data/months.json";
@@ -49,8 +50,10 @@ export const GlobalStateContext = createContext<
 export const GlobalStateProvider = ({ children }: GlobalProviderProps) => {
   const [state, dispatch] = useReducer(globalStateReducer, initialState);
 
+  const contextValue = useMemo(() => ({ state, dispatch }), [state]);
+
   return (
-    <GlobalStateContext.Provider value={{ state, dispatch }}>
+    <GlobalStateContext.Provider value={contextValue}>
       {children}
     </GlobalStateContext.Provider>
   );

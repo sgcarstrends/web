@@ -36,7 +36,7 @@ export const KeyStatistics = ({ data }: KeyStatisticsProps) => {
               </SelectTrigger>
               <SelectContent>
                 {data
-                  .sort((a, b) => b.year - a.year)
+                  .toSorted((a, b) => b.year - a.year)
                   .map((item) => (
                     <SelectItem key={item.year} value={item.year.toString()}>
                       {item.year}
