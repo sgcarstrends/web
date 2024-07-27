@@ -1,6 +1,9 @@
 name: Deployment (Dev)
 on:
-  push:
+  workflow_run:
+    workflows: ["Build"]
+    types:
+      - completed
     branches-ignore:
       - 'main'
 
