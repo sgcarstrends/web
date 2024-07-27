@@ -56,10 +56,14 @@ export const generateStaticParams = () =>
 const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   const { type } = params;
 
-  const cars = await fetchApi<Car[]>(`${API_URL}/cars/${type}`);
+  const cars = await fetchApi<Car[]>(`${API_URL}/cars/${type}`, {
+    next: { tags: ["cars"] },
+  });
   const [months, latestMonth] = await Promise.all([
-    fetchApi<Month[]>(`${API_URL}/months`),
-    fetchApi<LatestMonth>(`${API_URL}/months/latest`),
+    fetchApi<Month[]>(`${API_URL}/months`, { next: { tags: ["cars"] } }),
+    fetchApi<LatestMonth>(`${API_URL}/months/latest`, {
+      next: { tags: ["cars"] },
+    }),
   ]);
 
   const totals = new Map();

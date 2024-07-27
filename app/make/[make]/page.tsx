@@ -35,7 +35,9 @@ export const generateMetadata = async ({ params, searchParams }: Props) => {
 };
 
 export const generateStaticParams = async () => {
-  const makes = await fetchApi<string[]>(`${API_URL}/make`);
+  const makes = await fetchApi<string[]>(`${API_URL}/make`, {
+    next: { tags: ["cars"] },
+  });
   return makes.map((make) => ({ make }));
 };
 
