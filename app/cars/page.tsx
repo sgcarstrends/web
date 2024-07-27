@@ -86,27 +86,30 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
   });
   const total = cars.reduce((accum, curr) => accum + (curr.number || 0), 0);
 
-  const numberByFuelType: Record<string, number> = {};
-  cars.map(({ fuel_type, number }) => {
-    if (!numberByFuelType[fuel_type]) {
-      numberByFuelType[fuel_type] = 0;
-    }
+  const aggregateData = (data: any[], key: keyof Car): Record<string, number> =>
+    data.reduce((acc, item) => {
+      const value = item[key];
+      acc[value] = (acc[value] || 0) + (item.number || 0);
+      return acc;
+    }, {});
 
-    numberByFuelType[fuel_type] += number || 0;
-  });
+  const findTopEntry = (data: Record<string, number>) =>
+    Object.entries(data).reduce((max, entry) =>
+      entry[1] > max[1] ? entry : max,
+    );
 
-  const numberByVehicleType: Record<string, number> = {};
-  cars.map(({ vehicle_type, number }) => {
-    if (VEHICLE_TYPE_MAP.hasOwnProperty(vehicle_type)) {
-      vehicle_type = VEHICLE_TYPE_MAP[vehicle_type] as VEHICLE_TYPE;
-    }
+  const numberByFuelType = aggregateData(cars, "fuel_type");
+  const [topFuelType, topFuelTypeValue] = findTopEntry(numberByFuelType);
 
-    if (!numberByVehicleType[vehicle_type]) {
-      numberByVehicleType[vehicle_type] = 0;
-    }
-
-    numberByVehicleType[vehicle_type] += number || 0;
-  });
+  const numberByVehicleType = aggregateData(
+    cars.map((car) => ({
+      ...car,
+      vehicle_type: VEHICLE_TYPE_MAP[car.vehicle_type] || car.vehicle_type,
+    })),
+    "vehicle_type",
+  );
+  const [topVehicleType, topVehicleTypeValue] =
+    findTopEntry(numberByVehicleType);
 
   return (
     <div className="flex flex-col gap-8">
@@ -146,16 +149,40 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
                   <p className="text-4xl font-bold text-blue-600">{total}</p>
                 </CardContent>
               </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Top Fuel Type</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold text-green-600">
+                    {topFuelType} ({topFuelTypeValue})
+                  </p>
+                  <p className="text-gray-600">Highest adoption rate</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Top Vehicle Type</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold text-pink-600">
+                    {topVehicleType} ({topVehicleTypeValue})
+                  </p>
+                  <p className="text-gray-600">Highest adoption rate</p>
+                </CardContent>
+              </Card>
               <UnreleasedFeature>
                 <Card>
                   <CardHeader>
-                    <CardTitle>Top Fuel Type</CardTitle>
+                    <CardTitle>Trend</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-2xl font-bold text-green-600">
-                      Petrol Electric
+                    <p className="text-2xl font-bold text-orange-600">
+                      Electric
                     </p>
-                    <p className="text-gray-600">Highest adoption rate</p>
+                    <p className="text-gray-600">
+                      Steady increase in registrations
+                    </p>
                   </CardContent>
                 </Card>
               </UnreleasedFeature>
