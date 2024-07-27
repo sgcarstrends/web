@@ -57,7 +57,11 @@ jobs:
     needs: Build
     runs-on: ubuntu-latest
     env:
-      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
+      NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED: ${{ vars.NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED }}
+      NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ vars.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+      NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
+      NEXT_PUBLIC_REVALIDATE_TOKEN: ${{ secrets.NEXT_PUBLIC_REVALIDATE_TOKEN }}
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v4
