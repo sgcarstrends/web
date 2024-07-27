@@ -1,11 +1,7 @@
-interface Options extends RequestInit {}
-
 export const fetchApi = async <T>(
   url: string,
-  options: Options = {},
+  options: RequestInit = {},
 ): Promise<T> => {
-  options = { cache: "no-store", ...options };
-
   const response = await fetch(url, options);
 
   if (!response.ok) {

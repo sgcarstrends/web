@@ -1,14 +1,23 @@
 import { FUEL_TYPE } from "@/config";
 
+export type VEHICLE_TYPE =
+  | "Coupe/ Convertible"
+  | "Hatchback"
+  | "Multi-purpose Vehicle"
+  | "Multi-purpose Vehicle/Station-wagon"
+  | "Sedan"
+  | "Sports Utility Vehicle"
+  | "Station-wagon";
+
 export interface Car {
   month: string;
   make: string;
-  fuel_type: FUEL_TYPE | string;
+  importer_type?: string;
+  fuel_type: FUEL_TYPE;
+  vehicle_type: VEHICLE_TYPE;
   number: number;
   selected?: boolean;
 }
-
-export type PopularMake = Pick<Car, "make" | "number">;
 
 export type Dataset = {
   name: string;
@@ -22,16 +31,29 @@ export interface ChartDataset extends Dataset {
 export interface TabItem {
   title: string;
   href: string;
-  icon: string;
 }
 
 export interface COEResult {
-  _id: string;
   month: string;
-  bidding_no: string;
+  bidding_no: number;
   vehicle_class: string;
   quota: number;
   bids_success: number;
   bids_received: number;
   premium: number;
+}
+
+export interface LatestMonth {
+  cars: string;
+  coe: string;
+}
+
+export interface COEBiddingResult {
+  month: string;
+  biddingNo: number;
+  "Category A": number;
+  "Category B": number;
+  "Category C": number;
+  "Category D": number;
+  "Category E": number;
 }

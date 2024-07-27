@@ -24,15 +24,11 @@ export enum FUEL_TYPE {
 export const ANNOUNCEMENT: string =
   "🌟 Big Updates Ahead! Our website is getting an upgrade with awesome new features rolling out soon. Stay tuned!";
 
-export const CHART_COLOURS: string[] = [
-  "#002D62",
-  "#CB6D51",
-  "#546E7A",
-  "#D4526E",
-  "#265C00",
-  "#C77D95",
-  "#A5978B",
-  "#B2C8A3",
-  "#13D8AA",
-  "#FFDA47",
-];
+export const MEDAL_MAPPING: Record<number, string> = {
+  1: "🥇",
+  2: "🥈",
+  3: "🥉",
+};
+
+export const FEATURE_FLAG_UNRELEASED =
+  process.env.NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED === "true";

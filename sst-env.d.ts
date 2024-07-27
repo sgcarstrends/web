@@ -1,1 +1,12 @@
-/// <reference path="./.sst/types/index.ts" />
+/* tslint:disable */
+/* eslint-disable */
+import "sst"
+declare module "sst" {
+  export interface Resource {
+    Site: {
+      type: "sst.aws.Nextjs"
+      url: string
+    }
+  }
+}
+export {}
