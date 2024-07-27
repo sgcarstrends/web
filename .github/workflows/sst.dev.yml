@@ -15,8 +15,13 @@ permissions:
   contents: read
 
 jobs:
+  Test:
+    uses: ./test.yml
+  Build:
+    needs: Test
+    uses: ./Build.yml
   Deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    needs: Build
     runs-on: ubuntu-latest
     env:
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
