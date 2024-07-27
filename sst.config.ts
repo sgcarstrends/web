@@ -1,31 +1,30 @@
-import { SSTConfig } from "sst";
-import { NextjsSite } from "sst/constructs";
+/// <reference path="./.sst/platform/config.d.ts" />
 
-const DOMAIN = "sgmotortrends.com";
+const DOMAIN_NAME = "sgmotortrends.com";
 
-export default {
-  config(_input) {
+const DOMAIN: Record<string, string> = {
+  dev: `dev.${DOMAIN_NAME}`,
+  staging: `staging.${DOMAIN_NAME}`,
+  prod: DOMAIN_NAME,
+};
+
+export default $config({
+  app(input) {
     return {
-      name: "singapore-ev-trends",
-      region: "ap-southeast-1",
+      name: "sgcarstrends",
+      removal: input?.stage === "prod" ? "retain" : "remove",
+      home: "aws",
+      providers: {
+        aws: { region: "ap-southeast-1" },
+      },
     };
   },
-  stacks(app) {
-    app.stack(function site({ stack }) {
-      const nextjsSite = new NextjsSite(stack, "site", {
-        customDomain: {
-          domainName: DOMAIN,
-          domainAlias: `www.${DOMAIN}`,
-        },
-        experimental: {
-          disableIncrementalCache: true,
-        },
-        warm: 20,
-      });
-
-      stack.addOutputs({
-        SiteUrl: nextjsSite.url,
-      });
+  async run() {
+    new sst.aws.Nextjs("Site", {
+      domain: {
+        name: DOMAIN[$app.stage],
+        // redirects: [`www.${DOMAIN_NAME}`],
+      },
     });
   },
-} satisfies SSTConfig;
+});

@@ -4,10 +4,10 @@
   "version": "1.0.1",
   "license": "MIT",
   "scripts": {
-    "dev": "next dev --turbo",
     "build": "next build",
-    "start": "next start",
+    "dev": "next dev --turbo",
     "lint": "next lint",
+    "start": "next start",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
   },
@@ -41,6 +41,7 @@
     "react-dom": "18.3.1",
     "recharts": "^2.12.7",
     "schema-dts": "^1.1.2",
+    "sst": "ion",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"
@@ -70,17 +71,16 @@
     "postcss": "^8",
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.5",
-    "sst": "^2.32.2",
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
     "typescript": "5.3.3"
   },
   "pnpm": {
     "overrides": {
-      "ws@>=8.0.0 <8.17.1": ">=8.17.1",
-      "ws@>=7.0.0 <7.5.10": ">=7.5.10",
+      "braces@<3.0.3": ">=3.0.3",
       "ws@>=2.1.0 <5.2.4": ">=5.2.4",
-      "braces@<3.0.3": ">=3.0.3"
+      "ws@>=7.0.0 <7.5.10": ">=7.5.10",
+      "ws@>=8.0.0 <8.17.1": ">=8.17.1"
     }
   }
 }
