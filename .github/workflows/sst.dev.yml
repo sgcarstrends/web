@@ -69,8 +69,7 @@ jobs:
       NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
       NEXT_PUBLIC_REVALIDATE_TOKEN: ${{ secrets.NEXT_PUBLIC_REVALIDATE_TOKEN }}
     steps:
-      - name: Git clone the repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
           version: latest
@@ -84,8 +83,7 @@ jobs:
           key: ${{ runner.OS }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
           aws-region: ap-southeast-1

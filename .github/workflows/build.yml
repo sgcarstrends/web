@@ -11,8 +11,7 @@ jobs:
         name: Install pnpm
         with:
           version: latest
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
