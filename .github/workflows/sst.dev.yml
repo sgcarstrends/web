@@ -33,34 +33,8 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-  Build:
-    needs: Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          version: latest
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
-      - uses: actions/cache@v4
-        with:
-          path: ${{ github.workspace }}/.next/cache
-          key: ${{ runner.OS }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-      - name: Install dependencies
-        run: pnpm install
-      - name: Build
-        run: pnpm build
-        env:
-          NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
   Deploy:
-    needs: Build
+    needs: Test
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
