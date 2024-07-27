@@ -92,4 +92,4 @@ jobs:
           curl -fsSL https://ion.sst.dev/install | bash
       - name: Deploy app
         run: |
-          pnpm install && sst deploy --stage dev
+          pnpm install && pnpm sst deploy --stage dev
