@@ -62,11 +62,16 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
 
   // TODO: Interim solution
   if (!month) {
-    const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
+    const latestMonth = await fetchApi<LatestMonth>(
+      `${API_URL}/months/latest`,
+      { next: { tags: ["cars"] } },
+    );
     month = latestMonth.cars;
   }
 
-  const cars = await fetchApi<Car[]>(`${API_URL}/make/${make}?month=${month}`);
+  const cars = await fetchApi<Car[]>(`${API_URL}/make/${make}?month=${month}`, {
+    next: { tags: ["cars"] },
+  });
   const filteredCars = mergeCarData(cars);
 
   const jsonLd: WithContext<WebSite> = {

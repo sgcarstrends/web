@@ -76,11 +76,14 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
   if (!month) {
     const latestMonths = await fetchApi<{ [key: string]: string }>(
       `${API_URL}/months/latest`,
+      { next: { tags: ["cars"] } },
     );
     month = latestMonths.cars;
   }
 
-  const cars = await fetchApi<Car[]>(`${API_URL}/cars?month=${month}`);
+  const cars = await fetchApi<Car[]>(`${API_URL}/cars?month=${month}`, {
+    next: { tags: ["cars"] },
+  });
   const total = cars.reduce((accum, curr) => accum + (curr.number || 0), 0);
 
   const numberByFuelType: Record<string, number> = {};
