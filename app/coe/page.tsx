@@ -18,10 +18,15 @@ import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 export const metadata: Metadata = { alternates: { canonical: "/coe" } };
 
 const COEPage = async () => {
-  const fetchHistoricalResult = fetchApi<COEResult[]>(`${API_URL}/coe`);
-  const fetchMonthlyResult = fetchApi<COEResult[]>(`${API_URL}/coe/latest`);
+  const fetchHistoricalResult = fetchApi<COEResult[]>(`${API_URL}/coe`, {
+    next: { tags: ["coe"] },
+  });
+  const fetchMonthlyResult = fetchApi<COEResult[]>(`${API_URL}/coe/latest`, {
+    next: { tags: ["coe"] },
+  });
   const fetchLatestMonth = fetchApi<Record<string, string>>(
     `${API_URL}/months/latest`,
+    { next: { tags: ["coe"] } },
   );
 
   const [historicalResults, monthlyResults, latestMonth] = await Promise.all([

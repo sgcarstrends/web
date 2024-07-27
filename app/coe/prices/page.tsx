@@ -8,6 +8,7 @@ import Typography from "@/components/Typography";
 const COEPricesPage = async () => {
   const historicalResult: COEResult[] = await fetchApi<COEResult[]>(
     `${API_URL}/coe?orderBy=asc`,
+    { next: { tags: ["coe"] } },
   );
 
   const groupedData: COEBiddingResult[] = historicalResult.reduce(
