@@ -59,6 +59,7 @@ const getPopularMakes = (cars: Car[], fuelType: string): PopularMake[] => {
   });
 
   return Object.entries(makeCount)
+    .filter(([_, number]) => Boolean(number)) // Remove 0 registrations
     .map(([make, number]) => ({ make, number }))
     .sort((a, b) => b.number - a.number)
     .slice(0, 3);
