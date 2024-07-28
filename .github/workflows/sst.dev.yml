@@ -2,10 +2,7 @@ name: Deployment (Dev)
 on:
   push:
     branches-ignore:
-      - "**"
-  pull_request:
-    branches:
-      - "main"
+      - 'main'
 
 concurrency:
   group: merge-${{ github.ref }}
