@@ -20,7 +20,7 @@ import { API_URL, FUEL_TYPE } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { formatPercent } from "@/utils/formatPercent";
-import type { Car, VEHICLE_TYPE } from "@/types";
+import type { Car } from "@/types";
 import Typography from "@/components/Typography";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 
@@ -93,10 +93,13 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
       return acc;
     }, {});
 
-  const findTopEntry = (data: Record<string, number>) =>
-    Object.entries(data).reduce((max, entry) =>
-      entry[1] > max[1] ? entry : max,
+  const findTopEntry = (data: Record<string, number>) => {
+    const entries = Object.entries(data);
+    return entries.reduce(
+      (max, entry) => (entry[1] > max[1] ? entry : max),
+      entries[0],
     );
+  };
 
   const numberByFuelType = aggregateData(cars, "fuel_type");
   const [topFuelType, topFuelTypeValue] = findTopEntry(numberByFuelType);
