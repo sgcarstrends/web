@@ -1,11 +1,11 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 
-const DOMAIN_NAME = "sgmotortrends.com";
+const DOMAIN_NAME = "sgcarstrends.com";
 
-const DOMAIN: Record<string, string> = {
-  dev: `dev.${DOMAIN_NAME}`,
-  staging: `staging.${DOMAIN_NAME}`,
-  prod: DOMAIN_NAME,
+const DOMAIN: Record<string, any> = {
+  dev: { name: `dev.${DOMAIN_NAME}` },
+  staging: { name: `staging.${DOMAIN_NAME}` },
+  prod: { name: DOMAIN_NAME, redirects: [`www.${DOMAIN_NAME}`] },
 };
 
 export default $config({
@@ -16,14 +16,15 @@ export default $config({
       home: "aws",
       providers: {
         aws: { region: "ap-southeast-1" },
+        cloudflare: true,
       },
     };
   },
   async run() {
     new sst.aws.Nextjs("Site", {
       domain: {
-        name: DOMAIN[$app.stage],
-        // redirects: [`www.${DOMAIN_NAME}`],
+        ...DOMAIN[$app.stage],
+        dns: sst.cloudflare.dns(),
       },
     });
   },
