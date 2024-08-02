@@ -6,7 +6,7 @@ export const fetchApi = async <T>(
 
   if (!response.ok) {
     throw new Error(
-      `API call failed: ${response.status} - ${response.statusText}`,
+      `API call failed: ${url} - ${response.status} - ${response.statusText}`,
     );
   }
 

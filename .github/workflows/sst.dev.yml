@@ -36,6 +36,7 @@ jobs:
   Deploy:
     needs: Test
     runs-on: ubuntu-latest
+    environment: Development
     env:
       NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
       NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED: ${{ vars.NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED }}
