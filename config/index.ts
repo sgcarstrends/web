@@ -1,10 +1,13 @@
-const DOMAIN_NAME: string = "sgmotortrends.com";
+const DOMAIN_NAME = "sgmotortrends.com" as const;
+const API_VERSION = "v1" as const;
 
 export const SITE_URL: string =
   process.env.NEXT_PUBLIC_SITE_URL || `https://${DOMAIN_NAME}`;
 
-export const API_URL: string =
-  process.env.NEXT_PUBLIC_API_URL || `https://api.${DOMAIN_NAME}`;
+// Configure the API BASE URL
+const DEFAULT_API_URL = `https://api.${DOMAIN_NAME}`;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || DEFAULT_API_URL;
+export const API_URL: string = `${API_BASE_URL}/${API_VERSION}`;
 
 /**
  * List of make to be excluded from the dataset because they are usually part of the following:
