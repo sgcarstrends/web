@@ -3,6 +3,7 @@ on:
   push:
     branches-ignore:
       - 'main'
+      - 'legacy-**'
 
 concurrency:
   group: merge-${{ github.ref }}
