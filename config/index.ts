@@ -1,5 +1,5 @@
-const DOMAIN_NAME = "sgmotortrends.com" as const;
-const API_VERSION = "v1" as const;
+const DOMAIN_NAME = "sgcarstrends.com";
+const API_VERSION = "v1";
 
 export const SITE_URL: string =
   process.env.NEXT_PUBLIC_SITE_URL || `https://${DOMAIN_NAME}`;
