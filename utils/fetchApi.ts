@@ -4,7 +4,13 @@ export const fetchApi = async <T>(
   url: string,
   options: Options = {},
 ): Promise<T> => {
-  options = { cache: "no-store", ...options };
+  options = {
+    cache: "no-store",
+    ...options,
+    headers: {
+      Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
+    },
+  };
 
   const response = await fetch(url, options);
 
