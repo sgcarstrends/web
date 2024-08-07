@@ -90,7 +90,7 @@ export const Footer = () => {
           <div className="flex flex-col items-center">
             <h3 className="mb-2 font-semibold text-gray-900">Follow Us</h3>
             <div className="flex gap-4">
-              {socialMediaLinks.sort(sortByName).map((social) => (
+              {socialMediaLinks.toSorted(sortByName).map((social) => (
                 <a
                   key={social.name}
                   href={social.url}
