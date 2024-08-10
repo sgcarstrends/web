@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import Link from "next/link";
-import { BatteryCharging, Droplet, Fuel, Trophy, Zap } from "lucide-react";
+import { Battery, Droplet, Fuel, Trophy, Zap } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Typography from "@/components/Typography";
 import type { Car } from "@/types";
@@ -31,7 +31,7 @@ const CATEGORIES: Category[] = [
   },
   {
     title: "Electric",
-    icon: <BatteryCharging className="h-6 w-6 text-green-600" />,
+    icon: <Battery className="h-6 w-6 text-green-600" />,
   },
   {
     title: "Diesel",
