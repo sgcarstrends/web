@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { Battery, Droplet, Fuel, LucideIcon, Zap } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,7 +12,6 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
-
 import { cn } from "@/lib/utils";
 
 export const NavMenu = () => {
@@ -29,7 +29,7 @@ export const NavMenu = () => {
                     href="/cars"
                   >
                     <div className="mb-2 mt-4 text-lg font-medium">
-                      shadcn/ui
+                      Latest month
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
                       Beautifully designed components that you can copy and
@@ -39,16 +39,16 @@ export const NavMenu = () => {
                   </Link>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/cars/petrol" title="Petrol">
+              <ListItem href="/cars/petrol" title="Petrol" icon={Fuel}>
                 Petrol Cars
               </ListItem>
-              <ListItem href="/cars/hybrid" title="Hybrid">
+              <ListItem href="/cars/hybrid" title="Hybrid" icon={Zap}>
                 Hybrid Cars
               </ListItem>
-              <ListItem href="/cars/electric" title="Electric">
+              <ListItem href="/cars/electric" title="Electric" icon={Battery}>
                 Electric Cars
               </ListItem>
-              <ListItem href="/cars/diesel" title="Diesel">
+              <ListItem href="/cars/diesel" title="Diesel" icon={Droplet}>
                 Diesel Cars
               </ListItem>
             </ul>
@@ -76,8 +76,8 @@ export const NavMenu = () => {
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<"a"> & { title: string; icon?: LucideIcon }
+>(({ className, title, children, icon: Icon, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
@@ -89,7 +89,10 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
+          <div className="flex items-center space-x-2">
+            {Icon && <Icon className="h-4 w-4" />}
+            <div className="text-sm font-medium leading-none">{title}</div>
+          </div>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
