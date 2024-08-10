@@ -3,11 +3,13 @@ import { Search, TrendingUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { NavMenu } from "@/app/components/NavMenu";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
+import { MobileNavMenu } from "@/app/components/MobileNavMenu";
 
 export const Header = () => {
   return (
     <header className="border-b-2 bg-white">
-      <div className="container flex items-center justify-between p-4">
+      <MobileNavMenu />
+      <div className="container hidden items-center justify-between p-4 lg:flex">
         <nav className="flex items-center gap-x-4">
           <Link href="/" className="flex items-center gap-x-2">
             <TrendingUp className="h-8 w-8 text-blue-600" />
