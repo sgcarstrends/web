@@ -35,9 +35,6 @@ importers:
       '@nivo/line':
         specifier: ^0.87.0
         version: 0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@nivo/pie':
-        specifier: ^0.87.0
-        version: 0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@nivo/treemap':
         specifier: ^0.87.0
         version: 0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1177,11 +1174,6 @@ packages:
     peerDependencies:
       react: '>= 16.14.0 < 19.0.0'
 
-  '@nivo/arcs@0.87.0':
-    resolution: {integrity: sha512-YWmIm0el0hgVbPI3C5AX6R59WNnuKjh2GdocaVDP5zupqAMhfqyoMx+IM+A+Cg+UzE4xakrL0mSzL+rpMUK90Q==}
-    peerDependencies:
-      react: '>= 16.14.0 < 19.0.0'
-
   '@nivo/axes@0.87.0':
     resolution: {integrity: sha512-zCRBfiRKJi+xOxwxH5Pxq/8+yv3fAYDl4a1F2Ssnp5gMIobwzVsdearvsm5B04e9bfy3ZXTL7KgbkEkSAwu6SA==}
     peerDependencies:
@@ -1209,11 +1201,6 @@ packages:
 
   '@nivo/line@0.87.0':
     resolution: {integrity: sha512-Ki/WDd8ZU8VWScW4ZeKUFCXRdAEg8nrS+F+jdfJDPxyxUMHZJCAbrXrnsExcEQLOaDQ2aU/bijEMiDS8/dJzuA==}
-    peerDependencies:
-      react: '>= 16.14.0 < 19.0.0'
-
-  '@nivo/pie@0.87.0':
-    resolution: {integrity: sha512-kY6LAQhOITwg8waFoDYLPkwUj/5XavSm61c7dXXJgCtqoj6c5u9AgwOTnZqS6IhMVEc5KV7ZNxSEHlHLQinmrg==}
     peerDependencies:
       react: '>= 16.14.0 < 19.0.0'
 
@@ -6552,17 +6539,6 @@ snapshots:
     transitivePeerDependencies:
       - react-dom
 
-  '@nivo/arcs@0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@nivo/colors': 0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@nivo/core': 0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@react-spring/web': 9.7.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@types/d3-shape': 3.1.6
-      d3-shape: 3.2.0
-      react: 18.3.1
-    transitivePeerDependencies:
-      - react-dom
-
   '@nivo/axes@0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@nivo/core': 0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -6650,19 +6626,6 @@ snapshots:
       '@nivo/tooltip': 0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@nivo/voronoi': 0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@react-spring/web': 9.7.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      d3-shape: 3.2.0
-      react: 18.3.1
-    transitivePeerDependencies:
-      - react-dom
-
-  '@nivo/pie@0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@nivo/arcs': 0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@nivo/colors': 0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@nivo/core': 0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@nivo/legends': 0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@nivo/tooltip': 0.87.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@types/d3-shape': 3.1.6
       d3-shape: 3.2.0
       react: 18.3.1
     transitivePeerDependencies:

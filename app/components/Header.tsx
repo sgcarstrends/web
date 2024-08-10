@@ -10,8 +10,8 @@ export const Header = () => {
       <div className="container flex items-center justify-between p-4">
         <nav className="flex items-center gap-x-4">
           <Link href="/" className="flex items-center gap-x-2">
-            <TrendingUp className="h-8 w-8 text-blue-600" />
-            <span className="text-xl font-bold">
+            <TrendingUp className="h-4 w-4 text-blue-600 lg:h-8 lg:w-8" />
+            <span className="text-sm font-bold lg:text-xl">
               <span className="text-black">SGCars</span>
               <span className="text-blue-600">Trends</span>
             </span>
