@@ -1,82 +1,22 @@
-import Image from "next/image";
 import Link from "next/link";
-import banner from "@/app/banner.png";
+import { Search, TrendingUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
-// import {
-//   NavigationMenu,
-//   NavigationMenuContent,
-//   NavigationMenuItem,
-//   NavigationMenuLink,
-//   NavigationMenuList,
-//   NavigationMenuTrigger,
-//   navigationMenuTriggerStyle,
-// } from "@/components/ui/navigation-menu";
-import { NavItem } from "@/app/components/NavItem";
+import { NavMenu } from "@/app/components/NavMenu";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
-import { Search } from "lucide-react";
-
-const navItems = [
-  // { title: "Overview", href: "/" },
-  { title: "Cars", href: "/cars" },
-  { title: "COE", href: "/coe" },
-];
 
 export const Header = () => {
   return (
     <header className="border-b-2 bg-white">
       <div className="container flex items-center justify-between p-4">
         <nav className="flex items-center gap-x-4">
-          <Link href="/">
-            <Image src={banner} height={48} alt="Banner" />
+          <Link href="/" className="flex items-center gap-x-2">
+            <TrendingUp className="h-8 w-8 text-blue-600" />
+            <span className="text-xl font-bold">
+              <span className="text-black">SGCars</span>
+              <span className="text-blue-600">Trends</span>
+            </span>
           </Link>
-          {navItems.map(({ title, href }) => {
-            return (
-              <NavItem key={title} href={href}>
-                {title}
-              </NavItem>
-            );
-          })}
-          {/*<NavigationMenu>*/}
-          {/*  <NavigationMenuList>*/}
-          {/*    <NavigationMenuItem>*/}
-          {/*      <Link href="/" legacyBehavior passHref>*/}
-          {/*        <NavigationMenuLink className={navigationMenuTriggerStyle()}>*/}
-          {/*          Overview*/}
-          {/*        </NavigationMenuLink>*/}
-          {/*      </Link>*/}
-          {/*    </NavigationMenuItem>*/}
-          {/*    <NavigationMenuItem>*/}
-          {/*      <NavigationMenuTrigger>Cars</NavigationMenuTrigger>*/}
-          {/*      <NavigationMenuContent>*/}
-          {/*        <NavigationMenuLink*/}
-          {/*          className={navigationMenuTriggerStyle()}*/}
-          {/*          asChild*/}
-          {/*        >*/}
-          {/*          Petrol*/}
-          {/*        </NavigationMenuLink>*/}
-          {/*        <NavigationMenuLink className={navigationMenuTriggerStyle()}>*/}
-          {/*          Hybrid*/}
-          {/*        </NavigationMenuLink>*/}
-          {/*        <Link href="/cars/electric" legacyBehavior passHref>*/}
-          {/*          <NavigationMenuLink className={navigationMenuTriggerStyle()}>*/}
-          {/*            Electric*/}
-          {/*          </NavigationMenuLink>*/}
-          {/*        </Link>*/}
-          {/*      </NavigationMenuContent>*/}
-          {/*    </NavigationMenuItem>*/}
-          {/*    <NavigationMenuItem>*/}
-          {/*      <NavigationMenuTrigger>COE</NavigationMenuTrigger>*/}
-          {/*      <NavigationMenuContent>*/}
-          {/*        <NavigationMenuLink className={navigationMenuTriggerStyle()}>*/}
-          {/*          Latest*/}
-          {/*        </NavigationMenuLink>*/}
-          {/*        <NavigationMenuLink className={navigationMenuTriggerStyle()}>*/}
-          {/*          Historical*/}
-          {/*        </NavigationMenuLink>*/}
-          {/*      </NavigationMenuContent>*/}
-          {/*    </NavigationMenuItem>*/}
-          {/*  </NavigationMenuList>*/}
-          {/*</NavigationMenu>*/}
+          <NavMenu />
         </nav>
         <UnreleasedFeature>
           <div className="flex items-center gap-x-4">
