@@ -68,6 +68,7 @@ export const MobileNavMenu = () => {
                   <nav className="flex flex-col space-y-4">
                     {links.map(({ title, link }) => (
                       <Link
+                        key={title}
                         href={link}
                         className="text-blue-600 hover:underline"
                       >
