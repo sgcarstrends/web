@@ -80,7 +80,10 @@ export const MobileNavMenu = () => {
               </AccordionItem>
             </Accordion>
             <nav className="mt-4 flex flex-col space-y-4">
-              <Link href="/coe" className="text-gray-700 hover:text-blue-600">
+              <Link
+                href="/coe/prices"
+                className="text-gray-700 hover:text-blue-600"
+              >
                 COE
               </Link>
             </nav>
