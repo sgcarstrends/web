@@ -10,6 +10,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import { cn } from "@/lib/utils";
@@ -76,27 +77,33 @@ export const NavMenu = () => {
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a"> & { title: string; icon?: LucideIcon }
->(({ className, title, children, icon: Icon, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<"a"> & {
+    title: string;
+    href: string;
+    icon?: LucideIcon;
+  }
+>(({ className, title, children, href, icon: Icon, ...props }, ref) => {
   return (
     <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className,
-          )}
-          {...props}
-        >
-          <div className="flex items-center space-x-2">
-            {Icon && <Icon className="h-4 w-4" />}
-            <div className="text-sm font-medium leading-none">{title}</div>
-          </div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </a>
+      <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
+        <Link href={href} legacyBehavior passHref>
+          <a
+            ref={ref}
+            className={cn(
+              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+              className,
+            )}
+            {...props}
+          >
+            <div className="flex items-center space-x-2">
+              {Icon && <Icon className="h-4 w-4" />}
+              <div className="text-sm font-medium leading-none">{title}</div>
+            </div>
+            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+              {children}
+            </p>
+          </a>
+        </Link>
       </NavigationMenuLink>
     </li>
   );
