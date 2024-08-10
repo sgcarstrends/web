@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MonthSelect } from "@/app/components/MonthSelect";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -84,6 +85,7 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
   const cars = await fetchApi<Car[]>(`${API_URL}/cars?month=${month}`, {
     next: { tags: ["cars"] },
   });
+  const months = await fetchApi<string[]>(`${API_URL}/months`);
   const total = cars.reduce((accum, curr) => accum + (curr.number || 0), 0);
 
   const aggregateData = (data: any[], key: keyof Car): Record<string, number> =>
@@ -131,9 +133,12 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
           </BreadcrumbList>
         </Breadcrumb>
       </UnreleasedFeature>
-      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-        Car Registrations for {formatDateToMonthYear(month)}
-      </h1>
+      <div className="flex items-center gap-x-4">
+        <Typography.H1>Car Registrations for </Typography.H1>
+        <div className="inline-block">
+          <MonthSelect months={months} defaultMonth={month} />
+        </div>
+      </div>
       {/*TODO: Improvise*/}
       {cars.length === 0 && (
         <Typography.H3>
