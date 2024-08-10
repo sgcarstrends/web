@@ -47,8 +47,9 @@ export const CarPieChart = ({ data }: CarPieChartProps) => {
           data={chartData}
           dataKey="value"
           nameKey="label"
-          innerRadius={50}
-          strokeWidth={5}
+          innerRadius={40}
+          strokeWidth={3}
+          label
         />
       </PieChart>
     </ChartContainer>
