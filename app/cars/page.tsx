@@ -47,24 +47,26 @@ const StatisticsCard = ({
   <Card>
     <CardHeader>
       <CardTitle>{title}</CardTitle>
-      <CardDescription></CardDescription>
+      {/*<CardDescription></CardDescription>*/}
     </CardHeader>
     <CardContent>
-      <div className="grid gap-4 xl:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4">
         <CarPieChart data={data} />
         <ul>
-          {Object.entries(data).map(([key, value]) => {
-            return (
-              <li key={key}>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">{key}</span>
-                  <span className="font-bold">
-                    {formatPercent(value / total)}
-                  </span>
-                </div>
-              </li>
-            );
-          })}
+          {Object.entries(data)
+            .filter(([_, value]) => value)
+            .map(([key, value]) => {
+              return (
+                <li key={key}>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">{key}</span>
+                    <span className="font-semibold">
+                      {value} ({formatPercent(value / total)})
+                    </span>
+                  </div>
+                </li>
+              );
+            })}
         </ul>
       </div>
     </CardContent>
@@ -195,32 +197,30 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
                 </Card>
               </UnreleasedFeature>
             </div>
-            <div className="grid gap-4 lg:grid-cols-4">
-              <div className="grid gap-4 lg:col-span-2 xl:col-span-3">
-                <StatisticsCard
-                  title="By Fuel Type"
-                  data={numberByFuelType}
-                  total={total}
-                />
-                <StatisticsCard
-                  title="By Vehicle Type"
-                  data={numberByVehicleType}
-                  total={total}
-                />
-              </div>
-              <div className="grid gap-4 lg:col-span-2 xl:col-span-1">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Leaderboard</CardTitle>
-                    <CardDescription>
-                      For {formatDateToMonthYear(month)}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Leaderboard cars={cars} />
-                  </CardContent>
-                </Card>
-              </div>
+            <div className="grid gap-4 lg:grid-cols-2">
+              <StatisticsCard
+                title="By Fuel Type"
+                data={numberByFuelType}
+                total={total}
+              />
+              <StatisticsCard
+                title="By Vehicle Type"
+                data={numberByVehicleType}
+                total={total}
+              />
+            </div>
+            <div className="grid gap-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Leaderboard</CardTitle>
+                  <CardDescription>
+                    For {formatDateToMonthYear(month)}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Leaderboard cars={cars} />
+                </CardContent>
+              </Card>
             </div>
           </div>
           {/*TODO: Interim solution*/}

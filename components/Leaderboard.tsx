@@ -67,9 +67,9 @@ const getPopularMakes = (cars: Car[], fuelType: string): PopularMake[] => {
 
 export const Leaderboard = ({ cars }: LeaderboardProps) => {
   return (
-    <div className="grid grid-cols-1 gap-4">
+    <div className="grid gap-4 lg:grid-cols-4">
       {CATEGORIES.map(({ title, icon }) => (
-        <Card key={title}>
+        <Card key={title} className="first:col-span-full">
           <CardHeader className="flex items-center">
             {icon}
             <Typography.H3>{title}</Typography.H3>
