@@ -40,7 +40,7 @@ export const CarPieChart = ({ data }: CarPieChartProps) => {
   ) satisfies ChartConfig;
 
   return (
-    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+    <ChartContainer config={chartConfig} className="h-[200px] w-full">
       <PieChart>
         <ChartTooltip content={<ChartTooltipContent />} />
         <Pie

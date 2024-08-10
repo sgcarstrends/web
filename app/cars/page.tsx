@@ -197,32 +197,30 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
                 </Card>
               </UnreleasedFeature>
             </div>
-            <div className="grid gap-4 lg:grid-cols-4">
-              <div className="grid gap-4 lg:col-span-2 xl:col-span-3">
-                <StatisticsCard
-                  title="By Fuel Type"
-                  data={numberByFuelType}
-                  total={total}
-                />
-                <StatisticsCard
-                  title="By Vehicle Type"
-                  data={numberByVehicleType}
-                  total={total}
-                />
-              </div>
-              <div className="grid gap-4 lg:col-span-2 xl:col-span-1">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Leaderboard</CardTitle>
-                    <CardDescription>
-                      For {formatDateToMonthYear(month)}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Leaderboard cars={cars} />
-                  </CardContent>
-                </Card>
-              </div>
+            <div className="grid gap-4 lg:grid-cols-2">
+              <StatisticsCard
+                title="By Fuel Type"
+                data={numberByFuelType}
+                total={total}
+              />
+              <StatisticsCard
+                title="By Vehicle Type"
+                data={numberByVehicleType}
+                total={total}
+              />
+            </div>
+            <div className="grid gap-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Leaderboard</CardTitle>
+                  <CardDescription>
+                    For {formatDateToMonthYear(month)}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Leaderboard cars={cars} />
+                </CardContent>
+              </Card>
             </div>
           </div>
           {/*TODO: Interim solution*/}
