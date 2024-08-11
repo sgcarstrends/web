@@ -135,6 +135,18 @@ const Small = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
 );
 Small.displayName = "Small";
 
+const Muted = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <p
+    ref={ref}
+    className={cn("text-sm text-muted-foreground", className)}
+    {...props}
+  />
+));
+Muted.displayName = "Muted";
+
 const Typography = {
   H1,
   H2,
@@ -146,6 +158,7 @@ const Typography = {
   InlineCode,
   Lead,
   Small,
+  Muted,
 };
 
 export default Typography;
