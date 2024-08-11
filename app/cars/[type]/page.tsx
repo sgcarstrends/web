@@ -14,6 +14,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Typography from "@/components/Typography";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import { API_URL, EXCLUSION_LIST, SITE_URL } from "@/config";
 import { capitaliseWords } from "@/utils/capitaliseWords";
@@ -111,16 +112,12 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
             </BreadcrumbList>
           </Breadcrumb>
         </UnreleasedFeature>
-        <div className="flex justify-between">
+        <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-end gap-x-2">
-            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-              {type.toUpperCase()}
-            </h1>
-            <p className="text-xl text-muted-foreground">Cars</p>
+            <Typography.H1>{type.toUpperCase()}</Typography.H1>
+            <Typography.Lead>Cars</Typography.Lead>
           </div>
-          <div>
-            <MonthSelect months={months} defaultMonth={latestMonth.cars} />
-          </div>
+          <MonthSelect months={months} defaultMonth={latestMonth.cars} />
         </div>
         <Tabs defaultValue={type}>
           <TabsList>

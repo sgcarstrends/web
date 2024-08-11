@@ -16,10 +16,11 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 
 const links = [
-  { title: "Petrol", link: "/cars/petrol" },
-  { title: "Hybrid", link: "/cars/hybrid" },
-  { title: "Electric", link: "/cars/electric" },
-  { title: "Diesel", link: "/cars/diesel" },
+  { title: "Overview", link: "/cars" },
+  { title: "Petrol Cars", link: "/cars/petrol" },
+  { title: "Hybrid Cars", link: "/cars/hybrid" },
+  { title: "Electric Cars", link: "/cars/electric" },
+  { title: "Diesel Cars", link: "/cars/diesel" },
 ];
 
 export const MobileNavMenu = () => {
@@ -72,7 +73,7 @@ export const MobileNavMenu = () => {
                         href={link}
                         className="text-blue-600 hover:underline"
                       >
-                        {title} Cars
+                        {title}
                       </Link>
                     ))}
                   </nav>

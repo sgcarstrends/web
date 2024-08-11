@@ -49,32 +49,34 @@ export const MonthSelect = ({ months, defaultMonth }: MonthSelectProps) => {
   );
 
   return (
-    <Select
-      defaultValue={month || defaultMonth}
-      onValueChange={handleValueChange}
-    >
-      <SelectTrigger>
-        <SelectValue placeholder="Select a month" />
-      </SelectTrigger>
-      <SelectContent>
-        {sortedMonths.map(([year, months]) => (
-          <SelectGroup key={year}>
-            <SelectLabel>{year}</SelectLabel>
-            {months
-              .slice()
-              .reverse()
-              .map((month) => {
-                const date = `${year}-${month}`;
+    <div>
+      <Select
+        defaultValue={month || defaultMonth}
+        onValueChange={handleValueChange}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="Select a month" />
+        </SelectTrigger>
+        <SelectContent>
+          {sortedMonths.map(([year, months]) => (
+            <SelectGroup key={year}>
+              <SelectLabel>{year}</SelectLabel>
+              {months
+                .slice()
+                .reverse()
+                .map((month) => {
+                  const date = `${year}-${month}`;
 
-                return (
-                  <SelectItem key={month} value={date}>
-                    {formatDateToMonthYear(date)}
-                  </SelectItem>
-                );
-              })}
-          </SelectGroup>
-        ))}
-      </SelectContent>
-    </Select>
+                  return (
+                    <SelectItem key={month} value={date}>
+                      {formatDateToMonthYear(date)}
+                    </SelectItem>
+                  );
+                })}
+            </SelectGroup>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 };

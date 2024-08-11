@@ -141,11 +141,12 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
           </BreadcrumbList>
         </Breadcrumb>
       </UnreleasedFeature>
-      <div className="flex items-center gap-x-4">
-        <Typography.H1>Car Registrations for </Typography.H1>
-        <div className="inline-block">
-          <MonthSelect months={months} defaultMonth={month} />
+      <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex items-end gap-x-2">
+          <Typography.H1>Car Registrations</Typography.H1>
+          <Typography.Lead>{formatDateToMonthYear(month)}</Typography.Lead>
         </div>
+        <MonthSelect months={months} defaultMonth={month} />
       </div>
       {/*TODO: Improvise*/}
       {cars.length === 0 && (
