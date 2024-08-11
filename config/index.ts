@@ -24,6 +24,8 @@ export enum FUEL_TYPE {
   PETROL = "Petrol",
 }
 
+export const HYBRID_REGEX = /^(Diesel|Petrol)-(Electric)(\s\(Plug-In\))?$/;
+
 export const ANNOUNCEMENT: string =
   "🌟 Big Updates Ahead! Our website is getting an upgrade with awesome new features rolling out soon. Stay tuned!";
 

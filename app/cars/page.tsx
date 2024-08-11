@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/card";
 import { CarPieChart } from "@/components/CarPieChart";
 import { Leaderboard } from "@/components/Leaderboard";
-import { API_URL, FUEL_TYPE } from "@/config";
+import { API_URL, FUEL_TYPE, HYBRID_REGEX } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { formatPercent } from "@/utils/formatPercent";
@@ -90,18 +90,31 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
     month = latestMonths.cars;
   }
 
-  const cars = await fetchApi<Car[]>(`${API_URL}/cars?month=${month}`, {
+  let cars = await fetchApi<Car[]>(`${API_URL}/cars?month=${month}`, {
     next: { tags: ["cars"] },
+  });
+  cars = [...cars].map((car) => {
+    let fuelType = car.fuel_type;
+
+    if (HYBRID_REGEX.test(fuelType)) {
+      Object.assign(car, { fuel_type: "Hybrid" });
+    }
+
+    return car;
   });
   const months = await fetchApi<string[]>(`${API_URL}/months`);
   const total = cars.reduce((accum, curr) => accum + (curr.number || 0), 0);
 
-  const aggregateData = (data: any[], key: keyof Car): Record<string, number> =>
-    data.reduce((acc, item) => {
+  const aggregateData = (
+    data: any[],
+    key: keyof Car,
+  ): Record<string, number> => {
+    return data.reduce((acc, item) => {
       const value = item[key];
       acc[value] = (acc[value] || 0) + (item.number || 0);
       return acc;
     }, {});
+  };
 
   const findTopEntry = (data: Record<string, number>) => {
     const entries = Object.entries(data);
