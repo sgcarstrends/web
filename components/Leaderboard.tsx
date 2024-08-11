@@ -8,6 +8,7 @@ import type { Car } from "@/types";
 interface Category {
   title: string;
   icon: ReactNode;
+  link: string;
 }
 
 type PopularMake = Pick<Car, "make" | "number">;
@@ -18,24 +19,24 @@ interface LeaderboardProps {
 
 const CATEGORIES: Category[] = [
   {
-    title: "Overall",
-    icon: <Trophy className="h-6 w-6 text-yellow-600" />,
-  },
-  {
     title: "Petrol",
     icon: <Fuel className="h-6 w-6 text-red-600" />,
+    link: "/cars/petrol",
   },
   {
     title: "Hybrid",
     icon: <Zap className="h-6 w-6 text-blue-600" />,
+    link: "/cars/hybrid",
   },
   {
     title: "Electric",
     icon: <Battery className="h-6 w-6 text-green-600" />,
+    link: "/cars/electric",
   },
   {
     title: "Diesel",
     icon: <Droplet className="h-6 w-6 text-gray-600" />,
+    link: "/cars/diesel",
   },
 ];
 
@@ -68,11 +69,29 @@ const getPopularMakes = (cars: Car[], fuelType: string): PopularMake[] => {
 export const Leaderboard = ({ cars }: LeaderboardProps) => {
   return (
     <div className="grid gap-4 lg:grid-cols-4">
-      {CATEGORIES.map(({ title, icon }) => (
+      <Card className="col-span-full">
+        <CardHeader>
+          <Trophy className="h-6 w-6 text-yellow-600" />
+          <Typography.H3>Overall</Typography.H3>
+        </CardHeader>
+        <CardContent>
+          <ol className="list-decimal">
+            {getPopularMakes(cars, "Overall").map(({ make, number }) => (
+              <li key={make} className="flex items-center justify-between">
+                <span className="flex items-center gap-x-2">
+                  <Link href={`/make/${make}`}>{make}</Link>
+                </span>
+                <span className="font-semibold">{number}</span>
+              </li>
+            ))}
+          </ol>
+        </CardContent>
+      </Card>
+      {CATEGORIES.map(({ title, icon, link }) => (
         <Card key={title} className="first:col-span-full">
-          <CardHeader className="flex items-center">
+          <CardHeader>
             {icon}
-            <Typography.H3>{title}</Typography.H3>
+            <Typography.H3 className="flex">{title}</Typography.H3>
           </CardHeader>
           <CardContent>
             {getPopularMakes(cars, title).length === 0 && (
