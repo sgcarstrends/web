@@ -68,6 +68,12 @@ const StatisticsCard = ({
               );
             })}
         </ul>
+        {Object.keys(data).includes(FUEL_TYPE.OTHERS) && (
+          <p className="text-sm text-muted-foreground">
+            Note: We do not know what is the Land Transport Authority&apos;s
+            exact definition of &quot;Others&quot;.
+          </p>
+        )}
       </div>
     </CardContent>
   </Card>
@@ -223,13 +229,6 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
               </Card>
             </div>
           </div>
-          {/*TODO: Interim solution*/}
-          {Object.keys(numberByFuelType).includes(FUEL_TYPE.OTHERS) && (
-            <p className="text-sm text-muted-foreground">
-              Note: We do not know what is the Land Transport Authority&apos;s
-              exact definition of &quot;Others&quot;.
-            </p>
-          )}
         </>
       )}
     </div>
