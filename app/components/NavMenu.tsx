@@ -12,7 +12,6 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import { cn } from "@/lib/utils";
 
 export const NavMenu = () => {
@@ -55,21 +54,19 @@ export const NavMenu = () => {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <UnreleasedFeature>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>COE</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                <ListItem href="/coe/prices" title="Latest COE">
-                  Latest
-                </ListItem>
-                <ListItem href="/coe/prices" title="Historical COE Trends">
-                  Historical
-                </ListItem>
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-        </UnreleasedFeature>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>COE</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+              <ListItem href="/coe/prices" title="Latest COE">
+                Latest
+              </ListItem>
+              <ListItem href="/coe/prices" title="Historical COE Trends">
+                Historical
+              </ListItem>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
