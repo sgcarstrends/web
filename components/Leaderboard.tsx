@@ -1,14 +1,28 @@
 import { ReactNode } from "react";
 import Link from "next/link";
-import { Battery, Droplet, Fuel, Trophy, Zap } from "lucide-react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import {
+  ArrowUpRight,
+  Battery,
+  Droplet,
+  Fuel,
+  Trophy,
+  Zap,
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import Typography from "@/components/Typography";
 import type { Car } from "@/types";
 
 interface Category {
   title: string;
+  description?: string;
   icon: ReactNode;
-  link: string;
+  link?: string;
 }
 
 type PopularMake = Pick<Car, "make" | "number">;
@@ -19,22 +33,31 @@ interface LeaderboardProps {
 
 const CATEGORIES: Category[] = [
   {
+    title: "Overall",
+    description: "Combination of all fuel types",
+    icon: <Trophy className="h-6 w-6 text-yellow-600" />,
+  },
+  {
     title: "Petrol",
+    description: "Internal Combustion Engine (ICE) vehicles",
     icon: <Fuel className="h-6 w-6 text-red-600" />,
     link: "/cars/petrol",
   },
   {
     title: "Hybrid",
+    description: "Includes Petrol, Diesel and Plug-In types",
     icon: <Zap className="h-6 w-6 text-blue-600" />,
     link: "/cars/hybrid",
   },
   {
     title: "Electric",
+    description: "Battery Electric Vehicles (BEV)",
     icon: <Battery className="h-6 w-6 text-green-600" />,
     link: "/cars/electric",
   },
   {
     title: "Diesel",
+    description: "Compression-ignition engine vehicles",
     icon: <Droplet className="h-6 w-6 text-gray-600" />,
     link: "/cars/diesel",
   },
@@ -69,29 +92,16 @@ const getPopularMakes = (cars: Car[], fuelType: string): PopularMake[] => {
 export const Leaderboard = ({ cars }: LeaderboardProps) => {
   return (
     <div className="grid grid-cols-1 gap-4">
-      <Card>
-        <CardHeader>
-          <Trophy className="h-6 w-6 text-yellow-600" />
-          <Typography.H3>Overall</Typography.H3>
-        </CardHeader>
-        <CardContent>
-          <ol className="list-decimal">
-            {getPopularMakes(cars, "Overall").map(({ make, number }) => (
-              <li key={make} className="flex items-center justify-between">
-                <span className="flex items-center gap-x-2">
-                  <Link href={`/make/${make}`}>{make}</Link>
-                </span>
-                <span className="font-semibold">{number}</span>
-              </li>
-            ))}
-          </ol>
-        </CardContent>
-      </Card>
-      {CATEGORIES.map(({ title, icon, link }) => (
-        <Card key={title} className="first:col-span-full">
+      {CATEGORIES.map(({ title, description, icon }) => (
+        <Card key={title}>
           <CardHeader>
-            {icon}
-            <Typography.H3 className="flex">{title}</Typography.H3>
+            <CardTitle className="flex flex-col items-center gap-2">
+              <span>{icon}</span>
+              <span>{title}</span>
+            </CardTitle>
+            <CardDescription className="text-center">
+              {description}
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {getPopularMakes(cars, title).length === 0 && (
@@ -99,16 +109,25 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
                 No registrations for this period
               </Typography.Muted>
             )}
-            <ol className="list-decimal">
+            <ul>
               {getPopularMakes(cars, title).map(({ make, number }) => (
-                <li key={make} className="flex items-center justify-between">
-                  <span className="flex items-center gap-x-2">
-                    <Link href={`/make/${make}`}>{make}</Link>
-                  </span>
-                  <span className="font-semibold">{number}</span>
+                <li
+                  key={make}
+                  className="group cursor-pointer rounded p-1 transition-colors duration-200 hover:bg-secondary"
+                >
+                  <Link
+                    href={`/make/${make}`}
+                    className="flex items-center justify-between"
+                  >
+                    <div className="flex gap-1">
+                      <span className="text-muted-foreground">{make}</span>
+                      <ArrowUpRight className="h-4 w-4 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+                    </div>
+                    <span className="font-semibold">{number}</span>
+                  </Link>
                 </li>
               ))}
-            </ol>
+            </ul>
           </CardContent>
         </Card>
       ))}

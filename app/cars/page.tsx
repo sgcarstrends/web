@@ -38,12 +38,14 @@ const VEHICLE_TYPE_MAP: Record<string, string> = {
 
 const StatisticsCard = ({
   title,
+  description,
   data,
   total,
   // TODO: Temporary solution
   linkPrefix,
 }: {
   title: string;
+  description: string;
   data: Record<string, number>;
   total: number;
   // TODO: Temporary solution
@@ -52,7 +54,7 @@ const StatisticsCard = ({
   <Card>
     <CardHeader>
       <CardTitle>{title}</CardTitle>
-      {/*<CardDescription></CardDescription>*/}
+      <CardDescription>{description}</CardDescription>
     </CardHeader>
     <CardContent>
       <div className="grid grid-cols-1 gap-4">
@@ -64,19 +66,19 @@ const StatisticsCard = ({
               return (
                 <li
                   key={key}
-                  className="group cursor-pointer rounded p-2 transition-colors duration-200 hover:bg-secondary"
+                  className="group cursor-pointer rounded px-2 py-1 transition-colors duration-200 hover:bg-secondary"
                 >
                   <Link
                     href={`${linkPrefix}/${key.toLowerCase()}`}
                     className="flex items-center justify-between"
                   >
-                    <span className="text-muted-foreground">{key}</span>
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-primary">
-                        {value} ({formatPercent(value / total)})
-                      </span>
+                    <div className="flex gap-1">
+                      <span className="text-muted-foreground">{key}</span>
                       <ArrowUpRight className="h-4 w-4 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
                     </div>
+                    <span className="font-semibold text-primary">
+                      {value} ({formatPercent(value / total)})
+                    </span>
                   </Link>
                 </li>
               );
@@ -235,12 +237,14 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
               <div className="grid grid-cols-1 gap-4 lg:col-span-2">
                 <StatisticsCard
                   title="By Fuel Type"
+                  description="Distribution of vehicles based on fuel type"
                   data={numberByFuelType}
                   total={total}
                   linkPrefix="cars"
                 />
                 <StatisticsCard
                   title="By Vehicle Type"
+                  description="Distribution of vehicles based on vehicle type"
                   data={numberByVehicleType}
                   total={total}
                   linkPrefix="vehicle-make"
@@ -251,7 +255,8 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
                   <CardHeader>
                     <CardTitle>Leaderboard</CardTitle>
                     <CardDescription>
-                      For {formatDateToMonthYear(month)}
+                      Top 3 makes in each category for{" "}
+                      {formatDateToMonthYear(month)}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
