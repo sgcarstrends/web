@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { WebSite, WithContext } from "schema-dts";
 import { API_URL, SITE_URL } from "@/config";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -15,7 +15,6 @@ import type { Car, LatestMonth } from "@/types";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { MAKE } from "@/constants";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface Props {
   params: { make: string };

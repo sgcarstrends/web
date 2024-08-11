@@ -21,9 +21,9 @@ import { API_URL, FUEL_TYPE } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { formatPercent } from "@/utils/formatPercent";
-import type { Car } from "@/types";
 import Typography from "@/components/Typography";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
+import type { Car } from "@/types";
 
 interface CarsPageProps {
   searchParams: { [key: string]: string };

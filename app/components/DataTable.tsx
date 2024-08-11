@@ -5,18 +5,13 @@ import { Progress } from "@/app/components/Progress";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { MEDAL_MAPPING } from "@/config";
 import Typography from "@/components/Typography";
 import { useGlobalState } from "@/context/GlobalStateContext";
-import { capitaliseWords } from "@/utils/capitaliseWords";
-import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { CARS } from "@/constants";
 
 // TODO: Fix type
