@@ -38,12 +38,6 @@ export const DataTable = ({ data, fuelType }: DataTableProps) => {
 
   return (
     <Table>
-      {selectedMonth && (
-        <TableCaption>
-          {capitaliseWords(fuelType)} cars registration in Singapore for{" "}
-          {formatDateToMonthYear(selectedMonth)}
-        </TableCaption>
-      )}
       <TableHeader>
         <TableRow>
           {Object.values(CARS.TABLE.HEADERS).map((header) => (
@@ -64,8 +58,7 @@ export const DataTable = ({ data, fuelType }: DataTableProps) => {
         )}
         {data.length > 0 &&
           data.map((item, index) => (
-            <TableRow key={item._id} className="even:bg-muted">
-              <TableCell>{MEDAL_MAPPING[index + 1] || index + 1}</TableCell>
+            <TableRow key={item._id}>
               <TableCell>
                 <Link href={`/make/${item.make}`}>{item.make}</Link>
               </TableCell>
@@ -82,14 +75,6 @@ export const DataTable = ({ data, fuelType }: DataTableProps) => {
             </TableRow>
           ))}
       </TableBody>
-      <TableFooter>
-        {data.length > 0 && (
-          <TableRow>
-            <TableCell colSpan={2}>Total</TableCell>
-            <TableCell colSpan={2}>{total}</TableCell>
-          </TableRow>
-        )}
-      </TableFooter>
     </Table>
   );
 };

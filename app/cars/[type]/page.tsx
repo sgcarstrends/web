@@ -20,6 +20,15 @@ import { API_URL, EXCLUSION_LIST, SITE_URL } from "@/config";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
 import { Car, LatestMonth } from "@/types";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Props {
   params: { type: string };
@@ -132,8 +141,24 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
             })}
           </TabsList>
         </Tabs>
-        <CarTreeMap data={filteredCars} />
-        <DataTable data={filteredCars} fuelType={type} />
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Overview</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CarTreeMap data={filteredCars} />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Registrations</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <DataTable data={filteredCars} fuelType={type} />
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </section>
   );
