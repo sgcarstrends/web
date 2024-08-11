@@ -95,7 +95,7 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
           </CardHeader>
           <CardContent>
             {getPopularMakes(cars, title).length === 0 && (
-              <Typography.Muted className="text-center">
+              <Typography.Muted>
                 No registrations for this period
               </Typography.Muted>
             )}
