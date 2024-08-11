@@ -75,6 +75,11 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
             <Typography.H3>{title}</Typography.H3>
           </CardHeader>
           <CardContent>
+            {getPopularMakes(cars, title).length === 0 && (
+              <Typography.Muted className="text-center">
+                No registrations for this period
+              </Typography.Muted>
+            )}
             <ol className="list-decimal">
               {getPopularMakes(cars, title).map(({ make, number }) => (
                 <li key={make} className="flex items-center justify-between">
