@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { MonthSelect } from "@/app/components/MonthSelect";
 import {
   Breadcrumb,
@@ -39,10 +40,14 @@ const StatisticsCard = ({
   title,
   data,
   total,
+  // TODO: Temporary solution
+  linkPrefix,
 }: {
   title: string;
   data: Record<string, number>;
   total: number;
+  // TODO: Temporary solution
+  linkPrefix?: string;
 }) => (
   <Card>
     <CardHeader>
@@ -57,13 +62,22 @@ const StatisticsCard = ({
             .filter(([_, value]) => value)
             .map(([key, value]) => {
               return (
-                <li key={key}>
-                  <div className="flex justify-between">
+                <li
+                  key={key}
+                  className="group cursor-pointer rounded p-2 transition-colors duration-200 hover:bg-secondary"
+                >
+                  <Link
+                    href={`${linkPrefix}/${key.toLowerCase()}`}
+                    className="flex items-center justify-between"
+                  >
                     <span className="text-muted-foreground">{key}</span>
-                    <span className="font-semibold">
-                      {value} ({formatPercent(value / total)})
-                    </span>
-                  </div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-primary">
+                        {value} ({formatPercent(value / total)})
+                      </span>
+                      <ArrowUpRight className="h-4 w-4 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+                    </div>
+                  </Link>
                 </li>
               );
             })}
@@ -217,30 +231,34 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
                 </Card>
               </UnreleasedFeature>
             </div>
-            <div className="grid gap-4 lg:grid-cols-2">
-              <StatisticsCard
-                title="By Fuel Type"
-                data={numberByFuelType}
-                total={total}
-              />
-              <StatisticsCard
-                title="By Vehicle Type"
-                data={numberByVehicleType}
-                total={total}
-              />
-            </div>
-            <div className="grid gap-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Leaderboard</CardTitle>
-                  <CardDescription>
-                    For {formatDateToMonthYear(month)}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Leaderboard cars={cars} />
-                </CardContent>
-              </Card>
+            <div className="grid gap-4 lg:grid-cols-4">
+              <div className="grid grid-cols-1 gap-4 lg:col-span-2">
+                <StatisticsCard
+                  title="By Fuel Type"
+                  data={numberByFuelType}
+                  total={total}
+                  linkPrefix="cars"
+                />
+                <StatisticsCard
+                  title="By Vehicle Type"
+                  data={numberByVehicleType}
+                  total={total}
+                  linkPrefix="vehicle-make"
+                />
+              </div>
+              <div className="grid gap-4 lg:col-span-2">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Leaderboard</CardTitle>
+                    <CardDescription>
+                      For {formatDateToMonthYear(month)}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Leaderboard cars={cars} />
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </>
