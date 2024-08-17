@@ -2,8 +2,6 @@ import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 
-export const runtime = "edge";
-
 export const GET = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
   const type = searchParams.get("type");
