@@ -21,10 +21,11 @@ import { API_URL, EXCLUSION_LIST, SITE_URL } from "@/config";
 import { Car, LatestMonth } from "@/types";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
+import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 
 interface Props {
   params: { type: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams?: { [key: string]: string };
 }
 
 export const generateMetadata = async ({
@@ -32,13 +33,18 @@ export const generateMetadata = async ({
   searchParams,
 }: Props): Promise<Metadata> => {
   const { type } = params;
-  const month = searchParams?.month;
+  let month = searchParams?.month;
+
+  if (!month) {
+    const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
+    month = latestMonth.cars;
+  }
 
   const images = `${SITE_URL}/api/og?type=${type}&month=${month}`;
 
   return {
     title: capitaliseWords(type),
-    description: `Car registration for ${type} fuel type in Singapore for the month of ${month}.`,
+    description: `Car registration for ${type} fuel type in Singapore for the month of ${formatDateToMonthYear(month)}.`,
     openGraph: { images },
     twitter: { images },
     alternates: {
