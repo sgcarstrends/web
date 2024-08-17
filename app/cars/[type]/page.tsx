@@ -1,10 +1,12 @@
-import { Metadata } from "next";
 import Link from "next/link";
+import { Metadata } from "next";
 import { WebSite, WithContext } from "schema-dts";
 import { CarTreeMap } from "@/app/components/CarTreeMap";
 import { DataTable } from "@/app/components/DataTable";
 import { MonthSelect } from "@/app/components/MonthSelect";
 import { StructuredData } from "@/components/StructuredData";
+import Typography from "@/components/Typography";
+import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,16 +17,14 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Typography from "@/components/Typography";
-import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import { API_URL, EXCLUSION_LIST, SITE_URL } from "@/config";
+import { Car, LatestMonth } from "@/types";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
-import { Car, LatestMonth } from "@/types";
 
 interface Props {
   params: { type: string };
-  searchParams?: { [key: string]: string | string[] };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 export const generateMetadata = async ({
@@ -34,9 +34,13 @@ export const generateMetadata = async ({
   const { type } = params;
   const month = searchParams?.month;
 
+  const images = `${SITE_URL}/api/og?type=${type}&month=${month}`;
+
   return {
     title: capitaliseWords(type),
     description: `Car registration for ${type} fuel type in Singapore for the month of ${month}.`,
+    openGraph: { images },
+    twitter: { images },
     alternates: {
       canonical: `/cars/${type}`,
     },
