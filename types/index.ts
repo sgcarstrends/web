@@ -62,3 +62,5 @@ export enum RevalidateTags {
   Cars = "cars",
   COE = "coe",
 }
+
+export type Make = Car["make"];

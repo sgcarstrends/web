@@ -8,10 +8,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Make } from "@/types";
 
 interface MakeSelectorProps {
-  makes: string[];
-  selectedMake: string;
+  makes: Make[];
+  selectedMake: Make;
 }
 
 export const MakeSelector = ({ makes, selectedMake }: MakeSelectorProps) => {
