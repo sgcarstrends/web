@@ -3,6 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { Battery, Droplet, Fuel, type LucideIcon, Zap } from "lucide-react";
+import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -54,19 +55,21 @@ export const NavMenu = () => {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>COE</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <ListItem href="/coe/prices" title="Latest COE">
-                Latest
-              </ListItem>
-              <ListItem href="/coe/prices" title="Historical COE Trends">
-                Historical
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
+        <UnreleasedFeature>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>COE</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                <ListItem href="/coe/prices" title="Latest COE">
+                  Latest
+                </ListItem>
+                <ListItem href="/coe/prices" title="Historical COE Trends">
+                  Historical
+                </ListItem>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </UnreleasedFeature>
       </NavigationMenuList>
     </NavigationMenu>
   );

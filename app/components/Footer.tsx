@@ -137,18 +137,18 @@ const footerSections: FooterSection[] = [
       { href: "/cars/diesel", label: "Diesel Cars" },
     ],
   },
-  {
-    title: "COE",
-    links: [
-      { href: "/coe/prices", label: "COE Prices" },
-      { href: "/coe/bidding", label: "COE Bidding" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { href: "/about", label: "About" },
-      { href: "/contact", label: "Contact" },
-    ],
-  },
+  // {
+  //   title: "COE",
+  //   links: [
+  //     { href: "/coe/prices", label: "COE Prices" },
+  //     { href: "/coe/bidding", label: "COE Bidding" },
+  //   ],
+  // },
+  // {
+  //   title: "Resources",
+  //   links: [
+  //     { href: "/about", label: "About" },
+  //     { href: "/contact", label: "Contact" },
+  //   ],
+  // },
 ];
