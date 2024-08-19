@@ -57,3 +57,8 @@ export interface COEBiddingResult {
   "Category D": number;
   "Category E": number;
 }
+
+export enum RevalidateTags {
+  Cars = "cars",
+  COE = "coe",
+}

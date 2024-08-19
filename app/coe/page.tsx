@@ -1,5 +1,8 @@
-import { Metadata } from "next";
 import Link from "next/link";
+import { Metadata } from "next";
+import { HistoricalResult } from "@/app/components/HistoricalResult";
+import { MonthlyResult } from "@/app/components/MonthlyResult";
+import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,25 +11,22 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { HistoricalResult } from "@/app/components/HistoricalResult";
-import { MonthlyResult } from "@/app/components/MonthlyResult";
 import { API_URL } from "@/config";
-import { fetchApi } from "@/utils/fetchApi";
 import { COEResult } from "@/types";
-import { UnreleasedFeature } from "@/components/UnreleasedFeature";
+import { fetchApi } from "@/utils/fetchApi";
 
 export const metadata: Metadata = { alternates: { canonical: "/coe" } };
 
 const COEPage = async () => {
   const fetchHistoricalResult = fetchApi<COEResult[]>(`${API_URL}/coe`, {
-    next: { tags: ["coe"] },
+    next: { tags: [RevalidateTags.COE] },
   });
   const fetchMonthlyResult = fetchApi<COEResult[]>(`${API_URL}/coe/latest`, {
-    next: { tags: ["coe"] },
+    next: { tags: [RevalidateTags.COE] },
   });
   const fetchLatestMonth = fetchApi<Record<string, string>>(
     `${API_URL}/months/latest`,
-    { next: { tags: ["coe"] } },
+    { next: { tags: [RevalidateTags.COE] } },
   );
 
   const [historicalResults, monthlyResults, latestMonth] = await Promise.all([

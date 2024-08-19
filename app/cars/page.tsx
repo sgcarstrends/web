@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { MonthSelect } from "@/app/components/MonthSelect";
+import { CarPieChart } from "@/components/CarPieChart";
+import { Leaderboard } from "@/components/Leaderboard";
+import Typography from "@/components/Typography";
+import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,14 +20,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { CarPieChart } from "@/components/CarPieChart";
-import { Leaderboard } from "@/components/Leaderboard";
 import { API_URL, FUEL_TYPE, HYBRID_REGEX } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { formatPercent } from "@/utils/formatPercent";
-import Typography from "@/components/Typography";
-import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import type { Car } from "@/types";
 
 interface CarsPageProps {
@@ -101,13 +101,13 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
   if (!month) {
     const latestMonths = await fetchApi<{ [key: string]: string }>(
       `${API_URL}/months/latest`,
-      { next: { tags: ["cars"] } },
+      { next: { tags: [RevalidateTags.Cars] } },
     );
     month = latestMonths.cars;
   }
 
   let cars = await fetchApi<Car[]>(`${API_URL}/cars?month=${month}`, {
-    next: { tags: ["cars"] },
+    next: { tags: [RevalidateTags.Cars] },
   });
   cars = [...cars].map((car) => {
     let fuelType = car.fuel_type;

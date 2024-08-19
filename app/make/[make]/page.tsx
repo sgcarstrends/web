@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/table";
 import { API_URL, SITE_URL } from "@/config";
 import { MAKE } from "@/constants";
+import { Car, LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
-import type { Car, LatestMonth } from "@/types";
 
 interface Props {
   params: { make: string };
@@ -36,7 +36,7 @@ export const generateMetadata = async ({ params, searchParams }: Props) => {
 
 export const generateStaticParams = async () => {
   const makes = await fetchApi<string[]>(`${API_URL}/make`, {
-    next: { tags: ["cars"] },
+    next: { tags: [RevalidateTags.Cars] },
   });
   return makes.map((make) => ({ make }));
 };
@@ -65,18 +65,18 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
   if (!month) {
     const latestMonth = await fetchApi<LatestMonth>(
       `${API_URL}/months/latest`,
-      { next: { tags: ["cars"] } },
+      { next: { tags: [RevalidateTags.Cars] } },
     );
     month = latestMonth.cars;
   }
 
   const cars = await fetchApi<Car[]>(`${API_URL}/make/${make}?month=${month}`, {
-    next: { tags: ["cars"] },
+    next: { tags: [RevalidateTags.Cars] },
   });
   const filteredCars = mergeCarData(cars);
 
   const makes = await fetchApi<string[]>(`${API_URL}/cars/makes`, {
-    next: { tags: ["cars"] },
+    next: { tags: [RevalidateTags.Cars] },
   });
 
   const jsonLd: WithContext<WebSite> = {

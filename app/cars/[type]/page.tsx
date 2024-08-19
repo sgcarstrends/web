@@ -69,12 +69,14 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   const { type } = params;
 
   const cars = await fetchApi<Car[]>(`${API_URL}/cars/${type}`, {
-    next: { tags: ["cars"] },
+    next: { tags: [RevalidateTags.Cars] },
   });
   const [months, latestMonth] = await Promise.all([
-    fetchApi<string[]>(`${API_URL}/months`, { next: { tags: ["cars"] } }),
+    fetchApi<string[]>(`${API_URL}/months`, {
+      next: { tags: [RevalidateTags.Cars] },
+    }),
     fetchApi<LatestMonth>(`${API_URL}/months/latest`, {
-      next: { tags: ["cars"] },
+      next: { tags: [RevalidateTags.Cars] },
     }),
   ]);
 
