@@ -75,14 +75,18 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
     month = latestMonth.cars;
   }
 
-  const cars = await fetchApi<Car[]>(`${API_URL}/make/${make}`, {
-    next: { tags: [RevalidateTags.Cars] },
-  });
-  const filteredCars = mergeCarData(cars);
+  const getCars = () =>
+    fetchApi<Car[]>(`${API_URL}/make/${make}`, {
+      next: { tags: [RevalidateTags.Cars] },
+    });
+  const getMakes = () =>
+    fetchApi<Make[]>(`${API_URL}/cars/makes`, {
+      next: { tags: [RevalidateTags.Cars] },
+    });
 
-  const makes = await fetchApi<Make[]>(`${API_URL}/cars/makes`, {
-    next: { tags: [RevalidateTags.Cars] },
-  });
+  const [cars, makes] = await Promise.all([getCars(), getMakes()]);
+
+  const filteredCars = mergeCarData(cars);
 
   const jsonLd: WithContext<WebSite> = {
     "@context": "https://schema.org",
