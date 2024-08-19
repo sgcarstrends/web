@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { MakeSelector } from "@/app/components/MakeSelector";
+import { columns } from "@/app/make/[make]/columns";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DataTable } from "@/components/ui/data-table";
 import {
   Table,
   TableBody,
@@ -99,45 +101,7 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
             <CardTitle>Trends</CardTitle>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  {Object.values(MAKE.TABLE.HEADERS).map((header) => (
-                    <TableHead key={header}>{header}</TableHead>
-                  ))}
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredCars.length === 0 && (
-                  <TableRow>
-                    <TableCell
-                      colSpan={Object.entries(MAKE.TABLE.HEADERS).length}
-                      className="text-center"
-                    >
-                      <Typography.H4>No data available</Typography.H4>
-                    </TableCell>
-                  </TableRow>
-                )}
-                {filteredCars.map((car, index) => (
-                  <TableRow
-                    key={`${car.fuel_type}-${car.vehicle_type}`}
-                    className="even:bg-muted"
-                  >
-                    <TableCell>{car.month}</TableCell>
-                    <TableCell>
-                      <Link
-                        href={`/cars/${car.fuel_type.toLowerCase()}?month=${car.month}`}
-                        className="hover:underline"
-                      >
-                        {car.fuel_type}
-                      </Link>
-                    </TableCell>
-                    <TableCell>{car.vehicle_type}</TableCell>
-                    <TableCell>{car.number}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable columns={columns} data={filteredCars} />
           </CardContent>
         </Card>
       </div>
