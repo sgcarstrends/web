@@ -28,6 +28,7 @@ export default $config({
       },
       environment: {
         SG_CARS_TRENDS_API_TOKEN: process.env.SG_CARS_TRENDS_API_TOKEN,
+        APP_ENV: $app.stage,
       },
     });
   },

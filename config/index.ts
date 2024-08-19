@@ -1,9 +1,13 @@
+import type { AppEnv } from "@/types";
+
 const DOMAIN_NAME = "sgcarstrends.com";
 const API_VERSION = "v1";
 
 export const SITE_URL: string =
   process.env.NEXT_PUBLIC_SITE_URL || `https://${DOMAIN_NAME}`;
 export const SITE_TITLE = "SG Cars Trends";
+
+export const APP_ENV = process.env.APP_ENV as AppEnv;
 
 // Configure the API BASE URL
 const DEFAULT_API_URL = `https://api.${DOMAIN_NAME}`;
