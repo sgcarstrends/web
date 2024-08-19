@@ -33,7 +33,6 @@ export const TrendChart = ({ data }: Props) => {
       <AreaChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />
         <XAxis dataKey="month" tickMargin={8} />
-        <YAxis dataKey="number" type="number" />
         <ChartTooltip
           content={<ChartTooltipContent indicator="line" label />}
         />
