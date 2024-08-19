@@ -1,12 +1,20 @@
 import { MakeSelector } from "@/app/components/MakeSelector";
+import { TrendChart } from "@/app/make/[make]/TrendChart";
 import { columns } from "@/app/make/[make]/columns";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 import { API_URL, SITE_URL } from "@/config";
 import { type Car, type LatestMonth, type Make, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
+import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { WebSite, WithContext } from "schema-dts";
 
 interface Props {
@@ -34,7 +42,9 @@ export const generateStaticParams = async () => {
 };
 
 const mergeCarData = (cars: Car[]): Omit<Car, "importer_type">[] => {
-  cars = cars.filter(({ number }) => number);
+  cars = cars
+    .filter(({ number }) => number)
+    .map((car) => ({ ...car, month: formatDateToMonthYear(car.month) }));
 
   const mergedData = cars.reduce<Record<string, Car>>((acc, curr) => {
     const key = `${curr.month}-${curr.make}-${curr.fuel_type}-${curr.vehicle_type}`;
@@ -91,7 +101,27 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
         </div>
         <Card>
           <CardHeader>
-            <CardTitle>Trends</CardTitle>
+            <CardTitle>Historical Trends</CardTitle>
+            <CardDescription>
+              Past registrations for{" "}
+              <span className="font-extrabold text-primary">
+                {decodeURIComponent(make)}
+              </span>
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <TrendChart data={filteredCars.toReversed()} />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Summary</CardTitle>
+            <CardDescription>
+              Breakdown of the fuel &amp; vehicle types for{" "}
+              <span className="font-extrabold text-primary">
+                {decodeURIComponent(make)}
+              </span>
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <DataTable columns={columns} data={filteredCars} />
