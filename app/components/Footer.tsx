@@ -1,6 +1,7 @@
 import type { ElementType } from "react";
 import Link from "next/link";
 import { Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
 import { Separator } from "@/components/ui/separator";
 
 interface FooterLink {
@@ -82,7 +83,10 @@ export const Footer = () => {
     <footer className="bg-gray-100">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col gap-y-8">
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+            <div>
+              <BrandLogo />
+            </div>
             {footerSections.map(({ title, links }) => (
               <FooterSection key={title} title={title} links={links} />
             ))}
