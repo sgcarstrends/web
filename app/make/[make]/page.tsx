@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { WebSite, WithContext } from "schema-dts";
-import { API_URL, SITE_URL } from "@/config";
+import { MakeSelector } from "@/app/components/MakeSelector";
+import { StructuredData } from "@/components/StructuredData";
+import Typography from "@/components/Typography";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -10,11 +12,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { API_URL, SITE_URL } from "@/config";
+import { MAKE } from "@/constants";
 import { fetchApi } from "@/utils/fetchApi";
 import type { Car, LatestMonth } from "@/types";
-import { StructuredData } from "@/components/StructuredData";
-import Typography from "@/components/Typography";
-import { MAKE } from "@/constants";
 
 interface Props {
   params: { make: string };
@@ -74,6 +75,10 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
   });
   const filteredCars = mergeCarData(cars);
 
+  const makes = await fetchApi<string[]>(`${API_URL}/cars/makes`, {
+    next: { tags: ["cars"] },
+  });
+
   const jsonLd: WithContext<WebSite> = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -85,11 +90,9 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
     <section>
       <StructuredData data={jsonLd} />
       <div className="flex flex-col gap-y-8">
-        <div className="flex items-end gap-x-2">
-          <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-            {decodeURIComponent(make)}
-          </h1>
-          <p className="text-xl text-muted-foreground">Registrations</p>
+        <div className="flex flex-col justify-between gap-2 lg:flex-row">
+          <Typography.H1>{decodeURIComponent(make)}</Typography.H1>
+          <MakeSelector makes={makes} selectedMake={make} />
         </div>
         <Card>
           <CardHeader>
