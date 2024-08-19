@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
-import { API_URL, SITE_URL } from "@/config";
+import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
 import { type Car, type LatestMonth, type Make, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
@@ -87,7 +87,7 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
   const jsonLd: WithContext<WebSite> = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: `${make} - Singapore Motor Trends`,
+    name: `${make} - ${SITE_TITLE}`,
     url: `${SITE_URL}/make/${make}`,
   };
 

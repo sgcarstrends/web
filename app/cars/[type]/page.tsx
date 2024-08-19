@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { API_URL, EXCLUSION_LIST, SITE_URL } from "@/config";
+import { API_URL, EXCLUSION_LIST, SITE_TITLE, SITE_URL } from "@/config";
 import { type Car, type LatestMonth, RevalidateTags } from "@/types";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
@@ -96,7 +96,7 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   const jsonLd: WithContext<WebSite> = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: `${capitaliseWords(type)} - Singapore Motor Trends`,
+    name: `${capitaliseWords(type)} - ${SITE_TITLE}`,
     url: `${SITE_URL}/cars/${type}`,
   };
 

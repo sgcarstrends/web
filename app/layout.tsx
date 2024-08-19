@@ -1,19 +1,19 @@
 import React from "react";
-import type { Metadata } from "next";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import { Inter } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import classNames from "classnames";
+import { Providers } from "@/app/Providers";
 import { Announcement } from "@/app/components/Announcement";
 import { Footer } from "@/app/components/Footer";
 import { Header } from "@/app/components/Header";
-import { Providers } from "@/app/Providers";
-import { ANNOUNCEMENT, SITE_URL } from "@/config";
+import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
 import "./globals.css";
 import { GlobalStateProvider } from "@/context/GlobalStateContext";
+import type { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const title: string = `Singapore Motor Trends`;
+const title: string = SITE_TITLE;
 const description: string = `Statistics for car trends in Singapore. Data provided by Land Transport Authority (LTA)`;
 const url = new URL(SITE_URL);
 
@@ -37,10 +37,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    creator: "@ruchernchong",
+    creator: "@sgcarstrends",
   },
-  authors: [{ name: "Ru Chern", url: "https://ruchern.xyz" }],
-  creator: "Ru Chern",
+  authors: [{ name: "Ru Chern CHONG", url: "https://ruchern.xyz" }],
+  creator: "Ru Chern CHONG",
 };
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
