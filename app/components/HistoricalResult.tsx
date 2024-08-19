@@ -1,10 +1,10 @@
 "use client";
 
 import { ResponsiveLine } from "@nivo/line";
-import { useAtomValue } from "jotai";
 import { parse, subMonths } from "date-fns";
+import { useAtomValue } from "jotai";
 import { showCategoriesAtom } from "@/atoms/coeAtom";
-import { COEResult } from "@/types";
+import type { COEResult } from "@/types";
 
 interface QuotaPremium {
   [key: string]: { [key: string]: number };

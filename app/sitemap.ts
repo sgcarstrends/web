@@ -1,5 +1,5 @@
-import { MetadataRoute } from "next";
 import { SITE_URL } from "@/config";
+import type { MetadataRoute } from "next";
 
 const sitemap = (): MetadataRoute.Sitemap => {
   return [

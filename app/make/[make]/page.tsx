@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { WebSite, WithContext } from "schema-dts";
 import { MakeSelector } from "@/app/components/MakeSelector";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
@@ -14,8 +13,9 @@ import {
 } from "@/components/ui/table";
 import { API_URL, SITE_URL } from "@/config";
 import { MAKE } from "@/constants";
-import { Car, LatestMonth, Make, RevalidateTags } from "@/types";
+import { type Car, type LatestMonth, type Make, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
+import type { WebSite, WithContext } from "schema-dts";
 
 interface Props {
   params: { make: string };

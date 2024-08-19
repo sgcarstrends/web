@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Battery, Droplet, Fuel, LucideIcon, Zap } from "lucide-react";
+import { Battery, Droplet, Fuel, type LucideIcon, Zap } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import {
   ArrowUpRight,
@@ -8,6 +8,7 @@ import {
   Trophy,
   Zap,
 } from "lucide-react";
+import Typography from "@/components/Typography";
 import {
   Card,
   CardContent,
@@ -15,7 +16,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Typography from "@/components/Typography";
 import type { Car } from "@/types";
 
 interface Category {

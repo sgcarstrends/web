@@ -3,7 +3,7 @@
 import { ResponsiveBar } from "@nivo/bar";
 import { useAtomValue } from "jotai";
 import { showCategoriesAtom } from "@/atoms/coeAtom";
-import { COEResult } from "@/types";
+import type { COEResult } from "@/types";
 
 interface MonthlyResultProps {
   data: COEResult[];

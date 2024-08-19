@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Make } from "@/types";
+import type { Make } from "@/types";
 
 interface MakeSelectorProps {
   makes: Make[];

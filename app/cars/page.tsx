@@ -21,10 +21,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { API_URL, FUEL_TYPE, HYBRID_REGEX } from "@/config";
+import { type Car, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { formatPercent } from "@/utils/formatPercent";
-import type { Car } from "@/types";
 
 interface CarsPageProps {
   searchParams: { [key: string]: string };

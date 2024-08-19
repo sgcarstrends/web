@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { Metadata } from "next";
-import { WebSite, WithContext } from "schema-dts";
 import { CarTreeMap } from "@/app/components/CarTreeMap";
 import { DataTable } from "@/app/components/DataTable";
 import { MonthSelect } from "@/app/components/MonthSelect";
@@ -18,10 +16,12 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { API_URL, EXCLUSION_LIST, SITE_URL } from "@/config";
-import { Car, LatestMonth } from "@/types";
+import { type Car, type LatestMonth, RevalidateTags } from "@/types";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
+import type { Metadata } from "next";
+import type { WebSite, WithContext } from "schema-dts";
 
 interface Props {
   params: { type: string };

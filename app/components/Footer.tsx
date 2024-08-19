@@ -1,4 +1,4 @@
-import { ElementType } from "react";
+import type { ElementType } from "react";
 import Link from "next/link";
 import { Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-react";
 import { Separator } from "@/components/ui/separator";

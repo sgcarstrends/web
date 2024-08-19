@@ -2,8 +2,8 @@
 
 import {
   createContext,
-  Dispatch,
-  PropsWithChildren,
+  type Dispatch,
+  type PropsWithChildren,
   useContext,
   useMemo,
   useReducer,

@@ -11,10 +11,10 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { showCategoriesAtom } from "@/atoms/coeAtom";
-import { COEBiddingResult } from "@/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
+import type { COEBiddingResult } from "@/types";
 
 interface COEPremiumChartProps {
   data: COEBiddingResult[];

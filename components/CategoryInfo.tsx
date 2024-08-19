@@ -1,9 +1,9 @@
 "use client";
 
 import { useAtom } from "jotai";
-import { LucideIcon } from "lucide-react";
 import { showCategoriesAtom } from "@/atoms/coeAtom";
 import { cn } from "@/lib/utils";
+import type { LucideIcon } from "lucide-react";
 
 interface CategoryInfoProps {
   icon: LucideIcon;

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Metadata } from "next";
 import { HistoricalResult } from "@/app/components/HistoricalResult";
 import { MonthlyResult } from "@/app/components/MonthlyResult";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
@@ -12,8 +11,9 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { API_URL } from "@/config";
-import { COEResult } from "@/types";
+import { type COEResult, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = { alternates: { canonical: "/coe" } };
 

@@ -2,7 +2,7 @@ import { COECategories } from "@/components/COECategories";
 import { COEPremiumChart } from "@/components/COEPremiumChart";
 import Typography from "@/components/Typography";
 import { API_URL } from "@/config";
-import { COEBiddingResult, COEResult } from "@/types";
+import { type COEBiddingResult, type COEResult, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 
 const COEPricesPage = async () => {
