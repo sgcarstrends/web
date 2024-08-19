@@ -1,20 +1,10 @@
-import Link from "next/link";
 import { MakeSelector } from "@/app/components/MakeSelector";
 import { columns } from "@/app/make/[make]/columns";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { API_URL, SITE_URL } from "@/config";
-import { MAKE } from "@/constants";
 import { type Car, type LatestMonth, type Make, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import type { WebSite, WithContext } from "schema-dts";
