@@ -33,20 +33,23 @@ export const generateStaticParams = async () => {
   return makes.map((make) => ({ make }));
 };
 
-const mergeCarData = (cars: Car[]): Car[] => {
-  const carsMap = new Map();
-  cars.forEach((car) => {
-    const key = `${car.make}|${car.fuel_type}|${car.vehicle_type}`;
+const mergeCarData = (cars: Car[]): Omit<Car, "importer_type">[] => {
+  cars = cars.filter(({ number }) => number);
 
-    if (!carsMap.has(key)) {
-      const { importer_type, ...rest } = car;
-      carsMap.set(key, { ...rest, number: 0 });
+  const mergedData = cars.reduce<Record<string, Car>>((acc, curr) => {
+    const key = `${curr.month}-${curr.make}-${curr.fuel_type}-${curr.vehicle_type}`;
+
+    if (!acc[key]) {
+      acc[key] = { ...curr };
+      delete acc[key].importer_type;
+    } else {
+      acc[key].number += curr.number;
     }
 
-    carsMap.get(key).number += car.number || 0;
-  });
+    return acc;
+  }, {});
 
-  return Array.from(carsMap.values()).filter(({ number }) => number);
+  return Object.values(mergedData);
 };
 
 const CarMakePage = async ({ params, searchParams }: Props) => {
@@ -62,7 +65,7 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
     month = latestMonth.cars;
   }
 
-  const cars = await fetchApi<Car[]>(`${API_URL}/make/${make}?month=${month}`, {
+  const cars = await fetchApi<Car[]>(`${API_URL}/make/${make}`, {
     next: { tags: [RevalidateTags.Cars] },
   });
   const filteredCars = mergeCarData(cars);
