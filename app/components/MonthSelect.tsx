@@ -61,18 +61,15 @@ export const MonthSelect = ({ months, defaultMonth }: MonthSelectProps) => {
           {sortedMonths.map(([year, months]) => (
             <SelectGroup key={year}>
               <SelectLabel>{year}</SelectLabel>
-              {months
-                .slice()
-                .reverse()
-                .map((month) => {
-                  const date = `${year}-${month}`;
+              {months.slice().map((month) => {
+                const date = `${year}-${month}`;
 
-                  return (
-                    <SelectItem key={month} value={date}>
-                      {formatDateToMonthYear(date)}
-                    </SelectItem>
-                  );
-                })}
+                return (
+                  <SelectItem key={month} value={date}>
+                    {formatDateToMonthYear(date)}
+                  </SelectItem>
+                );
+              })}
             </SelectGroup>
           ))}
         </SelectContent>
