@@ -4,7 +4,9 @@ import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 
 export const GET = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
+  const title = searchParams.get("title");
   const type = searchParams.get("type");
+  const make = searchParams.get("make");
   const month = searchParams.get("month");
   const formattedMonth = month && formatDateToMonthYear(month);
 
@@ -52,21 +54,22 @@ export const GET = async (req: NextRequest) => {
           >
             <div tw="flex flex-col md:flex-row w-full py-12 px-4 md:items-center justify-between p-8">
               <div tw="flex flex-col text-3xl sm:text-4xl font-bold tracking-tight text-gray-900">
-                <span>Car Trends ({formattedMonth})</span>
-                <span tw="text-blue-600 capitalize">{type}</span>
+                {title || <span>Car Trends ({formattedMonth})</span>}
+                {type && <span tw="capitalize text-blue-600">{type}</span>}
+                {make && <span tw="capitalize text-blue-600">{make}</span>}
               </div>
-              <div tw="mt-8 flex md:mt-0">
-                <div tw="flex rounded-md shadow">
-                  <a tw="flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-5 py-3 text-base font-medium text-white">
-                    Explore
-                  </a>
-                </div>
-                <div tw="ml-3 flex rounded-md shadow">
-                  <a tw="flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-blue-600">
-                    Details
-                  </a>
-                </div>
-              </div>
+              {/*<div tw="mt-8 flex md:mt-0">*/}
+              {/*  <div tw="flex rounded-md shadow">*/}
+              {/*    <a tw="flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-5 py-3 text-base font-medium text-white">*/}
+              {/*      Explore*/}
+              {/*    </a>*/}
+              {/*  </div>*/}
+              {/*  <div tw="ml-3 flex rounded-md shadow">*/}
+              {/*    <a tw="flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-blue-600">*/}
+              {/*      Details*/}
+              {/*    </a>*/}
+              {/*  </div>*/}
+              {/*</div>*/}
             </div>
           </div>
         </div>

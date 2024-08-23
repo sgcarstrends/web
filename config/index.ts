@@ -1,4 +1,4 @@
-import type { AppEnv } from "@/types";
+import type { AppEnv, LinkItem } from "@/types";
 
 const DOMAIN_NAME = "sgcarstrends.com";
 const API_VERSION = "v1";
@@ -42,3 +42,33 @@ export const MEDAL_MAPPING: Record<number, string> = {
 
 export const FEATURE_FLAG_UNRELEASED =
   process.env.NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED === "true";
+
+export const CAR_LINKS: LinkItem[] = [
+  { label: "Latest", href: "/cars" },
+  {
+    label: "Petrol",
+    href: "/cars/petrol",
+  },
+  {
+    label: "Hybrid",
+    href: "/cars/hybrid",
+  },
+  {
+    label: "Electric",
+    href: "/cars/electric",
+  },
+  {
+    label: "Diesel",
+    href: "/cars/diesel",
+  },
+];
+
+export const COE_LINKS: LinkItem[] = [
+  { href: "/coe/prices", label: "COE Prices" },
+  { href: "/coe/bidding", label: "COE Bidding" },
+];
+
+export const SITE_LINKS: LinkItem[] = [
+  ...CAR_LINKS,
+  // ...COE_LINKS
+];

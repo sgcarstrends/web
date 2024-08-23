@@ -3,20 +3,12 @@ import Link from "next/link";
 import { Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { Separator } from "@/components/ui/separator";
+import { CAR_LINKS } from "@/config";
+import type { LinkItem } from "@/types";
 
 interface FooterLink {
-  href: string;
-  label: string;
-}
-
-interface FooterSection {
   title: string;
-  links: FooterLink[];
-}
-
-interface FooterSectionProps {
-  title: string;
-  links: FooterLink[];
+  links: LinkItem[];
 }
 
 interface SocialMediaLink {
@@ -58,7 +50,7 @@ const socialMediaLinks: SocialMediaLink[] = [
   // },
 ];
 
-const FooterSection = ({ title, links }: FooterSectionProps) => (
+const FooterSection = ({ title, links }: FooterLink) => (
   <div>
     <h3 className="mb-2 font-semibold text-gray-900">{title}</h3>
     <ul className="flex flex-col gap-y-2">
@@ -87,7 +79,7 @@ export const Footer = () => {
             <div>
               <BrandLogo />
             </div>
-            {footerSections.map(({ title, links }) => (
+            {footerLinks.map(({ title, links }) => (
               <FooterSection key={title} title={title} links={links} />
             ))}
           </div>
@@ -130,23 +122,15 @@ export const Footer = () => {
   );
 };
 
-const footerSections: FooterSection[] = [
+const footerLinks: FooterLink[] = [
   {
     title: "Cars",
-    links: [
-      { href: "/cars", label: "All Cars" },
-      { href: "/cars/petrol", label: "Petrol Cars" },
-      { href: "/cars/hybrid", label: "Hybrid Cars" },
-      { href: "/cars/electric", label: "Electric Cars" },
-      { href: "/cars/diesel", label: "Diesel Cars" },
-    ],
+    links: CAR_LINKS,
   },
+  // TODO: Coming Soon!
   // {
   //   title: "COE",
-  //   links: [
-  //     { href: "/coe/prices", label: "COE Prices" },
-  //     { href: "/coe/bidding", label: "COE Bidding" },
-  //   ],
+  //   links: coeLinks,
   // },
   // {
   //   title: "Resources",
