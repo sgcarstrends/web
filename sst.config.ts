@@ -1,5 +1,7 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 
+import { AppEnv } from "./types";
+
 const DOMAIN_NAME = "sgcarstrends.com";
 
 const DOMAIN: Record<string, any> = {
@@ -12,7 +14,7 @@ export default $config({
   app(input) {
     return {
       name: "sgcarstrends",
-      removal: input?.stage === "prod" ? "retain" : "remove",
+      removal: input?.stage === AppEnv.PROD ? "retain" : "remove",
       home: "aws",
       providers: {
         aws: { region: "ap-southeast-1" },
@@ -27,7 +29,7 @@ export default $config({
         dns: sst.cloudflare.dns(),
       },
       environment: {
-        SG_CARS_TRENDS_API_TOKEN: process.env.SG_CARS_TRENDS_API_TOKEN,
+        SG_CARS_TRENDS_API_TOKEN: process.env.SG_CARS_TRENDS_API_TOKEN || "",
         APP_ENV: $app.stage,
       },
     });

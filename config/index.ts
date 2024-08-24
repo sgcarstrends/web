@@ -3,16 +3,16 @@ import type { AppEnv, LinkItem } from "@/types";
 const DOMAIN_NAME = "sgcarstrends.com";
 const API_VERSION = "v1";
 
-export const SITE_URL: string =
-  process.env.NEXT_PUBLIC_SITE_URL || `https://${DOMAIN_NAME}`;
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? `https://${DOMAIN_NAME}`;
 export const SITE_TITLE = "SG Cars Trends";
 
 export const APP_ENV = process.env.APP_ENV as AppEnv;
 
 // Configure the API BASE URL
 const DEFAULT_API_URL = `https://api.${DOMAIN_NAME}`;
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || DEFAULT_API_URL;
-export const API_URL: string = `${API_BASE_URL}/${API_VERSION}`;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? DEFAULT_API_URL;
+export const API_URL = `${API_BASE_URL}/${API_VERSION}`;
 
 /**
  * List of make to be excluded from the dataset because they are usually part of the following:
