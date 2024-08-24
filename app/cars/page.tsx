@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { MonthSelect } from "@/app/components/MonthSelect";
 import { CarPieChart } from "@/components/CarPieChart";
 import { Leaderboard } from "@/components/Leaderboard";
+import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import {
@@ -20,12 +21,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { API_URL, FUEL_TYPE, HYBRID_REGEX } from "@/config";
+import { API_URL, FUEL_TYPE, HYBRID_REGEX, SITE_URL } from "@/config";
 import { type Car, type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { formatPercent } from "@/utils/formatPercent";
 import type { Metadata } from "next";
+import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
   searchParams: { [key: string]: string };
@@ -122,122 +124,134 @@ const CarsPage = async ({ searchParams }: Props) => {
   const [topVehicleType, topVehicleTypeValue] =
     findTopEntry(numberByVehicleType);
 
+  const formattedDate = formatDateToMonthYear(month);
+  const structuredData: WithContext<WebPage> = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Car Registrations",
+    url: `${SITE_URL}/cars`,
+    description: `Breakdown of the cars registered in ${formattedDate} by fuel type and vehicle type`,
+  };
+
   return (
-    <div className="flex flex-col gap-8">
-      <UnreleasedFeature>
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href="/">Home</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Cars</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </UnreleasedFeature>
-      <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex items-end gap-x-2">
-          <Typography.H1>Car Registrations</Typography.H1>
-          <Typography.Lead>{formatDateToMonthYear(month)}</Typography.Lead>
-        </div>
-        <MonthSelect months={months} defaultMonth={month} />
-      </div>
-      {/*TODO: Improvise*/}
-      {cars.length === 0 && (
-        <Typography.H3>
-          No data available for the selected period.
-        </Typography.H3>
-      )}
-      {cars.length > 0 && (
-        <>
-          <div className="flex flex-col gap-y-4">
-            <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Total Registrations</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-4xl font-bold text-blue-600">{total}</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Top Fuel Type</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-2xl font-bold text-green-600">
-                    {topFuelType} ({topFuelTypeValue})
-                  </p>
-                  <p className="text-gray-600">Highest adoption rate</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Top Vehicle Type</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-2xl font-bold text-pink-600">
-                    {topVehicleType} ({topVehicleTypeValue})
-                  </p>
-                  <p className="text-gray-600">Highest adoption rate</p>
-                </CardContent>
-              </Card>
-              <UnreleasedFeature>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Trend</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-2xl font-bold text-orange-600">
-                      Electric
-                    </p>
-                    <p className="text-gray-600">
-                      Steady increase in registrations
-                    </p>
-                  </CardContent>
-                </Card>
-              </UnreleasedFeature>
-            </div>
-            <div className="grid gap-4 lg:grid-cols-4">
-              <div className="grid grid-cols-1 gap-4 lg:col-span-2">
-                <StatisticsCard
-                  title="By Fuel Type"
-                  description="Distribution of vehicles based on fuel type"
-                  data={numberByFuelType}
-                  total={total}
-                  linkPrefix="cars"
-                />
-                <StatisticsCard
-                  title="By Vehicle Type"
-                  description="Distribution of vehicles based on vehicle type"
-                  data={numberByVehicleType}
-                  total={total}
-                  linkPrefix="vehicle-make"
-                />
-              </div>
-              <div className="grid gap-4 lg:col-span-2">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Leaderboard</CardTitle>
-                    <CardDescription>
-                      Top 3 makes in each category for{" "}
-                      {formatDateToMonthYear(month)}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Leaderboard cars={cars} />
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
+    <>
+      <StructuredData data={structuredData} />
+      <div className="flex flex-col gap-8">
+        <UnreleasedFeature>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href="/">Home</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Cars</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </UnreleasedFeature>
+        <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex items-end gap-x-2">
+            <Typography.H1>Car Registrations</Typography.H1>
+            <Typography.Lead>{formatDateToMonthYear(month)}</Typography.Lead>
           </div>
-        </>
-      )}
-    </div>
+          <MonthSelect months={months} defaultMonth={month} />
+        </div>
+        {/*TODO: Improvise*/}
+        {cars.length === 0 && (
+          <Typography.H3>
+            No data available for the selected period.
+          </Typography.H3>
+        )}
+        {cars.length > 0 && (
+          <>
+            <div className="flex flex-col gap-y-4">
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Total Registrations</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-4xl font-bold text-blue-600">{total}</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Top Fuel Type</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-2xl font-bold text-green-600">
+                      {topFuelType} ({topFuelTypeValue})
+                    </p>
+                    <p className="text-gray-600">Highest adoption rate</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Top Vehicle Type</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-2xl font-bold text-pink-600">
+                      {topVehicleType} ({topVehicleTypeValue})
+                    </p>
+                    <p className="text-gray-600">Highest adoption rate</p>
+                  </CardContent>
+                </Card>
+                <UnreleasedFeature>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Trend</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-2xl font-bold text-orange-600">
+                        Electric
+                      </p>
+                      <p className="text-gray-600">
+                        Steady increase in registrations
+                      </p>
+                    </CardContent>
+                  </Card>
+                </UnreleasedFeature>
+              </div>
+              <div className="grid gap-4 lg:grid-cols-4">
+                <div className="grid grid-cols-1 gap-4 lg:col-span-2">
+                  <StatisticsCard
+                    title="By Fuel Type"
+                    description="Distribution of vehicles based on fuel type"
+                    data={numberByFuelType}
+                    total={total}
+                    linkPrefix="cars"
+                  />
+                  <StatisticsCard
+                    title="By Vehicle Type"
+                    description="Distribution of vehicles based on vehicle type"
+                    data={numberByVehicleType}
+                    total={total}
+                    linkPrefix="vehicle-make"
+                  />
+                </div>
+                <div className="grid gap-4 lg:col-span-2">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Leaderboard</CardTitle>
+                      <CardDescription>
+                        Top 3 makes in each category for{" "}
+                        {formatDateToMonthYear(month)}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <Leaderboard cars={cars} />
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

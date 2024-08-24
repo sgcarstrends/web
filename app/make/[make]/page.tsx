@@ -16,7 +16,7 @@ import { type Car, type Make, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { Metadata } from "next";
-import type { WebSite, WithContext } from "schema-dts";
+import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
   params: { make: string };
@@ -73,17 +73,17 @@ const CarMakePage = async ({ params }: Props) => {
 
   const filteredCars = mergeCarData(cars);
 
-  const jsonLd: WithContext<WebSite> = {
+  const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: `${make} | ${SITE_TITLE}`,
-    description: `${make} historical trend`,
+    "@type": "WebPage",
+    name: make,
+    description: `${make} historical trends`,
     url: `${SITE_URL}/make/${make}`,
   };
 
   return (
     <section>
-      <StructuredData data={jsonLd} />
+      <StructuredData data={structuredData} />
       <div className="flex flex-col gap-y-8">
         <div className="flex flex-col justify-between gap-2 lg:flex-row">
           <Typography.H1>{decodeURIComponent(make)}</Typography.H1>

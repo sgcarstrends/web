@@ -21,7 +21,7 @@ import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { Metadata } from "next";
-import type { WebSite, WithContext } from "schema-dts";
+import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
   params: { type: string };
@@ -99,16 +99,16 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
     ({ make, number }) => !EXCLUSION_LIST.includes(make) && number > 0,
   );
 
-  const jsonLd: WithContext<WebSite> = {
+  const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: `${capitaliseWords(type)} - ${SITE_TITLE}`,
+    "@type": "WebPage",
+    name: capitaliseWords(type),
     url: `${SITE_URL}/cars/${type}`,
   };
 
   return (
     <section>
-      <StructuredData data={jsonLd} />
+      <StructuredData data={structuredData} />
       <div className="flex flex-col gap-y-8">
         <UnreleasedFeature>
           <Breadcrumb>
