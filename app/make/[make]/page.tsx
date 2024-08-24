@@ -12,24 +12,40 @@ import {
 } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
-import { type Car, type LatestMonth, type Make, RevalidateTags } from "@/types";
+import { type Car, type Make, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
+import type { Metadata } from "next";
 import type { WebSite, WithContext } from "schema-dts";
 
 interface Props {
   params: { make: string };
-  searchParams: { month: string };
 }
 
-export const generateMetadata = async ({ params, searchParams }: Props) => {
+export const generateMetadata = async ({
+  params,
+}: Props): Promise<Metadata> => {
   const { make } = params;
+  const description = `${make} historical trend`;
+  const images = `/api/og?title=Historical Trend&make=${make}`;
+  const canonicalUrl = `/make/${make}`;
 
   return {
     title: make,
-    description: `Car registration for ${make} in Singapore`,
+    description,
+    openGraph: {
+      images,
+      url: canonicalUrl,
+      siteName: SITE_TITLE,
+      locale: "en_SG",
+      type: "website",
+    },
+    twitter: {
+      images,
+      creator: "@sgcarstrends",
+    },
     alternates: {
-      canonical: `/make/${make}`,
+      canonical: canonicalUrl,
     },
   };
 };
@@ -39,6 +55,63 @@ export const generateStaticParams = async () => {
     next: { tags: [RevalidateTags.Cars] },
   });
   return makes.map((make) => ({ make }));
+};
+
+const CarMakePage = async ({ params }: Props) => {
+  const { make } = params;
+
+  const getCars = () =>
+    fetchApi<Car[]>(`${API_URL}/make/${make}`, {
+      next: { tags: [RevalidateTags.Cars] },
+    });
+  const getMakes = () =>
+    fetchApi<Make[]>(`${API_URL}/cars/makes`, {
+      next: { tags: [RevalidateTags.Cars] },
+    });
+
+  const [cars, makes] = await Promise.all([getCars(), getMakes()]);
+
+  const filteredCars = mergeCarData(cars);
+
+  const jsonLd: WithContext<WebSite> = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: `${make} | ${SITE_TITLE}`,
+    description: `${make} historical trend`,
+    url: `${SITE_URL}/make/${make}`,
+  };
+
+  return (
+    <section>
+      <StructuredData data={jsonLd} />
+      <div className="flex flex-col gap-y-8">
+        <div className="flex flex-col justify-between gap-2 lg:flex-row">
+          <Typography.H1>{decodeURIComponent(make)}</Typography.H1>
+          <MakeSelector makes={makes} selectedMake={make} />
+        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Historical Trend</CardTitle>
+            <CardDescription>Past registrations</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <TrendChart data={filteredCars.toReversed()} />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Summary</CardTitle>
+            <CardDescription>
+              Breakdown of fuel &amp; vehicle types by month
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <DataTable columns={columns} data={filteredCars} />
+          </CardContent>
+        </Card>
+      </div>
+    </section>
+  );
 };
 
 const mergeCarData = (cars: Car[]): Omit<Car, "importer_type">[] => {
@@ -60,80 +133,6 @@ const mergeCarData = (cars: Car[]): Omit<Car, "importer_type">[] => {
   }, {});
 
   return Object.values(mergedData);
-};
-
-const CarMakePage = async ({ params, searchParams }: Props) => {
-  const { make } = params;
-  let { month } = searchParams;
-
-  // TODO: Interim solution
-  if (!month) {
-    const latestMonth = await fetchApi<LatestMonth>(
-      `${API_URL}/months/latest`,
-      { next: { tags: [RevalidateTags.Cars] } },
-    );
-    month = latestMonth.cars;
-  }
-
-  const getCars = () =>
-    fetchApi<Car[]>(`${API_URL}/make/${make}`, {
-      next: { tags: [RevalidateTags.Cars] },
-    });
-  const getMakes = () =>
-    fetchApi<Make[]>(`${API_URL}/cars/makes`, {
-      next: { tags: [RevalidateTags.Cars] },
-    });
-
-  const [cars, makes] = await Promise.all([getCars(), getMakes()]);
-
-  const filteredCars = mergeCarData(cars);
-
-  const jsonLd: WithContext<WebSite> = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: `${make} - ${SITE_TITLE}`,
-    url: `${SITE_URL}/make/${make}`,
-  };
-
-  return (
-    <section>
-      <StructuredData data={jsonLd} />
-      <div className="flex flex-col gap-y-8">
-        <div className="flex flex-col justify-between gap-2 lg:flex-row">
-          <Typography.H1>{decodeURIComponent(make)}</Typography.H1>
-          <MakeSelector makes={makes} selectedMake={make} />
-        </div>
-        <Card>
-          <CardHeader>
-            <CardTitle>Historical Trends</CardTitle>
-            <CardDescription>
-              Past registrations for{" "}
-              <span className="font-extrabold text-primary">
-                {decodeURIComponent(make)}
-              </span>
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <TrendChart data={filteredCars.toReversed()} />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Summary</CardTitle>
-            <CardDescription>
-              Breakdown of the fuel &amp; vehicle types for{" "}
-              <span className="font-extrabold text-primary">
-                {decodeURIComponent(make)}
-              </span>
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <DataTable columns={columns} data={filteredCars} />
-          </CardContent>
-        </Card>
-      </div>
-    </section>
-  );
 };
 
 export default CarMakePage;

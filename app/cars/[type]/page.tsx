@@ -39,16 +39,22 @@ export const generateMetadata = async ({
     const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
     month = latestMonth.cars;
   }
-
   const images = `${SITE_URL}/api/og?type=${type}&month=${month}`;
+  const pageUrl = `/cars/${type}`;
 
   return {
     title: capitaliseWords(type),
-    description: `Car registration for ${type} fuel type in Singapore for the month of ${formatDateToMonthYear(month)}.`,
-    openGraph: { images },
-    twitter: { images },
+    description: `${capitaliseWords(type)} car registrations for the month of ${formatDateToMonthYear(month)}`,
+    openGraph: {
+      images,
+      url: pageUrl,
+      siteName: SITE_TITLE,
+      locale: "en_SG",
+      type: "website",
+    },
+    twitter: { images, creator: "@sgcarstrends" },
     alternates: {
-      canonical: `/cars/${type}`,
+      canonical: pageUrl,
     },
   };
 };

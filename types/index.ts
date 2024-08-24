@@ -70,3 +70,8 @@ export enum AppEnv {
   STAGING = "staging",
   PROD = "prod",
 }
+
+export interface LinkItem {
+  label: string;
+  href: string;
+}

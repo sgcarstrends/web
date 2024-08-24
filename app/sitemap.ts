@@ -1,4 +1,4 @@
-import { API_URL, SITE_URL } from "@/config";
+import { API_URL, SITE_LINKS, SITE_URL } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import type { Make } from "@/types";
 import type { MetadataRoute } from "next";
@@ -14,12 +14,8 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
       url: SITE_URL,
       lastModified: new Date(),
     },
-    {
-      url: `${SITE_URL}/cars`,
-      lastModified: new Date(),
-    },
-    ...FUEL_TYPE.map((type) => ({
-      url: `${SITE_URL}/cars/${type}`,
+    ...SITE_LINKS.map((link) => ({
+      url: `${SITE_URL}${link.href}`,
       lastModified: new Date(),
     })),
     ...makes.map((make) => ({

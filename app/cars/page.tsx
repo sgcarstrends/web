@@ -21,12 +21,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { API_URL, FUEL_TYPE, HYBRID_REGEX } from "@/config";
-import { type Car, RevalidateTags } from "@/types";
+import { type Car, type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { formatPercent } from "@/utils/formatPercent";
+import type { Metadata } from "next";
 
-interface CarsPageProps {
+interface Props {
   searchParams: { [key: string]: string };
 }
 
@@ -36,66 +37,34 @@ const VEHICLE_TYPE_MAP: Record<string, string> = {
   "Sports Utility Vehicle": "SUV",
 };
 
-const StatisticsCard = ({
-  title,
-  description,
-  data,
-  total,
-  // TODO: Temporary solution
-  linkPrefix,
-}: {
-  title: string;
-  description: string;
-  data: Record<string, number>;
-  total: number;
-  // TODO: Temporary solution
-  linkPrefix?: string;
-}) => (
-  <Card>
-    <CardHeader>
-      <CardTitle>{title}</CardTitle>
-      <CardDescription>{description}</CardDescription>
-    </CardHeader>
-    <CardContent>
-      <div className="grid grid-cols-1 gap-4">
-        <CarPieChart data={data} />
-        <ul>
-          {Object.entries(data)
-            .filter(([_, value]) => value)
-            .map(([key, value]) => {
-              return (
-                <li
-                  key={key}
-                  className="group cursor-pointer rounded px-2 py-1 transition-colors duration-200 hover:bg-secondary"
-                >
-                  <Link
-                    href={`${linkPrefix}/${key.toLowerCase()}`}
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex gap-1">
-                      <span className="text-muted-foreground">{key}</span>
-                      <ArrowUpRight className="h-4 w-4 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
-                    </div>
-                    <span className="font-semibold text-primary">
-                      {value} ({formatPercent(value / total)})
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
-        </ul>
-        {Object.keys(data).includes(FUEL_TYPE.OTHERS) && (
-          <p className="text-sm text-muted-foreground">
-            Note: We do not know what is the Land Transport Authority&apos;s
-            exact definition of &quot;Others&quot;.
-          </p>
-        )}
-      </div>
-    </CardContent>
-  </Card>
-);
+export const generateMetadata = async ({
+  searchParams,
+}: Props): Promise<Metadata> => {
+  let month = searchParams?.month;
 
-const CarsPage = async ({ searchParams }: CarsPageProps) => {
+  if (!month) {
+    const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
+    month = latestMonth.cars;
+  }
+
+  const formattedDate = formatDateToMonthYear(month);
+  const pageUrl = `/cars`;
+  const images = `/api/og?title=Car Registrations for ${formattedDate}`;
+
+  return {
+    title: "Car Registrations",
+    description: `Breakdown of the cars registered in ${formattedDate} by fuel type and vehicle type`,
+    openGraph: {
+      images,
+    },
+    twitter: { images },
+    alternates: {
+      canonical: pageUrl,
+    },
+  };
+};
+
+const CarsPage = async ({ searchParams }: Props) => {
   let { month } = searchParams;
   // TODO: Interim solution
   if (!month) {
@@ -271,5 +240,64 @@ const CarsPage = async ({ searchParams }: CarsPageProps) => {
     </div>
   );
 };
+
+const StatisticsCard = ({
+  title,
+  description,
+  data,
+  total,
+  // TODO: Temporary solution
+  linkPrefix,
+}: {
+  title: string;
+  description: string;
+  data: Record<string, number>;
+  total: number;
+  // TODO: Temporary solution
+  linkPrefix?: string;
+}) => (
+  <Card>
+    <CardHeader>
+      <CardTitle>{title}</CardTitle>
+      <CardDescription>{description}</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <div className="grid grid-cols-1 gap-4">
+        <CarPieChart data={data} />
+        <ul>
+          {Object.entries(data)
+            .filter(([_, value]) => value)
+            .map(([key, value]) => {
+              return (
+                <li
+                  key={key}
+                  className="group cursor-pointer rounded px-2 py-1 transition-colors duration-200 hover:bg-secondary"
+                >
+                  <Link
+                    href={`${linkPrefix}/${key.toLowerCase()}`}
+                    className="flex items-center justify-between"
+                  >
+                    <div className="flex gap-1">
+                      <span className="text-muted-foreground">{key}</span>
+                      <ArrowUpRight className="h-4 w-4 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+                    </div>
+                    <span className="font-semibold text-primary">
+                      {value} ({formatPercent(value / total)})
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+        </ul>
+        {Object.keys(data).includes(FUEL_TYPE.OTHERS) && (
+          <p className="text-sm text-muted-foreground">
+            Note: We do not know what is the Land Transport Authority&apos;s
+            exact definition of &quot;Others&quot;.
+          </p>
+        )}
+      </div>
+    </CardContent>
+  </Card>
+);
 
 export default CarsPage;
