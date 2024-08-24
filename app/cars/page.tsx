@@ -54,13 +54,15 @@ export const generateMetadata = async (
   const pageUrl = `/cars`;
 
   const previousImages = (await parent).openGraph?.images || [];
+  const opengraphImage = `/opengraph-image.png`;
+  const twitterImage = `/twitter-image.png`;
   // const images = `/api/og?title=Car Registrations for ${formattedDate}`;
 
   return {
     title: "Car Registrations",
     description: `Breakdown of the cars registered in ${formattedDate} by fuel type and vehicle type`,
-    openGraph: { url: pageUrl, images: [...previousImages] },
-    twitter: { images: [...previousImages] },
+    openGraph: { url: pageUrl, images: opengraphImage },
+    twitter: { images: twitterImage },
     alternates: {
       canonical: pageUrl,
     },
