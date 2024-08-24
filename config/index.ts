@@ -31,8 +31,10 @@ export enum FUEL_TYPE {
 
 export const HYBRID_REGEX = /^(Diesel|Petrol)-(Electric)(\s\(Plug-In\))?$/;
 
-export const ANNOUNCEMENT: string =
-  "🌟 Big Updates Ahead! Our website is getting an upgrade with awesome new features rolling out soon. Stay tuned!";
+export const ANNOUNCEMENT = "";
+
+// export const ANNOUNCEMENT =
+//   "🌟 Big Updates Ahead! Our website is getting an upgrade with awesome new features rolling out soon. Stay tuned!";
 
 export const MEDAL_MAPPING: Record<number, string> = {
   1: "🥇",

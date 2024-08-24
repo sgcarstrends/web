@@ -50,7 +50,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
     <html lang="en">
       <body className={classNames(inter.className, "bg-gray-50 text-gray-900")}>
         <GlobalStateProvider>
-          <Announcement>{ANNOUNCEMENT}</Announcement>
+          {ANNOUNCEMENT && <Announcement>{ANNOUNCEMENT}</Announcement>}
           <Header />
           <Providers>
             <main className="container mx-auto min-h-screen px-4 py-16">
