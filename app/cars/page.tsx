@@ -26,7 +26,7 @@ import { type Car, type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { formatPercent } from "@/utils/formatPercent";
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
@@ -39,9 +39,10 @@ const VEHICLE_TYPE_MAP: Record<string, string> = {
   "Sports Utility Vehicle": "SUV",
 };
 
-export const generateMetadata = async ({
-  searchParams,
-}: Props): Promise<Metadata> => {
+export const generateMetadata = async (
+  { searchParams }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> => {
   let month = searchParams?.month;
 
   if (!month) {
@@ -51,15 +52,15 @@ export const generateMetadata = async ({
 
   const formattedDate = formatDateToMonthYear(month);
   const pageUrl = `/cars`;
-  const images = `/api/og?title=Car Registrations for ${formattedDate}`;
+
+  const previousImages = (await parent).openGraph?.images || [];
+  // const images = `/api/og?title=Car Registrations for ${formattedDate}`;
 
   return {
     title: "Car Registrations",
     description: `Breakdown of the cars registered in ${formattedDate} by fuel type and vehicle type`,
-    openGraph: {
-      images,
-    },
-    twitter: { images },
+    openGraph: { images: [...previousImages] },
+    twitter: { images: [...previousImages] },
     alternates: {
       canonical: pageUrl,
     },
