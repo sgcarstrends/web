@@ -15,13 +15,12 @@ import { useGlobalState } from "@/context/GlobalStateContext";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { groupByYear } from "@/utils/groupByYear";
 
-interface MonthSelectProps {
+interface Props {
   months: string[];
-  defaultMonth: string;
 }
 
-export const MonthSelect = ({ months, defaultMonth }: MonthSelectProps) => {
-  const { dispatch } = useGlobalState();
+export const MonthSelector = ({ months }: Props) => {
+  const { dispatch, state } = useGlobalState();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -29,10 +28,8 @@ export const MonthSelect = ({ months, defaultMonth }: MonthSelectProps) => {
   const month = searchParams.get("month");
 
   useEffect(() => {
-    if (month) {
-      dispatch({ type: "SET_SELECTED_MONTH", payload: month });
-    }
-  }, [dispatch, month]);
+    dispatch({ type: "SET_SELECTED_MONTH", payload: month || months[0] });
+  }, [dispatch, month, months]);
 
   const memoisedGroupByYear = useMemo(() => groupByYear, []);
   const sortedMonths = useMemo(
@@ -50,10 +47,7 @@ export const MonthSelect = ({ months, defaultMonth }: MonthSelectProps) => {
 
   return (
     <div>
-      <Select
-        defaultValue={month || defaultMonth}
-        onValueChange={handleValueChange}
-      >
+      <Select value={state.selectedMonth} onValueChange={handleValueChange}>
         <SelectTrigger>
           <SelectValue placeholder="Select a month" />
         </SelectTrigger>
@@ -63,7 +57,6 @@ export const MonthSelect = ({ months, defaultMonth }: MonthSelectProps) => {
               <SelectLabel>{year}</SelectLabel>
               {months.slice().map((month) => {
                 const date = `${year}-${month}`;
-
                 return (
                   <SelectItem key={month} value={date}>
                     {formatDateToMonthYear(date)}

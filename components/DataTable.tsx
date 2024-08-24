@@ -1,7 +1,6 @@
-"use client";
-
 import Link from "next/link";
 import { Progress } from "@/app/components/Progress";
+import Typography from "@/components/Typography";
 import {
   Table,
   TableBody,
@@ -10,22 +9,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Typography from "@/components/Typography";
-import { useGlobalState } from "@/context/GlobalStateContext";
 import { CARS } from "@/constants";
+import type { Car } from "@/types";
 
-// TODO: Fix type
-interface DataTableProps {
-  data: any[];
-  fuelType: string;
+interface Props {
+  data: Car[];
 }
 
-export const DataTable = ({ data, fuelType }: DataTableProps) => {
-  const { state } = useGlobalState();
-  const { selectedMonth } = state;
-
-  data = data.filter(({ month }) => month === selectedMonth);
-
+export const DataTable = ({ data }: Props) => {
   const total = data.reduce((accum, curr) => accum + curr.number, 0);
   const marketShare = (number: number) => number / total;
 

@@ -8,7 +8,6 @@ import {
   useMemo,
   useReducer,
 } from "react";
-import months from "@/data/months.json";
 
 interface GlobalState {
   selectedMonth?: string;
@@ -25,7 +24,6 @@ interface GlobalProviderProps extends PropsWithChildren {}
 type Action = { type: string; payload: any };
 
 const initialState: GlobalState = {
-  selectedMonth: months[0],
   selectedYear: (new Date().getFullYear() - 1).toString(),
 };
 
