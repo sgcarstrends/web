@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { MonthSelect } from "@/app/components/MonthSelect";
 import { CarPieChart } from "@/components/CarPieChart";
 import { Leaderboard } from "@/components/Leaderboard";
+import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
@@ -157,7 +157,7 @@ const CarsPage = async ({ searchParams }: Props) => {
             <Typography.H1>Car Registrations</Typography.H1>
             <Typography.Lead>{formatDateToMonthYear(month)}</Typography.Lead>
           </div>
-          <MonthSelect months={months} defaultMonth={month} />
+          <MonthSelector months={months} />
         </div>
         {/*TODO: Improvise*/}
         {cars.length === 0 && (

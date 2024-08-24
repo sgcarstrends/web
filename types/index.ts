@@ -10,6 +10,7 @@ export type VEHICLE_TYPE =
   | "Station-wagon";
 
 export interface Car {
+  _id?: string;
   month: string;
   make: string;
   importer_type?: string;

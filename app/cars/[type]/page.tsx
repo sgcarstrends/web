@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { CarTreeMap } from "@/app/components/CarTreeMap";
-import { DataTable } from "@/app/components/DataTable";
-import { MonthSelect } from "@/app/components/MonthSelect";
+import { CarTreeMap } from "@/components/CarTreeMap";
+import { DataTable } from "@/components/DataTable";
+import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
@@ -74,9 +74,6 @@ export const generateStaticParams = () =>
 const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   const { type } = params;
 
-  const cars = await fetchApi<Car[]>(`${API_URL}/cars/${type}`, {
-    next: { tags: [RevalidateTags.Cars] },
-  });
   const [months, latestMonth] = await Promise.all([
     fetchApi<string[]>(`${API_URL}/months`, {
       next: { tags: [RevalidateTags.Cars] },
@@ -85,6 +82,11 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
       next: { tags: [RevalidateTags.Cars] },
     }),
   ]);
+
+  const month = searchParams?.month ?? latestMonth.cars;
+  const cars = await fetchApi<Car[]>(`${API_URL}/cars/${type}?month=${month}`, {
+    next: { tags: [RevalidateTags.Cars] },
+  });
 
   const totals = new Map();
   cars.forEach(({ make, number }) => {
@@ -133,10 +135,11 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
         </UnreleasedFeature>
         <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-end gap-x-2">
-            <Typography.H1>{type.toUpperCase()}</Typography.H1>
-            <Typography.Lead>Cars</Typography.Lead>
+            <Typography.H1 className="uppercase">
+              {capitaliseWords(type)}
+            </Typography.H1>
           </div>
-          <MonthSelect months={months} defaultMonth={latestMonth.cars} />
+          <MonthSelector months={months} />
         </div>
         <Tabs defaultValue={type}>
           <TabsList>
@@ -165,7 +168,7 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
               <CardTitle>Registrations</CardTitle>
             </CardHeader>
             <CardContent>
-              <DataTable data={filteredCars} fuelType={type} />
+              <DataTable data={filteredCars} />
             </CardContent>
           </Card>
         </div>
