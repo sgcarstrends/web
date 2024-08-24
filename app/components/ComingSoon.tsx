@@ -1,5 +1,5 @@
-import { Icon } from "@mdi/react";
 import { mdiClockFast } from "@mdi/js";
+import { Icon } from "@mdi/react";
 
 interface ComingSoonProps {
   page: string;

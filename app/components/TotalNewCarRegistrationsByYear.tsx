@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Bar,
   BarChart,
@@ -11,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface TotalNewCarRegistrationsByYearProps {
   data: any;

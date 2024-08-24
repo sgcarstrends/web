@@ -7,7 +7,7 @@
   "plugins": ["import"],
   "rules": {
     "import/order": [
-      "warn",
+      "error",
       {
         "pathGroups": [
           {
