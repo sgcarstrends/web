@@ -72,7 +72,7 @@ export const Footer = () => {
     a.name.localeCompare(b.name);
 
   return (
-    <footer className="bg-gray-100">
+    <footer className="bg-white">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col gap-y-8">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
