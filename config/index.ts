@@ -46,7 +46,7 @@ export const FEATURE_FLAG_UNRELEASED =
   process.env.NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED === "true";
 
 export const CAR_LINKS: LinkItem[] = [
-  { label: "Latest", href: "/cars" },
+  { label: "Monthly", href: "/cars" },
   {
     label: "Petrol",
     href: "/cars/petrol",

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { CarPieChart } from "@/components/CarPieChart";
+import { DistributionPieChart } from "@/app/cars/DistributionPieChart";
 import { Leaderboard } from "@/components/Leaderboard";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
@@ -174,7 +174,7 @@ const CarsPage = async ({ searchParams }: Props) => {
                     <CardTitle>Total Registrations</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-4xl font-bold text-blue-600">{total}</p>
+                    <p className="text-4xl font-bold text-primary">{total}</p>
                   </CardContent>
                 </Card>
                 <Card>
@@ -277,7 +277,7 @@ const StatisticsCard = ({
     </CardHeader>
     <CardContent>
       <div className="grid grid-cols-1 gap-4">
-        <CarPieChart data={data} />
+        <DistributionPieChart data={data} type={title} />
         <ul>
           {Object.entries(data)
             .filter(([_, value]) => value)

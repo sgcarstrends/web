@@ -10,6 +10,7 @@ import {
   type LucideIcon,
   Menu,
   Search,
+  TrendingUp,
   Zap,
 } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
@@ -49,13 +50,11 @@ export const NavMenu = () => {
                     className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                     href="/cars"
                   >
-                    <div className="mb-2 mt-4 text-lg font-medium">
-                      Latest month
-                    </div>
+                    <TrendingUp className="h-6 w-6 stroke-primary" />
+                    <div className="mb-2 mt-4 text-lg font-medium">Monthly</div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                      Beautifully designed components that you can copy and
-                      paste into your apps. Accessible. Customizable. Open
-                      Source.
+                      Car registration data for the latest month and previous
+                      months, broken down by fuel type and vehicle type.
                     </p>
                   </Link>
                 </NavigationMenuLink>
