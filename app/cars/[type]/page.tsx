@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { CarTreeMap } from "@/components/CarTreeMap";
+import { TrendChart } from "@/app/cars/[type]/TrendChart";
 import { DataTable } from "@/components/DataTable";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
@@ -157,14 +157,14 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
             })}
           </TabsList>
         </Tabs>
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4">
           <Card>
             <CardHeader>
               <CardTitle>Overview</CardTitle>
             </CardHeader>
             <CardContent>
               <Suspense fallback={null}>
-                <CarTreeMap data={filteredCars} />
+                <TrendChart data={filteredCars} />
               </Suspense>
             </CardContent>
           </Card>
