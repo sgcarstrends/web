@@ -59,7 +59,7 @@ export const generateMetadata = async (
   return {
     title: "Car Registrations",
     description: `Breakdown of the cars registered in ${formattedDate} by fuel type and vehicle type`,
-    openGraph: { images: [...previousImages] },
+    openGraph: { url: pageUrl, images: [...previousImages] },
     twitter: { images: [...previousImages] },
     alternates: {
       canonical: pageUrl,
