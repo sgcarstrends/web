@@ -1,6 +1,6 @@
 "use client";
 
-import { CartesianGrid, Area, AreaChart, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import {
   type ChartConfig,
   ChartContainer,
@@ -36,7 +36,13 @@ export const TrendChart = ({ data }: Props) => {
         <ChartTooltip
           content={<ChartTooltipContent indicator="line" label />}
         />
-        <Area dataKey="number" type="monotone" strokeWidth={2} />
+        <Area
+          dataKey="number"
+          type="monotone"
+          fill="hsl(var(--primary))"
+          stroke="hsl(var(--primary))"
+          strokeWidth={2}
+        />
       </AreaChart>
     </ChartContainer>
   );

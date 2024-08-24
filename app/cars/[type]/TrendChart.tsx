@@ -1,6 +1,6 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import {
   type ChartConfig,
   ChartContainer,
@@ -14,11 +14,6 @@ interface Props {
 }
 
 export const TrendChart = ({ data }: Props) => {
-  const chartData = data.map((item, index) => ({
-    ...item,
-    fill: `hsl(var(--chart-3))`,
-  }));
-
   const chartConfig = {
     number: {
       label: "Count",
@@ -27,7 +22,7 @@ export const TrendChart = ({ data }: Props) => {
 
   return (
     <ChartContainer config={chartConfig} className="h-[300px] w-full">
-      <BarChart accessibilityLayer data={chartData}>
+      <BarChart accessibilityLayer data={data}>
         <CartesianGrid vertical={false} />
         <XAxis
           dataKey="make"
@@ -36,7 +31,7 @@ export const TrendChart = ({ data }: Props) => {
           axisLine={false}
         />
         <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
-        <Bar dataKey="number" radius={8} />
+        <Bar dataKey="number" fill="hsl(var(--primary))" radius={8} />
       </BarChart>
     </ChartContainer>
   );
