@@ -28,7 +28,7 @@ export const MonthSelector = ({ months }: Props) => {
   const month = searchParams.get("month");
 
   useEffect(() => {
-    dispatch({ type: "SET_SELECTED_MONTH", payload: month || months[0] });
+    dispatch({ type: "SET_SELECTED_MONTH", payload: month ?? months[0] });
   }, [dispatch, month, months]);
 
   const memoisedGroupByYear = useMemo(() => groupByYear, []);
@@ -49,7 +49,7 @@ export const MonthSelector = ({ months }: Props) => {
     <div>
       <Select value={state.selectedMonth} onValueChange={handleValueChange}>
         <SelectTrigger>
-          <SelectValue placeholder="Select a month" />
+          <SelectValue placeholder="Select Month" />
         </SelectTrigger>
         <SelectContent>
           {sortedMonths.map(([year, months]) => (

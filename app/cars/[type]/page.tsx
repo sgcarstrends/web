@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { CarTreeMap } from "@/components/CarTreeMap";
 import { DataTable } from "@/components/DataTable";
@@ -139,7 +140,9 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
               {capitaliseWords(type)}
             </Typography.H1>
           </div>
-          <MonthSelector months={months} />
+          <Suspense fallback={null}>
+            <MonthSelector months={months} />
+          </Suspense>
         </div>
         <Tabs defaultValue={type}>
           <TabsList>
@@ -160,7 +163,9 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
               <CardTitle>Overview</CardTitle>
             </CardHeader>
             <CardContent>
-              <CarTreeMap data={filteredCars} />
+              <Suspense fallback={null}>
+                <CarTreeMap data={filteredCars} />
+              </Suspense>
             </CardContent>
           </Card>
           <Card>
