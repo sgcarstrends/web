@@ -16,5 +16,7 @@ export const fetchApi = async <T>(
     );
   }
 
+  console.log("API call:", url);
+
   return response.json();
 };
