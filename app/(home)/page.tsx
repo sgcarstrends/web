@@ -1,21 +1,35 @@
 import { KeyStatistics } from "@/app/components/KeyStatistics";
-import { TotalNewCarRegistrationsByYear } from "@/app/components/TotalNewCarRegistrationsByYear";
 import { Top5CarMakesByYear } from "@/app/components/Top5CarMakesByYear";
+import { TotalNewCarRegistrationsByYear } from "@/app/components/TotalNewCarRegistrationsByYear";
+import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
+import { SITE_TITLE, SITE_URL } from "@/config";
+import type { WebSite, WithContext } from "schema-dts";
 
 const HomePage = () => {
+  const structuredData: WithContext<WebSite> = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_TITLE,
+    url: SITE_URL,
+    description:
+      "Analysis of new car registration trends in Singapore. Insights on popular makes, fuel and vehicle types",
+  };
   return (
-    <section className="flex flex-col gap-y-8">
-      <Typography.H1>Dashboard</Typography.H1>
-      <UnreleasedFeature>
-        <div className="flex flex-col gap-y-4">
-          <TotalNewCarRegistrationsByYear data={data} />
-          <KeyStatistics data={data} />
-          <Top5CarMakesByYear topMakes2023={topMakes2023} />
-        </div>
-      </UnreleasedFeature>
-    </section>
+    <>
+      <StructuredData data={structuredData} />
+      <section className="flex flex-col gap-y-8">
+        <Typography.H1>Dashboard</Typography.H1>
+        <UnreleasedFeature>
+          <div className="flex flex-col gap-y-4">
+            <TotalNewCarRegistrationsByYear data={data} />
+            <KeyStatistics data={data} />
+            <Top5CarMakesByYear topMakes2023={topMakes2023} />
+          </div>
+        </UnreleasedFeature>
+      </section>
+    </>
   );
 };
 

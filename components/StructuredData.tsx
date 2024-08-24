@@ -1,16 +1,14 @@
 import Script from "next/script";
-import type { WithContext } from "schema-dts";
+import type { Thing, WithContext } from "schema-dts";
 
-interface StructuredDataProps {
-  data: WithContext<any>;
+interface Props<T extends Thing> {
+  data: WithContext<T>;
 }
 
-export const StructuredData = ({ data }: StructuredDataProps) => {
-  return (
-    <Script
-      id="structured-data"
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
-};
+export const StructuredData = <T extends Thing>({ data }: Props<T>) => (
+  <Script
+    id="structured-data"
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+  />
+);
