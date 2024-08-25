@@ -39,10 +39,9 @@ const VEHICLE_TYPE_MAP: Record<string, string> = {
   "Sports Utility Vehicle": "SUV",
 };
 
-export const generateMetadata = async (
-  { searchParams }: Props,
-  parent: ResolvingMetadata,
-): Promise<Metadata> => {
+export const generateMetadata = async ({
+  searchParams,
+}: Props): Promise<Metadata> => {
   let month = searchParams?.month;
 
   if (!month) {
@@ -53,16 +52,13 @@ export const generateMetadata = async (
   const formattedDate = formatDateToMonthYear(month);
   const pageUrl = `/cars`;
 
-  const previousImages = (await parent).openGraph?.images || [];
-  const opengraphImage = `/opengraph-image.png`;
-  const twitterImage = `/twitter-image.png`;
   // const images = `/api/og?title=Car Registrations for ${formattedDate}`;
 
   return {
     title: "Car Registrations",
     description: `Breakdown of the cars registered in ${formattedDate} by fuel type and vehicle type`,
-    openGraph: { url: pageUrl, images: opengraphImage },
-    twitter: { images: twitterImage },
+    openGraph: { url: pageUrl },
+    twitter: {},
     alternates: {
       canonical: pageUrl,
     },
