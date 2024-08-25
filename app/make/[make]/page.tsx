@@ -25,7 +25,8 @@ interface Props {
 export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
-  const { make } = params;
+  let { make } = params;
+  make = decodeURIComponent(make);
   const description = `${make} historical trend`;
   const images = `/api/og?title=Historical Trend&make=${make}`;
   const canonicalUrl = `/make/${make}`;
