@@ -16,7 +16,7 @@ import { type Car, type Make, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { Metadata } from "next";
-import type { WebPage, WithContext } from "schema-dts";
+import type { Dataset, WebPage, WithContext } from "schema-dts";
 
 interface Props {
   params: { make: string };
@@ -74,12 +74,45 @@ const CarMakePage = async ({ params }: Props) => {
 
   const filteredCars = mergeCarData(cars);
 
-  const structuredData: WithContext<WebPage> = {
+  const formattedMake = decodeURIComponent(make);
+  const structuredData: WithContext<Dataset> = {
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: make,
-    description: `${make} historical trends`,
+    "@type": "Dataset",
+    name: `${formattedMake} Car Registrations in Singapore`,
+    description: `Historical trend and monthly breakdown of ${formattedMake} car registrations by fuel type and vehicle type in Singapore`,
     url: `${SITE_URL}/make/${make}`,
+    // TODO: Suggested by Google
+    // temporalCoverage: "2016-06/2024-07",
+    variableMeasured: [
+      {
+        "@type": "PropertyValue",
+        name: "Month",
+        description: "Month of registration",
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Fuel Type",
+        description: "Type of fuel used by the vehicle",
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Vehicle Type",
+        description: `Type of ${formattedMake} vehicle`,
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Count",
+        description: "Number of registrations",
+      },
+    ],
+    // TODO: For future use
+    // distribution: [
+    //   {
+    //     "@type": "DataDownload",
+    //     encodingFormat: "text/html",
+    //     contentUrl: `https://sgcarstrends.com/cars/${make}-trends.png`,
+    //   },
+    // ],
   };
 
   return (

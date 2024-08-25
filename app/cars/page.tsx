@@ -21,13 +21,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { API_URL, FUEL_TYPE, HYBRID_REGEX, SITE_URL } from "@/config";
+import {
+  API_URL,
+  FUEL_TYPE,
+  HYBRID_REGEX,
+  SITE_TITLE,
+  SITE_URL,
+} from "@/config";
 import { type Car, type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { formatPercent } from "@/utils/formatPercent";
-import type { Metadata, ResolvingMetadata } from "next";
-import type { WebPage, WithContext } from "schema-dts";
+import type { Metadata } from "next";
+import type { Dataset, Report, WithContext } from "schema-dts";
 
 interface Props {
   searchParams: { [key: string]: string };
@@ -123,18 +129,69 @@ const CarsPage = async ({ searchParams }: Props) => {
   const [topVehicleType, topVehicleTypeValue] =
     findTopEntry(numberByVehicleType);
 
-  const formattedDate = formatDateToMonthYear(month);
-  const structuredData: WithContext<WebPage> = {
+  const formattedMonth = formatDateToMonthYear(month);
+  const datasetJsonLd: WithContext<Dataset> = {
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: "Car Registrations",
+    "@type": "Dataset",
+    name: `Singapore Car Registrations ${formattedMonth}`,
+    description: `Comprehensive overview of car registrations in Singapore for ${formattedMonth}, including total registrations, fuel types, vehicle types, and top manufacturers.`,
     url: `${SITE_URL}/cars`,
-    description: `Breakdown of the cars registered in ${formattedDate} by fuel type and vehicle type`,
+    creator: {
+      "@type": "Organization",
+      name: SITE_TITLE,
+    },
+    variableMeasured: [
+      {
+        "@type": "PropertyValue",
+        name: "Total Registrations",
+        value: total,
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Top Fuel Type",
+        value: `${topFuelType} (${topFuelTypeValue})`,
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Top Vehicle Type",
+        value: `${topVehicleType} (${topVehicleTypeValue})`,
+      },
+    ],
+  };
+  const reportJsonLd: WithContext<Report> = {
+    "@context": "https://schema.org",
+    "@type": "Report",
+    name: `Singapore Car Registrations Report - ${formattedMonth}`,
+    description: `Breakdown of the cars registered in ${formattedMonth} by fuel type and vehicle type`,
+    url: `${SITE_URL}/cars`,
+    author: {
+      "@type": "Organization",
+      name: "SGCarsTrends",
+    },
+    genre: "Statistical Report",
+    mentions: [
+      {
+        "@type": "Thing",
+        name: "Toyota",
+        description: "Top overall manufacturer with 652 registrations",
+      },
+      {
+        "@type": "Thing",
+        name: `${topFuelType}`,
+        description: `Most popular fuel type with ${topFuelTypeValue} registrations`,
+      },
+      {
+        "@type": "Thing",
+        name: `${topVehicleType}`,
+        description: `Most popular vehicle type with ${topVehicleTypeValue} registrations`,
+      },
+    ],
   };
 
   return (
     <>
-      <StructuredData data={structuredData} />
+      <StructuredData data={datasetJsonLd} />
+      <StructuredData data={reportJsonLd} />
       <div className="flex flex-col gap-8">
         <UnreleasedFeature>
           <Breadcrumb>

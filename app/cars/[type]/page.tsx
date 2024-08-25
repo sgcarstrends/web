@@ -22,7 +22,7 @@ import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { Metadata } from "next";
-import type { WebPage, WithContext } from "schema-dts";
+import type { Dataset, WebPage, WithContext } from "schema-dts";
 
 interface Props {
   params: { type: string };
@@ -45,7 +45,7 @@ export const generateMetadata = async ({
 
   return {
     title: capitaliseWords(type),
-    description: `${capitaliseWords(type)} car registrations for the month of ${formatDateToMonthYear(month)}`,
+    description: `Car registration trends for ${type} fuel type`,
     openGraph: {
       images,
       url: pageUrl,
@@ -102,11 +102,41 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
     ({ make, number }) => !EXCLUSION_LIST.includes(make) && number > 0,
   );
 
-  const structuredData: WithContext<WebPage> = {
+  const structuredData: WithContext<Dataset> = {
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: capitaliseWords(type),
+    "@type": "Dataset",
+    name: `${capitaliseWords(type)} Car Registrations in Singapore`,
+    description: `Overview and registration statistics for ${type} cars in Singapore by make`,
     url: `${SITE_URL}/cars/${type}`,
+    creator: {
+      "@type": "Organization",
+      name: SITE_TITLE,
+    },
+    variableMeasured: [
+      {
+        "@type": "PropertyValue",
+        name: "Make",
+        description: "Car manufacturer",
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Count",
+        description: `Number of ${type} car registrations`,
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Market Share by Type",
+        description: `Percentage market share of ${type} car registrations by type`,
+      },
+    ],
+    // TODO: For future use
+    // distribution: [
+    //   {
+    //     "@type": "DataDownload",
+    //     encodingFormat: "image/png",
+    //     contentUrl: `${SITE_URL}/images/${type}-car-stats.png`,
+    //   },
+    // ],
   };
 
   return (
