@@ -145,7 +145,11 @@ export const MobileNavMenu = () => {
         </SheetTrigger>
         <SheetContent side="left" className="w-[300px] sm:w-[400px]">
           <div className="mb-6 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-x-2">
+            <Link
+              href="/"
+              className="flex items-center gap-x-2"
+              onClick={() => setIsOpen(false)}
+            >
               <BrandLogo />
             </Link>
           </div>
@@ -170,6 +174,7 @@ export const MobileNavMenu = () => {
                         key={title}
                         href={link}
                         className="text-blue-600 hover:underline"
+                        onClick={() => setIsOpen(false)}
                       >
                         {title}
                       </Link>
