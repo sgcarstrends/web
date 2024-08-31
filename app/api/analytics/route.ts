@@ -1,21 +1,30 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { db } from "@/config/db";
 import { geolocation } from "@/functions/geolocation";
-import { analyticsTable } from "@/schema/analytics";
+import { analyticsTable, type InsertAnalytics } from "@/schema/analytics";
+
+interface RequestData {
+  pathname: string;
+  referrer: string;
+}
 
 export const POST = async (request: NextRequest) => {
   const date = new Date();
-  const data = await request.json();
-  console.log(geolocation(request));
+  const { pathname, referrer }: RequestData = await request.json();
   const { country, flag } = geolocation(request);
 
-  if (country || flag) {
-    const test = await db
-      .insert(analyticsTable)
-      .values({ ...data, date, country, flag });
-    console.log(test);
-    return NextResponse.json({});
+  if (!(country && flag)) {
+    return NextResponse.json({ message: "Missing data is required" });
   }
 
-  return NextResponse.json({ message: "Missing values required" });
+  const dataToInsert: InsertAnalytics = {
+    date,
+    pathname,
+    referrer,
+    country,
+    flag,
+  };
+
+  await db.insert(analyticsTable).values(dataToInsert);
+  return NextResponse.json({ message: dataToInsert });
 };
