@@ -3,8 +3,6 @@ import { geolocation } from "@vercel/functions";
 import { db } from "@/config/db";
 import { analyticsTable } from "@/schema/analytics";
 
-export const runtime = "edge";
-
 export const POST = async (request: NextRequest) => {
   const date = new Date();
   const data = await request.json();
