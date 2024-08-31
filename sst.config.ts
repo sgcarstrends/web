@@ -29,7 +29,8 @@ export default $config({
         dns: sst.cloudflare.dns(),
       },
       environment: {
-        SG_CARS_TRENDS_API_TOKEN: process.env.SG_CARS_TRENDS_API_TOKEN || "",
+        SG_CARS_TRENDS_API_TOKEN: process.env.SG_CARS_TRENDS_API_TOKEN!,
+        DATABASE_URL: process.env.DATABASE_URL!,
         APP_ENV: $app.stage,
       },
     });
