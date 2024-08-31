@@ -1,5 +1,5 @@
 {
-  "id": "34b9ba74-07e7-4e1a-b857-c31df3da0ee1",
+  "id": "3c6472be-ac7a-440e-a941-4856bc665b88",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -16,7 +16,7 @@
         },
         "date": {
           "name": "date",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true
         },
@@ -32,14 +32,32 @@
           "primaryKey": false,
           "notNull": true
         },
+        "country": {
+          "name": "country",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "flag": {
           "name": "flag",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "country": {
-          "name": "country",
+        "city": {
+          "name": "city",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "latitude": {
+          "name": "latitude",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "longitude": {
+          "name": "longitude",
           "type": "text",
           "primaryKey": false,
           "notNull": true

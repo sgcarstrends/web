@@ -11,9 +11,9 @@ interface RequestData {
 export const POST = async (request: NextRequest) => {
   const date = new Date();
   const { pathname, referrer }: RequestData = await request.json();
-  const { country, flag } = geolocation(request);
+  const { country, flag, city, latitude, longitude } = geolocation(request);
 
-  if (!(country && flag)) {
+  if (!(country && flag && city && latitude && longitude)) {
     return NextResponse.json({ message: "Missing data is required" });
   }
 
@@ -22,9 +22,13 @@ export const POST = async (request: NextRequest) => {
     pathname,
     referrer,
     country,
+    city,
     flag,
+    latitude,
+    longitude,
   };
 
   await db.insert(analyticsTable).values(dataToInsert);
+
   return NextResponse.json({ message: dataToInsert });
 };
