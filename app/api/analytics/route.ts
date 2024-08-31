@@ -6,7 +6,7 @@ import { analyticsTable } from "@/schema/analytics";
 export const POST = async (request: NextRequest) => {
   const date = new Date();
   const data = await request.json();
-  console.log(data);
+  console.log(geolocation(request));
   const { country, flag } = geolocation(request);
 
   if (country || flag) {
