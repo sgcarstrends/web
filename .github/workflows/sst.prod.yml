@@ -36,6 +36,8 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
       - uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/.next/cache
@@ -46,7 +48,8 @@ jobs:
         with:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
           aws-region: ap-southeast-1
-      - run: |
+      - name: Perform database migration
+        run: |
           pnpm migrate
       - name: Deploy app
         run: |
