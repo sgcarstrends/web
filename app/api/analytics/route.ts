@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { geolocation } from "@vercel/functions";
 import { db } from "@/config/db";
+import { geolocation } from "@/functions/geolocation";
 import { analyticsTable } from "@/schema/analytics";
 
 export const POST = async (request: NextRequest) => {
