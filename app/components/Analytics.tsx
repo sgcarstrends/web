@@ -11,21 +11,11 @@ export const Analytics = () => {
     const body = JSON.stringify({ pathname, referrer: document.referrer });
 
     // Use fetch with keepalive option as a fallback for sendBeacon
-    const sendData = () => {
-      if (navigator.sendBeacon) {
-        navigator.sendBeacon(url, body);
-      } else {
-        void fetch(url, { method: "POST", body, keepalive: true });
-      }
-    };
-
-    sendData();
-
-    window.addEventListener("unload", sendData);
-
-    return () => {
-      window.removeEventListener("unload", sendData);
-    };
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(url, body);
+    } else {
+      void fetch(url, { method: "POST", body, keepalive: true });
+    }
   }, [pathname]);
 
   return null;
