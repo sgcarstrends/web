@@ -9,6 +9,7 @@ import { Header } from "@/app/components/Header";
 import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
 import "./globals.css";
 import { GlobalStateProvider } from "@/context/GlobalStateContext";
+import { Analytics } from "./components/Analytics";
 import type { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -59,6 +60,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
           </Providers>
           <Footer />
         </GlobalStateProvider>
+        <Analytics />
       </body>
       <GoogleAnalytics gaId={gaMeasurementId} />
     </html>
