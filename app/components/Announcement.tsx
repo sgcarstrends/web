@@ -1,11 +1,12 @@
-import { PropsWithChildren } from "react";
+interface Props {
+  announcement: string;
+}
 
-interface AnnouncementProps extends PropsWithChildren {}
-
-export const Announcement = ({ children }: AnnouncementProps) => {
+export const Announcement = ({ announcement }: Props) => {
   return (
-    <div className="bg-blue-600 p-4 text-center text-gray-50 shadow-lg">
-      {children}
-    </div>
+    <div
+      className="bg-blue-600 p-2 text-center text-gray-50 shadow-lg"
+      dangerouslySetInnerHTML={{ __html: announcement }}
+    />
   );
 };
