@@ -22,4 +22,11 @@ describe("capitaliseWords", () => {
     expect(capitaliseWords("HELLO_WORLD")).toBe("Hello World");
     expect(capitaliseWords("hello_world")).toBe("Hello World");
   });
+
+  it("should return a capitalised format for words after /", () => {
+    expect(capitaliseWords("hello/world")).toBe("Hello/World");
+    expect(capitaliseWords("Hello/World")).toBe("Hello/World");
+    expect(capitaliseWords("Hello/world")).toBe("Hello/World");
+    expect(capitaliseWords("hello/World")).toBe("Hello/World");
+  });
 });
