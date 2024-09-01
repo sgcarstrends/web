@@ -40,8 +40,9 @@ interface Props {
 }
 
 const VEHICLE_TYPE_MAP: Record<string, string> = {
+  "Coupe/ Convertible": "Coupe/Convertible",
   "Multi-purpose Vehicle": "MPV",
-  "Multi-purpose Vehicle/Station-wagon": "MPV/Station-wagon",
+  "Multi-purpose Vehicle/Station-wagon": "MPV",
   "Sports Utility Vehicle": "SUV",
 };
 
@@ -119,13 +120,7 @@ const CarsPage = async ({ searchParams }: Props) => {
   const numberByFuelType = aggregateData(cars, "fuel_type");
   const [topFuelType, topFuelTypeValue] = findTopEntry(numberByFuelType);
 
-  const numberByVehicleType = aggregateData(
-    cars.map((car) => ({
-      ...car,
-      vehicle_type: VEHICLE_TYPE_MAP[car.vehicle_type] || car.vehicle_type,
-    })),
-    "vehicle_type",
-  );
+  const numberByVehicleType = aggregateData(cars, "vehicle_type");
   const [topVehicleType, topVehicleTypeValue] =
     findTopEntry(numberByVehicleType);
 
@@ -285,7 +280,7 @@ const CarsPage = async ({ searchParams }: Props) => {
                     description="Distribution of vehicles based on vehicle type"
                     data={numberByVehicleType}
                     total={total}
-                    linkPrefix="vehicle-make"
+                    linkPrefix="vehicle-type"
                   />
                 </div>
                 <div className="grid gap-4 lg:col-span-2">
@@ -344,7 +339,7 @@ const StatisticsCard = ({
                   className="group cursor-pointer rounded px-2 py-1 transition-colors duration-200 hover:bg-secondary"
                 >
                   <Link
-                    href={`${linkPrefix}/${key.toLowerCase()}`}
+                    href={`${linkPrefix}/${encodeURIComponent(key.toLowerCase())}`}
                     className="flex items-center justify-between"
                   >
                     <div className="flex gap-1">
