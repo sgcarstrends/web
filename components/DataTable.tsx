@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CARS } from "@/constants";
+import { formatPercent } from "@/utils/formatPercent";
 import type { Car } from "@/types";
 
 interface Props {
@@ -51,11 +52,10 @@ export const DataTable = ({ data }: Props) => {
               <TableCell>{item.number}</TableCell>
               <TableCell>
                 <Progress value={marketShare(item.number)}>
-                  {new Intl.NumberFormat("en-SG", {
-                    style: "percent",
+                  {formatPercent(marketShare(item.number), {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
-                  }).format(marketShare(item.number))}
+                  })}
                 </Progress>
               </TableCell>
             </TableRow>
