@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { Separator } from "@/components/ui/separator";
-import { CAR_LINKS } from "@/config";
+import { FUEL_TYPE_LINKS, VEHICLE_TYPE_LINKS } from "@/config";
 import type { LinkItem } from "@/types";
 
 interface FooterLink {
@@ -75,7 +75,7 @@ export const Footer = () => {
     <footer className="bg-white">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col gap-y-8">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-5">
             <div>
               <BrandLogo />
             </div>
@@ -123,10 +123,12 @@ export const Footer = () => {
 };
 
 const footerLinks: FooterLink[] = [
+  { title: "Monthly", links: [{ label: "Cars", href: "/cars" }] },
   {
-    title: "Cars",
-    links: CAR_LINKS,
+    title: "Fuel Types",
+    links: FUEL_TYPE_LINKS,
   },
+  { title: "Vehicle Types", links: VEHICLE_TYPE_LINKS },
   // TODO: Coming Soon!
   // {
   //   title: "COE",

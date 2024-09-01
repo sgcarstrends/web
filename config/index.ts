@@ -45,8 +45,7 @@ export const MEDAL_MAPPING: Record<number, string> = {
 export const FEATURE_FLAG_UNRELEASED =
   process.env.NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED === "true";
 
-export const CAR_LINKS: LinkItem[] = [
-  { label: "Monthly", href: "/cars" },
+export const FUEL_TYPE_LINKS: LinkItem[] = [
   {
     label: "Petrol",
     href: "/cars/petrol",
@@ -63,7 +62,34 @@ export const CAR_LINKS: LinkItem[] = [
     label: "Diesel",
     href: "/cars/diesel",
   },
-];
+].sort((a, b) => a.label.localeCompare(b.label));
+
+export const VEHICLE_TYPE_LINKS: LinkItem[] = [
+  {
+    label: "Hatchback",
+    href: "/vehicle-type/hatchback",
+  },
+  {
+    label: "Sedan",
+    href: "/vehicle-type/sedan",
+  },
+  {
+    label: "Multi-purpose Vehicle",
+    href: "/vehicle-type/multi-purpose vehicle",
+  },
+  {
+    label: "Station-wagon",
+    href: "/vehicle-type/station-wagon",
+  },
+  {
+    label: "Sports Utility Vehicle",
+    href: "/vehicle-type/sports utility vehicle",
+  },
+  {
+    label: "Coupe/Convertible",
+    href: `/vehicle-type/${encodeURIComponent("coupe/ convertible")}`,
+  },
+].sort((a, b) => a.label.localeCompare(b.label));
 
 export const COE_LINKS: LinkItem[] = [
   { href: "/coe/prices", label: "COE Prices" },
@@ -71,6 +97,6 @@ export const COE_LINKS: LinkItem[] = [
 ];
 
 export const SITE_LINKS: LinkItem[] = [
-  ...CAR_LINKS,
+  ...FUEL_TYPE_LINKS,
   // ...COE_LINKS
 ];
