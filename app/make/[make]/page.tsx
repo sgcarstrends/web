@@ -16,7 +16,7 @@ import { type Car, type Make, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { Metadata } from "next";
-import type { Dataset, WebPage, WithContext } from "schema-dts";
+import type { Dataset, WithContext } from "schema-dts";
 
 interface Props {
   params: { make: string };

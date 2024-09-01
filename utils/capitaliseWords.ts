@@ -1,5 +1,5 @@
 export const capitaliseWords = (input: string) => {
-  const splitRegex = /[\s_\/]+/;
+  const splitRegex = /[\s_/]+/;
 
   const words = input.split(splitRegex);
 

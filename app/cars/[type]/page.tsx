@@ -20,9 +20,8 @@ import { API_URL, EXCLUSION_LIST, SITE_TITLE, SITE_URL } from "@/config";
 import { type Car, type LatestMonth, RevalidateTags } from "@/types";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
-import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { Metadata } from "next";
-import type { Dataset, WebPage, WithContext } from "schema-dts";
+import type { Dataset, WithContext } from "schema-dts";
 
 interface Props {
   params: { type: string };

@@ -26,7 +26,7 @@ const getHeader = (request: Request, key: string): string | undefined =>
   request.headers.get(key) ?? undefined;
 
 const getFlag = (countryCode: string | undefined): string | undefined => {
-  const regex = new RegExp("^[A-Z]{2}$").test(countryCode!);
+  const regex = /^[A-Z]{2}$/.test(countryCode!);
   if (!countryCode || !regex) {
     return;
   }
