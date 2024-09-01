@@ -24,8 +24,7 @@ export enum FUEL_TYPE {
   PETROL = "Petrol",
 }
 
-export const ANNOUNCEMENT: string =
-  "🌟 Big Updates Ahead! Our website is getting an upgrade with awesome new features rolling out soon. Stay tuned!";
+export const ANNOUNCEMENT = `Our new site: <a href="https://sgcarstrends.com" class="underline">https://sgcarstrends.com</a>. This page will be moved to the new page by 30 September 2024.`;
 
 export const CHART_COLOURS: string[] = [
   "#002D62",
