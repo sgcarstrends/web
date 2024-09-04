@@ -2,14 +2,14 @@ import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 export const analyticsTable = pgTable("analytics", {
   id: serial("id").primaryKey(),
-  date: timestamp("date", { withTimezone: true }).notNull(),
+  date: timestamp("date", { withTimezone: true }).defaultNow(),
   pathname: text("pathname").notNull(),
-  referrer: text("referrer").notNull(),
-  country: text("country").notNull(),
-  flag: text("flag").notNull(),
-  city: text("city").notNull(),
-  latitude: text("latitude").notNull(),
-  longitude: text("longitude").notNull(),
+  referrer: text("referrer"),
+  country: text("country"),
+  flag: text("flag"),
+  city: text("city"),
+  latitude: text("latitude"),
+  longitude: text("longitude"),
 });
 
 export type InsertAnalytics = typeof analyticsTable.$inferInsert;
