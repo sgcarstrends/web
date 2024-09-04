@@ -9,7 +9,6 @@ interface RequestData {
 }
 
 export const POST = async (request: NextRequest) => {
-  const date = new Date();
   const { pathname, referrer }: RequestData = await request.json();
   const { country, flag, city, latitude, longitude } = geolocation(request);
 
@@ -18,7 +17,6 @@ export const POST = async (request: NextRequest) => {
   }
 
   const dataToInsert: InsertAnalytics = {
-    date,
     pathname,
     referrer,
     country,

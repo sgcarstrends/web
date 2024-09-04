@@ -1,5 +1,5 @@
 {
-  "id": "3c6472be-ac7a-440e-a941-4856bc665b88",
+  "id": "e1f5ee58-c5a0-4ddb-bda5-acb4bf00db6a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -18,7 +18,8 @@
           "name": "date",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false,
+          "default": "now()"
         },
         "pathname": {
           "name": "pathname",
@@ -30,37 +31,37 @@
           "name": "referrer",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "country": {
           "name": "country",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "flag": {
           "name": "flag",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "city": {
           "name": "city",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "latitude": {
           "name": "latitude",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "longitude": {
           "name": "longitude",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         }
       },
       "indexes": {},
