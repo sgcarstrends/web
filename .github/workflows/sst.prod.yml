@@ -53,4 +53,4 @@ jobs:
           pnpm migrate
       - name: Deploy app
         run: |
-          pnpm install && pnpm sst deploy --stage prod
+          pnpm sst deploy --stage prod

@@ -74,4 +74,4 @@ jobs:
           pnpm migrate
       - name: Deploy app
         run: |
-          pnpm install && pnpm sst deploy --stage staging
+          pnpm sst deploy --stage staging
