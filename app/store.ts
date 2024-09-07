@@ -1,7 +1,14 @@
 import { create } from "zustand";
-import { COEAction, createCoeSlice } from "@/app/store/coeSlice";
-import { createDateSlice, DateAction, DateState } from "@/app/store/dateSlice";
-import type { CoeSlice } from "@/app/store/coeSlice";
+import {
+  type COEAction,
+  createCoeSlice,
+  type CoeSlice,
+} from "@/app/store/coeSlice";
+import {
+  createDateSlice,
+  type DateAction,
+  type DateState,
+} from "@/app/store/dateSlice";
 
 type State = DateState & CoeSlice;
 type Action = DateAction & COEAction;

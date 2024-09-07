@@ -2,11 +2,12 @@
 
 import useStore from "@/app/store";
 import { cn } from "@/lib/utils";
+import type { COECategory } from "@/types";
 import type { LucideIcon } from "lucide-react";
 
 interface Props {
   icon: LucideIcon;
-  category: string;
+  category: COECategory;
   description: string;
   canFilter?: boolean;
 }

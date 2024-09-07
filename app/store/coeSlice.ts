@@ -1,16 +1,15 @@
+import type { COECategoryFilter, COECategory } from "@/types";
 import type { StateCreator } from "zustand";
 
-type Category = Record<string, boolean>;
-
 export type CoeSlice = {
-  categories: Category;
+  categories: COECategoryFilter;
 };
 
 export type COEAction = {
-  updateCategories: (category: string) => void;
+  updateCategories: (category: COECategory) => void;
 };
 
-const defaultCategories: Category = {
+const defaultCategories: COECategoryFilter = {
   "Category A": true,
   "Category B": true,
   "Category C": false,

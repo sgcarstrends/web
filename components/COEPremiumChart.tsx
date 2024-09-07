@@ -13,19 +13,23 @@ import {
 import useStore from "@/app/store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
-import type { COEBiddingResult } from "@/types";
+import type { COEBiddingResult, COECategory } from "@/types";
 
 interface Props {
   data: COEBiddingResult[];
 }
 
 export const COEPremiumChart = ({ data }: Props) => {
-  const categories = useStore((state) => state.categories);
+  const categories = useStore(({ categories }) => categories);
   const filteredData: COEBiddingResult[] = data.map((item) =>
     Object.entries(item).reduce((acc: any, [key, value]) => {
-      if (key === "month" || (key.startsWith("Category") && categories[key])) {
+      if (
+        key === "month" ||
+        (key.startsWith("Category") && categories[key as COECategory])
+      ) {
         acc[key] = value;
       }
+
       return acc;
     }, {}),
   );
