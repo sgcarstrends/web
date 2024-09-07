@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import useStore from "@/app/store";
 import {
   Select,
   SelectContent,
@@ -11,7 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGlobalState } from "@/context/GlobalStateContext";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { groupByYear } from "@/utils/groupByYear";
 
@@ -20,16 +20,17 @@ interface Props {
 }
 
 export const MonthSelector = ({ months }: Props) => {
-  const { dispatch, state } = useGlobalState();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
   const month = searchParams.get("month");
 
+  const selectedMonth = useStore((state) => state.selectedMonth);
+  const setSelectedMonth = useStore((state) => state.setSelectedMonth);
+
   useEffect(() => {
-    dispatch({ type: "SET_SELECTED_MONTH", payload: month ?? months[0] });
-  }, [dispatch, month, months]);
+    setSelectedMonth(month ?? months[0]);
+  }, [month, months, setSelectedMonth]);
 
   const memoisedGroupByYear = useMemo(() => groupByYear, []);
   const sortedMonths = useMemo(
@@ -47,7 +48,7 @@ export const MonthSelector = ({ months }: Props) => {
 
   return (
     <div>
-      <Select value={state.selectedMonth} onValueChange={handleValueChange}>
+      <Select value={selectedMonth} onValueChange={handleValueChange}>
         <SelectTrigger>
           <SelectValue placeholder="Select Month" />
         </SelectTrigger>

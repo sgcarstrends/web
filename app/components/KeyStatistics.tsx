@@ -1,5 +1,6 @@
 "use client";
 
+import useStore from "@/app/store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
@@ -8,14 +9,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGlobalState } from "@/context/GlobalStateContext";
 
-interface KeyStatisticsProps {
+interface Props {
   data: { year: number; total: number }[];
 }
 
-export const KeyStatistics = ({ data }: KeyStatisticsProps) => {
-  const { state, dispatch } = useGlobalState();
+export const KeyStatistics = ({ data }: Props) => {
+  const selectedYear = useStore(({ selectedYear }) => selectedYear);
+  const setSelectedYear = useStore(({ setSelectedYear }) => setSelectedYear);
 
   return (
     <Card>
@@ -26,10 +27,8 @@ export const KeyStatistics = ({ data }: KeyStatisticsProps) => {
         <div className="space-y-2">
           <div>
             <Select
-              onValueChange={(year) =>
-                dispatch({ type: "SET_SELECTED_YEAR", payload: year })
-              }
-              defaultValue={state.selectedYear}
+              onValueChange={(year) => setSelectedYear(year)}
+              defaultValue={selectedYear}
             >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select year" />
@@ -46,11 +45,8 @@ export const KeyStatistics = ({ data }: KeyStatisticsProps) => {
             </Select>
           </div>
           <p>
-            Total Registrations in {state.selectedYear}:{" "}
-            {
-              data.find((item) => item.year.toString() === state.selectedYear)
-                ?.total
-            }
+            Total Registrations in {selectedYear}:{" "}
+            {data.find((item) => item.year.toString() === selectedYear)?.total}
           </p>
           <p>
             Highest Year:{" "}

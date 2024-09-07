@@ -1,6 +1,5 @@
 "use client";
 
-import { useAtomValue } from "jotai";
 import {
   CartesianGrid,
   Legend,
@@ -11,23 +10,20 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { showCategoriesAtom } from "@/atoms/coeAtom";
+import useStore from "@/app/store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { COEBiddingResult } from "@/types";
 
-interface COEPremiumChartProps {
+interface Props {
   data: COEBiddingResult[];
 }
 
-export const COEPremiumChart = ({ data }: COEPremiumChartProps) => {
-  const filterCategories = useAtomValue(showCategoriesAtom);
+export const COEPremiumChart = ({ data }: Props) => {
+  const categories = useStore((state) => state.categories);
   const filteredData: COEBiddingResult[] = data.map((item) =>
     Object.entries(item).reduce((acc: any, [key, value]) => {
-      if (
-        key === "month" ||
-        (key.startsWith("Category") && filterCategories[key])
-      ) {
+      if (key === "month" || (key.startsWith("Category") && categories[key])) {
         acc[key] = value;
       }
       return acc;
@@ -58,7 +54,7 @@ export const COEPremiumChart = ({ data }: COEPremiumChartProps) => {
             <YAxis />
             <Tooltip />
             <Legend />
-            {Object.entries(filterCategories)
+            {Object.entries(categories)
               .sort(([a], [b]) => a.localeCompare(b))
               .map(
                 ([category, value], index) =>

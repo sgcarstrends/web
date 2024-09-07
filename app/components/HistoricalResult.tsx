@@ -2,20 +2,19 @@
 
 import { ResponsiveLine } from "@nivo/line";
 import { parse, subMonths } from "date-fns";
-import { useAtomValue } from "jotai";
-import { showCategoriesAtom } from "@/atoms/coeAtom";
+import useStore from "@/app/store";
 import type { COEResult } from "@/types";
 
 interface QuotaPremium {
   [key: string]: { [key: string]: number };
 }
 
-interface HistoricalResultProps {
+interface Props {
   data: COEResult[];
 }
 
-export const HistoricalResult = ({ data }: HistoricalResultProps) => {
-  const categories = useAtomValue(showCategoriesAtom);
+export const HistoricalResult = ({ data }: Props) => {
+  const categories = useStore(({ categories }) => categories);
   const filteredData = data.filter((item) => categories[item.vehicle_class]);
 
   const processCOEData = (data: COEResult[]) => {

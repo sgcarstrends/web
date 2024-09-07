@@ -1,11 +1,10 @@
 "use client";
 
-import { useAtom } from "jotai";
-import { showCategoriesAtom } from "@/atoms/coeAtom";
+import useStore from "@/app/store";
 import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
 
-interface CategoryInfoProps {
+interface Props {
   icon: LucideIcon;
   category: string;
   description: string;
@@ -17,15 +16,13 @@ export const CategoryInfo = ({
   category,
   description,
   canFilter = true,
-}: CategoryInfoProps) => {
-  const [categories, setCategories] = useAtom(showCategoriesAtom);
+}: Props) => {
+  const categories = useStore((state) => state.categories);
+  const updateCategories = useStore((state) => state.updateCategories);
 
   const handleFilterCategories = () => {
     if (canFilter) {
-      setCategories((categories) => ({
-        ...categories,
-        [category]: !categories[category],
-      }));
+      updateCategories(category);
     }
   };
 

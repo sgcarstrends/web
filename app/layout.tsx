@@ -2,13 +2,11 @@ import React from "react";
 import { Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import classNames from "classnames";
-import { Providers } from "@/app/Providers";
 import { Announcement } from "@/app/components/Announcement";
 import { Footer } from "@/app/components/Footer";
 import { Header } from "@/app/components/Header";
 import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
 import "./globals.css";
-import { GlobalStateProvider } from "@/context/GlobalStateContext";
 import { Analytics } from "./components/Analytics";
 import type { Metadata } from "next";
 
@@ -50,16 +48,12 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className={classNames(inter.className, "bg-gray-50 text-gray-900")}>
-        <GlobalStateProvider>
-          {ANNOUNCEMENT && <Announcement>{ANNOUNCEMENT}</Announcement>}
-          <Header />
-          <Providers>
-            <main className="container mx-auto min-h-screen px-4 py-16">
-              {children}
-            </main>
-          </Providers>
-          <Footer />
-        </GlobalStateProvider>
+        {ANNOUNCEMENT && <Announcement>{ANNOUNCEMENT}</Announcement>}
+        <Header />
+        <main className="container mx-auto min-h-screen px-4 py-16">
+          {children}
+        </main>
+        <Footer />
         <Analytics />
       </body>
       <GoogleAnalytics gaId={gaMeasurementId} />
