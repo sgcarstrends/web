@@ -34,10 +34,18 @@ export interface TabItem {
   href: string;
 }
 
+export type COECategory =
+  | "Category A"
+  | "Category B"
+  | "Category C"
+  | "Category D"
+  | "Category E";
+export type COECategoryFilter = Record<COECategory, boolean>;
+
 export interface COEResult {
   month: string;
   bidding_no: number;
-  vehicle_class: string;
+  vehicle_class: COECategory;
   quota: number;
   bids_success: number;
   bids_received: number;

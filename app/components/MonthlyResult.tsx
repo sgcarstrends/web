@@ -1,16 +1,15 @@
 "use client";
 
 import { ResponsiveBar } from "@nivo/bar";
-import { useAtomValue } from "jotai";
-import { showCategoriesAtom } from "@/atoms/coeAtom";
+import useStore from "@/app/store";
 import type { COEResult } from "@/types";
 
-interface MonthlyResultProps {
+interface Props {
   data: COEResult[];
 }
 
-export const MonthlyResult = ({ data }: MonthlyResultProps) => {
-  const categories = useAtomValue(showCategoriesAtom);
+export const MonthlyResult = ({ data }: Props) => {
+  const categories = useStore(({ categories }) => categories);
   const filteredData = data.filter(
     (item: COEResult) => categories[item.vehicle_class],
   );
