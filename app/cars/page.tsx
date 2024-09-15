@@ -1,7 +1,4 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import { DistributionPieChart } from "@/app/cars/DistributionPieChart";
-import { Progress } from "@/app/components/Progress";
 import { Leaderboard } from "@/components/Leaderboard";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StatisticsCard } from "@/components/StatisticsCard";
@@ -23,25 +20,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  API_URL,
-  FUEL_TYPE,
-  HYBRID_REGEX,
-  SITE_TITLE,
-  SITE_URL,
-} from "@/config";
+import { API_URL, HYBRID_REGEX, SITE_TITLE, SITE_URL } from "@/config";
 import { type Car, type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
-import { formatPercent } from "@/utils/formatPercent";
 import type { Metadata } from "next";
 import type { Dataset, Report, WithContext } from "schema-dts";
 
