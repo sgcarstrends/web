@@ -1,3 +1,4 @@
+import { Battery, Droplet, Fuel, Zap } from "lucide-react";
 import type { AppEnv, LinkItem } from "@/types";
 
 const DOMAIN_NAME = "sgcarstrends.com";
@@ -48,19 +49,27 @@ export const FEATURE_FLAG_UNRELEASED =
 export const FUEL_TYPE_LINKS: LinkItem[] = [
   {
     label: "Petrol",
+    description: "Internal Combustion Engine (ICE) vehicles",
     href: "/cars/petrol",
+    icon: Fuel,
   },
   {
     label: "Hybrid",
+    description: "Includes Petrol, Diesel and Plug-In types",
     href: "/cars/hybrid",
+    icon: Zap,
   },
   {
     label: "Electric",
+    description: "Battery Electric Vehicles (BEV)",
     href: "/cars/electric",
+    icon: Battery,
   },
   {
     label: "Diesel",
+    description: "Compression-ignition engine vehicles",
     href: "/cars/diesel",
+    icon: Droplet,
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
 

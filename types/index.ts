@@ -1,4 +1,5 @@
 import { FUEL_TYPE } from "@/config";
+import type { LucideIcon } from "lucide-react";
 
 export type VEHICLE_TYPE =
   | "Coupe/ Convertible"
@@ -83,4 +84,6 @@ export enum AppEnv {
 export interface LinkItem {
   label: string;
   href: string;
+  description?: string;
+  icon?: LucideIcon;
 }
