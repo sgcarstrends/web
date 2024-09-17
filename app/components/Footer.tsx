@@ -100,6 +100,15 @@ export const Footer = () => {
               ))}
             </div>
           </div>
+          <div className="flex flex-col items-center">
+            For any enquiries, please contact us at{" "}
+            <a
+              href={`mailto:contact@sgcarstrends.com?subject=${encodeURIComponent("Enquiry about SG Car Trends")}`}
+              className="underline"
+            >
+              contact@sgcarstrends.com
+            </a>
+          </div>
         </div>
         <Separator className="my-8" />
         <div className="flex flex-col items-center justify-between gap-4 text-sm text-gray-600 md:flex-row">
