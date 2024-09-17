@@ -4,6 +4,8 @@ export const fetchApi = async <T>(
 ): Promise<T> => {
   options = {
     ...options,
+    // TODO: Remove this later
+    cache: "no-store",
     headers: {
       Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
     },
@@ -15,8 +17,6 @@ export const fetchApi = async <T>(
       `API call failed: ${url} - ${response.status} - ${response.statusText}`,
     );
   }
-
-  console.log("API call:", url);
 
   return response.json();
 };
