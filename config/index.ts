@@ -107,5 +107,6 @@ export const COE_LINKS: LinkItem[] = [
 
 export const SITE_LINKS: LinkItem[] = [
   ...FUEL_TYPE_LINKS,
+  ...VEHICLE_TYPE_LINKS,
   // ...COE_LINKS
 ];
