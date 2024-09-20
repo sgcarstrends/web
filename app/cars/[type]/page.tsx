@@ -16,10 +16,11 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { API_URL, EXCLUSION_LIST, SITE_TITLE, SITE_URL } from "@/config";
+import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
 import { type Car, type LatestMonth, RevalidateTags } from "@/types";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
+import { mergeCarsByFuelType } from "@/utils/mergeCarsByFuelType";
 import type { Metadata } from "next";
 import type { Dataset, WithContext } from "schema-dts";
 
@@ -84,22 +85,13 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   ]);
 
   const month = searchParams?.month ?? latestMonth.cars;
-  const cars = await fetchApi<Car[]>(`${API_URL}/cars/${type}?month=${month}`, {
-    next: { tags: [RevalidateTags.Cars] },
-  });
-
-  const totals = new Map();
-  cars.forEach(({ make, number }) => {
-    if (totals.has(make)) {
-      totals.set(make, (totals.get(make) || 0) + number);
-    } else {
-      totals.set(make, number);
-    }
-  });
-
-  const filteredCars = cars.filter(
-    ({ make, number }) => !EXCLUSION_LIST.includes(make) && number > 0,
+  const cars = await fetchApi<Car[]>(
+    `${API_URL}/cars?fuel_type=${type}&month=${month}`,
+    {
+      next: { tags: [RevalidateTags.Cars] },
+    },
   );
+  const filteredCars = mergeCarsByFuelType(cars);
 
   const structuredData: WithContext<Dataset> = {
     "@context": "https://schema.org",
