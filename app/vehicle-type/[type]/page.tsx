@@ -17,10 +17,11 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { API_URL, EXCLUSION_LIST, SITE_TITLE, SITE_URL } from "@/config";
+import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
 import { type Car, type LatestMonth, RevalidateTags } from "@/types";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
+import { mergeCarsByVehicleType } from "@/utils/mergeCarsByVehicleType";
 import type { Metadata } from "next";
 import type { Dataset, WithContext } from "schema-dts";
 
@@ -90,9 +91,7 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
     },
   );
 
-  const filteredCars = cars.filter(
-    ({ make, number }) => !EXCLUSION_LIST.includes(make) && number > 0,
-  );
+  const filteredCars = mergeCarsByVehicleType(cars);
 
   const structuredData: WithContext<Dataset> = {
     "@context": "https://schema.org",
