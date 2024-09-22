@@ -66,7 +66,7 @@ const tabItems: Record<string, string> = {
   "multi-purpose vehicle": "/vehicle-type/multi-purpose vehicle",
   "station-wagon": "/vehicle-type/station-wagon",
   "sports utility vehicle": "/vehicle-type/sports utility vehicle",
-  "coupe/ convertible": "/vehicle-type/coupe%2F convertible",
+  "coupe/convertible": "/vehicle-type/coupe%2Fconvertible",
 };
 
 export const generateStaticParams = () =>
