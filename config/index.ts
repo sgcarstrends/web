@@ -96,7 +96,7 @@ export const VEHICLE_TYPE_LINKS: LinkItem[] = [
   },
   {
     label: "Coupe/Convertible",
-    href: `/vehicle-type/${encodeURIComponent("coupe/ convertible")}`,
+    href: `/vehicle-type/${encodeURIComponent("coupe/convertible")}`,
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
