@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { TrendChart } from "@/app/cars/[type]/TrendChart";
 import { DataTable } from "@/components/DataTable";
+import { LinkWithParams } from "@/components/LinkWithParams";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
@@ -172,11 +173,11 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
             <TabsList>
               {Object.entries(tabItems).map(([title, href]) => {
                 return (
-                  <Link key={title} href={href}>
+                  <LinkWithParams key={title} href={href}>
                     <TabsTrigger value={title}>
                       {capitaliseWords(title)}
                     </TabsTrigger>
-                  </Link>
+                  </LinkWithParams>
                 );
               })}
             </TabsList>

@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { TrendChart } from "@/app/cars/[type]/TrendChart";
 import { DataTable } from "@/components/DataTable";
+import { LinkWithParams } from "@/components/LinkWithParams";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
@@ -167,15 +168,13 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
         </div>
         <Tabs defaultValue={type}>
           <TabsList>
-            {Object.entries(tabItems).map(([title, href]) => {
-              return (
-                <Link key={title} href={href}>
-                  <TabsTrigger value={title}>
-                    {capitaliseWords(title)}
-                  </TabsTrigger>
-                </Link>
-              );
-            })}
+            {Object.entries(tabItems).map(([title, href]) => (
+              <LinkWithParams key={title} href={href}>
+                <TabsTrigger value={title}>
+                  {capitaliseWords(title)}
+                </TabsTrigger>
+              </LinkWithParams>
+            ))}
           </TabsList>
         </Tabs>
         <div className="grid grid-cols-1 gap-4">
