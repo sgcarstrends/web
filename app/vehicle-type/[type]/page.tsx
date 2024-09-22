@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { TrendChart } from "@/app/cars/[type]/TrendChart";
 import { DataTable } from "@/components/DataTable";
+import { LinkWithParams } from "@/components/LinkWithParams";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
@@ -65,7 +66,7 @@ const tabItems: Record<string, string> = {
   "multi-purpose vehicle": "/vehicle-type/multi-purpose vehicle",
   "station-wagon": "/vehicle-type/station-wagon",
   "sports utility vehicle": "/vehicle-type/sports utility vehicle",
-  "coupe/ convertible": "/vehicle-type/coupe%2F convertible",
+  "coupe/convertible": "/vehicle-type/coupe%2Fconvertible",
 };
 
 export const generateStaticParams = () =>
@@ -172,11 +173,11 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
             <TabsList>
               {Object.entries(tabItems).map(([title, href]) => {
                 return (
-                  <Link key={title} href={href}>
+                  <LinkWithParams key={title} href={href}>
                     <TabsTrigger value={title}>
                       {capitaliseWords(title)}
                     </TabsTrigger>
-                  </Link>
+                  </LinkWithParams>
                 );
               })}
             </TabsList>
