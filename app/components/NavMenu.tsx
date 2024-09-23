@@ -138,82 +138,86 @@ export const MobileNavMenu = () => {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="w-full">
-          <div className="mb-6 flex items-center justify-between">
-            <Link
-              href="/"
-              className="flex items-center gap-x-2"
-              onClick={() => setIsOpen(false)}
-            >
-              <BrandLogo />
-            </Link>
-          </div>
-          <UnreleasedFeature>
-            <div className="relative mb-6">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400" />
-              <Input
-                type="search"
-                placeholder="Search cars..."
-                className="rounded-full border-gray-300 py-2 pl-10 pr-4 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-              />
-            </div>
-          </UnreleasedFeature>
-          <Tabs defaultValue="cars">
-            <TabsList>
-              <TabsTrigger value="cars">Cars</TabsTrigger>
+          <Link
+            href="/"
+            className="mb-6 flex items-center gap-x-2"
+            onClick={() => setIsOpen(false)}
+          >
+            <BrandLogo />
+          </Link>
+          <ScrollArea className="h-full pb-6">
+            <div className="mb-6">
               <UnreleasedFeature>
-                <TabsTrigger value="coe">COE</TabsTrigger>
+                <div className="relative mb-6">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400" />
+                  <Input
+                    type="search"
+                    placeholder="Search cars..."
+                    className="rounded-full border-gray-300 py-2 pl-10 pr-4 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                  />
+                </div>
               </UnreleasedFeature>
-            </TabsList>
-            <TabsContent value="cars">
-              <ScrollArea>
-                <Link href="/cars" onClick={() => setIsOpen(false)}>
-                  <Typography.H4 className="flex items-center gap-1">
-                    Monthly <ArrowRight className="h-6 w-6" />
-                  </Typography.H4>
-                </Link>
-                <Accordion type="multiple">
-                  <AccordionItem value="fuelType">
-                    <AccordionTrigger>Fuel Type</AccordionTrigger>
-                    <AccordionContent>
-                      <div className="flex flex-col space-y-4">
-                        {FUEL_TYPE_LINKS.map(
-                          ({ label, description, href, icon: Icon }) => (
-                            <Link
-                              key={label}
-                              href={href}
-                              onClick={() => setIsOpen(false)}
-                            >
-                              <div className="flex items-center gap-2">
-                                {Icon && <Icon className="h-4 w-4" />}
-                                <div>{label}</div>
-                              </div>
-                              <Typography.Muted>{description}</Typography.Muted>
-                            </Link>
-                          ),
-                        )}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="vehicleType">
-                    <AccordionTrigger>Vehicle Type</AccordionTrigger>
-                    <AccordionContent>
-                      <div className="flex flex-col space-y-4">
-                        {VEHICLE_TYPE_LINKS.map(({ label, href }) => (
-                          <Link
-                            key={label}
-                            href={href}
-                            onClick={() => setIsOpen(false)}
-                          >
-                            {label}
-                          </Link>
-                        ))}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </ScrollArea>
-            </TabsContent>
-          </Tabs>
+              <Tabs defaultValue="cars">
+                <TabsList>
+                  <TabsTrigger value="cars">Cars</TabsTrigger>
+                  <UnreleasedFeature>
+                    <TabsTrigger value="coe">COE</TabsTrigger>
+                  </UnreleasedFeature>
+                </TabsList>
+                <ScrollArea className="h-3/4">
+                  <TabsContent value="cars">
+                    <Link href="/cars" onClick={() => setIsOpen(false)}>
+                      <Typography.H4 className="flex items-center gap-1">
+                        Monthly <ArrowRight className="h-6 w-6" />
+                      </Typography.H4>
+                    </Link>
+                    <Accordion type="multiple">
+                      <AccordionItem value="fuelType">
+                        <AccordionTrigger>Fuel Type</AccordionTrigger>
+                        <AccordionContent>
+                          <div className="flex flex-col space-y-4">
+                            {FUEL_TYPE_LINKS.map(
+                              ({ label, description, href, icon: Icon }) => (
+                                <Link
+                                  key={label}
+                                  href={href}
+                                  onClick={() => setIsOpen(false)}
+                                >
+                                  <div className="flex items-center gap-2">
+                                    {Icon && <Icon className="h-4 w-4" />}
+                                    <div>{label}</div>
+                                  </div>
+                                  <Typography.Muted>
+                                    {description}
+                                  </Typography.Muted>
+                                </Link>
+                              ),
+                            )}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                      <AccordionItem value="vehicleType">
+                        <AccordionTrigger>Vehicle Type</AccordionTrigger>
+                        <AccordionContent>
+                          <div className="flex flex-col space-y-4">
+                            {VEHICLE_TYPE_LINKS.map(({ label, href }) => (
+                              <Link
+                                key={label}
+                                href={href}
+                                onClick={() => setIsOpen(false)}
+                              >
+                                {label}
+                              </Link>
+                            ))}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  </TabsContent>
+                </ScrollArea>
+              </Tabs>
+            </div>
+          </ScrollArea>
         </SheetContent>
       </Sheet>
     </div>
