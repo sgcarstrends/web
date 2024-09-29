@@ -99,28 +99,11 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
     "@type": "Dataset",
     name: `${capitaliseWords(type)} Car Registrations in Singapore`,
     description: `Overview and registration statistics for ${type} cars in Singapore by vehicle type`,
-    url: `${SITE_URL}/cars/${type}`,
+    url: `${SITE_URL}/vehicle-type/${type}`,
     creator: {
       "@type": "Organization",
       name: SITE_TITLE,
     },
-    variableMeasured: [
-      {
-        "@type": "PropertyValue",
-        name: "Make",
-        description: "Car manufacturer",
-      },
-      {
-        "@type": "PropertyValue",
-        name: "Count",
-        description: `Number of ${type} car registrations`,
-      },
-      {
-        "@type": "PropertyValue",
-        name: "Market Share by Type",
-        description: `Percentage market share of ${type} car registrations by type`,
-      },
-    ],
     // TODO: For future use
     // distribution: [
     //   {

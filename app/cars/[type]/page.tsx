@@ -104,23 +104,6 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
       "@type": "Organization",
       name: SITE_TITLE,
     },
-    variableMeasured: [
-      {
-        "@type": "PropertyValue",
-        name: "Make",
-        description: "Car manufacturer",
-      },
-      {
-        "@type": "PropertyValue",
-        name: "Count",
-        description: `Number of ${type} car registrations`,
-      },
-      {
-        "@type": "PropertyValue",
-        name: "Market Share by Type",
-        description: `Percentage market share of ${type} car registrations by type`,
-      },
-    ],
     // TODO: For future use
     // distribution: [
     //   {
