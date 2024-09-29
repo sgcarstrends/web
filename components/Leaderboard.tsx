@@ -117,7 +117,7 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
               </li>
             ))}
           </ul>
-          <Separator />
+          <Separator className="last-of-type:hidden" />
         </>
       ))}
     </div>
