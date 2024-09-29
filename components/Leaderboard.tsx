@@ -16,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import type { Car } from "@/types";
 
 interface Category {
@@ -93,43 +94,38 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
   return (
     <div className="grid grid-cols-1 gap-4">
       {CATEGORIES.map(({ title, description, icon }) => (
-        <Card key={title}>
-          <CardHeader>
-            <CardTitle className="flex flex-col items-center gap-2">
-              <span>{icon}</span>
-              <span>{title}</span>
-            </CardTitle>
-            <CardDescription className="text-center">
-              {description}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {getPopularMakes(cars, title).length === 0 && (
-              <Typography.Muted>
-                No registrations for this period
-              </Typography.Muted>
-            )}
-            <ul>
-              {getPopularMakes(cars, title).map(({ make, number }) => (
-                <li
-                  key={make}
-                  className="group cursor-pointer rounded p-1 transition-colors duration-200 hover:bg-secondary"
+        <>
+          <div className="flex flex-col items-center">
+            <Typography.H3>{icon}</Typography.H3>
+            <Typography.H4>{title}</Typography.H4>
+            <Typography.Muted>{description}</Typography.Muted>
+          </div>
+          {getPopularMakes(cars, title).length === 0 && (
+            <Typography.Muted>
+              No registrations for this period
+            </Typography.Muted>
+          )}
+          <ul>
+            {getPopularMakes(cars, title).map(({ make, number }) => (
+              <li
+                key={make}
+                className="group cursor-pointer rounded p-1 transition-colors duration-200 hover:bg-secondary"
+              >
+                <Link
+                  href={`/make/${make}`}
+                  className="flex items-center justify-between"
                 >
-                  <Link
-                    href={`/make/${make}`}
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex gap-1">
-                      <span className="text-muted-foreground">{make}</span>
-                      <ArrowUpRight className="h-4 w-4 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
-                    </div>
-                    <span className="font-semibold">{number}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+                  <div className="flex gap-1">
+                    <span className="text-muted-foreground">{make}</span>
+                    <ArrowUpRight className="h-4 w-4 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+                  </div>
+                  <span className="font-semibold">{number}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Separator />
+        </>
       ))}
     </div>
   );

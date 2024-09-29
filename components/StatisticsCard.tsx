@@ -47,22 +47,24 @@ export const StatisticsCard = ({
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 gap-4">
-          <DistributionPieChart data={data} type={title} />
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Type</TableHead>
-                <TableHead>Count</TableHead>
-                <TableHead>% of Type</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {Object.entries(data)
-                .filter(([_, value]) => value)
-                .sort(([_A, numberA], [_B, numberB]) => numberB - numberA)
-                .map(([key, value]) => {
-                  return (
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
+          <div className="xl:col-span-6">
+            <DistributionPieChart data={data} type={title} />
+          </div>
+          <div className="xl:col-span-6">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Count</TableHead>
+                  <TableHead>% of Type</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {Object.entries(data)
+                  .filter(([_, value]) => value)
+                  .sort(([_A, numberA], [_B, numberB]) => numberB - numberA)
+                  .map(([key, value]) => (
                     <TableRow
                       key={key}
                       className="group cursor-pointer rounded px-2 py-1 transition-colors duration-200 hover:bg-secondary"
@@ -90,16 +92,16 @@ export const StatisticsCard = ({
                         </Progress>
                       </TableCell>
                     </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-          {Object.keys(data).includes(FUEL_TYPE.OTHERS) && (
-            <p className="text-sm text-muted-foreground">
-              Note: We do not know what is the Land Transport Authority&apos;s
-              exact definition of &quot;Others&quot;.
-            </p>
-          )}
+                  ))}
+              </TableBody>
+            </Table>
+            {Object.keys(data).includes(FUEL_TYPE.OTHERS) && (
+              <p className="text-sm text-muted-foreground">
+                Note: We do not know what is the Land Transport Authority&apos;s
+                exact definition of &quot;Others&quot;.
+              </p>
+            )}
+          </div>
         </div>
       </CardContent>
     </Card>

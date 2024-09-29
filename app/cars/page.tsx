@@ -210,7 +210,7 @@ const CarsPage = async ({ searchParams }: Props) => {
         {cars.length > 0 && (
           <>
             <div className="flex flex-col gap-y-4">
-              <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
                 <Card>
                   <CardHeader>
                     <CardTitle>Total Registrations</CardTitle>
@@ -241,24 +241,24 @@ const CarsPage = async ({ searchParams }: Props) => {
                     <p className="text-gray-600">Highest adoption rate</p>
                   </CardContent>
                 </Card>
-                <UnreleasedFeature>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Trend</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-2xl font-bold text-orange-600">
-                        Electric
-                      </p>
-                      <p className="text-gray-600">
-                        Steady increase in registrations
-                      </p>
-                    </CardContent>
-                  </Card>
-                </UnreleasedFeature>
+                {/*<UnreleasedFeature>*/}
+                {/*  <Card>*/}
+                {/*    <CardHeader>*/}
+                {/*      <CardTitle>Trend</CardTitle>*/}
+                {/*    </CardHeader>*/}
+                {/*    <CardContent>*/}
+                {/*      <p className="text-2xl font-bold text-orange-600">*/}
+                {/*        Electric*/}
+                {/*      </p>*/}
+                {/*      <p className="text-gray-600">*/}
+                {/*        Steady increase in registrations*/}
+                {/*      </p>*/}
+                {/*    </CardContent>*/}
+                {/*  </Card>*/}
+                {/*</UnreleasedFeature>*/}
               </div>
-              <div className="grid gap-4 lg:grid-cols-4">
-                <div className="grid grid-cols-1 gap-4 lg:col-span-2">
+              <div className="grid gap-4 lg:grid-cols-12">
+                <div className="grid grid-cols-1 gap-4 lg:col-span-8">
                   <StatisticsCard
                     title="By Fuel Type"
                     description="Distribution of vehicles based on fuel type"
@@ -274,10 +274,10 @@ const CarsPage = async ({ searchParams }: Props) => {
                     linkPrefix="vehicle-type"
                   />
                 </div>
-                <div className="grid gap-4 lg:col-span-2">
+                <div className="grid gap-4 lg:col-span-4">
                   <Card>
                     <CardHeader>
-                      <CardTitle>Leaderboard</CardTitle>
+                      <CardTitle>Popularity</CardTitle>
                       <CardDescription>
                         Top 3 makes in each category for{" "}
                         {formatDateToMonthYear(month)}
