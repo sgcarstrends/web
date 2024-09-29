@@ -188,7 +188,7 @@ const CarsPage = async ({ searchParams }: Props) => {
                   <Link href="/">Home</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator />
+              <BreadcrumbSeparator>/</BreadcrumbSeparator>
               <BreadcrumbItem>
                 <BreadcrumbPage>Cars</BreadcrumbPage>
               </BreadcrumbItem>
