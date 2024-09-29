@@ -1,8 +1,18 @@
+import Link from "next/link";
 import { MakeSelector } from "@/app/components/MakeSelector";
 import { TrendChart } from "@/app/make/[make]/TrendChart";
 import { columns } from "@/app/make/[make]/columns";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
+import { UnreleasedFeature } from "@/components/UnreleasedFeature";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import {
   Card,
   CardContent,
@@ -119,6 +129,21 @@ const CarMakePage = async ({ params }: Props) => {
     <section>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-y-8">
+        <UnreleasedFeature>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href="/">Home</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator>/</BreadcrumbSeparator>
+              <BreadcrumbItem>Make</BreadcrumbItem>
+              <BreadcrumbSeparator>/</BreadcrumbSeparator>
+              <BreadcrumbPage>{decodeURIComponent(make)}</BreadcrumbPage>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </UnreleasedFeature>
         <div className="flex flex-col justify-between gap-2 lg:flex-row">
           <Typography.H1>{decodeURIComponent(make)}</Typography.H1>
           <MakeSelector makes={makes} selectedMake={make} />
