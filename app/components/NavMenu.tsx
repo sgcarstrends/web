@@ -5,6 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, type LucideIcon, Menu, Search } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
+import { ComingSoon } from "@/components/ComingSoon";
 import Typography from "@/components/Typography";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import {
@@ -79,7 +80,7 @@ export const NavMenu = () => (
           </ul>
         </NavigationMenuContent>
       </NavigationMenuItem>
-      <UnreleasedFeature>
+      <ComingSoon>
         <NavigationMenuItem>
           <NavigationMenuTrigger>COE</NavigationMenuTrigger>
           <NavigationMenuContent>
@@ -93,7 +94,7 @@ export const NavMenu = () => (
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-      </UnreleasedFeature>
+      </ComingSoon>
     </NavigationMenuList>
   </NavigationMenu>
 );

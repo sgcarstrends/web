@@ -2,6 +2,7 @@ import type { ElementType } from "react";
 import Link from "next/link";
 import { Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
+import { ComingSoon } from "@/components/ComingSoon";
 import { Separator } from "@/components/ui/separator";
 import { FUEL_TYPE_LINKS, VEHICLE_TYPE_LINKS } from "@/config";
 import type { LinkItem } from "@/types";
@@ -54,13 +55,25 @@ const FooterSection = ({ title, links }: FooterLink) => (
   <div>
     <h3 className="mb-2 font-semibold text-gray-900">{title}</h3>
     <ul className="flex flex-col gap-y-2">
-      {links.map(({ href, label }) => (
-        <li key={label}>
-          <Link href={href} className="text-gray-600 hover:text-blue-600">
-            {label}
-          </Link>
-        </li>
-      ))}
+      {links.map(({ href, label, comingSoon }) => {
+        if (comingSoon) {
+          return (
+            <ComingSoon key={label}>
+              <Link href={href} className="text-gray-600 hover:text-blue-600">
+                {label}
+              </Link>
+            </ComingSoon>
+          );
+        }
+
+        return (
+          <li key={label}>
+            <Link href={href} className="text-gray-600 hover:text-blue-600">
+              {label}
+            </Link>
+          </li>
+        );
+      })}
     </ul>
   </div>
 );
@@ -132,7 +145,13 @@ export const Footer = () => {
 };
 
 const footerLinks: FooterLink[] = [
-  { title: "Monthly", links: [{ label: "Cars", href: "/cars" }] },
+  {
+    title: "Monthly",
+    links: [
+      { label: "Cars", href: "/cars" },
+      { label: "COE", href: "/coe", comingSoon: true },
+    ],
+  },
   {
     title: "Fuel Types",
     links: FUEL_TYPE_LINKS,

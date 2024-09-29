@@ -86,4 +86,5 @@ export interface LinkItem {
   href: string;
   description?: string;
   icon?: LucideIcon;
+  comingSoon?: boolean;
 }
