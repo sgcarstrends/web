@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { TrendChart } from "@/app/cars/[type]/TrendChart";
-import { DataTable } from "@/components/DataTable";
+import { CarOverviewTrends } from "@/app/components/CarOverviewTrends";
 import { LinkWithParams } from "@/components/LinkWithParams";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
@@ -15,7 +14,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
 import { type Car, type LatestMonth, RevalidateTags } from "@/types";
@@ -160,26 +158,7 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
             ))}
           </TabsList>
         </Tabs>
-        <div className="grid grid-cols-1 gap-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Overview</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Suspense fallback={null}>
-                <TrendChart data={filteredCars} />
-              </Suspense>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Registrations</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <DataTable data={filteredCars} />
-            </CardContent>
-          </Card>
-        </div>
+        <CarOverviewTrends cars={filteredCars} />
       </div>
     </section>
   );
