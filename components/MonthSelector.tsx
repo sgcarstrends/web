@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Calendar } from "lucide-react";
 import useStore from "@/app/store";
 import {
   Select,
@@ -60,7 +61,10 @@ export const MonthSelector = ({ months }: Props) => {
                 const date = `${year}-${month}`;
                 return (
                   <SelectItem key={month} value={date}>
-                    {formatDateToMonthYear(date)}
+                    <div className="flex items-center">
+                      <Calendar className="mr-2 h-4 w-4" />
+                      {formatDateToMonthYear(date)}
+                    </div>
                   </SelectItem>
                 );
               })}
