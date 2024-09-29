@@ -101,7 +101,7 @@ export const Footer = () => {
             </div>
           </div>
           <div className="flex flex-col items-center">
-            For any enquiries, please contact us at{" "}
+            For any enquiries or feedback, please contact us at{" "}
             <a
               href={`mailto:contact@sgcarstrends.com?subject=${encodeURIComponent("Enquiry about SG Car Trends")}`}
               className="underline"
