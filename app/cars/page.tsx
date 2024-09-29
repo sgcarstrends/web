@@ -21,7 +21,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { API_URL, HYBRID_REGEX, SITE_TITLE, SITE_URL } from "@/config";
-import { type Car, type LatestMonth, RevalidateTags } from "@/types";
+import {
+  type Car,
+  type LatestMonth,
+  RevalidateTags,
+  type VEHICLE_TYPE,
+} from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { Metadata } from "next";
@@ -31,7 +36,7 @@ interface Props {
   searchParams: { [key: string]: string };
 }
 
-export const VEHICLE_TYPE_MAP: Record<Car, string> = {
+const VEHICLE_TYPE_MAP: Partial<Record<VEHICLE_TYPE, string>> = {
   "Multi-purpose Vehicle": "MPV",
   "Multi-purpose Vehicle/Station-wagon": "MPV",
   "Sports Utility Vehicle": "SUV",
