@@ -77,10 +77,10 @@ const CarsPage = async ({ searchParams }: Props) => {
   let cars = await fetchApi<Car[]>(`${API_URL}/cars?month=${month}`, {
     next: { tags: [RevalidateTags.Cars] },
   });
-  cars = [...cars].map((car) => {
-    let fuelType = car.fuel_type;
+  cars = cars.map((car) => {
+    const { fuel_type } = car;
 
-    if (HYBRID_REGEX.test(fuelType)) {
+    if (HYBRID_REGEX.test(fuel_type)) {
       Object.assign(car, { fuel_type: "Hybrid" });
     }
 
