@@ -31,8 +31,7 @@ interface Props {
   searchParams: { [key: string]: string };
 }
 
-const VEHICLE_TYPE_MAP: Record<string, string> = {
-  "Coupe/ Convertible": "Coupe/Convertible",
+export const VEHICLE_TYPE_MAP: Record<Car, string> = {
   "Multi-purpose Vehicle": "MPV",
   "Multi-purpose Vehicle/Station-wagon": "MPV",
   "Sports Utility Vehicle": "SUV",
