@@ -26,7 +26,7 @@ export const COECategories = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Categories</CardTitle>
+        <CardTitle>COE Categories</CardTitle>
         <CardDescription>
           <TooltipProvider>
             <Tooltip>
@@ -42,34 +42,36 @@ export const COECategories = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <CategoryInfo
-          icon={Car}
-          category="Category A"
-          description="Cars up to 1600cc & 97kW"
-          canFilter={false}
-        />
-        <CategoryInfo
-          icon={Car}
-          category="Category B"
-          description="Cars above 1600cc or 97kW"
-          canFilter={false}
-        />
-        <CategoryInfo
-          icon={Truck}
-          category="Category C"
-          description="Goods vehicles & buses"
-        />
-        <CategoryInfo
-          icon={Bike}
-          category="Category D"
-          description="Motorcycles"
-        />
-        <CategoryInfo
-          icon={CircleDollarSign}
-          category="Category E"
-          description="Open Category"
-          canFilter={false}
-        />
+        <div className="grid grid-cols-1 gap-4">
+          <CategoryInfo
+            icon={Car}
+            category="Category A"
+            description="Cars up to 1600cc & 97kW"
+            canFilter={false}
+          />
+          <CategoryInfo
+            icon={Car}
+            category="Category B"
+            description="Cars above 1600cc or 97kW"
+            canFilter={false}
+          />
+          <CategoryInfo
+            icon={Truck}
+            category="Category C"
+            description="Goods vehicles & buses"
+          />
+          <CategoryInfo
+            icon={Bike}
+            category="Category D"
+            description="Motorcycles"
+          />
+          <CategoryInfo
+            icon={CircleDollarSign}
+            category="Category E"
+            description="Open Category"
+            canFilter={false}
+          />
+        </div>
       </CardContent>
     </Card>
   );

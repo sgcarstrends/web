@@ -1,17 +1,22 @@
 "use client";
 
-import {
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { CartesianGrid, Legend, Line, LineChart, XAxis } from "recharts";
 import useStore from "@/app/store";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { COEBiddingResult, COECategory } from "@/types";
 
@@ -34,47 +39,43 @@ export const COEPremiumChart = ({ data }: Props) => {
     }, {}),
   );
 
-  const colours: string[] = [
-    "#8884d8",
-    "#82ca9d",
-    "#ffc658",
-    "#ff7300",
-    "#ff3d00",
-  ];
+  const chartConfig = {} satisfies ChartConfig;
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Quota Premium Trends</CardTitle>
+        <CardDescription></CardDescription>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={filteredData}>
-            <CartesianGrid strokeDasharray="3 3" />
+        <ChartContainer config={chartConfig} className="h-[400px] w-full">
+          <LineChart accessibilityLayer data={filteredData}>
+            <CartesianGrid vertical={false} />
             <XAxis
               dataKey="month"
               tickFormatter={(value) => formatDateToMonthYear(value)}
             />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            {Object.entries(categories)
-              .sort(([a], [b]) => a.localeCompare(b))
-              .map(
-                ([category, value], index) =>
-                  value && (
-                    <Line
-                      key={category}
-                      type="monotone"
-                      dataKey={category}
-                      stroke={colours[index]}
-                      name={category}
-                      dot={false}
-                    />
-                  ),
-              )}
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="line" />}
+            />
+            {Object.entries(categories).map(
+              ([category, value], index) =>
+                value && (
+                  <Line
+                    key={category}
+                    dataKey={category}
+                    name={category}
+                    type="natural"
+                    stroke={`hsl(var(--chart-${index + 1}))`}
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                ),
+            )}
+            <ChartLegend />
           </LineChart>
-        </ResponsiveContainer>
+        </ChartContainer>
       </CardContent>
     </Card>
   );

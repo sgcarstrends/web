@@ -33,12 +33,12 @@ const COEPricesPage = async () => {
   return (
     <div className="flex flex-col gap-y-8">
       {/*TODO: Allow filtering by year*/}
-      <Typography.H1>COE Results Dashboard</Typography.H1>
-      <div className="grid gap-4 lg:grid-cols-4">
-        <div className="grid gap-4 lg:col-span-2 xl:col-span-3">
+      <Typography.H1>COE Results</Typography.H1>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
+        <div className="lg:col-span-8">
           <COEPremiumChart data={data} />
         </div>
-        <div className="grid gap-4 lg:col-span-2 xl:col-span-1">
+        <div className="lg:col-span-4">
           <COECategories />
         </div>
       </div>
