@@ -16,22 +16,19 @@ const COEPricesPage = async () => {
     { next: { tags: [RevalidateTags.COE] } },
   );
 
-  const groupedData: COEBiddingResult[] = historicalResult.reduce(
-    (acc: any, item) => {
-      const key = `${item.month}-${item.bidding_no}`;
+  const groupedData = coeResults.reduce<COEBiddingResult[]>((acc, item) => {
+    const key = `${item.month}-${item.bidding_no}`;
 
-      if (!acc[key]) {
-        acc[key] = {
-          month: item.month,
-          biddingNo: item.bidding_no,
-        };
-      }
-      acc[key][item.vehicle_class] = item.premium;
+    if (!acc[key]) {
+      acc[key] = {
+        month: item.month,
+        biddingNo: item.bidding_no,
+      };
+    }
+    acc[key][item.vehicle_class] = item.premium;
 
-      return acc;
-    },
-    [],
-  );
+    return acc;
+  }, []);
 
   const data: COEBiddingResult[] = Object.values(groupedData);
 
