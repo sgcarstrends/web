@@ -6,8 +6,13 @@ import { type COEBiddingResult, type COEResult, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 
 const COEPricesPage = async () => {
-  const historicalResult: COEResult[] = await fetchApi<COEResult[]>(
-    `${API_URL}/coe?orderBy=asc`,
+  const params = new URLSearchParams();
+  params.append("sort", "month");
+  params.append("orderBy", "asc");
+  const queryString = params.toString();
+
+  const coeResults = await fetchApi<COEResult[]>(
+    `${API_URL}/coe?${queryString}`,
     { next: { tags: [RevalidateTags.COE] } },
   );
 
