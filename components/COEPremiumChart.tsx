@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { type CSSProperties, useMemo, useState } from "react";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 import useStore from "@/app/store";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartTooltip,
@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
-import type { COEBiddingResult } from "@/types";
+import type { COEBiddingResult, COECategory } from "@/types";
 
 interface Props {
   data: COEBiddingResult[];
@@ -54,7 +54,7 @@ export const COEPremiumChart = ({ data }: Props) => {
           Object.entries(item).reduce((acc: any, [key, value]) => {
             if (
               key === "month" ||
-              (key.startsWith("Category") && categories[key])
+              (key.startsWith("Category") && categories[key as COECategory])
             ) {
               acc[key] = value;
             }
@@ -106,15 +106,17 @@ export const COEPremiumChart = ({ data }: Props) => {
                 <ChartTooltipContent
                   indicator="line"
                   labelFormatter={(value) => formatDateToMonthYear(value)}
-                  formatter={(value, name, _, index) => (
+                  formatter={(value: any, name, _, index) => (
                     <>
                       <div
                         className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--colour-bg]"
-                        style={{
-                          "--colour-bg": `hsl(var(--chart-${index + 1}))`,
-                        }}
+                        style={
+                          {
+                            "--colour-bg": `hsl(var(--chart-${index + 1}))`,
+                          } as CSSProperties
+                        }
                       />
-                      {chartConfig[name]?.label || name}
+                      {name}
                       <div className="ml-auto flex items-baseline gap-0.5 font-medium tabular-nums text-foreground">
                         {Intl.NumberFormat("en-SG", {
                           style: "currency",

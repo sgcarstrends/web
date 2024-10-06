@@ -5,14 +5,14 @@ import { Button } from "@/components/ui/button";
 import type { COEResult } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 
-const formatCurrency = (value) =>
+const formatCurrency = (value: any) =>
   Intl.NumberFormat("en-SG", {
     style: "currency",
     currency: "SGD",
     minimumFractionDigits: 0,
   }).format(value);
 
-const formatPercent = (value) =>
+const formatPercent = (value: any) =>
   Intl.NumberFormat("en-SG", { style: "percent" }).format(value);
 
 export const columns: ColumnDef<COEResult>[] = [
@@ -47,12 +47,16 @@ export const columns: ColumnDef<COEResult>[] = [
     accessorKey: "bids_success",
     header: "Bids Success",
     cell: ({ row }) =>
-      `${row.getValue("bids_success")} (${formatPercent(row.getValue("bids_success") / row.getValue("bids_received"))})`,
+      `${row.getValue("bids_success") as number} (${formatPercent((row.getValue("bids_success") as number) / (row.getValue("bids_received") as number))})`,
   },
   {
     accessorKey: "oversubscribed",
     header: "Oversubscribed (%)",
     cell: ({ row }) =>
-      formatPercent(row.getValue("bids_received") / row.getValue("quota") - 1),
+      formatPercent(
+        (row.getValue("bids_received") as number) /
+          (row.getValue("quota") as number) -
+          1,
+      ),
   },
 ];
