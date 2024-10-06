@@ -64,16 +64,16 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter months..."
-          value={(table.getColumn("month")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("month")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-      </div>
+      {/*<div className="flex items-center py-4">*/}
+      {/*  <Input*/}
+      {/*    placeholder="Filter months..."*/}
+      {/*    value={(table.getColumn("month")?.getFilterValue() as string) ?? ""}*/}
+      {/*    onChange={(event) =>*/}
+      {/*      table.getColumn("month")?.setFilterValue(event.target.value)*/}
+      {/*    }*/}
+      {/*    className="max-w-sm"*/}
+      {/*  />*/}
+      {/*</div>*/}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -126,8 +126,9 @@ export function DataTable<TData, TValue>({
       </div>
       <div className="flex flex-col items-center gap-y-2 px-2 py-4 lg:flex-row lg:justify-between">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {table.getFilteredRowModel().rows.length} rows fetched.
+          {/*{table.getFilteredSelectedRowModel().rows.length} of{" "}*/}
+          {/*{table.getFilteredRowModel().rows.length} row(s) selected.*/}
         </div>
         <div className="flex flex-col gap-x-6 gap-y-2 lg:flex-row lg:items-center lg:gap-x-8">
           <div className="flex items-center gap-x-2">
