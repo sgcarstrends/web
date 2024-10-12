@@ -104,8 +104,8 @@ export const COEPremiumChart = ({ data }: Props) => {
             />
             <YAxis
               domain={[
-                (dataMin) => Math.floor(dataMin / 10000) * 10000,
-                (dataMax) => Math.ceil(dataMax / 10000) * 10000,
+                (dataMin: number) => Math.floor(dataMin / 10000) * 10000,
+                (dataMax: number) => Math.ceil(dataMax / 10000) * 10000,
               ]}
               tickFormatter={(value) => numberFormat(value)}
               axisLine={false}

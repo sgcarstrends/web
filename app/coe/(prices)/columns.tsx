@@ -32,17 +32,19 @@ export const columns: ColumnDef<COEResult>[] = [
   {
     accessorKey: "vehicle_class",
     header: "Category",
-    cell: ({ row }) => row.getValue("vehicle_class").split("Category")[1],
+    cell: ({ row }) =>
+      row.getValue<string>("vehicle_class").split("Category")[1],
   },
   {
     accessorKey: "premium",
     header: "Quota Premium (S$)",
-    cell: ({ row }) => `S${formatCurrency(row.getValue("premium"))}`,
+    cell: ({ row }) => `S${formatCurrency(row.getValue<number>("premium"))}`,
   },
   {
     accessorKey: "bidding_no",
     header: "Bidding Round",
-    cell: ({ row }) => `${formatOrdinal(row.getValue("bidding_no"))} Round`,
+    cell: ({ row }) =>
+      `${formatOrdinal(row.getValue<number>("bidding_no"))} Round`,
   },
   // { accessorKey: "quota", header: "Quota" },
   // { accessorKey: "bids_received", header: "Bids Received" },
