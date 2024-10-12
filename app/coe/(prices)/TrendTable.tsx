@@ -9,6 +9,19 @@ interface Props {
 }
 
 export const TrendTable = ({ coeResults }: Props) => {
-  const sortedData = coeResults.sort((a, b) => b.month.localeCompare(a.month));
+  const sortCOEResults = (a: COEResult, b: COEResult) => {
+    if (a.month !== b.month) {
+      return b.month.localeCompare(a.month);
+    }
+
+    if (a.bidding_no !== b.bidding_no) {
+      return b.bidding_no - a.bidding_no;
+    }
+
+    return a.vehicle_class.localeCompare(b.vehicle_class);
+  };
+
+  const sortedData = coeResults.sort(sortCOEResults);
+
   return <DataTable columns={columns} data={sortedData} />;
 };
