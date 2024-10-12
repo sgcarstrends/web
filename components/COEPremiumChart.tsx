@@ -1,7 +1,8 @@
 "use client";
 
 import { type CSSProperties, useMemo, useState } from "react";
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import numberFormat from "@ruchernchong/number-format";
+import { CartesianGrid, Label, Line, LineChart, XAxis, YAxis } from "recharts";
 import useStore from "@/app/store";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import {
@@ -92,14 +93,30 @@ export const COEPremiumChart = ({ data }: Props) => {
           </Select>
         </UnreleasedFeature>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-6">
         <ChartContainer config={chartConfig} className="h-[400px] w-full">
           <LineChart accessibilityLayer data={filteredData}>
             <CartesianGrid />
             <XAxis
               dataKey="month"
               tickFormatter={(value) => formatDateToMonthYear(value)}
+              axisLine={false}
             />
+            <YAxis
+              domain={[
+                (dataMin) => Math.floor(dataMin / 10000) * 10000,
+                (dataMax) => Math.ceil(dataMax / 10000) * 10000,
+              ]}
+              tickFormatter={(value) => numberFormat(value)}
+              axisLine={false}
+            >
+              <Label
+                value="Quota Premium (S$)"
+                angle={-90}
+                position="insideLeft"
+                style={{ textAnchor: "middle" }}
+              />
+            </YAxis>
             <ChartTooltip
               cursor={false}
               content={

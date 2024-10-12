@@ -32,34 +32,34 @@ export const columns: ColumnDef<COEResult>[] = [
   {
     accessorKey: "vehicle_class",
     header: "Category",
+    cell: ({ row }) => row.getValue("vehicle_class").split("Category")[1],
   },
   {
     accessorKey: "premium",
-    header: "Quota Premium ($)",
-    cell: ({ row }) => formatCurrency(row.getValue("premium")),
+    header: "Quota Premium (S$)",
+    cell: ({ row }) => `S${formatCurrency(row.getValue("premium"))}`,
   },
   {
     accessorKey: "bidding_no",
     header: "Bidding Round",
-    cell: ({ row }) =>
-      `${formatOrdinal(row.getValue("bidding_no"))} Bidding Round`,
+    cell: ({ row }) => `${formatOrdinal(row.getValue("bidding_no"))} Round`,
   },
-  { accessorKey: "quota", header: "Quota" },
-  { accessorKey: "bids_received", header: "Bids Received" },
-  {
-    accessorKey: "bids_success",
-    header: "Bids Success",
-    cell: ({ row }) =>
-      `${row.getValue("bids_success") as number} (${formatPercent((row.getValue("bids_success") as number) / (row.getValue("bids_received") as number))})`,
-  },
-  {
-    accessorKey: "oversubscribed",
-    header: "Oversubscribed (%)",
-    cell: ({ row }) =>
-      formatPercent(
-        (row.getValue("bids_received") as number) /
-          (row.getValue("quota") as number) -
-          1,
-      ),
-  },
+  // { accessorKey: "quota", header: "Quota" },
+  // { accessorKey: "bids_received", header: "Bids Received" },
+  // {
+  //   accessorKey: "bids_success",
+  //   header: "Bids Success",
+  //   cell: ({ row }) =>
+  //     `${row.getValue("bids_success") as number} (${formatPercent((row.getValue("bids_success") as number) / (row.getValue("bids_received") as number))})`,
+  // },
+  // {
+  //   accessorKey: "oversubscribed",
+  //   header: "Oversubscribed (%)",
+  //   cell: ({ row }) =>
+  //     formatPercent(
+  //       (row.getValue("bids_received") as number) /
+  //         (row.getValue("quota") as number) -
+  //         1,
+  //     ),
+  // },
 ];
