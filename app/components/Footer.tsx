@@ -4,7 +4,7 @@ import { Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { ComingSoon } from "@/components/ComingSoon";
 import { Separator } from "@/components/ui/separator";
-import { FUEL_TYPE_LINKS, VEHICLE_TYPE_LINKS } from "@/config";
+import { COE_LINKS, FUEL_TYPE_LINKS, VEHICLE_TYPE_LINKS } from "@/config";
 import type { LinkItem } from "@/types";
 
 interface FooterLink {
@@ -145,23 +145,23 @@ export const Footer = () => {
 };
 
 const footerLinks: FooterLink[] = [
-  {
-    title: "Monthly",
-    links: [
-      { label: "Cars", href: "/cars" },
-      { label: "COE", href: "/coe", comingSoon: true },
-    ],
-  },
+  // {
+  //   title: "Monthly",
+  //   links: [
+  //     { label: "Cars", href: "/cars" },
+  //     { label: "COE", href: "/coe" },
+  //   ],
+  // },
   {
     title: "Fuel Types",
     links: FUEL_TYPE_LINKS,
   },
   { title: "Vehicle Types", links: VEHICLE_TYPE_LINKS },
+  {
+    title: "COE",
+    links: COE_LINKS,
+  },
   // TODO: Coming Soon!
-  // {
-  //   title: "COE",
-  //   links: coeLinks,
-  // },
   // {
   //   title: "Resources",
   //   links: [

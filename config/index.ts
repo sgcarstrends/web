@@ -101,12 +101,13 @@ export const VEHICLE_TYPE_LINKS: LinkItem[] = [
 ].sort((a, b) => a.label.localeCompare(b.label));
 
 export const COE_LINKS: LinkItem[] = [
-  { href: "/coe/prices", label: "COE Prices" },
-  { href: "/coe/bidding", label: "COE Bidding" },
+  { href: "/coe", label: "Dashboard" },
+  // { href: "/coe/prices", label: "COE Prices" },
+  // { href: "/coe/bidding", label: "COE Bidding" },
 ];
 
 export const SITE_LINKS: LinkItem[] = [
   ...FUEL_TYPE_LINKS,
   ...VEHICLE_TYPE_LINKS,
-  // ...COE_LINKS
+  ...COE_LINKS,
 ];

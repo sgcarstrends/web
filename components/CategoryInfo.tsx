@@ -30,9 +30,9 @@ export const CategoryInfo = ({
   return (
     <div
       className={cn(
-        "mb-4 flex cursor-not-allowed items-center gap-x-2 rounded-lg border border-transparent p-2",
+        "pointer-events-none flex cursor-not-allowed items-center gap-2 rounded-xl border-2 border-transparent p-2 hover:bg-gray-100",
         {
-          "cursor-pointer": canFilter,
+          "pointer-events-auto cursor-pointer": canFilter,
           "border-primary": categories[category],
         },
       )}
