@@ -1,7 +1,7 @@
 "use client";
 
 import { type CSSProperties, useMemo, useState } from "react";
-import numberFormat from "@ruchernchong/number-format";
+import { numberFormat } from "@ruchernchong/number-format";
 import { CartesianGrid, Label, Line, LineChart, XAxis, YAxis } from "recharts";
 import useStore from "@/app/store";
 import { UnreleasedFeature } from "@/components/UnreleasedFeature";

@@ -13,8 +13,8 @@ const formatCurrency = (value: any) =>
     minimumFractionDigits: 0,
   }).format(value);
 
-const formatPercent = (value: any) =>
-  Intl.NumberFormat("en-SG", { style: "percent" }).format(value);
+// const formatPercent = (value: any) =>
+//   Intl.NumberFormat("en-SG", { style: "percent" }).format(value);
 
 export const columns: ColumnDef<COEResult>[] = [
   {
