@@ -80,21 +80,26 @@ export const NavMenu = () => (
           </ul>
         </NavigationMenuContent>
       </NavigationMenuItem>
-      <ComingSoon>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>COE</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <ListItem href="/coe/prices" title="Latest COE">
-                Latest
-              </ListItem>
-              <ListItem href="/coe/prices" title="Historical COE Trends">
-                Historical
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-      </ComingSoon>
+      <NavigationMenuItem>
+        <Link href="/coe" legacyBehavior passHref>
+          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            COE
+          </NavigationMenuLink>
+        </Link>
+      </NavigationMenuItem>
+      {/*<NavigationMenuItem>*/}
+      {/*  <NavigationMenuTrigger>COE</NavigationMenuTrigger>*/}
+      {/*  <NavigationMenuContent>*/}
+      {/*    <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">*/}
+      {/*      <ListItem href="/coe/prices" title="Latest COE">*/}
+      {/*        Latest*/}
+      {/*      </ListItem>*/}
+      {/*      <ListItem href="/coe/prices" title="Historical COE Trends">*/}
+      {/*        Historical*/}
+      {/*      </ListItem>*/}
+      {/*    </ul>*/}
+      {/*  </NavigationMenuContent>*/}
+      {/*</NavigationMenuItem>*/}
     </NavigationMenuList>
   </NavigationMenu>
 );
@@ -161,9 +166,7 @@ export const MobileNavMenu = () => {
               <Tabs defaultValue="cars">
                 <TabsList>
                   <TabsTrigger value="cars">Cars</TabsTrigger>
-                  <UnreleasedFeature>
-                    <TabsTrigger value="coe">COE</TabsTrigger>
-                  </UnreleasedFeature>
+                  <TabsTrigger value="coe">COE</TabsTrigger>
                 </TabsList>
                 <ScrollArea className="h-3/4">
                   <TabsContent value="cars">
@@ -211,6 +214,18 @@ export const MobileNavMenu = () => {
                               </Link>
                             ))}
                           </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  </TabsContent>
+                  <TabsContent value="coe">
+                    <Accordion type="multiple">
+                      <AccordionItem value="dashboard">
+                        <AccordionTrigger>COE</AccordionTrigger>
+                        <AccordionContent>
+                          <Link href="/coe" onClick={() => setIsOpen(false)}>
+                            Dashboard
+                          </Link>
                         </AccordionContent>
                       </AccordionItem>
                     </Accordion>
