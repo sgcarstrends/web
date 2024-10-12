@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import { TrendTable } from "@/app/coe/(prices)/TrendTable";
 import { COECategories } from "@/components/COECategories";
 import { COEPremiumChart } from "@/components/COEPremiumChart";
@@ -14,6 +13,7 @@ import {
 import { API_URL, SITE_URL } from "@/config";
 import { type COEBiddingResult, type COEResult, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
+import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
 export const generateMetadata = async (): Promise<Metadata> => {
