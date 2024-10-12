@@ -2,6 +2,7 @@
 
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { formatOrdinal } from "@/utils/formatOrdinal";
 import type { COEResult } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 
@@ -40,6 +41,8 @@ export const columns: ColumnDef<COEResult>[] = [
   {
     accessorKey: "bidding_no",
     header: "Bidding Round",
+    cell: ({ row }) =>
+      `${formatOrdinal(row.getValue("bidding_no"))} Bidding Round`,
   },
   { accessorKey: "quota", header: "Quota" },
   { accessorKey: "bids_received", header: "Bids Received" },
