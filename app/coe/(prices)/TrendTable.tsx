@@ -1,6 +1,6 @@
 "use client";
 
-import { columns } from "@/app/coe/prices/columns";
+import { columns } from "@/app/coe/(prices)/columns";
 import { DataTable } from "@/components/ui/data-table";
 import type { COEResult } from "@/types";
 
