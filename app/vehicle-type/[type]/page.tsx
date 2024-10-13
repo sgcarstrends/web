@@ -17,7 +17,12 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
-import { type Car, type LatestMonth, RevalidateTags } from "@/types";
+import {
+  type Car,
+  type LatestMonth,
+  type Month,
+  RevalidateTags,
+} from "@/types";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
 import { mergeCarsByVehicleType } from "@/utils/mergeCarsByVehicleType";
@@ -74,7 +79,7 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
   const { type } = params;
 
   const [months, latestMonth] = await Promise.all([
-    fetchApi<string[]>(`${API_URL}/months`, {
+    fetchApi<Month[]>(`${API_URL}/cars/months`, {
       next: { tags: [RevalidateTags.Cars] },
     }),
     fetchApi<LatestMonth>(`${API_URL}/months/latest`, {

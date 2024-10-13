@@ -24,6 +24,7 @@ import { API_URL, HYBRID_REGEX, SITE_TITLE, SITE_URL } from "@/config";
 import {
   type Car,
   type LatestMonth,
+  type Month,
   RevalidateTags,
   type VEHICLE_TYPE,
 } from "@/types";
@@ -72,7 +73,7 @@ const CarsPage = async ({ searchParams }: Props) => {
   let { month } = searchParams;
   // TODO: Interim solution
   if (!month) {
-    const latestMonths = await fetchApi<{ [key: string]: string }>(
+    const latestMonths = await fetchApi<LatestMonth>(
       `${API_URL}/months/latest`,
       { next: { tags: [RevalidateTags.Cars] } },
     );
@@ -91,7 +92,7 @@ const CarsPage = async ({ searchParams }: Props) => {
 
     return car;
   });
-  const months = await fetchApi<string[]>(`${API_URL}/months`);
+  const months = await fetchApi<Month[]>(`${API_URL}/cars/months`);
   const total = cars.reduce((accum, curr) => accum + (curr.number || 0), 0);
 
   const aggregateData = (

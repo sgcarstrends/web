@@ -1,4 +1,6 @@
-export const groupByYear = (dates: string[]) => {
+import type { Month } from "@/types";
+
+export const groupByYear = (dates: Month[]) => {
   if (!dates) {
     return dates;
   }

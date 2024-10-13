@@ -15,9 +15,10 @@ import {
 } from "@/components/ui/select";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { groupByYear } from "@/utils/groupByYear";
+import type { Month } from "@/types";
 
 interface Props {
-  months: string[];
+  months: Month[];
 }
 
 export const MonthSelector = ({ months }: Props) => {

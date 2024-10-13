@@ -74,6 +74,7 @@ export enum RevalidateTags {
 }
 
 export type Make = Car["make"];
+export type Month = Car["month"] | COEResult["month"];
 
 export enum AppEnv {
   DEV = "dev",
