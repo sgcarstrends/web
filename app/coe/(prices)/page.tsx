@@ -11,7 +11,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { API_URL, SITE_URL } from "@/config";
-import { type COEBiddingResult, type COEResult, RevalidateTags } from "@/types";
+import {
+  type COEBiddingResult,
+  type COEResult,
+  type Month,
+  RevalidateTags,
+} from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
@@ -30,16 +35,23 @@ export const generateMetadata = async (): Promise<Metadata> => {
   };
 };
 
-const COEPricesPage = async () => {
-  const params = new URLSearchParams();
+const COEPricesPage = async ({ searchParams }) => {
+  const params = new URLSearchParams(searchParams);
   params.append("sort", "month");
   params.append("orderBy", "asc");
   const queryString = params.toString();
 
-  const coeResults = await fetchApi<COEResult[]>(
+  const getCoeResults = await fetchApi<COEResult[]>(
     `${API_URL}/coe?${queryString}`,
-    { next: { tags: [RevalidateTags.COE] } },
+    {
+      next: { tags: [RevalidateTags.COE] },
+    },
   );
+  const getMonths = await fetchApi<Month[]>(`${API_URL}/coe/months`);
+  const [coeResults, months] = (await Promise.all([
+    getCoeResults,
+    getMonths,
+  ])) as [COEResult[], Month[]];
 
   const groupedData = coeResults.reduce<COEBiddingResult[]>(
     (acc: any, item) => {
@@ -79,7 +91,7 @@ const COEPricesPage = async () => {
         <Typography.H1>COE Results</Typography.H1>
         <div className="grid gap-4 lg:grid-cols-12">
           <div className="grid grid-cols-1 gap-4 lg:col-span-8">
-            <COEPremiumChart data={data} />
+            <COEPremiumChart data={data} months={months} />
           </div>
           <div className="grid grid-cols-1 gap-4 lg:col-span-4">
             <COECategories />

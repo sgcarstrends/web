@@ -1,10 +1,10 @@
 "use client";
 
-import { type CSSProperties, useMemo, useState } from "react";
+import { type CSSProperties, useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { numberFormat } from "@ruchernchong/number-format";
 import { CartesianGrid, Label, Line, LineChart, XAxis, YAxis } from "recharts";
 import useStore from "@/app/store";
-import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import {
   Card,
   CardContent,
@@ -27,30 +27,52 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
-import type { COEBiddingResult, COECategory } from "@/types";
+import type { COEBiddingResult, COECategory, Month } from "@/types";
 
 interface Props {
   data: COEBiddingResult[];
+  months: Month[];
 }
 
-export const COEPremiumChart = ({ data }: Props) => {
+export const COEPremiumChart = ({ data, months }: Props) => {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const categories = useStore(({ categories }) => categories);
 
   const [timeRange, setTimeRange] = useState("360d");
 
+  useEffect(() => {
+    const params = new URLSearchParams();
+
+    switch (timeRange) {
+      case "ALL":
+        params.append("from", months[months.length - 1]);
+        params.append("to", months[0]);
+        break;
+      case "YTD":
+        params.append("from", `${new Date().getFullYear()}-01`);
+        params.append("to", months[0]);
+        break;
+      default:
+    }
+
+    router.push(`${pathname}?${params.toString()}`);
+  }, [months, pathname, router, timeRange]);
+
   const filteredData: COEBiddingResult[] = useMemo(
     () =>
       data
-        .filter((item) => {
-          const date = new Date(item.month);
-          const now = new Date();
-          let daysToSubtract = 360;
-          if (timeRange === "1800d") {
-            daysToSubtract = 1800;
-          }
-          now.setDate(now.getDate() - daysToSubtract);
-          return date >= now;
-        })
+        // .filter((item) => {
+        //   const date = new Date(item.month);
+        //   const now = new Date();
+        //   let daysToSubtract = 360;
+        //   if (timeRange === "1800d") {
+        //     daysToSubtract = 1800;
+        //   }
+        //   now.setDate(now.getDate() - daysToSubtract);
+        //   return date >= now;
+        // })
         .map((item) =>
           Object.entries(item).reduce((acc: any, [key, value]) => {
             if (
@@ -68,6 +90,12 @@ export const COEPremiumChart = ({ data }: Props) => {
 
   const chartConfig = {} satisfies ChartConfig;
 
+  const TIME_RANGES = [
+    { timeRange: "360d", label: "Last 12 Months" },
+    { timeRange: "YTD", label: "Year to Date" },
+    { timeRange: "ALL", label: "All Time" },
+  ];
+
   return (
     <Card>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
@@ -77,21 +105,22 @@ export const COEPremiumChart = ({ data }: Props) => {
             Showing the last 12 months of historical trends
           </CardDescription>
         </div>
-        <UnreleasedFeature>
-          <Select value={timeRange} onValueChange={setTimeRange}>
-            <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto">
-              <SelectValue placeholder="Last 12 months" />
-            </SelectTrigger>
-            <SelectContent className="rounded-xl">
-              <SelectItem value="360d" className="rounded-lg">
-                Last 12 months
+        <Select value={timeRange} onValueChange={setTimeRange}>
+          <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto">
+            <SelectValue placeholder="Last 12 months" />
+          </SelectTrigger>
+          <SelectContent className="rounded-xl">
+            {TIME_RANGES.map(({ timeRange, label }) => (
+              <SelectItem
+                key={timeRange}
+                value={timeRange}
+                className="rounded-lg"
+              >
+                {label}
               </SelectItem>
-              <SelectItem value="1800d" className="rounded-lg">
-                Last 5 years
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        </UnreleasedFeature>
+            ))}
+          </SelectContent>
+        </Select>
       </CardHeader>
       <CardContent className="p-6">
         <ChartContainer config={chartConfig} className="h-[400px] w-full">
