@@ -102,7 +102,7 @@ export const COEPremiumChart = ({ data, months }: Props) => {
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle>Quota Premium ($)</CardTitle>
           <CardDescription>
-            Showing the last 12 months of historical trends
+            {`Showing ${TIME_RANGES.find((range) => range.timeRange === timeRange)?.label.toLowerCase()} of COE prices`}
           </CardDescription>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>

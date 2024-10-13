@@ -100,9 +100,7 @@ const COEPricesPage = async ({ searchParams }) => {
         <Card>
           <CardHeader>
             <CardTitle>Overview</CardTitle>
-            <CardDescription>
-              Showing the last 12 months of historical trends
-            </CardDescription>
+            <CardDescription>List of historical COE prices</CardDescription>
           </CardHeader>
           <CardContent>
             <TrendTable coeResults={coeResults} />
