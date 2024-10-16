@@ -29,7 +29,7 @@ export const fetchApi = async <T>(
     }
 
     return response.json();
-  } catch (e) {
+  } catch (e: any) {
     console.error(e.message);
     throw e;
   }
