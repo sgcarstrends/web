@@ -53,7 +53,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
         {ANNOUNCEMENT && <Announcement>{ANNOUNCEMENT}</Announcement>}
         <SidebarProvider>
           <AppSidebar />
-          <main>
+          <main className="w-full">
             <Header>
               <SidebarTrigger />
             </Header>
