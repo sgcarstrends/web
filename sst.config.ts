@@ -33,6 +33,9 @@ export default $config({
         DATABASE_URL: process.env.DATABASE_URL!,
         APP_ENV: $app.stage,
       },
+      server: {
+        architecture: "arm64",
+      },
     });
   },
 });
