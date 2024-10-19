@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import classNames from "classnames";
 import { Announcement } from "@/app/components/Announcement";
-import { Footer } from "@/app/components/Footer";
+// import { Footer } from "@/app/components/Footer";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Header } from "@/components/Header";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
