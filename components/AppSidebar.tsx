@@ -7,6 +7,7 @@ import {
 import {
   Calendar,
   ChevronDown,
+  ChevronRight,
   ChevronUp,
   Home,
   Inbox,
@@ -32,6 +33,7 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
@@ -116,8 +118,14 @@ export const AppSidebar = () => (
             ))}
             <Collapsible defaultOpen className="group/collapsible">
               <SidebarMenuItem>
+                <SidebarMenuButton asChild tooltip="Getting Started">
+                  <span>Getting Started</span>
+                </SidebarMenuButton>
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuButton>Getting Started</SidebarMenuButton>
+                  <SidebarMenuAction className="data-[state=open]:rotate-90">
+                    <ChevronRight />
+                    <span className="sr-only">Getting Started</span>
+                  </SidebarMenuAction>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
                   <SidebarMenuSub>
