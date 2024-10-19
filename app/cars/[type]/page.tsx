@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { CarOverviewTrends } from "@/app/components/CarOverviewTrends";
+import { EmptyData } from "@/components/EmptyData";
 import { LinkWithParams } from "@/components/LinkWithParams";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
@@ -95,6 +96,11 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
       next: { tags: [RevalidateTags.Cars] },
     },
   );
+
+  if (cars.length === 0) {
+    return <EmptyData />;
+  }
+
   const filteredCars = mergeCarsByFuelType(cars);
 
   const structuredData: WithContext<Dataset> = {
