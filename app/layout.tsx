@@ -3,8 +3,10 @@ import { Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import classNames from "classnames";
 import { Announcement } from "@/app/components/Announcement";
-import { Footer } from "@/app/components/Footer";
-import { Header } from "@/app/components/Header";
+// import { Footer } from "@/app/components/Footer";
+import { AppSidebar } from "@/components/AppSidebar";
+import { Header } from "@/components/Header";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
 import "./globals.css";
 import { Analytics } from "./components/Analytics";
@@ -47,13 +49,18 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <html lang="en">
-      <body className={classNames(inter.className, "bg-gray-50 text-gray-900")}>
+      <body className={classNames(inter.className)}>
         {ANNOUNCEMENT && <Announcement>{ANNOUNCEMENT}</Announcement>}
-        <Header />
-        <main className="container mx-auto min-h-screen px-4 py-16">
-          {children}
-        </main>
-        <Footer />
+        <SidebarProvider>
+          <AppSidebar />
+          <main>
+            <Header>
+              <SidebarTrigger />
+            </Header>
+            <div className="bg-gray-50 p-4">{children}</div>
+          </main>
+        </SidebarProvider>
+        {/*<Footer />*/}
         <Analytics />
       </body>
       <GoogleAnalytics gaId={gaMeasurementId} />
