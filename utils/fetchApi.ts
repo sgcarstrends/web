@@ -3,8 +3,6 @@ export const fetchApi = async <T>(
   options: RequestInit = {},
 ): Promise<T> => {
   const defaultOptions: RequestInit = {
-    // TODO: Remove this later
-    cache: "no-store",
     headers: {
       Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
     },

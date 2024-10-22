@@ -15,7 +15,6 @@ describe("fetchApi", () => {
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(url, {
-      cache: "no-store",
       headers: {
         Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
       },
@@ -48,7 +47,6 @@ describe("fetchApi", () => {
 
     expect(fetch).toHaveBeenCalledWith(url, {
       method: "POST",
-      cache: "no-store",
       headers: {
         Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
         "Custom-Header": "CustomValue",
