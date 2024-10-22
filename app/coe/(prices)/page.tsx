@@ -39,8 +39,22 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
 const COEPricesPage = async (props: { searchParams: SearchParams }) => {
   const searchParams = await props.searchParams;
-  // TODO: Temporary type "any"
-  const params = new URLSearchParams(searchParams);
+
+  // Convert searchParams to a valid format for URLSearchParams
+  const params = new URLSearchParams(
+    Object.entries(searchParams).reduce(
+      (acc: Record<string, string>, [key, value]) => {
+        if (typeof value === "string") {
+          acc[key] = value;
+        } else if (Array.isArray(value)) {
+          acc[key] = value.join(","); // Or handle arrays in any other way you prefer
+        }
+        return acc;
+      },
+      {},
+    ),
+  );
+
   params.append("sort", "month");
   params.append("orderBy", "asc");
   const queryString = params.toString();
