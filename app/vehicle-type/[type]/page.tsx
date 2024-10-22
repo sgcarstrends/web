@@ -79,11 +79,11 @@ export const generateStaticParams = () =>
 const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
   const { type } = params;
 
-  const [months, latestMonth] = await Promise.all([
-    fetchApi<Month[]>(`${API_URL}/cars/months`, {
+  const [months, latestMonth]: [Month[], LatestMonth] = await Promise.all([
+    await fetchApi<Month[]>(`${API_URL}/cars/months`, {
       next: { tags: [RevalidateTags.Cars] },
     }),
-    fetchApi<LatestMonth>(`${API_URL}/months/latest`, {
+    await fetchApi<LatestMonth>(`${API_URL}/months/latest`, {
       next: { tags: [RevalidateTags.Cars] },
     }),
   ]);

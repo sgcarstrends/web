@@ -71,16 +71,14 @@ export const generateStaticParams = async () => {
 const CarMakePage = async ({ params }: Props) => {
   const { make } = params;
 
-  const getCars = () =>
-    fetchApi<Car[]>(`${API_URL}/make/${make}`, {
+  const [cars, makes]: [Car[], Make[]] = await Promise.all([
+    await fetchApi<Car[]>(`${API_URL}/make/${make}`, {
       next: { tags: [RevalidateTags.Cars] },
-    });
-  const getMakes = () =>
-    fetchApi<Make[]>(`${API_URL}/cars/makes`, {
+    }),
+    await fetchApi<Make[]>(`${API_URL}/cars/makes`, {
       next: { tags: [RevalidateTags.Cars] },
-    });
-
-  const [cars, makes] = await Promise.all([getCars(), getMakes()]);
+    }),
+  ]);
 
   const filteredCars = mergeCarData(cars);
 

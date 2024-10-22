@@ -26,7 +26,7 @@ import {
   type LatestMonth,
   type Month,
   RevalidateTags,
-  type VEHICLE_TYPE,
+  // type VEHICLE_TYPE,
 } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
@@ -37,11 +37,11 @@ interface Props {
   searchParams: { [key: string]: string };
 }
 
-const VEHICLE_TYPE_MAP: Partial<Record<VEHICLE_TYPE, string>> = {
-  "Multi-purpose Vehicle": "MPV",
-  "Multi-purpose Vehicle/Station-wagon": "MPV",
-  "Sports Utility Vehicle": "SUV",
-};
+// const VEHICLE_TYPE_MAP: Partial<Record<VEHICLE_TYPE, string>> = {
+//   "Multi-purpose Vehicle": "MPV",
+//   "Multi-purpose Vehicle/Station-wagon": "MPV",
+//   "Sports Utility Vehicle": "SUV",
+// };
 
 export const generateMetadata = async ({
   searchParams,
