@@ -94,10 +94,10 @@ const CarsByFuelTypePage = async (props: {
       next: { tags: [RevalidateTags.Cars] },
     },
   );
-  const [months, latestMonth] = (await Promise.all([
+  const [months, latestMonth]: [Month[], LatestMonth] = await Promise.all([
     getMonths,
     getLatestMonth,
-  ])) as [Month[], LatestMonth];
+  ]);
 
   const month = searchParams?.month ?? latestMonth.cars;
   const cars = await fetchApi<Car[]>(

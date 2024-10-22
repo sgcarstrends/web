@@ -78,10 +78,7 @@ const CarMakePage = async (props: { params: Params }) => {
     next: { tags: [RevalidateTags.Cars] },
   });
 
-  const [cars, makes] = (await Promise.all([getCars, getMakes])) as [
-    Car[],
-    Make[],
-  ];
+  const [cars, makes]: [Car[], Make[]] = await Promise.all([getCars, getMakes]);
 
   const filteredCars = mergeCarData(cars);
 

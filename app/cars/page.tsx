@@ -26,7 +26,7 @@ import {
   type LatestMonth,
   type Month,
   RevalidateTags,
-  type VEHICLE_TYPE,
+  // type VEHICLE_TYPE,
 } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
