@@ -59,17 +59,12 @@ const COEPricesPage = async (props: { searchParams: SearchParams }) => {
   params.append("orderBy", "asc");
   const queryString = params.toString();
 
-  const getCoeResults = await fetchApi<COEResult[]>(
-    `${API_URL}/coe?${queryString}`,
-    {
+  const [coeResults, months]: [COEResult[], Month[]] = await Promise.all([
+    await fetchApi<COEResult[]>(`${API_URL}/coe?${queryString}`, {
       next: { tags: [RevalidateTags.COE] },
-    },
-  );
-  const getMonths = await fetchApi<Month[]>(`${API_URL}/coe/months`);
-  const [coeResults, months] = (await Promise.all([
-    getCoeResults,
-    getMonths,
-  ])) as [COEResult[], Month[]];
+    }),
+    await fetchApi<Month[]>(`${API_URL}/coe/months`),
+  ]);
 
   const groupedData = coeResults.reduce<COEBiddingResult[]>(
     (acc: any, item) => {
