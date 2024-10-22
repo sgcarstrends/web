@@ -21,9 +21,7 @@ import { fetchApi } from "@/utils/fetchApi";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
-interface Props {
-  searchParams: { [key: string]: string };
-}
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const pageUrl = "/coe";
@@ -39,7 +37,9 @@ export const generateMetadata = async (): Promise<Metadata> => {
   };
 };
 
-const COEPricesPage = async ({ searchParams }: Props) => {
+const COEPricesPage = async (props: { searchParams: SearchParams }) => {
+  const searchParams = await props.searchParams;
+  // TODO: Temporary type "any"
   const params = new URLSearchParams(searchParams);
   params.append("sort", "month");
   params.append("orderBy", "asc");

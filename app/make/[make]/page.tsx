@@ -28,13 +28,12 @@ import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { Metadata } from "next";
 import type { Dataset, WithContext } from "schema-dts";
 
-interface Props {
-  params: { make: string };
-}
+type Params = Promise<{ [slug: string]: string }>;
 
-export const generateMetadata = async ({
-  params,
-}: Props): Promise<Metadata> => {
+export const generateMetadata = async (props: {
+  params: Params;
+}): Promise<Metadata> => {
+  const params = await props.params;
   let { make } = params;
   make = decodeURIComponent(make);
   const description = `${make} historical trend`;
@@ -68,19 +67,21 @@ export const generateStaticParams = async () => {
   return makes.map((make) => ({ make }));
 };
 
-const CarMakePage = async ({ params }: Props) => {
+const CarMakePage = async (props: { params: Params }) => {
+  const params = await props.params;
   const { make } = params;
 
-  const getCars = () =>
-    fetchApi<Car[]>(`${API_URL}/make/${make}`, {
-      next: { tags: [RevalidateTags.Cars] },
-    });
-  const getMakes = () =>
-    fetchApi<Make[]>(`${API_URL}/cars/makes`, {
-      next: { tags: [RevalidateTags.Cars] },
-    });
+  const getCars = await fetchApi<Car[]>(`${API_URL}/make/${make}`, {
+    next: { tags: [RevalidateTags.Cars] },
+  });
+  const getMakes = await fetchApi<Make[]>(`${API_URL}/cars/makes`, {
+    next: { tags: [RevalidateTags.Cars] },
+  });
 
-  const [cars, makes] = await Promise.all([getCars(), getMakes()]);
+  const [cars, makes] = (await Promise.all([getCars, getMakes])) as [
+    Car[],
+    Make[],
+  ];
 
   const filteredCars = mergeCarData(cars);
 

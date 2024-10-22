@@ -29,17 +29,17 @@ import { mergeCarsByFuelType } from "@/utils/mergeCarsByFuelType";
 import type { Metadata } from "next";
 import type { Dataset, WithContext } from "schema-dts";
 
-interface Props {
-  params: { type: string };
-  searchParams?: { [key: string]: string };
-}
+type Params = Promise<{ [slug: string]: string }>;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
-export const generateMetadata = async ({
-  params,
-  searchParams,
-}: Props): Promise<Metadata> => {
-  const { type } = params;
-  let month = searchParams?.month;
+export const generateMetadata = async (props: {
+  params: Params;
+  searchParams: SearchParams;
+}): Promise<Metadata> => {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
+  const type = params.type;
+  let month = searchParams.month;
 
   if (!month) {
     const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
@@ -77,17 +77,27 @@ export const generateStaticParams = () =>
     type: key,
   }));
 
-const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
-  const { type } = params;
+const CarsByFuelTypePage = async (props: {
+  params: Params;
+  searchParams: SearchParams;
+}) => {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
+  const type = params.type;
 
-  const [months, latestMonth] = await Promise.all([
-    fetchApi<Month[]>(`${API_URL}/cars/months`, {
+  const getMonths = await fetchApi<Month[]>(`${API_URL}/cars/months`, {
+    next: { tags: [RevalidateTags.Cars] },
+  });
+  const getLatestMonth = await fetchApi<LatestMonth>(
+    `${API_URL}/months/latest`,
+    {
       next: { tags: [RevalidateTags.Cars] },
-    }),
-    fetchApi<LatestMonth>(`${API_URL}/months/latest`, {
-      next: { tags: [RevalidateTags.Cars] },
-    }),
-  ]);
+    },
+  );
+  const [months, latestMonth] = (await Promise.all([
+    getMonths,
+    getLatestMonth,
+  ])) as [Month[], LatestMonth];
 
   const month = searchParams?.month ?? latestMonth.cars;
   const cars = await fetchApi<Car[]>(
