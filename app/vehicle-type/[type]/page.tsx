@@ -30,14 +30,13 @@ import { mergeCarsByVehicleType } from "@/utils/mergeCarsByVehicleType";
 import type { Metadata } from "next";
 import type { Dataset, WithContext } from "schema-dts";
 
-interface Props {
-  params: { type: string };
-  searchParams?: { [key: string]: string };
-}
+type Params = Promise<{ [slug: string]: string }>;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
-export const generateMetadata = async ({
-  params,
-}: Props): Promise<Metadata> => {
+export const generateMetadata = async (props: {
+  params: Params;
+}): Promise<Metadata> => {
+  const params = await props.params;
   let { type } = params;
   type = decodeURIComponent(type);
   const description = `${capitaliseWords(type)} historical trends`;
@@ -76,7 +75,12 @@ const tabItems: Record<string, string> = {
 export const generateStaticParams = () =>
   Object.keys(tabItems).map((key) => ({ type: key }));
 
-const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
+const CarsByVehicleTypePage = async (props: {
+  params: Params;
+  searchParams: SearchParams;
+}) => {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
   const { type } = params;
 
   const [months, latestMonth]: [Month[], LatestMonth] = await Promise.all([
