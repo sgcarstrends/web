@@ -1,12 +1,14 @@
+import type { Redirect } from "next/dist/lib/load-custom-routes";
+import type { NextConfig } from "next";
+
 const isProd = process.env.NODE_ENV === "production";
 
-let redirects = [];
+let redirects: Redirect[] | PromiseLike<Redirect[]> = [];
 if (isProd) {
   redirects = [{ source: "/", destination: "/cars", permanent: false }];
 }
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   logging: {
     fetches: {
       fullUrl: true,
@@ -17,4 +19,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
