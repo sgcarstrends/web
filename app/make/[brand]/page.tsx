@@ -1,18 +1,8 @@
-import Link from "next/link";
 import { MakeSelector } from "@/app/components/MakeSelector";
-import { TrendChart } from "@/app/make/[make]/TrendChart";
-import { columns } from "@/app/make/[make]/columns";
+import { TrendChart } from "@/app/make/[brand]/TrendChart";
+import { columns } from "@/app/make/[brand]/columns";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
-import { UnreleasedFeature } from "@/components/UnreleasedFeature";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import {
   Card,
   CardContent,
@@ -29,20 +19,20 @@ import type { Metadata } from "next";
 import type { Dataset, WithContext } from "schema-dts";
 
 interface Props {
-  params: { make: string };
+  params: { brand: string };
 }
 
 export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
-  let { make } = params;
-  make = decodeURIComponent(make);
-  const description = `${make} historical trend`;
-  const images = `/api/og?title=Historical Trend&make=${make}`;
-  const canonicalUrl = `/make/${make}`;
+  let { brand } = params;
+  brand = decodeURIComponent(brand);
+  const description = `${brand} historical trend`;
+  const images = `/api/og?title=Historical Trend&make=${brand}`;
+  const canonicalUrl = `/make/${brand}`;
 
   return {
-    title: make,
+    title: brand,
     description,
     openGraph: {
       images,
@@ -69,10 +59,10 @@ export const generateStaticParams = async () => {
 };
 
 const CarMakePage = async ({ params }: Props) => {
-  const { make } = params;
+  const { brand } = params;
 
   const [cars, makes]: [Car[], Make[]] = await Promise.all([
-    await fetchApi<Car[]>(`${API_URL}/make/${make}`, {
+    await fetchApi<Car[]>(`${API_URL}/make/${brand}`, {
       next: { tags: [RevalidateTags.Cars] },
     }),
     await fetchApi<Make[]>(`${API_URL}/cars/makes`, {
@@ -82,13 +72,13 @@ const CarMakePage = async ({ params }: Props) => {
 
   const filteredCars = mergeCarData(cars);
 
-  const formattedMake = decodeURIComponent(make);
+  const formattedMake = decodeURIComponent(brand);
   const structuredData: WithContext<Dataset> = {
     "@context": "https://schema.org",
     "@type": "Dataset",
     name: `${formattedMake} Car Registrations in Singapore`,
     description: `Historical trend and monthly breakdown of ${formattedMake} car registrations by fuel type and vehicle type in Singapore`,
-    url: `${SITE_URL}/make/${make}`,
+    url: `${SITE_URL}/make/${brand}`,
     // TODO: Suggested by Google
     // temporalCoverage: "2016-06/2024-07",
     variableMeasured: [
@@ -127,24 +117,9 @@ const CarMakePage = async ({ params }: Props) => {
     <section>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-y-8">
-        <UnreleasedFeature>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href="/">Home</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator>/</BreadcrumbSeparator>
-              <BreadcrumbItem>Make</BreadcrumbItem>
-              <BreadcrumbSeparator>/</BreadcrumbSeparator>
-              <BreadcrumbPage>{decodeURIComponent(make)}</BreadcrumbPage>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </UnreleasedFeature>
         <div className="flex flex-col justify-between gap-2 lg:flex-row">
-          <Typography.H1>{decodeURIComponent(make)}</Typography.H1>
-          <MakeSelector makes={makes} selectedMake={make} />
+          <Typography.H1>{decodeURIComponent(brand)}</Typography.H1>
+          <MakeSelector makes={makes} selectedMake={brand} />
         </div>
         <Card>
           <CardHeader>

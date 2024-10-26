@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type ReactNode } from "react";
 import { Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import classNames from "classnames";
@@ -44,7 +44,13 @@ export const metadata: Metadata = {
   creator: "Ru Chern CHONG",
 };
 
-const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+const RootLayout = async ({
+  breadcrumbs,
+  children,
+}: {
+  breadcrumbs: ReactNode;
+  children: ReactNode;
+}) => {
   const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
@@ -54,7 +60,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
         <SidebarProvider>
           <AppSidebar />
           <main className="w-full">
-            <Header>
+            <Header breadcrumbs={breadcrumbs}>
               <SidebarTrigger />
             </Header>
             <div className="bg-gray-50 p-4">{children}</div>
