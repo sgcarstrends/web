@@ -17,6 +17,7 @@ import {
   User2,
 } from "lucide-react";
 
+import { BrandLogo } from "@/components/BrandLogo";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -75,22 +76,13 @@ export const AppSidebar = () => (
     <SidebarHeader>
       <SidebarMenu>
         <SidebarMenuItem>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <SidebarMenuButton>
-                Select Workspace
-                <ChevronDown className="ml-auto" />
-              </SidebarMenuButton>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[--radix-popper-anchor-width]">
-              <DropdownMenuItem>
-                <span>Acme Inc</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <span>Acme Corp.</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <SidebarMenuButton size="lg" asChild>
+            <Link href="/">
+              <div className="flex flex-col gap-0.5 leading-none">
+                <BrandLogo />
+              </div>
+            </Link>
+          </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarHeader>
