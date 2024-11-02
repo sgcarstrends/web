@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import { DOMAIN_NAME } from "@/config";
 
 export const middleware = (request: NextRequest) => {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
   const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-eval' 'unsafe-inline' *.googletagmanager.com;
+    script-src 'self' 'unsafe-eval' 'unsafe-inline' *.${DOMAIN_NAME} *.googletagmanager.com;
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data:;
     connect-src *;
