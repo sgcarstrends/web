@@ -1,5 +1,6 @@
 import React, { type ReactNode } from "react";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import classNames from "classnames";
 import { Announcement } from "@/app/components/Announcement";
@@ -9,6 +10,7 @@ import { Header } from "@/components/Header";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
 import "./globals.css";
+import { AppEnv } from "@/types";
 import { Analytics } from "./components/Analytics";
 import type { Metadata } from "next";
 
@@ -69,6 +71,12 @@ const RootLayout = async ({
         {/*<Footer />*/}
         <Analytics />
       </body>
+      <Script
+        defer
+        src="https://analytics.sgcarstrends.com/script.js"
+        data-website-id="b98dda44-ccc9-4a73-87d4-dcbe561aedb8"
+        data-domains="sgcarstrends.com"
+      />
       <GoogleAnalytics gaId={gaMeasurementId} />
     </html>
   );
