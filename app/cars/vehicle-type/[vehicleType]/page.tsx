@@ -5,6 +5,7 @@ import { LinkWithParams } from "@/components/LinkWithParams";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
 import {
@@ -15,60 +16,58 @@ import {
 } from "@/types";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
-import { mergeCarsByFuelType } from "@/utils/mergeCarsByFuelType";
+import { mergeCarsByVehicleType } from "@/utils/mergeCarsByVehicleType";
 import type { Metadata } from "next";
 import type { Dataset, WithContext } from "schema-dts";
 
 interface Props {
-  params: { type: string };
+  params: { vehicleType: string };
   searchParams?: { [key: string]: string };
 }
 
 export const generateMetadata = async ({
   params,
-  searchParams,
 }: Props): Promise<Metadata> => {
-  const { type } = params;
-  let month = searchParams?.month;
-
-  if (!month) {
-    const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
-    month = latestMonth.cars;
-  }
-  const images = `${SITE_URL}/api/og?type=${type}&month=${month}`;
-  const pageUrl = `/cars/${type}`;
+  let { vehicleType } = params;
+  vehicleType = decodeURIComponent(vehicleType);
+  const description = `${capitaliseWords(vehicleType)} historical trends`;
+  const images = `/api/og?title=Historical Trend&type=${vehicleType}`;
+  const canonicalUrl = `/cars/vehicle-type/${vehicleType}`;
 
   return {
-    title: capitaliseWords(type),
-    description: `Car registration trends for ${type} fuel type`,
+    title: capitaliseWords(vehicleType),
+    description,
     openGraph: {
       images,
-      url: pageUrl,
+      url: canonicalUrl,
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
     },
-    twitter: { images, creator: "@sgcarstrends" },
+    twitter: {
+      images,
+      creator: "@sgcarstrends",
+    },
     alternates: {
-      canonical: pageUrl,
+      canonical: canonicalUrl,
     },
   };
 };
 
 const tabItems: Record<string, string> = {
-  petrol: "/cars/petrol",
-  hybrid: "/cars/hybrid",
-  electric: "/cars/electric",
-  diesel: "/cars/diesel",
+  hatchback: "/cars/vehicle-type/hatchback",
+  sedan: "/cars/vehicle-type/sedan",
+  "multi-purpose vehicle": "/cars/vehicle-type/multi-purpose vehicle",
+  "station-wagon": "/cars/vehicle-type/station-wagon",
+  "sports utility vehicle": "/cars/vehicle-type/sports utility vehicle",
+  "coupe/convertible": "/cars/vehicle-type/coupe%2Fconvertible",
 };
 
 export const generateStaticParams = () =>
-  Object.keys(tabItems).map((key) => ({
-    type: key,
-  }));
+  Object.keys(tabItems).map((vehicleType) => ({ vehicleType }));
 
-const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
-  const { type } = params;
+const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
+  const { vehicleType } = params;
 
   const [months, latestMonth]: [Month[], LatestMonth] = await Promise.all([
     await fetchApi<Month[]>(`${API_URL}/cars/months`, {
@@ -81,24 +80,22 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
 
   const month = searchParams?.month ?? latestMonth.cars;
   const cars = await fetchApi<Car[]>(
-    `${API_URL}/cars?fuel_type=${type}&month=${month}`,
-    {
-      next: { tags: [RevalidateTags.Cars] },
-    },
+    `${API_URL}/cars?vehicle_type=${vehicleType}&month=${month}`,
+    { next: { tags: [RevalidateTags.Cars] } },
   );
 
   if (cars.length === 0) {
     return <EmptyData />;
   }
 
-  const filteredCars = mergeCarsByFuelType(cars);
+  const filteredCars = mergeCarsByVehicleType(cars);
 
   const structuredData: WithContext<Dataset> = {
     "@context": "https://schema.org",
     "@type": "Dataset",
-    name: `${capitaliseWords(type)} Car Registrations in Singapore`,
-    description: `Overview and registration statistics for ${type} cars in Singapore by make`,
-    url: `${SITE_URL}/cars/${type}`,
+    name: `${capitaliseWords(vehicleType)} Car Registrations in Singapore`,
+    description: `Overview and registration statistics for ${vehicleType} cars in Singapore by vehicle type`,
+    url: `${SITE_URL}/cars/vehicle-type/${vehicleType}`,
     creator: {
       "@type": "Organization",
       name: SITE_TITLE,
@@ -120,23 +117,28 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
         <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-end gap-x-2">
             <Typography.H1 className="uppercase">
-              {capitaliseWords(type)}
+              {capitaliseWords(decodeURIComponent(vehicleType))}
             </Typography.H1>
           </div>
           <Suspense fallback={null}>
             <MonthSelector months={months} />
           </Suspense>
         </div>
-        <Tabs defaultValue={type}>
-          <TabsList>
-            {Object.entries(tabItems).map(([title, href]) => (
-              <LinkWithParams key={title} href={href}>
-                <TabsTrigger value={title}>
-                  {capitaliseWords(title)}
-                </TabsTrigger>
-              </LinkWithParams>
-            ))}
-          </TabsList>
+        <Tabs defaultValue={decodeURIComponent(vehicleType)}>
+          <ScrollArea>
+            <TabsList>
+              {Object.entries(tabItems).map(([title, href]) => {
+                return (
+                  <LinkWithParams key={title} href={href}>
+                    <TabsTrigger value={title}>
+                      {capitaliseWords(title)}
+                    </TabsTrigger>
+                  </LinkWithParams>
+                );
+              })}
+            </TabsList>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
         </Tabs>
         <CarOverviewTrends cars={filteredCars} />
       </div>
@@ -144,4 +146,4 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   );
 };
 
-export default CarsByFuelTypePage;
+export default CarsByVehicleTypePage;

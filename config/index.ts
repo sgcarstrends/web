@@ -50,25 +50,25 @@ export const FUEL_TYPE_LINKS: LinkItem[] = [
   {
     label: "Petrol",
     description: "Internal Combustion Engine (ICE) vehicles",
-    href: "/cars/petrol",
+    href: "/cars/fuel-type/petrol",
     icon: Fuel,
   },
   {
     label: "Hybrid",
     description: "Includes Petrol, Diesel and Plug-In types",
-    href: "/cars/hybrid",
+    href: "/cars/fuel-type/hybrid",
     icon: Zap,
   },
   {
     label: "Electric",
     description: "Battery Electric Vehicles (BEV)",
-    href: "/cars/electric",
+    href: "/cars/fuel-type/electric",
     icon: Battery,
   },
   {
     label: "Diesel",
     description: "Compression-ignition engine vehicles",
-    href: "/cars/diesel",
+    href: "/cars/fuel-type/diesel",
     icon: Droplet,
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
@@ -76,27 +76,27 @@ export const FUEL_TYPE_LINKS: LinkItem[] = [
 export const VEHICLE_TYPE_LINKS: LinkItem[] = [
   {
     label: "Hatchback",
-    href: "/vehicle-type/hatchback",
+    href: "/cars/vehicle-type/hatchback",
   },
   {
     label: "Sedan",
-    href: "/vehicle-type/sedan",
+    href: "/cars/vehicle-type/sedan",
   },
   {
     label: "Multi-purpose Vehicle",
-    href: "/vehicle-type/multi-purpose vehicle",
+    href: "/cars/vehicle-type/multi-purpose vehicle",
   },
   {
     label: "Station-wagon",
-    href: "/vehicle-type/station-wagon",
+    href: "/cars/vehicle-type/station-wagon",
   },
   {
     label: "Sports Utility Vehicle",
-    href: "/vehicle-type/sports utility vehicle",
+    href: "/cars/vehicle-type/sports utility vehicle",
   },
   {
     label: "Coupe/Convertible",
-    href: `/vehicle-type/${encodeURIComponent("coupe/convertible")}`,
+    href: `/cars/vehicle-type/${encodeURIComponent("coupe/convertible")}`,
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
