@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { fetchMonths } from "@/app/cars/utils/fetchMonths";
 import { CarOverviewTrends } from "@/app/components/CarOverviewTrends";
 import { EmptyData } from "@/components/EmptyData";
 import { LinkWithParams } from "@/components/LinkWithParams";
@@ -69,14 +70,7 @@ export const generateStaticParams = () =>
 const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
   const { vehicleType } = params;
 
-  const [months, latestMonth]: [Month[], LatestMonth] = await Promise.all([
-    await fetchApi<Month[]>(`${API_URL}/cars/months`, {
-      next: { tags: [RevalidateTags.Cars] },
-    }),
-    await fetchApi<LatestMonth>(`${API_URL}/months/latest`, {
-      next: { tags: [RevalidateTags.Cars] },
-    }),
-  ]);
+  const [months, latestMonth]: [Month[], LatestMonth] = await fetchMonths();
 
   const month = searchParams?.month ?? latestMonth.cars;
   const cars = await fetchApi<Car[]>(
