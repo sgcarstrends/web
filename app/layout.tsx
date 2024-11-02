@@ -10,7 +10,6 @@ import { Header } from "@/components/Header";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
 import "./globals.css";
-import { AppEnv } from "@/types";
 import { Analytics } from "./components/Analytics";
 import type { Metadata } from "next";
 
