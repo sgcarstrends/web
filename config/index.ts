@@ -1,7 +1,7 @@
 import { Battery, Droplet, Fuel, Zap } from "lucide-react";
 import type { AppEnv, LinkItem } from "@/types";
 
-const DOMAIN_NAME = "sgcarstrends.com";
+export const DOMAIN_NAME = "sgcarstrends.com";
 const API_VERSION = "v1";
 
 export const SITE_URL =
