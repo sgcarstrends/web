@@ -105,7 +105,7 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
                 className="group cursor-pointer rounded p-1 transition-colors duration-200 hover:bg-secondary"
               >
                 <Link
-                  href={`/make/${make}`}
+                  href={`/cars/brands/${make}`}
                   className="flex items-center justify-between"
                 >
                   <div className="flex gap-1">

@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { fetchMonths } from "@/app/cars/utils/fetchMonths";
 import { CarOverviewTrends } from "@/app/components/CarOverviewTrends";
 import { EmptyData } from "@/components/EmptyData";
 import { LinkWithParams } from "@/components/LinkWithParams";
@@ -20,7 +21,7 @@ import type { Metadata } from "next";
 import type { Dataset, WithContext } from "schema-dts";
 
 interface Props {
-  params: { type: string };
+  params: { fuelType: string };
   searchParams?: { [key: string]: string };
 }
 
@@ -28,19 +29,19 @@ export const generateMetadata = async ({
   params,
   searchParams,
 }: Props): Promise<Metadata> => {
-  const { type } = params;
+  const { fuelType } = params;
   let month = searchParams?.month;
 
   if (!month) {
     const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
     month = latestMonth.cars;
   }
-  const images = `${SITE_URL}/api/og?type=${type}&month=${month}`;
-  const pageUrl = `/cars/${type}`;
+  const images = `${SITE_URL}/api/og?type=${fuelType}&month=${month}`;
+  const pageUrl = `/cars/fuel-type/${fuelType}`;
 
   return {
-    title: capitaliseWords(type),
-    description: `Car registration trends for ${type} fuel type`,
+    title: capitaliseWords(fuelType),
+    description: `Car registration trends for ${fuelType} fuel type`,
     openGraph: {
       images,
       url: pageUrl,
@@ -56,35 +57,24 @@ export const generateMetadata = async ({
 };
 
 const tabItems: Record<string, string> = {
-  petrol: "/cars/petrol",
-  hybrid: "/cars/hybrid",
-  electric: "/cars/electric",
-  diesel: "/cars/diesel",
+  petrol: "/cars/fuel-type/petrol",
+  hybrid: "/cars/fuel-type/hybrid",
+  electric: "/cars/fuel-type/electric",
+  diesel: "/cars/fuel-type/diesel",
 };
 
 export const generateStaticParams = () =>
-  Object.keys(tabItems).map((key) => ({
-    type: key,
-  }));
+  Object.keys(tabItems).map((fuelType) => ({ fuelType }));
 
 const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
-  const { type } = params;
+  const { fuelType } = params;
 
-  const [months, latestMonth]: [Month[], LatestMonth] = await Promise.all([
-    await fetchApi<Month[]>(`${API_URL}/cars/months`, {
-      next: { tags: [RevalidateTags.Cars] },
-    }),
-    await fetchApi<LatestMonth>(`${API_URL}/months/latest`, {
-      next: { tags: [RevalidateTags.Cars] },
-    }),
-  ]);
+  const [months, latestMonth]: [Month[], LatestMonth] = await fetchMonths();
 
   const month = searchParams?.month ?? latestMonth.cars;
   const cars = await fetchApi<Car[]>(
-    `${API_URL}/cars?fuel_type=${type}&month=${month}`,
-    {
-      next: { tags: [RevalidateTags.Cars] },
-    },
+    `${API_URL}/cars?fuel_type=${fuelType}&month=${month}`,
+    { next: { tags: [RevalidateTags.Cars] } },
   );
 
   if (cars.length === 0) {
@@ -96,9 +86,9 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   const structuredData: WithContext<Dataset> = {
     "@context": "https://schema.org",
     "@type": "Dataset",
-    name: `${capitaliseWords(type)} Car Registrations in Singapore`,
-    description: `Overview and registration statistics for ${type} cars in Singapore by make`,
-    url: `${SITE_URL}/cars/${type}`,
+    name: `${capitaliseWords(fuelType)} Car Registrations in Singapore`,
+    description: `Overview and registration statistics for ${fuelType} cars in Singapore by make`,
+    url: `${SITE_URL}/cars/fuel-type/${fuelType}`,
     creator: {
       "@type": "Organization",
       name: SITE_TITLE,
@@ -120,14 +110,14 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
         <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-end gap-x-2">
             <Typography.H1 className="uppercase">
-              {capitaliseWords(type)}
+              {capitaliseWords(fuelType)}
             </Typography.H1>
           </div>
           <Suspense fallback={null}>
             <MonthSelector months={months} />
           </Suspense>
         </div>
-        <Tabs defaultValue={type}>
+        <Tabs defaultValue={fuelType}>
           <TabsList>
             {Object.entries(tabItems).map(([title, href]) => (
               <LinkWithParams key={title} href={href}>

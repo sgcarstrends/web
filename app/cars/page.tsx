@@ -244,7 +244,7 @@ const CarsPage = async ({ searchParams }: Props) => {
                     description="Distribution of vehicles based on fuel type"
                     data={numberByFuelType}
                     total={total}
-                    linkPrefix="cars"
+                    linkPrefix="fuel-type"
                   />
                   <StatisticsCard
                     title="By Vehicle Type"

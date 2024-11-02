@@ -1,6 +1,6 @@
+import { TrendChart } from "@/app/cars/brands/[brand]/TrendChart";
+import { columns } from "@/app/cars/brands/[brand]/columns";
 import { MakeSelector } from "@/app/components/MakeSelector";
-import { TrendChart } from "@/app/make/[brand]/TrendChart";
-import { columns } from "@/app/make/[brand]/columns";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import {
@@ -29,7 +29,7 @@ export const generateMetadata = async ({
   brand = decodeURIComponent(brand);
   const description = `${brand} historical trend`;
   const images = `/api/og?title=Historical Trend&make=${brand}`;
-  const canonicalUrl = `/make/${brand}`;
+  const canonicalUrl = `/cars/brands/${brand}`;
 
   return {
     title: brand,
@@ -52,13 +52,13 @@ export const generateMetadata = async ({
 };
 
 export const generateStaticParams = async () => {
-  const makes = await fetchApi<Make[]>(`${API_URL}/make`, {
+  const brands = await fetchApi<Make[]>(`${API_URL}/make`, {
     next: { tags: [RevalidateTags.Cars] },
   });
-  return makes.map((make) => ({ make }));
+  return brands.map((brand) => ({ brand }));
 };
 
-const CarMakePage = async ({ params }: Props) => {
+const CarBrandPage = async ({ params }: Props) => {
   const { brand } = params;
 
   const [cars, makes]: [Car[], Make[]] = await Promise.all([
@@ -78,7 +78,7 @@ const CarMakePage = async ({ params }: Props) => {
     "@type": "Dataset",
     name: `${formattedMake} Car Registrations in Singapore`,
     description: `Historical trend and monthly breakdown of ${formattedMake} car registrations by fuel type and vehicle type in Singapore`,
-    url: `${SITE_URL}/make/${brand}`,
+    url: `${SITE_URL}/cars/brands/${brand}`,
     // TODO: Suggested by Google
     // temporalCoverage: "2016-06/2024-07",
     variableMeasured: [
@@ -167,4 +167,4 @@ const mergeCarData = (cars: Car[]): Omit<Car, "importer_type">[] => {
   return Object.values(mergedData);
 };
 
-export default CarMakePage;
+export default CarBrandPage;

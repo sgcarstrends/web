@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { fetchMonths } from "@/app/cars/utils/fetchMonths";
 import { CarOverviewTrends } from "@/app/components/CarOverviewTrends";
 import { EmptyData } from "@/components/EmptyData";
 import { LinkWithParams } from "@/components/LinkWithParams";
@@ -21,21 +22,21 @@ import type { Metadata } from "next";
 import type { Dataset, WithContext } from "schema-dts";
 
 interface Props {
-  params: { type: string };
+  params: { vehicleType: string };
   searchParams?: { [key: string]: string };
 }
 
 export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
-  let { type } = params;
-  type = decodeURIComponent(type);
-  const description = `${capitaliseWords(type)} historical trends`;
-  const images = `/api/og?title=Historical Trend&type=${type}`;
-  const canonicalUrl = `/vehicle-type/${type}`;
+  let { vehicleType } = params;
+  vehicleType = decodeURIComponent(vehicleType);
+  const description = `${capitaliseWords(vehicleType)} historical trends`;
+  const images = `/api/og?title=Historical Trend&type=${vehicleType}`;
+  const canonicalUrl = `/cars/vehicle-type/${vehicleType}`;
 
   return {
-    title: capitaliseWords(type),
+    title: capitaliseWords(vehicleType),
     description,
     openGraph: {
       images,
@@ -55,35 +56,26 @@ export const generateMetadata = async ({
 };
 
 const tabItems: Record<string, string> = {
-  hatchback: "/vehicle-type/hatchback",
-  sedan: "/vehicle-type/sedan",
-  "multi-purpose vehicle": "/vehicle-type/multi-purpose vehicle",
-  "station-wagon": "/vehicle-type/station-wagon",
-  "sports utility vehicle": "/vehicle-type/sports utility vehicle",
-  "coupe/convertible": "/vehicle-type/coupe%2Fconvertible",
+  hatchback: "/cars/vehicle-type/hatchback",
+  sedan: "/cars/vehicle-type/sedan",
+  "multi-purpose vehicle": "/cars/vehicle-type/multi-purpose vehicle",
+  "station-wagon": "/cars/vehicle-type/station-wagon",
+  "sports utility vehicle": "/cars/vehicle-type/sports utility vehicle",
+  "coupe/convertible": "/cars/vehicle-type/coupe%2Fconvertible",
 };
 
 export const generateStaticParams = () =>
-  Object.keys(tabItems).map((key) => ({ type: key }));
+  Object.keys(tabItems).map((vehicleType) => ({ vehicleType }));
 
 const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
-  const { type } = params;
+  const { vehicleType } = params;
 
-  const [months, latestMonth]: [Month[], LatestMonth] = await Promise.all([
-    await fetchApi<Month[]>(`${API_URL}/cars/months`, {
-      next: { tags: [RevalidateTags.Cars] },
-    }),
-    await fetchApi<LatestMonth>(`${API_URL}/months/latest`, {
-      next: { tags: [RevalidateTags.Cars] },
-    }),
-  ]);
+  const [months, latestMonth]: [Month[], LatestMonth] = await fetchMonths();
 
   const month = searchParams?.month ?? latestMonth.cars;
   const cars = await fetchApi<Car[]>(
-    `${API_URL}/cars?vehicle_type=${type}&month=${month}`,
-    {
-      next: { tags: [RevalidateTags.Cars] },
-    },
+    `${API_URL}/cars?vehicle_type=${vehicleType}&month=${month}`,
+    { next: { tags: [RevalidateTags.Cars] } },
   );
 
   if (cars.length === 0) {
@@ -95,9 +87,9 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
   const structuredData: WithContext<Dataset> = {
     "@context": "https://schema.org",
     "@type": "Dataset",
-    name: `${capitaliseWords(type)} Car Registrations in Singapore`,
-    description: `Overview and registration statistics for ${type} cars in Singapore by vehicle type`,
-    url: `${SITE_URL}/vehicle-type/${type}`,
+    name: `${capitaliseWords(vehicleType)} Car Registrations in Singapore`,
+    description: `Overview and registration statistics for ${vehicleType} cars in Singapore by vehicle type`,
+    url: `${SITE_URL}/cars/vehicle-type/${vehicleType}`,
     creator: {
       "@type": "Organization",
       name: SITE_TITLE,
@@ -119,14 +111,14 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
         <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-end gap-x-2">
             <Typography.H1 className="uppercase">
-              {capitaliseWords(decodeURIComponent(type))}
+              {capitaliseWords(decodeURIComponent(vehicleType))}
             </Typography.H1>
           </div>
           <Suspense fallback={null}>
             <MonthSelector months={months} />
           </Suspense>
         </div>
-        <Tabs defaultValue={decodeURIComponent(type)}>
+        <Tabs defaultValue={decodeURIComponent(vehicleType)}>
           <ScrollArea>
             <TabsList>
               {Object.entries(tabItems).map(([title, href]) => {

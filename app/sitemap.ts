@@ -20,7 +20,7 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
       lastModified: new Date(),
     })),
     ...makes.map((make) => ({
-      url: `${SITE_URL}/make/${make}`,
+      url: `${SITE_URL}/cars/brands/${make}`,
       lastModified: new Date(),
     })),
   ];
