@@ -30,6 +30,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 type NavItem = {
@@ -53,6 +54,7 @@ type Nav = {
 
 export const AppSidebar = () => {
   const pathname = usePathname();
+  const { setOpenMobile } = useSidebar();
 
   return (
     <Sidebar>
@@ -95,6 +97,7 @@ export const AppSidebar = () => {
                           <SidebarMenuSubButton
                             asChild
                             isActive={subItem.url === pathname}
+                            onClick={() => setOpenMobile(false)}
                           >
                             <Link href={subItem.url}>
                               {subItem.icon && <subItem.icon />}
