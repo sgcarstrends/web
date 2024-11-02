@@ -13,7 +13,10 @@ export const Header = ({
   ...props
 }: Props) => (
   <header
-    className={cn("flex h-16 items-center gap-2 border-b px-4", className)}
+    className={cn(
+      "flex h-16 items-center gap-2 border-b bg-white px-4 text-black",
+      className,
+    )}
     {...props}
   >
     {children}
