@@ -33,7 +33,7 @@ export const generateMetadata = async ({
   vehicleType = decodeURIComponent(vehicleType);
   const description = `${capitaliseWords(vehicleType)} historical trends`;
   const images = `/api/og?title=Historical Trend&type=${vehicleType}`;
-  const canonicalUrl = `/cars/vehicle-type/${vehicleType}`;
+  const canonicalUrl = `/cars/vehicle-types/${vehicleType}`;
 
   return {
     title: capitaliseWords(vehicleType),
@@ -56,12 +56,12 @@ export const generateMetadata = async ({
 };
 
 const tabItems: Record<string, string> = {
-  hatchback: "/cars/vehicle-type/hatchback",
-  sedan: "/cars/vehicle-type/sedan",
-  "multi-purpose vehicle": "/cars/vehicle-type/multi-purpose vehicle",
-  "station-wagon": "/cars/vehicle-type/station-wagon",
-  "sports utility vehicle": "/cars/vehicle-type/sports utility vehicle",
-  "coupe/convertible": "/cars/vehicle-type/coupe%2Fconvertible",
+  hatchback: "/cars/vehicle-types/hatchback",
+  sedan: "/cars/vehicle-types/sedan",
+  "multi-purpose vehicle": "/cars/vehicle-types/multi-purpose vehicle",
+  "station-wagon": "/cars/vehicle-types/station-wagon",
+  "sports utility vehicle": "/cars/vehicle-types/sports utility vehicle",
+  "coupe/convertible": "/cars/vehicle-types/coupe%2Fconvertible",
 };
 
 export const generateStaticParams = () =>
@@ -89,7 +89,7 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
     "@type": "Dataset",
     name: `${capitaliseWords(vehicleType)} Car Registrations in Singapore`,
     description: `Overview and registration statistics for ${vehicleType} cars in Singapore by vehicle type`,
-    url: `${SITE_URL}/cars/vehicle-type/${vehicleType}`,
+    url: `${SITE_URL}/cars/vehicle-types/${vehicleType}`,
     creator: {
       "@type": "Organization",
       name: SITE_TITLE,

@@ -181,59 +181,59 @@ const data: Nav = {
   cars: [
     {
       title: "Fuel Type",
-      url: "/cars/fuel-type",
+      url: "/cars/fuel-types",
       isActive: true,
       items: [
         {
           title: "Petrol",
           icon: Fuel,
-          url: "/cars/fuel-type/petrol",
+          url: "/cars/fuel-types/petrol",
         },
         {
           title: "Hybrid",
           icon: Zap,
-          url: "/cars/fuel-type/hybrid",
+          url: "/cars/fuel-types/hybrid",
         },
         {
           title: "Electric",
           icon: Battery,
-          url: "/cars/fuel-type/electric",
+          url: "/cars/fuel-types/electric",
         },
         {
           title: "Diesel",
           icon: Droplet,
-          url: "/cars/fuel-type/diesel",
+          url: "/cars/fuel-types/diesel",
         },
       ],
     },
     {
       title: "Vehicle Type",
-      url: "/cars/vehicle-type",
+      url: "/cars/vehicle-types",
       isActive: true,
       items: [
         {
           title: "Hatchback",
-          url: "/cars/vehicle-type/hatchback",
+          url: "/cars/vehicle-types/hatchback",
         },
         {
           title: "Sedan",
-          url: "/cars/vehicle-type/sedan",
+          url: "/cars/vehicle-types/sedan",
         },
         {
           title: "Multi-purpose Vehicle",
-          url: `/cars/vehicle-type/${encodeURIComponent("multi-purpose vehicle")}`,
+          url: `/cars/vehicle-types/${encodeURIComponent("multi-purpose vehicle")}`,
         },
         {
           title: "Station-wagon",
-          url: "/cars/vehicle-type/station-wagon",
+          url: "/cars/vehicle-types/station-wagon",
         },
         {
           title: "Sports Utility Vehicle",
-          url: `/cars/vehicle-type/${encodeURIComponent("sports utility vehicle")}`,
+          url: `/cars/vehicle-types/${encodeURIComponent("sports utility vehicle")}`,
         },
         {
           title: "Coupe/Convertible",
-          url: `/cars/vehicle-type/${encodeURIComponent("coupe/convertible")}`,
+          url: `/cars/vehicle-types/${encodeURIComponent("coupe/convertible")}`,
         },
       ],
     },

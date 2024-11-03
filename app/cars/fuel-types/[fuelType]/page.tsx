@@ -37,7 +37,7 @@ export const generateMetadata = async ({
     month = latestMonth.cars;
   }
   const images = `${SITE_URL}/api/og?type=${fuelType}&month=${month}`;
-  const pageUrl = `/cars/fuel-type/${fuelType}`;
+  const pageUrl = `/cars/fuel-types/${fuelType}`;
 
   return {
     title: capitaliseWords(fuelType),
@@ -57,10 +57,10 @@ export const generateMetadata = async ({
 };
 
 const tabItems: Record<string, string> = {
-  petrol: "/cars/fuel-type/petrol",
-  hybrid: "/cars/fuel-type/hybrid",
-  electric: "/cars/fuel-type/electric",
-  diesel: "/cars/fuel-type/diesel",
+  petrol: "/cars/fuel-types/petrol",
+  hybrid: "/cars/fuel-types/hybrid",
+  electric: "/cars/fuel-types/electric",
+  diesel: "/cars/fuel-types/diesel",
 };
 
 export const generateStaticParams = () =>
@@ -88,7 +88,7 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
     "@type": "Dataset",
     name: `${capitaliseWords(fuelType)} Car Registrations in Singapore`,
     description: `Overview and registration statistics for ${fuelType} cars in Singapore by make`,
-    url: `${SITE_URL}/cars/fuel-type/${fuelType}`,
+    url: `${SITE_URL}/cars/fuel-types/${fuelType}`,
     creator: {
       "@type": "Organization",
       name: SITE_TITLE,

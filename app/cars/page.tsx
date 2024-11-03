@@ -244,14 +244,14 @@ const CarsPage = async ({ searchParams }: Props) => {
                     description="Distribution of vehicles based on fuel type"
                     data={numberByFuelType}
                     total={total}
-                    linkPrefix="fuel-type"
+                    linkPrefix="fuel-types"
                   />
                   <StatisticsCard
                     title="By Vehicle Type"
                     description="Distribution of vehicles based on vehicle type"
                     data={numberByVehicleType}
                     total={total}
-                    linkPrefix="vehicle-type"
+                    linkPrefix="vehicle-types"
                   />
                 </div>
                 <div className="grid gap-4 lg:col-span-4">
