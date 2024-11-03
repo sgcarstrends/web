@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Leaderboard } from "@/components/Leaderboard";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StatisticsCard } from "@/components/StatisticsCard";
@@ -173,13 +174,17 @@ const CarsPage = async ({ searchParams }: Props) => {
     <>
       <StructuredData data={datasetJsonLd} />
       <StructuredData data={reportJsonLd} />
-      <div className="flex flex-col gap-8">
-        <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-end gap-x-2">
+      <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
+          <div className="flex items-end gap-2">
             <Typography.H1>Car Registrations</Typography.H1>
             <Typography.Lead>{formatDateToMonthYear(month)}</Typography.Lead>
           </div>
-          <MonthSelector months={months} />
+          <div className="lg:justify-self-end">
+            <Suspense fallback={null}>
+              <MonthSelector months={months} />
+            </Suspense>
+          </div>
         </div>
         {/*TODO: Improvise*/}
         {cars.length === 0 && (
