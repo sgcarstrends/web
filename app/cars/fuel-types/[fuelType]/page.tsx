@@ -2,11 +2,9 @@ import { Suspense } from "react";
 import { fetchMonths } from "@/app/cars/utils/fetchMonths";
 import { CarOverviewTrends } from "@/app/components/CarOverviewTrends";
 import { EmptyData } from "@/components/EmptyData";
-import { LinkWithParams } from "@/components/LinkWithParams";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
 import {
   type Car,
@@ -56,15 +54,10 @@ export const generateMetadata = async ({
   };
 };
 
-const tabItems: Record<string, string> = {
-  petrol: "/cars/fuel-types/petrol",
-  hybrid: "/cars/fuel-types/hybrid",
-  electric: "/cars/fuel-types/electric",
-  diesel: "/cars/fuel-types/diesel",
-};
+const fuelTypes = ["petrol", "hybrid", "electric", "diesel"];
 
 export const generateStaticParams = () =>
-  Object.keys(tabItems).map((fuelType) => ({ fuelType }));
+  fuelTypes.map((fuelType) => ({ fuelType }));
 
 const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   const { fuelType } = params;
@@ -106,28 +99,19 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   return (
     <section>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-y-8">
-        <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-end gap-x-2">
+      <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
+          <div className="flex items-end gap-2">
             <Typography.H1 className="uppercase">
               {capitaliseWords(fuelType)}
             </Typography.H1>
           </div>
-          <Suspense fallback={null}>
-            <MonthSelector months={months} />
-          </Suspense>
+          <div className="lg:justify-self-end">
+            <Suspense fallback={null}>
+              <MonthSelector months={months} />
+            </Suspense>
+          </div>
         </div>
-        <Tabs defaultValue={fuelType}>
-          <TabsList>
-            {Object.entries(tabItems).map(([title, href]) => (
-              <LinkWithParams key={title} href={href}>
-                <TabsTrigger value={title}>
-                  {capitaliseWords(title)}
-                </TabsTrigger>
-              </LinkWithParams>
-            ))}
-          </TabsList>
-        </Tabs>
         <CarOverviewTrends cars={filteredCars} />
       </div>
     </section>
