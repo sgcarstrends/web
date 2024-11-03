@@ -9,9 +9,11 @@ import {
 } from "@radix-ui/react-collapsible";
 import {
   Battery,
+  Car,
   ChevronRight,
   DollarSign,
   Droplet,
+  FileText,
   Fuel,
   type LucideIcon,
   Zap,
@@ -180,7 +182,8 @@ export const AppSidebar = () => {
 const data: Nav = {
   cars: [
     {
-      title: "Fuel Type",
+      title: "Fuel Types",
+      // icon: Fuel,
       url: "/cars/fuel-types",
       isActive: true,
       items: [
@@ -207,7 +210,7 @@ const data: Nav = {
       ],
     },
     {
-      title: "Vehicle Type",
+      title: "Vehicle Types",
       url: "/cars/vehicle-types",
       isActive: true,
       items: [

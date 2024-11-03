@@ -21,6 +21,10 @@ interface BreadcrumbItem {
   isLastItem: boolean;
 }
 
+const BREADCRUMB_MAP: Record<string, string> = {
+  coe: "COE",
+};
+
 const capitaliseWords = (text: string): string =>
   text
     .split("-")
@@ -30,7 +34,7 @@ const capitaliseWords = (text: string): string =>
 const generateBreadcrumbs = (slug: string[]): BreadcrumbItem[] =>
   slug.map((segment, index) => ({
     href: `/${slug.slice(0, index + 1).join("/")}`,
-    label: capitaliseWords(segment),
+    label: BREADCRUMB_MAP[segment] ?? capitaliseWords(segment),
     isLastItem: index === slug.length - 1,
   }));
 
