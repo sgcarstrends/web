@@ -2,12 +2,9 @@ import { Suspense } from "react";
 import { fetchMonths } from "@/app/cars/utils/fetchMonths";
 import { CarOverviewTrends } from "@/app/components/CarOverviewTrends";
 import { EmptyData } from "@/components/EmptyData";
-import { LinkWithParams } from "@/components/LinkWithParams";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
 import {
   type Car,
@@ -55,17 +52,17 @@ export const generateMetadata = async ({
   };
 };
 
-const tabItems: Record<string, string> = {
-  hatchback: "/cars/vehicle-types/hatchback",
-  sedan: "/cars/vehicle-types/sedan",
-  "multi-purpose vehicle": "/cars/vehicle-types/multi-purpose vehicle",
-  "station-wagon": "/cars/vehicle-types/station-wagon",
-  "sports utility vehicle": "/cars/vehicle-types/sports utility vehicle",
-  "coupe/convertible": "/cars/vehicle-types/coupe%2Fconvertible",
-};
+const vehicleTypes = [
+  "hatchback",
+  "sedan",
+  "multi-purpose vehicle",
+  "station-wagon",
+  "sports utility vehicle",
+  "coupe/convertible",
+];
 
 export const generateStaticParams = () =>
-  Object.keys(tabItems).map((vehicleType) => ({ vehicleType }));
+  vehicleTypes.map((vehicleType) => ({ vehicleType }));
 
 const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
   const { vehicleType } = params;
@@ -107,33 +104,19 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
   return (
     <section>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-y-8">
-        <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-end gap-x-2">
+      <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
+          <div className="flex items-end gap-2">
             <Typography.H1 className="uppercase">
               {capitaliseWords(decodeURIComponent(vehicleType))}
             </Typography.H1>
           </div>
-          <Suspense fallback={null}>
-            <MonthSelector months={months} />
-          </Suspense>
+          <div className="lg:justify-self-end">
+            <Suspense fallback={null}>
+              <MonthSelector months={months} />
+            </Suspense>
+          </div>
         </div>
-        <Tabs defaultValue={decodeURIComponent(vehicleType)}>
-          <ScrollArea>
-            <TabsList>
-              {Object.entries(tabItems).map(([title, href]) => {
-                return (
-                  <LinkWithParams key={title} href={href}>
-                    <TabsTrigger value={title}>
-                      {capitaliseWords(title)}
-                    </TabsTrigger>
-                  </LinkWithParams>
-                );
-              })}
-            </TabsList>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-        </Tabs>
         <CarOverviewTrends cars={filteredCars} />
       </div>
     </section>
