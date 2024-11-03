@@ -9,11 +9,9 @@ import {
 } from "@radix-ui/react-collapsible";
 import {
   Battery,
-  Car,
   ChevronRight,
   DollarSign,
   Droplet,
-  FileText,
   Fuel,
   type LucideIcon,
   Zap,
@@ -77,6 +75,11 @@ export const AppSidebar = () => {
         <SidebarGroup>
           <SidebarGroupLabel>Cars</SidebarGroupLabel>
           <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={pathname === "/cars"}>
+                <Link href="/cars">Monthly Registrations</Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
             {data.cars.map(({ items, ...item }) => (
               <Collapsible
                 key={item.title}
