@@ -23,9 +23,7 @@ import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { Metadata } from "next";
 import type { Dataset, Report, WithContext } from "schema-dts";
 
-interface Props {
-  searchParams: { [key: string]: string };
-}
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 // const VEHICLE_TYPE_MAP: Partial<Record<VEHICLE_TYPE, string>> = {
 //   "Multi-purpose Vehicle": "MPV",
@@ -33,10 +31,11 @@ interface Props {
 //   "Sports Utility Vehicle": "SUV",
 // };
 
-export const generateMetadata = async ({
-  searchParams,
-}: Props): Promise<Metadata> => {
-  let month = searchParams?.month;
+export const generateMetadata = async (props: {
+  searchParams: SearchParams;
+}): Promise<Metadata> => {
+  const searchParams = await props.searchParams;
+  let month = searchParams.month as string;
 
   if (!month) {
     const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
@@ -59,8 +58,10 @@ export const generateMetadata = async ({
   };
 };
 
-const CarsPage = async ({ searchParams }: Props) => {
-  let { month } = searchParams;
+const CarsPage = async (props: { searchParams: SearchParams }) => {
+  const searchParams = await props.searchParams;
+  let month = searchParams.month as string;
+
   // TODO: Interim solution
   if (!month) {
     const latestMonths = await fetchApi<LatestMonth>(

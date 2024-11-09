@@ -18,13 +18,12 @@ import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { Metadata } from "next";
 import type { Dataset, WithContext } from "schema-dts";
 
-interface Props {
-  params: { brand: string };
-}
+type Params = Promise<{ [slug: string]: string }>;
 
-export const generateMetadata = async ({
-  params,
-}: Props): Promise<Metadata> => {
+export const generateMetadata = async (props: {
+  params: Params;
+}): Promise<Metadata> => {
+  const params = await props.params;
   let { brand } = params;
   brand = decodeURIComponent(brand);
   const description = `${brand} historical trend`;
@@ -58,7 +57,8 @@ export const generateStaticParams = async () => {
   return brands.map((brand) => ({ brand }));
 };
 
-const CarBrandPage = async ({ params }: Props) => {
+const CarBrandPage = async (props: { params: Params }) => {
+  const params = await props.params;
   const { brand } = params;
 
   const [cars, makes]: [Car[], Make[]] = await Promise.all([

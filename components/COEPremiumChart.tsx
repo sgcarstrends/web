@@ -53,6 +53,9 @@ export const COEPremiumChart = ({ data, months }: Props) => {
 
   const [timeRange, setTimeRange] = useState(LAST_12_MONTHS);
 
+  const latestMonth = months[0];
+  const earliestMonth = months[months.length - 1];
+
   // TODO: Tidy up
   useEffect(() => {
     const params = new URLSearchParams();
@@ -67,37 +70,37 @@ export const COEPremiumChart = ({ data, months }: Props) => {
       case LAST_12_MONTHS:
         params.append(
           "from",
-          `${formatMonth(subMonths(parse(months[0], "yyyy-MM", new Date()), 12))}`,
+          `${formatMonth(subMonths(parse(latestMonth, "yyyy-MM", new Date()), 12))}`,
         );
-        params.append("to", months[0]);
+        params.append("to", latestMonth);
         break;
       case LAST_5_YEARS:
         params.append(
           "from",
-          `${formatMonth(subYears(parse(months[0], "yyyy-MM", new Date()), 5))}`,
+          `${formatMonth(subYears(parse(latestMonth, "yyyy-MM", new Date()), 5))}`,
         );
-        params.append("to", months[0]);
+        params.append("to", latestMonth);
         break;
       case LAST_10_YEARS:
         params.append(
           "from",
-          `${formatMonth(subYears(parse(months[0], "yyyy-MM", new Date()), 10))}`,
+          `${formatMonth(subYears(parse(latestMonth, "yyyy-MM", new Date()), 10))}`,
         );
-        params.append("to", months[0]);
+        params.append("to", latestMonth);
         break;
       case "YTD":
         params.append("from", `${new Date().getFullYear()}-01`);
-        params.append("to", months[0]);
+        params.append("to", latestMonth);
         break;
       case "ALL":
-        params.append("from", months[months.length - 1]);
-        params.append("to", months[0]);
+        params.append("from", earliestMonth);
+        params.append("to", latestMonth);
         break;
       default:
     }
 
     router.push(`${pathname}?${params.toString()}`);
-  }, [months, pathname, router, timeRange]);
+  }, [earliestMonth, latestMonth, pathname, router, timeRange]);
 
   const filteredData: COEBiddingResult[] = useMemo(
     () =>

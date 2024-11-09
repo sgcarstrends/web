@@ -18,15 +18,15 @@ import { mergeCarsByFuelType } from "@/utils/mergeCarsByFuelType";
 import type { Metadata } from "next";
 import type { Dataset, WithContext } from "schema-dts";
 
-interface Props {
-  params: { fuelType: string };
-  searchParams?: { [key: string]: string };
-}
+type Params = Promise<{ fuelType: string }>;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
-export const generateMetadata = async ({
-  params,
-  searchParams,
-}: Props): Promise<Metadata> => {
+export const generateMetadata = async (props: {
+  params: Params;
+  searchParams: SearchParams;
+}): Promise<Metadata> => {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
   const { fuelType } = params;
   let month = searchParams?.month;
 
@@ -59,7 +59,12 @@ const fuelTypes = ["petrol", "hybrid", "electric", "diesel"];
 export const generateStaticParams = () =>
   fuelTypes.map((fuelType) => ({ fuelType }));
 
-const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
+const CarsByFuelTypePage = async (props: {
+  params: Params;
+  searchParams: SearchParams;
+}) => {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
   const { fuelType } = params;
 
   const [months, latestMonth]: [Month[], LatestMonth] = await fetchMonths();

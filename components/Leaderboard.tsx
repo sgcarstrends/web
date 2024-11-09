@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import Link from "next/link";
 import {
   ArrowUpRight,
@@ -87,7 +87,7 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
   return (
     <div className="grid grid-cols-1 gap-4">
       {CATEGORIES.map(({ title, description, icon }) => (
-        <>
+        <Fragment key={title}>
           <div className="flex flex-col items-center">
             <Typography.H3>{icon}</Typography.H3>
             <Typography.H4>{title}</Typography.H4>
@@ -118,7 +118,7 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
             ))}
           </ul>
           <Separator className="last-of-type:hidden" />
-        </>
+        </Fragment>
       ))}
     </div>
   );
