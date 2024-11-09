@@ -9,11 +9,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-interface Props {
-  params: {
-    slug: string[];
-  };
-}
+type Params = Promise<{ slug: string[] }>;
 
 interface BreadcrumbItem {
   href: string;
@@ -38,7 +34,8 @@ const generateBreadcrumbs = (slug: string[]): BreadcrumbItem[] =>
     isLastItem: index === slug.length - 1,
   }));
 
-const Breadcrumbs = ({ params }: Props) => {
+const Breadcrumbs = async (props: { params: Params }) => {
+  const params = await props.params;
   const breadcrumbs = generateBreadcrumbs(params.slug);
 
   return (
