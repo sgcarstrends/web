@@ -177,7 +177,6 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
         <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
           <div className="flex items-end gap-2">
             <Typography.H1>Car Registrations</Typography.H1>
-            <Typography.Lead>{formatDateToMonthYear(month)}</Typography.Lead>
           </div>
           <div className="lg:justify-self-end">
             <Suspense fallback={null}>
