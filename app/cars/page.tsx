@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { notFound } from "next/navigation";
 import { Leaderboard } from "@/components/Leaderboard";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StatisticsCard } from "@/components/StatisticsCard";
@@ -72,6 +73,11 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
   let cars = await fetchApi<Car[]>(`${API_URL}/cars?month=${month}`, {
     next: { tags: [RevalidateTags.Cars] },
   });
+
+  if (cars.length === 0) {
+    return notFound();
+  }
+
   cars = cars.map((car) => {
     const { fuel_type } = car;
 
