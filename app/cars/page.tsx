@@ -48,13 +48,11 @@ export const generateMetadata = async (props: {
   // const images = `/api/og?title=Car Registrations for ${formattedDate}`;
 
   return {
-    title: `Car Registrations - ${formattedDate}`,
-    description: `Breakdown of the cars registered in ${formattedDate} by fuel type and vehicle type`,
+    title: "Car Registrations",
+    description: `Breakdown of cars registered in ${formattedDate} by fuel types and vehicle types.`,
     openGraph: { url: pageUrl },
     twitter: { card: "summary_large_image" },
-    alternates: {
-      canonical: pageUrl,
-    },
+    alternates: { canonical: pageUrl },
   };
 };
 
