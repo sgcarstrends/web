@@ -13,6 +13,7 @@ import {
   DollarSign,
   Droplet,
   Fuel,
+  Gauge,
   type LucideIcon,
   Zap,
 } from "lucide-react";
@@ -77,7 +78,10 @@ export const AppSidebar = () => {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild isActive={pathname === "/cars"}>
-                <Link href="/cars">Monthly Registrations</Link>
+                <Link href="/cars">
+                  <Gauge />
+                  <span>Monthly Registrations</span>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             {data.cars.map(({ items, ...item }) => (
