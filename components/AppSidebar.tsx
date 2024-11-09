@@ -1,177 +1,267 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
 import {
-  Calendar,
-  ChevronDown,
+  Battery,
   ChevronRight,
-  ChevronUp,
-  Home,
-  Inbox,
-  Plus,
-  Search,
-  Settings,
-  User2,
+  DollarSign,
+  Droplet,
+  Fuel,
+  type LucideIcon,
+  Zap,
 } from "lucide-react";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { BrandLogo } from "@/components/BrandLogo";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
-  SidebarGroupAction,
-  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
-// Menu items.
-const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
-];
+type NavItem = {
+  title: string;
+  icon?: LucideIcon;
+  url: string;
+  isActive?: boolean;
+  items?: NavSubItem[];
+};
 
-export const AppSidebar = () => (
-  <Sidebar>
-    <SidebarHeader>
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <SidebarMenuButton>
-                Select Workspace
-                <ChevronDown className="ml-auto" />
-              </SidebarMenuButton>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[--radix-popper-anchor-width]">
-              <DropdownMenuItem>
-                <span>Acme Inc</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <span>Acme Corp.</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </SidebarMenuItem>
-      </SidebarMenu>
-    </SidebarHeader>
-    <SidebarContent>
-      <SidebarGroup>
-        <SidebarGroupLabel>Application</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Application</SidebarGroupLabel>
-            <SidebarGroupAction>
-              <Plus /> <span className="sr-only">Add Project</span>
-            </SidebarGroupAction>
-            <SidebarGroupContent></SidebarGroupContent>
-          </SidebarGroup>
+type NavSubItem = {
+  title: string;
+  icon?: LucideIcon;
+  url: string;
+};
+
+type Nav = {
+  cars: NavItem[];
+  coe: NavItem[];
+};
+
+export const AppSidebar = () => {
+  const pathname = usePathname();
+  const { setOpenMobile } = useSidebar();
+
+  return (
+    <Sidebar>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" asChild>
+              <Link href="/">
+                <div className="flex flex-col gap-0.5 leading-none">
+                  <BrandLogo />
+                </div>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Cars</SidebarGroupLabel>
           <SidebarMenu>
-            {items.map((item) => (
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={pathname === "/cars"}>
+                <Link href="/cars">Monthly Registrations</Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            {data.cars.map(({ items, ...item }) => (
+              <Collapsible
+                key={item.title}
+                asChild
+                defaultOpen={item.isActive}
+                className="group/collapsible"
+              >
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton tooltip={item.title}>
+                      {item.icon && <item.icon />}
+                      <span>{item.title}</span>
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      {items?.map((subItem) => (
+                        <SidebarMenuSubItem key={subItem.title}>
+                          <SidebarMenuSubButton
+                            asChild
+                            isActive={subItem.url === pathname}
+                            onClick={() => setOpenMobile(false)}
+                          >
+                            <Link href={subItem.url}>
+                              {subItem.icon && <subItem.icon />}
+                              <span>{subItem.title}</span>
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+        <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+          <SidebarGroupLabel>COE</SidebarGroupLabel>
+          <SidebarMenu>
+            {data.coe.map(({ items, ...item }) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild isActive={item.url === pathname}>
                   <Link href={item.url}>
-                    <item.icon />
+                    {item.icon && <item.icon />}
                     <span>{item.title}</span>
                   </Link>
                 </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-            <Collapsible defaultOpen className="group/collapsible">
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip="Getting Started">
-                  <span>Getting Started</span>
-                </SidebarMenuButton>
-                <CollapsibleTrigger asChild>
-                  <SidebarMenuAction className="data-[state=open]:rotate-90">
-                    <ChevronRight />
-                    <span className="sr-only">Getting Started</span>
-                  </SidebarMenuAction>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <SidebarMenuSub>
-                    <SidebarMenuSubItem>
-                      <SidebarMenuSubButton>Installation</SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                    <SidebarMenuSubItem>
-                      <SidebarMenuSubButton>
-                        Project Structure
+                <SidebarMenuSub>
+                  {items?.map((subItem) => (
+                    <SidebarMenuSubItem key={subItem.title}>
+                      <SidebarMenuSubButton
+                        asChild
+                        isActive={subItem.url === pathname}
+                      >
+                        <Link href={subItem.url}>
+                          {subItem.icon && <subItem.icon />}
+                          <span>{subItem.title}</span>
+                        </Link>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
-                  </SidebarMenuSub>
-                </CollapsibleContent>
+                  ))}
+                </SidebarMenuSub>
               </SidebarMenuItem>
-            </Collapsible>
+            ))}
           </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-    </SidebarContent>
-    <SidebarFooter>
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <SidebarMenuButton>
-                <User2 /> Username
-                <ChevronUp className="ml-auto" />
-              </SidebarMenuButton>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              side="top"
-              className="w-[--radix-popper-anchor-width]"
-            >
-              <DropdownMenuItem>
-                <span>Account</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <span>Billing</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <span>Sign out</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </SidebarMenuItem>
-      </SidebarMenu>
-    </SidebarFooter>
-  </Sidebar>
-);
+        </SidebarGroup>
+      </SidebarContent>
+      {/*<SidebarFooter>*/}
+      {/*  <SidebarMenu>*/}
+      {/*    <SidebarMenuItem>*/}
+      {/*      <DropdownMenu>*/}
+      {/*        <DropdownMenuTrigger asChild>*/}
+      {/*          <SidebarMenuButton>*/}
+      {/*            <User2 /> Username*/}
+      {/*            <ChevronUp className="ml-auto" />*/}
+      {/*          </SidebarMenuButton>*/}
+      {/*        </DropdownMenuTrigger>*/}
+      {/*        <DropdownMenuContent*/}
+      {/*          side="top"*/}
+      {/*          className="w-[--radix-popper-anchor-width]"*/}
+      {/*        >*/}
+      {/*          <DropdownMenuItem>*/}
+      {/*            <span>Account</span>*/}
+      {/*          </DropdownMenuItem>*/}
+      {/*          <DropdownMenuItem>*/}
+      {/*            <span>Billing</span>*/}
+      {/*          </DropdownMenuItem>*/}
+      {/*          <DropdownMenuItem>*/}
+      {/*            <span>Sign out</span>*/}
+      {/*          </DropdownMenuItem>*/}
+      {/*        </DropdownMenuContent>*/}
+      {/*      </DropdownMenu>*/}
+      {/*    </SidebarMenuItem>*/}
+      {/*  </SidebarMenu>*/}
+      {/*</SidebarFooter>*/}
+    </Sidebar>
+  );
+};
+
+// TODO: Slugify URLs
+const data: Nav = {
+  cars: [
+    {
+      title: "Fuel Types",
+      // icon: Fuel,
+      url: "/cars/fuel-types",
+      isActive: true,
+      items: [
+        {
+          title: "Petrol",
+          icon: Fuel,
+          url: "/cars/fuel-types/petrol",
+        },
+        {
+          title: "Hybrid",
+          icon: Zap,
+          url: "/cars/fuel-types/hybrid",
+        },
+        {
+          title: "Electric",
+          icon: Battery,
+          url: "/cars/fuel-types/electric",
+        },
+        {
+          title: "Diesel",
+          icon: Droplet,
+          url: "/cars/fuel-types/diesel",
+        },
+      ],
+    },
+    {
+      title: "Vehicle Types",
+      url: "/cars/vehicle-types",
+      isActive: true,
+      items: [
+        {
+          title: "Hatchback",
+          url: "/cars/vehicle-types/hatchback",
+        },
+        {
+          title: "Sedan",
+          url: "/cars/vehicle-types/sedan",
+        },
+        {
+          title: "Multi-purpose Vehicle",
+          url: `/cars/vehicle-types/${encodeURIComponent("multi-purpose vehicle")}`,
+        },
+        {
+          title: "Station-wagon",
+          url: "/cars/vehicle-types/station-wagon",
+        },
+        {
+          title: "Sports Utility Vehicle",
+          url: `/cars/vehicle-types/${encodeURIComponent("sports utility vehicle")}`,
+        },
+        {
+          title: "Coupe/Convertible",
+          url: `/cars/vehicle-types/${encodeURIComponent("coupe/convertible")}`,
+        },
+      ],
+    },
+  ],
+  coe: [
+    {
+      title: "Prices",
+      icon: DollarSign,
+      url: "/coe",
+    },
+    // {
+    //   title: "COE",
+    //   icon: "",
+    //   url: "/coe",
+    //   isActive: true,
+    //   items: [
+    //     {
+    //       title: "Prices",
+    //       icon: DollarSign,
+    //       url: "/coe/prices",
+    //     },
+    //   ] satisfies NavSubItem[],
+    // },
+  ],
+};

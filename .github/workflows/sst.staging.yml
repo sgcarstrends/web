@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'release/*'
     tags-ignore:
       - "*"
 
@@ -59,12 +60,6 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
-#      - uses: actions/cache@v4
-#        with:
-#          path: ${{ github.workspace }}/.next/cache
-#          key: ${{ runner.OS }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
-#          restore-keys: |
-#            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}

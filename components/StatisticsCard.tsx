@@ -72,7 +72,7 @@ export const StatisticsCard = ({
                       <TableCell>
                         <Link
                           href={{
-                            pathname: `/${linkPrefix}/${encodeURIComponent(key.toLowerCase())}`,
+                            pathname: `/cars/${linkPrefix}/${encodeURIComponent(key.toLowerCase())}`,
                             query: params.toString(),
                           }}
                           className="flex gap-1"

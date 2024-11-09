@@ -34,7 +34,7 @@ export const columns: ColumnDef<Car>[] = [
     header: "Vehicle Type",
     cell: ({ row }) => {
       const type = row.getValue("vehicle_type") as string;
-      return <Link href={`/vehicle-type/${type.toLowerCase()}`}>{type}</Link>;
+      return <Link href={`/vehicle-types/${type.toLowerCase()}`}>{type}</Link>;
     },
   },
   {

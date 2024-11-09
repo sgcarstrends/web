@@ -1,18 +1,9 @@
-import Link from "next/link";
+import { Suspense } from "react";
 import { Leaderboard } from "@/components/Leaderboard";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StatisticsCard } from "@/components/StatisticsCard";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
-import { UnreleasedFeature } from "@/components/UnreleasedFeature";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import {
   Card,
   CardContent,
@@ -26,7 +17,6 @@ import {
   type LatestMonth,
   type Month,
   RevalidateTags,
-  // type VEHICLE_TYPE,
 } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
@@ -185,28 +175,17 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
     <>
       <StructuredData data={datasetJsonLd} />
       <StructuredData data={reportJsonLd} />
-      <div className="flex flex-col gap-8">
-        <UnreleasedFeature>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href="/">Home</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator>/</BreadcrumbSeparator>
-              <BreadcrumbItem>
-                <BreadcrumbPage>Cars</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </UnreleasedFeature>
-        <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-end gap-x-2">
+      <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
+          <div className="flex items-end gap-2">
             <Typography.H1>Car Registrations</Typography.H1>
             <Typography.Lead>{formatDateToMonthYear(month)}</Typography.Lead>
           </div>
-          <MonthSelector months={months} />
+          <div className="lg:justify-self-end">
+            <Suspense fallback={null}>
+              <MonthSelector months={months} />
+            </Suspense>
+          </div>
         </div>
         {/*TODO: Improvise*/}
         {cars.length === 0 && (
@@ -271,14 +250,14 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
                     description="Distribution of vehicles based on fuel type"
                     data={numberByFuelType}
                     total={total}
-                    linkPrefix="cars"
+                    linkPrefix="fuel-types"
                   />
                   <StatisticsCard
                     title="By Vehicle Type"
                     description="Distribution of vehicles based on vehicle type"
                     data={numberByVehicleType}
                     total={total}
-                    linkPrefix="vehicle-type"
+                    linkPrefix="vehicle-types"
                   />
                 </div>
                 <div className="grid gap-4 lg:col-span-4">
