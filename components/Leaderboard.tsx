@@ -108,6 +108,10 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
           {CATEGORIES.map(({ title, description, icon: Icon, colour }) => {
             const popularMakes = getPopularMakes(cars, title);
 
+            if (popularMakes.length === 0) {
+              return null;
+            }
+
             return (
               <div key={title} className="space-y-4">
                 <div className="flex items-center gap-2">
@@ -117,11 +121,6 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
                     <Typography.Muted>{description}</Typography.Muted>
                   </div>
                 </div>
-                {popularMakes.length === 0 && (
-                  <Typography.Muted>
-                    No registrations for this period
-                  </Typography.Muted>
-                )}
                 <div className="space-y-2">
                   {popularMakes.map(({ make, number }) => {
                     const maxValue = Math.max(
