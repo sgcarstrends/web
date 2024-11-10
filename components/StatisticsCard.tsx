@@ -62,11 +62,9 @@ export const StatisticsCard = ({
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
-          <div className="xl:col-span-6">
-            <DistributionPieChart data={data} type={title} />
-          </div>
-          <div className="xl:col-span-6">
+        <div className="grid grid-cols-1 gap-4">
+          <DistributionPieChart data={data} type={title} />
+          <div>
             <Table>
               <TableCaption>Click on the rows for more details</TableCaption>
               <TableHeader>

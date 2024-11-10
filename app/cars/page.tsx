@@ -5,13 +5,7 @@ import { MonthSelector } from "@/components/MonthSelector";
 import { StatisticsCard } from "@/components/StatisticsCard";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { API_URL, HYBRID_REGEX, SITE_TITLE, SITE_URL } from "@/config";
 import {
   type Car,
@@ -246,8 +240,8 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
                 {/*  </Card>*/}
                 {/*</UnreleasedFeature>*/}
               </div>
-              <div className="grid gap-4 lg:grid-cols-12">
-                <div className="grid grid-cols-1 gap-4 lg:col-span-8">
+              <div className="grid gap-4 xl:grid-cols-12">
+                <div className="grid grid-cols-1 gap-4 xl:col-span-6">
                   <StatisticsCard
                     title="By Fuel Type"
                     description="Distribution of vehicles based on fuel type"
@@ -263,7 +257,7 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
                     linkPrefix="vehicle-types"
                   />
                 </div>
-                <div className="grid gap-4 lg:col-span-4">
+                <div className="grid grid-cols-1 gap-4 xl:col-span-6">
                   <Leaderboard cars={cars} />
                 </div>
               </div>
