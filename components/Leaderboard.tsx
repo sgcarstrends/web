@@ -1,21 +1,27 @@
-import { Fragment, type ReactNode } from "react";
-import Link from "next/link";
 import {
-  ArrowUpRight,
   Battery,
   Droplet,
   Fuel,
+  type LucideIcon,
   Trophy,
   Zap,
 } from "lucide-react";
 import Typography from "@/components/Typography";
-import { Separator } from "@/components/ui/separator";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import type { Car } from "@/types";
 
 interface Category {
   title: string;
   description?: string;
-  icon: ReactNode;
+  icon: LucideIcon;
+  colour: string;
   link?: string;
 }
 
@@ -29,30 +35,35 @@ const CATEGORIES: Category[] = [
   {
     title: "Overall",
     description: "Combination of all fuel types",
-    icon: <Trophy className="h-6 w-6 text-yellow-600" />,
+    icon: Trophy,
+    colour: "text-yellow-600",
   },
   {
     title: "Petrol",
     description: "Internal Combustion Engine (ICE) vehicles",
-    icon: <Fuel className="h-6 w-6 text-red-600" />,
+    icon: Fuel,
+    colour: "text-red-600",
     link: "/cars/petrol",
   },
   {
     title: "Hybrid",
     description: "Includes Petrol, Diesel and Plug-In types",
-    icon: <Zap className="h-6 w-6 text-blue-600" />,
+    icon: Zap,
+    colour: "text-blue-600",
     link: "/cars/hybrid",
   },
   {
     title: "Electric",
     description: "Battery Electric Vehicles (BEV)",
-    icon: <Battery className="h-6 w-6 text-green-600" />,
+    icon: Battery,
+    colour: "text-green-600",
     link: "/cars/electric",
   },
   {
     title: "Diesel",
     description: "Compression-ignition engine vehicles",
-    icon: <Droplet className="h-6 w-6 text-gray-600" />,
+    icon: Droplet,
+    colour: "text-gray-600",
     link: "/cars/diesel",
   },
 ];
@@ -66,7 +77,7 @@ const HYBRID_TYPES: string[] = [
 const getPopularMakes = (cars: Car[], fuelType: string): PopularMake[] => {
   const makeCount: Record<string, number> = {};
 
-  cars.forEach(({ make, number, fuel_type }) => {
+  cars.forEach(({ make, number, fuel_type }, index) => {
     if (
       fuelType === "Overall" ||
       (fuelType === "Hybrid" && HYBRID_TYPES.includes(fuel_type)) ||
@@ -85,41 +96,56 @@ const getPopularMakes = (cars: Car[], fuelType: string): PopularMake[] => {
 
 export const Leaderboard = ({ cars }: LeaderboardProps) => {
   return (
-    <div className="grid grid-cols-1 gap-4">
-      {CATEGORIES.map(({ title, description, icon }) => (
-        <Fragment key={title}>
-          <div className="flex flex-col items-center">
-            <Typography.H3>{icon}</Typography.H3>
-            <Typography.H4>{title}</Typography.H4>
-            <Typography.Muted>{description}</Typography.Muted>
-          </div>
-          {getPopularMakes(cars, title).length === 0 && (
-            <Typography.Muted>
-              No registrations for this period
-            </Typography.Muted>
-          )}
-          <ul>
-            {getPopularMakes(cars, title).map(({ make, number }) => (
-              <li
-                key={make}
-                className="group cursor-pointer rounded p-1 transition-colors duration-200 hover:bg-secondary"
-              >
-                <Link
-                  href={`/cars/brands/${make}`}
-                  className="flex items-center justify-between"
-                >
-                  <div className="flex gap-1">
-                    <span className="text-muted-foreground">{make}</span>
-                    <ArrowUpRight className="h-4 w-4 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+    <Card>
+      <CardHeader>
+        <CardTitle>Popularity</CardTitle>
+        <CardDescription>Top 3 makes in each category</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="grid grid-cols-1 gap-4">
+          {CATEGORIES.map(({ title, description, icon: Icon, colour }) => {
+            const popularMakes = getPopularMakes(cars, title);
+
+            return (
+              <div key={title} className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Icon className={`h-6 w-6 ${colour}`} />
+                  <div>
+                    <Typography.H4>{title}</Typography.H4>
+                    <Typography.Muted>{description}</Typography.Muted>
                   </div>
-                  <span className="font-semibold">{number}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <Separator className="last-of-type:hidden" />
-        </Fragment>
-      ))}
-    </div>
+                </div>
+                {popularMakes.length === 0 && (
+                  <Typography.Muted>
+                    No registrations for this period
+                  </Typography.Muted>
+                )}
+                <div className="space-y-3">
+                  {popularMakes.map(({ make, number }) => {
+                    const maxValue = Math.max(
+                      ...popularMakes.map(({ number }) => number),
+                    );
+
+                    return (
+                      <div key={make} className="space-y-1">
+                        <div className="flex justify-between">
+                          <span className="font-medium">{make}</span>
+                          <span>{number}</span>
+                        </div>
+                        <Progress
+                          value={(number / maxValue) * 100}
+                          indicatorColor={colour.replace("text-", "bg-")}
+                          className="h-1.5"
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </CardContent>
+    </Card>
   );
 };

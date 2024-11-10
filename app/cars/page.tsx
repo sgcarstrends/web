@@ -264,18 +264,7 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
                   />
                 </div>
                 <div className="grid gap-4 lg:col-span-4">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Popularity</CardTitle>
-                      <CardDescription>
-                        Top 3 makes in each category for{" "}
-                        {formatDateToMonthYear(month)}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <Leaderboard cars={cars} />
-                    </CardContent>
-                  </Card>
+                  <Leaderboard cars={cars} />
                 </div>
               </div>
             </div>
