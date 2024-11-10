@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { ArrowUpRight } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 import { DistributionPieChart } from "@/app/cars/DistributionPieChart";
 import { Progress } from "@/app/components/Progress";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -15,6 +15,7 @@ import {
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -38,7 +39,21 @@ export const StatisticsCard = ({
   // TODO: Temporary solution
   linkPrefix?: string;
 }) => {
-  const params = useSearchParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const handleRowClick = (type: string) => {
+    router.push(
+      `/cars/${linkPrefix}/${encodeURIComponent(type.toLowerCase())}?${searchParams}`,
+    );
+  };
+
+  const getBadgeVariant = (value: number) => {
+    const percentage = (value / total) * 100;
+    if (percentage > 30) return "default";
+    if (percentage > 15) return "secondary";
+    return "outline";
+  };
 
   return (
     <Card>
@@ -53,43 +68,39 @@ export const StatisticsCard = ({
           </div>
           <div className="xl:col-span-6">
             <Table>
+              <TableCaption>Click on the rows for more details</TableCaption>
               <TableHeader>
                 <TableRow>
                   <TableHead>Type</TableHead>
                   <TableHead>Count</TableHead>
-                  <TableHead>% of Type</TableHead>
+                  <TableHead>Distribution</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {Object.entries(data)
                   .filter(([_, value]) => value)
                   .sort(([_A, numberA], [_B, numberB]) => numberB - numberA)
-                  .map(([key, value]) => (
+                  .map(([key, value], index) => (
                     <TableRow
                       key={key}
-                      className="group cursor-pointer rounded px-2 py-1 transition-colors duration-200 hover:bg-secondary"
+                      className="cursor-pointer"
+                      onClick={() => handleRowClick(key)}
                     >
                       <TableCell>
-                        <Link
-                          href={{
-                            pathname: `/cars/${linkPrefix}/${encodeURIComponent(key.toLowerCase())}`,
-                            query: params.toString(),
-                          }}
-                          className="flex gap-1"
-                        >
-                          <span>{key}</span>
-                          <ArrowUpRight className="h-4 w-4 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
-                        </Link>
+                        <div className="flex items-center gap-2">{key}</div>
                       </TableCell>
                       <TableCell className="flex gap-1 font-semibold text-primary">
                         {value}
                       </TableCell>
                       <TableCell>
-                        <Progress value={value / total}>
+                        <Badge variant={getBadgeVariant(value)}>
                           {formatPercent(value / total, {
                             minimumFractionDigits: 2,
                           })}
-                        </Progress>
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <ArrowRight className="h-4 w-4 text-primary" />
                       </TableCell>
                     </TableRow>
                   ))}
