@@ -1,5 +1,7 @@
+import Link from "next/link";
 import {
   Battery,
+  ChevronRight,
   Droplet,
   Fuel,
   type LucideIcon,
@@ -120,24 +122,33 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
                     No registrations for this period
                   </Typography.Muted>
                 )}
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {popularMakes.map(({ make, number }) => {
                     const maxValue = Math.max(
                       ...popularMakes.map(({ number }) => number),
                     );
 
                     return (
-                      <div key={make} className="space-y-1">
-                        <div className="flex justify-between">
-                          <span className="font-medium">{make}</span>
-                          <span>{number}</span>
+                      <Link
+                        key={make}
+                        href={`/cars/brands/${make}`}
+                        className="group block w-full rounded-lg p-2 transition-colors hover:bg-gray-50"
+                      >
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium">{make}</span>
+                              <ChevronRight className="h-4 w-4 text-primary opacity-0 transition-opacity group-hover:opacity-100" />
+                            </div>
+                            <span className="text-gray-600">{number}</span>
+                          </div>
+                          <Progress
+                            value={(number / maxValue) * 100}
+                            indicatorColor={colour.replace("text-", "bg-")}
+                            className="h-2"
+                          />
                         </div>
-                        <Progress
-                          value={(number / maxValue) * 100}
-                          indicatorColor={colour.replace("text-", "bg-")}
-                          className="h-1.5"
-                        />
-                      </div>
+                      </Link>
                     );
                   })}
                 </div>
