@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Progress } from "@/app/components/Progress";
 import Typography from "@/components/Typography";
+import { Progress } from "@/components/ui/progress";
 import {
   Table,
   TableBody,
@@ -44,19 +44,20 @@ export const DataTable = ({ data }: Props) => {
           </TableRow>
         )}
         {data.length > 0 &&
-          data.map((item, index) => (
-            <TableRow key={item._id}>
+          data.map(({ make, number }, index) => (
+            <TableRow key={make}>
               <TableCell>
-                <Link href={`/make/${item.make}`}>{item.make}</Link>
+                <Link href={`/cars/brands/${make}`}>{make}</Link>
               </TableCell>
-              <TableCell>{item.number}</TableCell>
+              <TableCell>{number}</TableCell>
               <TableCell>
-                <Progress value={marketShare(item.number)}>
-                  {formatPercent(marketShare(item.number), {
+                <Typography.Muted>
+                  {formatPercent(marketShare(number), {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}
-                </Progress>
+                </Typography.Muted>
+                <Progress value={marketShare(number) * 100} className="h-1.5" />
               </TableCell>
             </TableRow>
           ))}

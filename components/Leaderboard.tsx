@@ -17,6 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { cn } from "@/lib/utils";
 import type { Car } from "@/types";
 
 interface Category {
@@ -127,6 +128,8 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
                       ...popularMakes.map(({ number }) => number),
                     );
 
+                    const indicatorColour = `[&>*]:${colour.replace("text", "bg")}`;
+
                     return (
                       <Link
                         key={make}
@@ -143,8 +146,7 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
                           </div>
                           <Progress
                             value={(number / maxValue) * 100}
-                            indicatorColor={colour.replace("text-", "bg-")}
-                            className="h-2"
+                            className={cn("h-2", indicatorColour)}
                           />
                         </div>
                       </Link>
