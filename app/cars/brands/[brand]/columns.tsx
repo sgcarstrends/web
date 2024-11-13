@@ -26,7 +26,9 @@ export const columns: ColumnDef<Car>[] = [
     header: "Fuel Type",
     cell: ({ row }) => {
       const type = row.getValue("fuel_type") as string;
-      return <Link href={`/cars/${type.toLowerCase()}`}>{type}</Link>;
+      return (
+        <Link href={`/cars/fuel-types/${type.toLowerCase()}`}>{type}</Link>
+      );
     },
   },
   {
@@ -34,7 +36,9 @@ export const columns: ColumnDef<Car>[] = [
     header: "Vehicle Type",
     cell: ({ row }) => {
       const type = row.getValue("vehicle_type") as string;
-      return <Link href={`/vehicle-types/${type.toLowerCase()}`}>{type}</Link>;
+      return (
+        <Link href={`/cars/vehicle-types/${type.toLowerCase()}`}>{type}</Link>
+      );
     },
   },
   {
