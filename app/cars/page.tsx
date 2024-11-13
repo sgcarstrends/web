@@ -241,7 +241,7 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
                 {/*</UnreleasedFeature>*/}
               </div>
               <div className="grid gap-4 xl:grid-cols-12">
-                <div className="grid grid-cols-1 gap-4 xl:col-span-8">
+                <div className="grid grid-cols-1 gap-4 xl:col-span-6">
                   <StatisticsCard
                     title="By Fuel Type"
                     description="Distribution of vehicles based on fuel type"
@@ -257,7 +257,7 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
                     linkPrefix="vehicle-types"
                   />
                 </div>
-                <div className="grid grid-cols-1 gap-4 xl:col-span-4">
+                <div className="grid grid-cols-1 gap-4 xl:col-span-6">
                   <Leaderboard cars={cars} />
                 </div>
               </div>
