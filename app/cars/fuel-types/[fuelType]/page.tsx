@@ -14,7 +14,7 @@ import {
 } from "@/types";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
-import { mergeCarsByFuelType } from "@/utils/mergeCarsByFuelType";
+import { mergeCarsByMake } from "@/utils/mergeCarsByMake";
 import type { Metadata } from "next";
 import type { Dataset, WithContext } from "schema-dts";
 
@@ -79,7 +79,7 @@ const CarsByFuelTypePage = async (props: {
     return <EmptyData />;
   }
 
-  const filteredCars = mergeCarsByFuelType(cars);
+  const filteredCars = mergeCarsByMake(cars);
 
   const structuredData: WithContext<Dataset> = {
     "@context": "https://schema.org",
