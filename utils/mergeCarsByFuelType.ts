@@ -5,14 +5,13 @@ export const mergeCarsByFuelType = (cars: Car[]): Car[] => {
 
   const mergedData: Record<string, Car> = {};
   filteredCars.forEach((car) => {
-    const { make, number, fuel_type } = car;
-    const key = `${make}-${fuel_type}`;
+    const { make, number } = car;
 
-    if (!mergedData[key]) {
-      mergedData[key] = { ...car, number: 0 };
+    if (!mergedData[make]) {
+      mergedData[make] = { ...car, number: 0 };
     }
 
-    mergedData[key].number += number;
+    mergedData[make].number += number;
   });
 
   return Object.values(mergedData).sort((a, b) => b.number - a.number);
