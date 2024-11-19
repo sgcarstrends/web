@@ -1,7 +1,7 @@
 export const CARS = {
   TABLE: {
     HEADERS: {
-      MAKE: "Brands",
+      MAKE: "Make",
       COUNT: "Count",
       MARKET_SHARE: "Distribution",
     },

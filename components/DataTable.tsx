@@ -47,7 +47,7 @@ export const DataTable = ({ data }: Props) => {
           data.map(({ make, number }, index) => (
             <TableRow key={make}>
               <TableCell>
-                <Link href={`/cars/brands/${make}`}>{make}</Link>
+                <Link href={`/cars/makes/${make}`}>{make}</Link>
               </TableCell>
               <TableCell>{number}</TableCell>
               <TableCell>

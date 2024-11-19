@@ -1,5 +1,5 @@
-import { TrendChart } from "@/app/cars/brands/[brand]/TrendChart";
-import { columns } from "@/app/cars/brands/[brand]/columns";
+import { TrendChart } from "@/app/cars/makes/[make]/TrendChart";
+import { columns } from "@/app/cars/makes/[make]/columns";
 import { MakeSelector } from "@/app/components/MakeSelector";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
@@ -24,14 +24,14 @@ export const generateMetadata = async (props: {
   params: Params;
 }): Promise<Metadata> => {
   const params = await props.params;
-  let { brand } = params;
-  brand = decodeURIComponent(brand);
-  const description = `${brand} historical trend`;
-  const images = `/api/og?title=Historical Trend&make=${brand}`;
-  const canonicalUrl = `/cars/brands/${brand}`;
+  let { make } = params;
+  make = decodeURIComponent(make);
+  const description = `${make} historical trend`;
+  const images = `/api/og?title=Historical Trend&make=${make}`;
+  const canonicalUrl = `/cars/makes/${make}`;
 
   return {
-    title: brand,
+    title: make,
     description,
     openGraph: {
       images,
@@ -51,18 +51,18 @@ export const generateMetadata = async (props: {
 };
 
 export const generateStaticParams = async () => {
-  const brands = await fetchApi<Make[]>(`${API_URL}/make`, {
+  const makes = await fetchApi<Make[]>(`${API_URL}/make`, {
     next: { tags: [RevalidateTags.Cars] },
   });
-  return brands.map((brand) => ({ brand }));
+  return makes.map((make) => ({ make }));
 };
 
-const CarBrandPage = async (props: { params: Params }) => {
+const CarMakePage = async (props: { params: Params }) => {
   const params = await props.params;
-  const { brand } = params;
+  const { make } = params;
 
   const [cars, makes]: [Car[], Make[]] = await Promise.all([
-    await fetchApi<Car[]>(`${API_URL}/make/${brand}`, {
+    await fetchApi<Car[]>(`${API_URL}/make/${make}`, {
       next: { tags: [RevalidateTags.Cars] },
     }),
     await fetchApi<Make[]>(`${API_URL}/cars/makes`, {
@@ -72,13 +72,13 @@ const CarBrandPage = async (props: { params: Params }) => {
 
   const filteredCars = mergeCarData(cars);
 
-  const formattedMake = decodeURIComponent(brand);
+  const formattedMake = decodeURIComponent(make);
   const structuredData: WithContext<Dataset> = {
     "@context": "https://schema.org",
     "@type": "Dataset",
     name: `${formattedMake} Car Registrations in Singapore`,
     description: `Historical trend and monthly breakdown of ${formattedMake} car registrations by fuel type and vehicle type in Singapore`,
-    url: `${SITE_URL}/cars/brands/${brand}`,
+    url: `${SITE_URL}/cars/makes/${make}`,
     // TODO: Suggested by Google
     // temporalCoverage: "2016-06/2024-07",
     variableMeasured: [
@@ -118,8 +118,8 @@ const CarBrandPage = async (props: { params: Params }) => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-y-8">
         <div className="flex flex-col justify-between gap-2 lg:flex-row">
-          <Typography.H1>{decodeURIComponent(brand)}</Typography.H1>
-          <MakeSelector makes={makes} selectedMake={brand} />
+          <Typography.H1>{decodeURIComponent(make)}</Typography.H1>
+          <MakeSelector makes={makes} selectedMake={make} />
         </div>
         <Card>
           <CardHeader>
@@ -167,4 +167,4 @@ const mergeCarData = (cars: Car[]): Omit<Car, "importer_type">[] => {
   return Object.values(mergedData);
 };
 
-export default CarBrandPage;
+export default CarMakePage;

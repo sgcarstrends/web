@@ -133,7 +133,7 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
                     return (
                       <Link
                         key={make}
-                        href={`/cars/brands/${make}`}
+                        href={`/cars/makes/${make}`}
                         className="group block w-full rounded-lg p-2 transition-colors hover:bg-gray-50"
                       >
                         <div className="space-y-2">
