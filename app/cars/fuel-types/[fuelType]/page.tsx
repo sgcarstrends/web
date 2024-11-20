@@ -36,7 +36,7 @@ export const generateMetadata = async (props: {
   }
 
   const title = `${capitaliseWords(fuelType)} Cars in Singapore`;
-  const description = `Explore registration trends and statistics for ${fuelType} in Singapore.`;
+  const description = `Explore registration trends and statistics for ${fuelType} cars in Singapore.`;
   const images = `${SITE_URL}/api/og?type=${fuelType}&month=${month}`;
   const pageUrl = `/cars/fuel-types/${fuelType}`;
 
@@ -95,7 +95,7 @@ const CarsByFuelTypePage = async (props: {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: `${capitaliseWords(fuelType)} Car in Singapore`,
-    description: `Explore registration trends and statistics for ${fuelType} in Singapore.`,
+    description: `Explore registration trends and statistics for ${fuelType} cars in Singapore.`,
     url: `${SITE_URL}/cars/fuel-types/${fuelType}`,
     publisher: {
       "@type": "Organization",

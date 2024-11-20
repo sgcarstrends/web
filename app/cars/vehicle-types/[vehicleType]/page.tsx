@@ -32,7 +32,7 @@ export const generateMetadata = async (props: {
 
   return {
     title: `${capitaliseWords(vehicleType)} Cars in Singapore`,
-    description: `Explore registration trends and statistics for ${vehicleType} in Singapore.`,
+    description: `Explore registration trends and statistics for ${vehicleType} cars in Singapore.`,
     openGraph: {
       images,
       url: canonicalUrl,
@@ -88,7 +88,7 @@ const CarsByVehicleTypePage = async (props: {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: `${capitaliseWords(vehicleType)} Cars in Singapore`,
-    description: `Explore registration trends and statistics for ${vehicleType} in Singapore.`,
+    description: `Explore registration trends and statistics for ${vehicleType} cars in Singapore.`,
     url: `${SITE_URL}/cars/vehicle-types/${vehicleType}`,
     publisher: {
       "@type": "Organization",

@@ -26,7 +26,7 @@ export const generateMetadata = async (props: {
   const params = await props.params;
   let { make } = params;
   make = decodeURIComponent(make);
-  const description = `${make} historical trend`;
+  const description = `Historical trends and monthly breakdown of ${make} cars by fuel and vehicle types in Singapore.`;
   const images = `/api/og?title=Historical Trend&make=${make}`;
   const canonicalUrl = `/cars/makes/${make}`;
 
@@ -77,7 +77,7 @@ const CarMakePage = async (props: { params: Params }) => {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: `${formattedMake} Car Registrations in Singapore`,
-    description: `Historical trend and monthly breakdown of ${formattedMake} car registrations by fuel type and vehicle type in Singapore`,
+    description: `Historical trends and monthly breakdown of ${formattedMake} cars by fuel and vehicle types in Singapore.`,
     url: `${SITE_URL}/cars/makes/${make}`,
     publisher: {
       "@type": "Organization",
