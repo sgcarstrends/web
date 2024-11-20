@@ -3,7 +3,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { DistributionPieChart } from "@/app/cars/DistributionPieChart";
-import { Progress } from "@/app/components/Progress";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
