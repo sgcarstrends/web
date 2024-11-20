@@ -16,7 +16,7 @@ import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
 import { mergeCarsByMake } from "@/utils/mergeCarsByMake";
 import type { Metadata } from "next";
-import type { Dataset, WithContext } from "schema-dts";
+import type { WebPage, WithContext } from "schema-dts";
 
 type Params = Promise<{ vehicleType: string }>;
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
@@ -27,13 +27,12 @@ export const generateMetadata = async (props: {
   const params = await props.params;
   let { vehicleType } = params;
   vehicleType = decodeURIComponent(vehicleType);
-  const description = `${capitaliseWords(vehicleType)} historical trends`;
   const images = `/api/og?title=Historical Trend&type=${vehicleType}`;
   const canonicalUrl = `/cars/vehicle-types/${vehicleType}`;
 
   return {
-    title: capitaliseWords(vehicleType),
-    description,
+    title: `${capitaliseWords(vehicleType)} Cars in Singapore`,
+    description: `Explore registration trends and statistics for ${vehicleType} in Singapore.`,
     openGraph: {
       images,
       url: canonicalUrl,
@@ -85,24 +84,22 @@ const CarsByVehicleTypePage = async (props: {
 
   const filteredCars = mergeCarsByMake(cars);
 
-  const structuredData: WithContext<Dataset> = {
+  const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
-    "@type": "Dataset",
-    name: `${capitaliseWords(vehicleType)} Car Registrations in Singapore`,
-    description: `Overview and registration statistics for ${vehicleType} cars in Singapore by vehicle type`,
+    "@type": "WebPage",
+    name: `${capitaliseWords(vehicleType)} Cars in Singapore`,
+    description: `Explore registration trends and statistics for ${vehicleType} in Singapore.`,
     url: `${SITE_URL}/cars/vehicle-types/${vehicleType}`,
-    creator: {
+    publisher: {
       "@type": "Organization",
       name: SITE_TITLE,
+      url: SITE_URL,
     },
-    // TODO: For future use
-    // distribution: [
-    //   {
-    //     "@type": "DataDownload",
-    //     encodingFormat: "image/png",
-    //     contentUrl: `${SITE_URL}/images/${type}-car-stats.png`,
-    //   },
-    // ],
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE_TITLE,
+      url: SITE_URL,
+    },
   };
 
   return (

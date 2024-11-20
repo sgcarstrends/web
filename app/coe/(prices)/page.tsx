@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { API_URL, SITE_URL } from "@/config";
+import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
 import {
   type COEBiddingResult,
   type COEResult,
@@ -23,14 +23,29 @@ import type { WebPage, WithContext } from "schema-dts";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
+const title = "COE Dashboard";
+const description =
+  "Explore historical trends and bidding results for COE in Singapore.";
+
 export const generateMetadata = async (): Promise<Metadata> => {
   const pageUrl = "/coe";
 
   return {
-    title: "COE Dashboard",
-    description: "COE bidding results and historical trends",
-    openGraph: { url: pageUrl },
-    twitter: { card: "summary_large_image" },
+    title,
+    description,
+    openGraph: {
+      url: pageUrl,
+      title: "COE Dashboard",
+      description,
+      siteName: SITE_TITLE,
+      locale: "en_SG",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
     alternates: {
       canonical: pageUrl,
     },
@@ -88,12 +103,13 @@ const COEPricesPage = async (props: { searchParams: SearchParams }) => {
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "COE Dashboard",
-    description: "COE bidding results and historical trends",
-    url: `${SITE_URL}/car`,
-    author: {
+    name: title,
+    description,
+    url: `${SITE_URL}/coe`,
+    publisher: {
       "@type": "Organization",
-      name: "SGCarsTrends",
+      name: SITE_TITLE,
+      url: SITE_URL,
     },
   };
 

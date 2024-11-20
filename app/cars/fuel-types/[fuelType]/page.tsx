@@ -16,7 +16,7 @@ import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
 import { mergeCarsByMake } from "@/utils/mergeCarsByMake";
 import type { Metadata } from "next";
-import type { Dataset, WithContext } from "schema-dts";
+import type { WebPage, WithContext } from "schema-dts";
 
 type Params = Promise<{ fuelType: string }>;
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
@@ -34,20 +34,30 @@ export const generateMetadata = async (props: {
     const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
     month = latestMonth.cars;
   }
+
+  const title = `${capitaliseWords(fuelType)} Cars in Singapore`;
+  const description = `Explore registration trends and statistics for ${fuelType} in Singapore.`;
   const images = `${SITE_URL}/api/og?type=${fuelType}&month=${month}`;
   const pageUrl = `/cars/fuel-types/${fuelType}`;
 
   return {
-    title: capitaliseWords(fuelType),
-    description: `Car registration trends for ${fuelType} fuel type`,
+    title,
+    description,
     openGraph: {
+      title,
+      description,
       images,
       url: pageUrl,
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
     },
-    twitter: { images, creator: "@sgcarstrends" },
+    twitter: {
+      title,
+      description,
+      images,
+      creator: "@sgcarstrends",
+    },
     alternates: {
       canonical: pageUrl,
     },
@@ -81,24 +91,22 @@ const CarsByFuelTypePage = async (props: {
 
   const filteredCars = mergeCarsByMake(cars);
 
-  const structuredData: WithContext<Dataset> = {
+  const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
-    "@type": "Dataset",
-    name: `${capitaliseWords(fuelType)} Car Registrations in Singapore`,
-    description: `Overview and registration statistics for ${fuelType} cars in Singapore by make`,
+    "@type": "WebPage",
+    name: `${capitaliseWords(fuelType)} Car in Singapore`,
+    description: `Explore registration trends and statistics for ${fuelType} in Singapore.`,
     url: `${SITE_URL}/cars/fuel-types/${fuelType}`,
-    creator: {
+    publisher: {
       "@type": "Organization",
       name: SITE_TITLE,
+      url: SITE_URL,
     },
-    // TODO: For future use
-    // distribution: [
-    //   {
-    //     "@type": "DataDownload",
-    //     encodingFormat: "image/png",
-    //     contentUrl: `${SITE_URL}/images/${type}-car-stats.png`,
-    //   },
-    // ],
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE_TITLE,
+      url: SITE_URL,
+    },
   };
 
   return (
