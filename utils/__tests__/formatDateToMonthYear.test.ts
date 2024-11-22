@@ -1,4 +1,4 @@
-import { formatDateToMonthYear } from "../utils/formatDateToMonthYear";
+import { formatDateToMonthYear } from "../formatDateToMonthYear";
 
 describe("formatDateToMonthYear", () => {
   it("should return the formatted dates correctly", () => {
