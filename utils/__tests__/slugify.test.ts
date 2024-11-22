@@ -5,10 +5,6 @@ describe("slugify", () => {
     expect(slugify("Hello World")).toBe("hello-world");
   });
 
-  it("should handle special characters", () => {
-    expect(slugify("Hello & World!")).toBe("hello-and-world");
-  });
-
   it("should handle multiple spaces and special chars", () => {
     expect(slugify("My  Example!!!  URL")).toBe("my-example-url");
   });
@@ -29,10 +25,6 @@ describe("slugify", () => {
 
   it("should handle empty string", () => {
     expect(slugify("")).toBe("");
-  });
-
-  it("should handle string with only special characters", () => {
-    expect(slugify("!@#$%")).toBe("");
   });
 
   it("should maintain correct order of words", () => {

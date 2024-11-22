@@ -6,10 +6,10 @@
  */
 export const slugify = (str: string): string => {
   return str
+    .trim()
     .toLowerCase()
     .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replace(/[\W_]+/g, "-");
 };
 
 /**
@@ -20,9 +20,9 @@ export const slugify = (str: string): string => {
  */
 export const deslugify = (slug: string): string => {
   return slug
-    .replace(/-+/g, "-")
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ")
+    .trim()
+    .toLowerCase()
+    .replace(/-+/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase())
     .trim();
 };
