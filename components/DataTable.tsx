@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { CARS } from "@/constants";
 import { formatPercent } from "@/utils/formatPercent";
+import { slugify } from "@/utils/slugify";
 import type { Car } from "@/types";
 
 interface Props {
@@ -47,7 +48,7 @@ export const DataTable = ({ data }: Props) => {
           data.map(({ make, number }, index) => (
             <TableRow key={make}>
               <TableCell>
-                <Link href={`/cars/makes/${make}`}>{make}</Link>
+                <Link href={`/cars/makes/${slugify(make)}`}>{make}</Link>
               </TableCell>
               <TableCell>{number}</TableCell>
               <TableCell>

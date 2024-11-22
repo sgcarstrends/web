@@ -141,7 +141,7 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                               <span className="font-medium">
-                                {deslugify(make)}
+                                {deslugify(make).toUpperCase()}
                               </span>
                               <ChevronRight className="h-4 w-4 text-primary opacity-0 transition-opacity group-hover:opacity-100" />
                             </div>
