@@ -1,6 +1,8 @@
+import Breadcrumbs from "@/app/@breadcrumbs/[...slug]/page";
 import { TrendChart } from "@/app/cars/makes/[make]/TrendChart";
 import { columns } from "@/app/cars/makes/[make]/columns";
 import { MakeSelector } from "@/app/components/MakeSelector";
+import { EmptyData } from "@/components/EmptyData";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import {
@@ -15,6 +17,7 @@ import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
 import { type Car, type Make, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
+import { deslugify, slugify } from "@/utils/slugify";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
@@ -24,14 +27,15 @@ export const generateMetadata = async (props: {
   params: Params;
 }): Promise<Metadata> => {
   const params = await props.params;
-  let { make } = params;
-  make = decodeURIComponent(make);
-  const description = `Historical trends and monthly breakdown of ${make} cars by fuel and vehicle types in Singapore.`;
+  const { make } = params;
+
+  const formattedMake = deslugify(make).toUpperCase();
+  const description = `Historical trends and monthly breakdown of ${formattedMake} cars by fuel and vehicle types in Singapore.`;
   const images = `/api/og?title=Historical Trend&make=${make}`;
   const canonicalUrl = `/cars/makes/${make}`;
 
   return {
-    title: make,
+    title: formattedMake,
     description,
     openGraph: {
       images,
@@ -54,7 +58,7 @@ export const generateStaticParams = async () => {
   const makes = await fetchApi<Make[]>(`${API_URL}/make`, {
     next: { tags: [RevalidateTags.Cars] },
   });
-  return makes.map((make) => ({ make }));
+  return makes.map((make) => ({ make: slugify(make) }));
 };
 
 const CarMakePage = async (props: { params: Params }) => {
@@ -62,7 +66,7 @@ const CarMakePage = async (props: { params: Params }) => {
   const { make } = params;
 
   const [cars, makes]: [Car[], Make[]] = await Promise.all([
-    await fetchApi<Car[]>(`${API_URL}/make/${make}`, {
+    await fetchApi<Car[]>(`${API_URL}/make/${slugify(make)}`, {
       next: { tags: [RevalidateTags.Cars] },
     }),
     await fetchApi<Make[]>(`${API_URL}/cars/makes`, {
@@ -72,7 +76,7 @@ const CarMakePage = async (props: { params: Params }) => {
 
   const filteredCars = mergeCarData(cars);
 
-  const formattedMake = decodeURIComponent(make);
+  const formattedMake = deslugify(make).toUpperCase();
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -86,12 +90,16 @@ const CarMakePage = async (props: { params: Params }) => {
     },
   };
 
+  if (cars.length === 0) {
+    return <EmptyData />;
+  }
+
   return (
-    <section>
+    <>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-y-8">
+      <div className="flex flex-col gap-4">
         <div className="flex flex-col justify-between gap-2 lg:flex-row">
-          <Typography.H1>{decodeURIComponent(make)}</Typography.H1>
+          <Typography.H1>{formattedMake}</Typography.H1>
           <MakeSelector makes={makes} selectedMake={make} />
         </div>
         <Card>
@@ -115,7 +123,7 @@ const CarMakePage = async (props: { params: Params }) => {
           </CardContent>
         </Card>
       </div>
-    </section>
+    </>
   );
 };
 
