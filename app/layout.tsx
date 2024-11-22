@@ -68,7 +68,7 @@ const RootLayout = async ({
           </main>
         </SidebarProvider>
         {/*<Footer />*/}
-        <Analytics />
+        {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
       <Script
         defer
