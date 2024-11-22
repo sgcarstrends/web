@@ -62,7 +62,11 @@ export const AppSidebar = () => {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
+            <SidebarMenuButton
+              asChild
+              size="lg"
+              onClick={() => setOpenMobile(false)}
+            >
               <Link href="/">
                 <div className="flex flex-col gap-0.5 leading-none">
                   <BrandLogo />
@@ -77,7 +81,11 @@ export const AppSidebar = () => {
           <SidebarGroupLabel>Cars</SidebarGroupLabel>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname === "/cars"}>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === "/cars"}
+                onClick={() => setOpenMobile(false)}
+              >
                 <Link href="/cars">
                   <Gauge />
                   <span>Monthly Registrations</span>
@@ -127,7 +135,11 @@ export const AppSidebar = () => {
           <SidebarMenu>
             {data.coe.map(({ items, ...item }) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild isActive={item.url === pathname}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={item.url === pathname}
+                  onClick={() => setOpenMobile(false)}
+                >
                   <Link href={item.url}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
@@ -139,6 +151,7 @@ export const AppSidebar = () => {
                       <SidebarMenuSubButton
                         asChild
                         isActive={subItem.url === pathname}
+                        onClick={() => setOpenMobile(false)}
                       >
                         <Link href={subItem.url}>
                           {subItem.icon && <subItem.icon />}
