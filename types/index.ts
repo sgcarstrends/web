@@ -1,7 +1,7 @@
 import { FUEL_TYPE } from "@/config";
 import type { LucideIcon } from "lucide-react";
 
-export type VEHICLE_TYPE =
+export type VehicleType =
   | "Coupe/ Convertible"
   | "Hatchback"
   | "Multi-purpose Vehicle"
@@ -16,7 +16,7 @@ export interface Car {
   make: string;
   importer_type?: string;
   fuel_type: FUEL_TYPE;
-  vehicle_type: VEHICLE_TYPE;
+  vehicle_type: VehicleType;
   number: number;
   selected?: boolean;
 }

@@ -1,4 +1,4 @@
-import type { VEHICLE_TYPE } from "@/types";
+import type { VehicleType } from "@/types";
 
 export const CARS = {
   TABLE: {
@@ -21,7 +21,7 @@ export const MAKE = {
   },
 };
 
-export const VEHICLE_TYPE_MAP: Record<string, string> = {
+export const VEHICLE_TYPE_MAP: Partial<Record<VehicleType, string>> = {
   "Multi-purpose Vehicle": "MPV",
   "Multi-purpose Vehicle/Station-wagon": "MPV",
   "Sports Utility Vehicle": "SUV",

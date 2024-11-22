@@ -1,7 +1,7 @@
 import { Battery, Droplet, Fuel, Zap } from "lucide-react";
 import { VEHICLE_TYPE_MAP } from "@/constants";
 import { slugify } from "@/utils/slugify";
-import type { APP_ENV, LinkItem } from "@/types";
+import type { AppEnv, LinkItem, VehicleType } from "@/types";
 
 export const DOMAIN_NAME = "sgcarstrends.com";
 const API_VERSION = "v1";
@@ -84,11 +84,14 @@ export const VEHICLE_TYPE_LINKS: LinkItem[] = [
   { label: "Sports Utility Vehicle" },
   { label: "Coupe/Convertible" },
 ]
-  .map((link) => ({
-    ...link,
-    label: VEHICLE_TYPE_MAP[link.label] || link.label,
-    href: `/cars/vehicle-types/${slugify(link.label)}`,
-  }))
+  .map((link) => {
+    const label = link.label as VehicleType;
+    return {
+      ...link,
+      label: VEHICLE_TYPE_MAP[label] || label,
+      href: `/cars/vehicle-types/${slugify(link.label)}`,
+    };
+  })
   .sort((a, b) => a.label.localeCompare(b.label));
 
 export const COE_LINKS: LinkItem[] = [
