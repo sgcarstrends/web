@@ -1,4 +1,3 @@
-import Breadcrumbs from "@/app/@breadcrumbs/[...slug]/page";
 import { TrendChart } from "@/app/cars/makes/[make]/TrendChart";
 import { columns } from "@/app/cars/makes/[make]/columns";
 import { MakeSelector } from "@/app/components/MakeSelector";
