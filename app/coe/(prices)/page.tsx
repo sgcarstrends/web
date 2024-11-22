@@ -116,8 +116,10 @@ const COEPricesPage = async (props: { searchParams: SearchParams }) => {
   return (
     <>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-y-4">
-        <Typography.H1>COE RESULTS</Typography.H1>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col justify-between gap-2 lg:flex-row">
+          <Typography.H1>COE RESULTS</Typography.H1>
+        </div>
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
           <div className="xl:col-span-8">
             <COEPremiumChart data={data} months={months} />

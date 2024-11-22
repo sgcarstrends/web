@@ -115,11 +115,11 @@ const CarsByFuelTypePage = async (props: {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
-          <div className="flex items-end gap-2">
+        <div className="flex flex-col justify-between gap-2 xl:flex-row">
+          <div className="flex items-start">
             <Typography.H1>{deslugify(fuelType).toUpperCase()}</Typography.H1>
           </div>
-          <div className="lg:justify-self-end">
+          <div className="items-end">
             <Suspense fallback={null}>
               <MonthSelector months={months} />
             </Suspense>
