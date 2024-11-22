@@ -1,5 +1,7 @@
 import { Battery, Droplet, Fuel, Zap } from "lucide-react";
-import type { AppEnv, LinkItem } from "@/types";
+import { VEHICLE_TYPE_MAP } from "@/constants";
+import { slugify } from "@/utils/slugify";
+import type { APP_ENV, LinkItem } from "@/types";
 
 export const DOMAIN_NAME = "sgcarstrends.com";
 const API_VERSION = "v1";
@@ -50,55 +52,44 @@ export const FUEL_TYPE_LINKS: LinkItem[] = [
   {
     label: "Petrol",
     description: "Internal Combustion Engine (ICE) vehicles",
-    href: "/cars/fuel-types/petrol",
     icon: Fuel,
   },
   {
     label: "Hybrid",
     description: "Includes Petrol, Diesel and Plug-In types",
-    href: "/cars/fuel-types/hybrid",
     icon: Zap,
   },
   {
     label: "Electric",
     description: "Battery Electric Vehicles (BEV)",
-    href: "/cars/fuel-types/electric",
     icon: Battery,
   },
   {
     label: "Diesel",
     description: "Compression-ignition engine vehicles",
-    href: "/cars/fuel-types/diesel",
     icon: Droplet,
   },
-].sort((a, b) => a.label.localeCompare(b.label));
+]
+  .map((link) => ({
+    ...link,
+    href: `/cars/fuel-types/${slugify(link.label)}`,
+  }))
+  .sort((a, b) => a.label.localeCompare(b.label));
 
 export const VEHICLE_TYPE_LINKS: LinkItem[] = [
-  {
-    label: "Hatchback",
-    href: "/cars/vehicle-types/hatchback",
-  },
-  {
-    label: "Sedan",
-    href: "/cars/vehicle-types/sedan",
-  },
-  {
-    label: "Multi-purpose Vehicle",
-    href: "/cars/vehicle-types/multi-purpose vehicle",
-  },
-  {
-    label: "Station-wagon",
-    href: "/cars/vehicle-types/station-wagon",
-  },
-  {
-    label: "Sports Utility Vehicle",
-    href: "/cars/vehicle-types/sports utility vehicle",
-  },
-  {
-    label: "Coupe/Convertible",
-    href: `/cars/vehicle-types/${encodeURIComponent("coupe/convertible")}`,
-  },
-].sort((a, b) => a.label.localeCompare(b.label));
+  { label: "Hatchback" },
+  { label: "Sedan" },
+  { label: "Multi-purpose Vehicle" },
+  { label: "Station-wagon" },
+  { label: "Sports Utility Vehicle" },
+  { label: "Coupe/Convertible" },
+]
+  .map((link) => ({
+    ...link,
+    label: VEHICLE_TYPE_MAP[link.label] || link.label,
+    href: `/cars/vehicle-types/${slugify(link.label)}`,
+  }))
+  .sort((a, b) => a.label.localeCompare(b.label));
 
 export const COE_LINKS: LinkItem[] = [
   { href: "/coe", label: "Dashboard" },
