@@ -33,6 +33,7 @@ import {
   SidebarMenuSubItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { VEHICLE_TYPE_MAP } from "@/constants";
 import { slugify } from "@/utils/slugify";
 
 type NavItem = {
@@ -246,7 +247,13 @@ const data: Nav = {
           title: "Coupe/Convertible",
           url: `/cars/vehicle-types/${slugify("coupe/convertible")}`,
         },
-      ],
+      ].map((item) => {
+        const { title } = item;
+        return {
+          ...item,
+          title: VEHICLE_TYPE_MAP[title] || title,
+        };
+      }),
     },
   ],
   coe: [

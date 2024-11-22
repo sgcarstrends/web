@@ -7,6 +7,7 @@ import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { API_URL, HYBRID_REGEX, SITE_TITLE, SITE_URL } from "@/config";
+import { VEHICLE_TYPE_MAP } from "@/constants";
 import {
   type Car,
   type LatestMonth,
@@ -19,12 +20,6 @@ import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
-
-// const VEHICLE_TYPE_MAP: Partial<Record<VEHICLE_TYPE, string>> = {
-//   "Multi-purpose Vehicle": "MPV",
-//   "Multi-purpose Vehicle/Station-wagon": "MPV",
-//   "Sports Utility Vehicle": "SUV",
-// };
 
 export const generateMetadata = async (props: {
   searchParams: SearchParams;
@@ -89,11 +84,15 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
   }
 
   cars = cars.map((car) => {
-    const { fuel_type } = car;
+    const { fuel_type, vehicle_type } = car;
 
     if (HYBRID_REGEX.test(fuel_type)) {
       Object.assign(car, { fuel_type: "Hybrid" });
     }
+
+    Object.assign(car, {
+      vehicle_type: VEHICLE_TYPE_MAP[vehicle_type] || vehicle_type,
+    });
 
     return car;
   });

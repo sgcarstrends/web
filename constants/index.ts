@@ -1,3 +1,5 @@
+import type { VEHICLE_TYPE } from "@/types";
+
 export const CARS = {
   TABLE: {
     HEADERS: {
@@ -17,4 +19,10 @@ export const MAKE = {
       COUNT: "Count",
     },
   },
+};
+
+export const VEHICLE_TYPE_MAP: Record<string, string> = {
+  "Multi-purpose Vehicle": "MPV",
+  "Multi-purpose Vehicle/Station-wagon": "MPV",
+  "Sports Utility Vehicle": "SUV",
 };
