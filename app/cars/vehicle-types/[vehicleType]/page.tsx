@@ -106,13 +106,13 @@ const CarsByVehicleTypePage = async (props: {
   };
 
   return (
-    <section>
+    <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
         <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
           <div className="flex items-end gap-2">
-            <Typography.H1 className="uppercase">
-              {capitaliseWords(decodeURIComponent(vehicleType))}
+            <Typography.H1>
+              {deslugify(vehicleType).toUpperCase()}
             </Typography.H1>
           </div>
           <div className="lg:justify-self-end">
@@ -123,7 +123,7 @@ const CarsByVehicleTypePage = async (props: {
         </div>
         <CarOverviewTrends cars={filteredCars} />
       </div>
-    </section>
+    </>
   );
 };
 

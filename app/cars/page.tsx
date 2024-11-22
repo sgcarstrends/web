@@ -146,7 +146,7 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
       <div className="flex flex-col gap-4">
         <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
           <div className="flex items-end gap-2">
-            <Typography.H1>Car Registrations</Typography.H1>
+            <Typography.H1>CAR REGISTRATIONS</Typography.H1>
           </div>
           <div className="lg:justify-self-end">
             <Suspense fallback={null}>
