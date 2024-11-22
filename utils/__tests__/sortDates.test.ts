@@ -1,4 +1,4 @@
-import { sortAscendingDates, sortDescendingDates } from "../utils/sortDates";
+import { sortAscendingDates, sortDescendingDates } from "../sortDates";
 
 describe("sortDates", () => {
   const testDates = [

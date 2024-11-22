@@ -8,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { deslugify } from "@/utils/slugify";
 
 type Params = Promise<{ slug: string[] }>;
 
@@ -21,18 +22,24 @@ const BREADCRUMB_MAP: Record<string, string> = {
   coe: "COE",
 };
 
-const capitaliseWords = (text: string): string =>
-  text
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+const generateBreadcrumbs = (slug: string[]): BreadcrumbItem[] => {
+  return slug.map((segment, index) => {
+    const isMakesPage = slug[index - 1] === "makes";
 
-const generateBreadcrumbs = (slug: string[]): BreadcrumbItem[] =>
-  slug.map((segment, index) => ({
-    href: `/${slug.slice(0, index + 1).join("/")}`,
-    label: BREADCRUMB_MAP[segment] ?? capitaliseWords(segment),
-    isLastItem: index === slug.length - 1,
-  }));
+    let label = deslugify(segment);
+    if (BREADCRUMB_MAP[segment]) {
+      label = BREADCRUMB_MAP[segment];
+    } else if (isMakesPage) {
+      label = label.toUpperCase();
+    }
+
+    return {
+      href: `/${slug.slice(0, index + 1).join("/")}`,
+      label,
+      isLastItem: index === slug.length - 1,
+    };
+  });
+};
 
 const Breadcrumbs = async (props: { params: Params }) => {
   const params = await props.params;
