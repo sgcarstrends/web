@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
+import { deslugify, slugify } from "@/utils/slugify";
 import type { Car } from "@/types";
 
 interface Category {
@@ -133,13 +134,15 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
                     return (
                       <Link
                         key={make}
-                        href={`/cars/makes/${make}`}
+                        href={`/cars/makes/${slugify(make)}`}
                         className="group block w-full rounded-lg p-2 transition-colors hover:bg-gray-50"
                       >
                         <div className="space-y-2">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <span className="font-medium">{make}</span>
+                              <span className="font-medium">
+                                {deslugify(make)}
+                              </span>
                               <ChevronRight className="h-4 w-4 text-primary opacity-0 transition-opacity group-hover:opacity-100" />
                             </div>
                             <span className="text-gray-600">{number}</span>

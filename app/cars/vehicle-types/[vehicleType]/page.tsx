@@ -15,6 +15,7 @@ import {
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
 import { mergeCarsByMake } from "@/utils/mergeCarsByMake";
+import { deslugify, slugify } from "@/utils/slugify";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
@@ -25,14 +26,15 @@ export const generateMetadata = async (props: {
   params: Params;
 }): Promise<Metadata> => {
   const params = await props.params;
-  let { vehicleType } = params;
-  vehicleType = decodeURIComponent(vehicleType);
+  const { vehicleType } = params;
+
+  const formattedVehicleType = deslugify(vehicleType);
   const images = `/api/og?title=Historical Trend&type=${vehicleType}`;
   const canonicalUrl = `/cars/vehicle-types/${vehicleType}`;
 
   return {
-    title: `${capitaliseWords(vehicleType)} Cars in Singapore`,
-    description: `Explore registration trends and statistics for ${vehicleType} cars in Singapore.`,
+    title: `${formattedVehicleType} Cars in Singapore`,
+    description: `Explore registration trends and statistics for ${formattedVehicleType} cars in Singapore.`,
     openGraph: {
       images,
       url: canonicalUrl,
@@ -60,7 +62,7 @@ const vehicleTypes = [
 ];
 
 export const generateStaticParams = () =>
-  vehicleTypes.map((vehicleType) => ({ vehicleType }));
+  vehicleTypes.map((vehicleType) => ({ vehicleType: slugify(vehicleType) }));
 
 const CarsByVehicleTypePage = async (props: {
   params: Params;
@@ -84,11 +86,12 @@ const CarsByVehicleTypePage = async (props: {
 
   const filteredCars = mergeCarsByMake(cars);
 
+  const formattedVehicleType = deslugify(vehicleType);
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: `${capitaliseWords(vehicleType)} Cars in Singapore`,
-    description: `Explore registration trends and statistics for ${vehicleType} cars in Singapore.`,
+    name: `${formattedVehicleType} Cars in Singapore`,
+    description: `Explore registration trends and statistics for ${formattedVehicleType} cars in Singapore.`,
     url: `${SITE_URL}/cars/vehicle-types/${vehicleType}`,
     publisher: {
       "@type": "Organization",

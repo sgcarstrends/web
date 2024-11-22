@@ -15,6 +15,7 @@ import {
 import { capitaliseWords } from "@/utils/capitaliseWords";
 import { fetchApi } from "@/utils/fetchApi";
 import { mergeCarsByMake } from "@/utils/mergeCarsByMake";
+import { deslugify, slugify } from "@/utils/slugify";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
@@ -35,8 +36,9 @@ export const generateMetadata = async (props: {
     month = latestMonth.cars;
   }
 
-  const title = `${capitaliseWords(fuelType)} Cars in Singapore`;
-  const description = `Explore registration trends and statistics for ${fuelType} cars in Singapore.`;
+  const formattedFuelType = deslugify(fuelType);
+  const title = `${formattedFuelType} Cars in Singapore`;
+  const description = `Explore registration trends and statistics for ${formattedFuelType} cars in Singapore.`;
   const images = `${SITE_URL}/api/og?type=${fuelType}&month=${month}`;
   const pageUrl = `/cars/fuel-types/${fuelType}`;
 
@@ -67,7 +69,7 @@ export const generateMetadata = async (props: {
 const fuelTypes = ["petrol", "hybrid", "electric", "diesel"];
 
 export const generateStaticParams = () =>
-  fuelTypes.map((fuelType) => ({ fuelType }));
+  fuelTypes.map((fuelType) => ({ fuelType: slugify(fuelType) }));
 
 const CarsByFuelTypePage = async (props: {
   params: Params;
@@ -91,11 +93,12 @@ const CarsByFuelTypePage = async (props: {
 
   const filteredCars = mergeCarsByMake(cars);
 
+  const formattedFuelType = deslugify(fuelType);
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: `${capitaliseWords(fuelType)} Car in Singapore`,
-    description: `Explore registration trends and statistics for ${fuelType} cars in Singapore.`,
+    name: `${formattedFuelType} Car in Singapore`,
+    description: `Explore registration trends and statistics for ${formattedFuelType} cars in Singapore.`,
     url: `${SITE_URL}/cars/fuel-types/${fuelType}`,
     publisher: {
       "@type": "Organization",
@@ -110,7 +113,7 @@ const CarsByFuelTypePage = async (props: {
   };
 
   return (
-    <section>
+    <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
         <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
@@ -127,7 +130,7 @@ const CarsByFuelTypePage = async (props: {
         </div>
         <CarOverviewTrends cars={filteredCars} />
       </div>
-    </section>
+    </>
   );
 };
 

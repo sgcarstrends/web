@@ -1,4 +1,4 @@
-import { formatOrdinal } from "../utils/formatOrdinal";
+import { formatOrdinal } from "../formatOrdinal";
 
 describe("formatOrdinal", () => {
   it("should format basic ordinals correctly", () => {

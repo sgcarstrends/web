@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/table";
 import { FUEL_TYPE } from "@/config";
 import { formatPercent } from "@/utils/formatPercent";
+import { slugify } from "@/utils/slugify";
 
 export const StatisticsCard = ({
   title,
@@ -42,9 +43,7 @@ export const StatisticsCard = ({
   const searchParams = useSearchParams();
 
   const handleRowClick = (type: string) => {
-    router.push(
-      `/cars/${linkPrefix}/${encodeURIComponent(type.toLowerCase())}?${searchParams}`,
-    );
+    router.push(`/cars/${linkPrefix}/${slugify(type)}?${searchParams}`);
   };
 
   const getBadgeVariant = (value: number) => {

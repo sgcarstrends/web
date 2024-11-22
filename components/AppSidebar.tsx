@@ -33,6 +33,7 @@ import {
   SidebarMenuSubItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { slugify } from "@/utils/slugify";
 
 type NavItem = {
   title: string;
@@ -231,7 +232,7 @@ const data: Nav = {
         },
         {
           title: "Multi-purpose Vehicle",
-          url: `/cars/vehicle-types/${encodeURIComponent("multi-purpose vehicle")}`,
+          url: `/cars/vehicle-types/${slugify("multi-purpose vehicle")}`,
         },
         {
           title: "Station-wagon",
@@ -239,11 +240,11 @@ const data: Nav = {
         },
         {
           title: "Sports Utility Vehicle",
-          url: `/cars/vehicle-types/${encodeURIComponent("sports utility vehicle")}`,
+          url: `/cars/vehicle-types/${slugify("sports utility vehicle")}`,
         },
         {
           title: "Coupe/Convertible",
-          url: `/cars/vehicle-types/${encodeURIComponent("coupe/convertible")}`,
+          url: `/cars/vehicle-types/${slugify("coupe/convertible")}`,
         },
       ],
     },
