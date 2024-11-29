@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight } from "lucide-react";
-import { DistributionPieChart } from "@/app/cars/DistributionPieChart";
+import { DistributionPieChart } from "@/app/(dashboard)/cars/DistributionPieChart";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
