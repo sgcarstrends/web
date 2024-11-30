@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { Leaderboard } from "@/components/Leaderboard";
 import { MonthSelector } from "@/components/MonthSelector";
@@ -91,7 +90,7 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
     }
 
     Object.assign(car, {
-      vehicle_type: VEHICLE_TYPE_MAP[vehicle_type] || vehicle_type,
+      vehicle_type: VEHICLE_TYPE_MAP[vehicle_type] ?? vehicle_type,
     });
 
     return car;
@@ -158,78 +157,76 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
           </Typography.H3>
         )}
         {cars.length > 0 && (
-          <>
-            <div className="flex flex-col gap-y-4">
-              <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Total Registrations</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-4xl font-bold text-primary">{total}</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Top Fuel Type</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-2xl font-bold text-green-600">
-                      {topFuelType} ({topFuelTypeValue})
-                    </p>
-                    <p className="text-gray-600">Highest adoption rate</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Top Vehicle Type</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-2xl font-bold text-pink-600">
-                      {topVehicleType} ({topVehicleTypeValue})
-                    </p>
-                    <p className="text-gray-600">Highest adoption rate</p>
-                  </CardContent>
-                </Card>
-                {/*<UnreleasedFeature>*/}
-                {/*  <Card>*/}
-                {/*    <CardHeader>*/}
-                {/*      <CardTitle>Trend</CardTitle>*/}
-                {/*    </CardHeader>*/}
-                {/*    <CardContent>*/}
-                {/*      <p className="text-2xl font-bold text-orange-600">*/}
-                {/*        Electric*/}
-                {/*      </p>*/}
-                {/*      <p className="text-gray-600">*/}
-                {/*        Steady increase in registrations*/}
-                {/*      </p>*/}
-                {/*    </CardContent>*/}
-                {/*  </Card>*/}
-                {/*</UnreleasedFeature>*/}
+          <div className="flex flex-col gap-y-4">
+            <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Total Registrations</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-4xl font-bold text-primary">{total}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Top Fuel Type</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold text-green-600">
+                    {topFuelType} ({topFuelTypeValue})
+                  </p>
+                  <p className="text-gray-600">Highest adoption rate</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Top Vehicle Type</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold text-pink-600">
+                    {topVehicleType} ({topVehicleTypeValue})
+                  </p>
+                  <p className="text-gray-600">Highest adoption rate</p>
+                </CardContent>
+              </Card>
+              {/*<UnreleasedFeature>*/}
+              {/*  <Card>*/}
+              {/*    <CardHeader>*/}
+              {/*      <CardTitle>Trend</CardTitle>*/}
+              {/*    </CardHeader>*/}
+              {/*    <CardContent>*/}
+              {/*      <p className="text-2xl font-bold text-orange-600">*/}
+              {/*        Electric*/}
+              {/*      </p>*/}
+              {/*      <p className="text-gray-600">*/}
+              {/*        Steady increase in registrations*/}
+              {/*      </p>*/}
+              {/*    </CardContent>*/}
+              {/*  </Card>*/}
+              {/*</UnreleasedFeature>*/}
+            </div>
+            <div className="grid gap-4 xl:grid-cols-12">
+              <div className="grid grid-cols-1 gap-4 xl:col-span-6">
+                <StatisticsCard
+                  title="By Fuel Type"
+                  description="Distribution of vehicles based on fuel type"
+                  data={numberByFuelType}
+                  total={total}
+                  linkPrefix="fuel-types"
+                />
+                <StatisticsCard
+                  title="By Vehicle Type"
+                  description="Distribution of vehicles based on vehicle type"
+                  data={numberByVehicleType}
+                  total={total}
+                  linkPrefix="vehicle-types"
+                />
               </div>
-              <div className="grid gap-4 xl:grid-cols-12">
-                <div className="grid grid-cols-1 gap-4 xl:col-span-6">
-                  <StatisticsCard
-                    title="By Fuel Type"
-                    description="Distribution of vehicles based on fuel type"
-                    data={numberByFuelType}
-                    total={total}
-                    linkPrefix="fuel-types"
-                  />
-                  <StatisticsCard
-                    title="By Vehicle Type"
-                    description="Distribution of vehicles based on vehicle type"
-                    data={numberByVehicleType}
-                    total={total}
-                    linkPrefix="vehicle-types"
-                  />
-                </div>
-                <div className="grid grid-cols-1 gap-4 xl:col-span-6">
-                  <Leaderboard cars={cars} />
-                </div>
+              <div className="grid grid-cols-1 gap-4 xl:col-span-6">
+                <Leaderboard cars={cars} />
               </div>
             </div>
-          </>
+          </div>
         )}
       </div>
     </>
