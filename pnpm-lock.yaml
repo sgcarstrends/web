@@ -11,6 +11,9 @@ importers:
       '@heroicons/react':
         specifier: ^2.1.1
         version: 2.1.1(react@19.0.0-rc.1)
+      '@icons-pack/react-simple-icons':
+        specifier: ^10.2.0
+        version: 10.2.0(react@19.0.0-rc.1)
       '@mdi/js':
         specifier: ^7.3.67
         version: 7.4.47
@@ -1197,6 +1200,11 @@ packages:
     peerDependenciesMeta:
       '@vue/compiler-sfc':
         optional: true
+
+  '@icons-pack/react-simple-icons@10.2.0':
+    resolution: {integrity: sha512-QDUxup8D3GdIIzwGpxQs6bjeFV5mJes25qqf4aqP/PaBYQNCar7AiyD8C14636TosCG0A/QqAUwm/Hviep4d4g==}
+    peerDependencies:
+      react: ^16.13 || ^17 || ^18 || ^19
 
   '@img/sharp-darwin-arm64@0.33.5':
     resolution: {integrity: sha512-UT4p+iz/2H4twwAoLCqfA9UH5pI6DggwKEGuaPy7nCVQ8ZsiY5PIcrRvD1DzuY3qYL07NtIQcWnBSY/heikIFQ==}
@@ -6214,6 +6222,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
     optional: true
+
+  '@icons-pack/react-simple-icons@10.2.0(react@19.0.0-rc.1)':
+    dependencies:
+      react: 19.0.0-rc.1
 
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:

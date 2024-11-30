@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.1",
+    "@icons-pack/react-simple-icons": "^10.2.0",
     "@mdi/js": "^7.3.67",
     "@mdi/react": "^1.6.1",
     "@neondatabase/serverless": "^0.9.4",
