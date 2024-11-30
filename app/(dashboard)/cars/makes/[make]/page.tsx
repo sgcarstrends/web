@@ -1,5 +1,5 @@
-import { TrendChart } from "@/app/cars/makes/[make]/TrendChart";
-import { columns } from "@/app/cars/makes/[make]/columns";
+import { TrendChart } from "@/app/(dashboard)/cars/makes/[make]/TrendChart";
+import { columns } from "@/app/(dashboard)/cars/makes/[make]/columns";
 import { MakeSelector } from "@/app/components/MakeSelector";
 import { EmptyData } from "@/components/EmptyData";
 import { StructuredData } from "@/components/StructuredData";

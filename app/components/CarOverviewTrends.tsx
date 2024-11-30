@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { TrendChart } from "@/app/cars/fuel-types/[fuelType]/TrendChart";
+import { TrendChart } from "@/app/(dashboard)/cars/fuel-types/[fuelType]/TrendChart";
 import { DataTable } from "@/components/DataTable";
 import {
   Card,

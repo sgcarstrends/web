@@ -50,7 +50,7 @@ const Breadcrumbs = async (props: { params: Params }) => {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href="/">Home</Link>
+            <Link href="/public">Home</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         {breadcrumbs.map(({ isLastItem, href, label }) => (

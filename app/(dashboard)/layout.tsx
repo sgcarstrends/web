@@ -3,14 +3,14 @@ import { Inter } from "next/font/google";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import classNames from "classnames";
+import { Analytics } from "@/app/components/Analytics";
 import { Announcement } from "@/app/components/Announcement";
 // import { Footer } from "@/app/components/Footer";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Header } from "@/components/Header";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
-import "./globals.css";
-import { Analytics } from "./components/Analytics";
+import "../globals.css";
 import type { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });

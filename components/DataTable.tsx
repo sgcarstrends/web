@@ -48,7 +48,9 @@ export const DataTable = ({ data }: Props) => {
           data.map(({ make, number }, index) => (
             <TableRow key={make}>
               <TableCell>
-                <Link href={`/cars/makes/${slugify(make)}`}>{make}</Link>
+                <Link href={`/app/(dashboard)/cars/makes/${slugify(make)}`}>
+                  {make}
+                </Link>
               </TableCell>
               <TableCell>{number}</TableCell>
               <TableCell>
