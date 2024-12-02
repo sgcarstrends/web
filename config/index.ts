@@ -17,14 +17,6 @@ const DEFAULT_API_URL = `https://api.${DOMAIN_NAME}`;
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? DEFAULT_API_URL;
 export const API_URL = `${API_BASE_URL}/${API_VERSION}`;
 
-/**
- * List of make to be excluded from the dataset because they are usually part of the following:
- * - BlueSG (BLUECAR)
- * - Private Hire Cars (PHC)
- */
-export const EXCLUSION_LIST: string[] = ["BLUECAR"];
-export const POPULAR_MAKES_THRESHOLD: number = 8;
-
 export enum FUEL_TYPE {
   DIESEL = "Diesel",
   ELECTRIC = "Electric",
@@ -34,7 +26,7 @@ export enum FUEL_TYPE {
 
 export const HYBRID_REGEX = /^(Diesel|Petrol)-(Electric)(\s\(Plug-In\))?$/;
 
-export const ANNOUNCEMENT = "";
+export const ANNOUNCEMENT = null;
 
 // export const ANNOUNCEMENT =
 //   "🌟 Big Updates Ahead! Our website is getting an upgrade with awesome new features rolling out soon. Stay tuned!";

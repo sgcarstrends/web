@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { deslugify, slugify } from "@/utils/slugify";
 import type { Car } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 
@@ -25,9 +26,11 @@ export const columns: ColumnDef<Car>[] = [
     accessorKey: "fuel_type",
     header: "Fuel Type",
     cell: ({ row }) => {
-      const type = row.getValue("fuel_type") as string;
+      const type: string = row.getValue("fuel_type");
       return (
-        <Link href={`/cars/fuel-types/${type.toLowerCase()}`}>{type}</Link>
+        <Link href={`/cars/fuel-types/${slugify(type)}`}>
+          {deslugify(type)}
+        </Link>
       );
     },
   },
@@ -35,9 +38,11 @@ export const columns: ColumnDef<Car>[] = [
     accessorKey: "vehicle_type",
     header: "Vehicle Type",
     cell: ({ row }) => {
-      const type = row.getValue("vehicle_type") as string;
+      const type: string = row.getValue("vehicle_type");
       return (
-        <Link href={`/cars/vehicle-types/${type.toLowerCase()}`}>{type}</Link>
+        <Link href={`/cars/vehicle-types/${slugify(type)}`}>
+          {deslugify(type)}
+        </Link>
       );
     },
   },
