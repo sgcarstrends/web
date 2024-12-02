@@ -36,10 +36,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
+    site: "@sgcarstrends",
     creator: "@sgcarstrends",
   },
-  authors: [{ name: "Ru Chern CHONG", url: "https://ruchern.xyz" }],
-  creator: "Ru Chern CHONG",
 };
 
 const RootLayout = async ({

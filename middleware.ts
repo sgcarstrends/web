@@ -44,6 +44,8 @@ export const middleware = (request: NextRequest) => {
     cspHeader.replace(/\s{2,}/g, " ").trim(),
   );
 
+  requestHeaders.set("X-Robots-Tag", "all");
+
   return NextResponse.next({
     headers: requestHeaders,
     request: {
