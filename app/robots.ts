@@ -3,7 +3,7 @@ import { AppEnv } from "@/types";
 import type { MetadataRoute } from "next";
 
 const robots = (): MetadataRoute.Robots => {
-  const protectedPaths = ["api/", "_next/", "static/"];
+  const protectedPaths = ["/api/", "/public", "/_next/", "/static/"];
 
   let rules: MetadataRoute.Robots["rules"];
   switch (APP_ENV) {
