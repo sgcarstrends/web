@@ -3,6 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  type IconType,
+  SiBluesky,
+  SiFacebook,
+  SiGithub,
+  SiInstagram,
+  SiLinkedin,
+  SiX,
+} from "@icons-pack/react-simple-icons";
+import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
@@ -12,14 +21,9 @@ import {
   ChevronRight,
   DollarSign,
   Droplet,
-  Facebook,
   Fuel,
   Gauge,
-  Github,
-  Instagram,
-  Linkedin,
   type LucideIcon,
-  Twitter,
   Zap,
 } from "lucide-react";
 
@@ -43,9 +47,11 @@ import { VEHICLE_TYPE_MAP } from "@/constants";
 import { slugify } from "@/utils/slugify";
 import type { VehicleType } from "@/types";
 
+type Icon = LucideIcon | IconType;
+
 type NavItem = {
   title: string;
-  icon?: LucideIcon;
+  icon?: Icon;
   url: string;
   isActive?: boolean;
   items?: NavSubItem[];
@@ -53,7 +59,7 @@ type NavItem = {
 
 type NavSubItem = {
   title: string;
-  icon?: LucideIcon;
+  icon?: Icon;
   url: string;
 };
 
@@ -276,27 +282,32 @@ const data: Nav = {
     {
       title: "Facebook",
       url: "https://facebook.com/sgcarstrends",
-      icon: Facebook,
+      icon: SiFacebook,
     },
     {
       title: "Twitter",
       url: "https://twitter.com/sgcarstrends",
-      icon: Twitter,
+      icon: SiX,
     },
     {
       title: "Instagram",
       url: "https://instagram.com/sgcarstrends",
-      icon: Instagram,
+      icon: SiInstagram,
     },
     {
       title: "LinkedIn",
       url: "https://linkedin.com/company/sgcarstrends",
-      icon: Linkedin,
+      icon: SiLinkedin,
     },
     {
       title: "GitHub",
       url: "https://github.com/sgcarstrends",
-      icon: Github,
+      icon: SiGithub,
+    },
+    {
+      title: "Bluesky",
+      url: "https://bsky.app/profile/sgcarstrends",
+      icon: SiBluesky,
     },
   ].sort((a, b) => a.title.localeCompare(b.title)),
 };

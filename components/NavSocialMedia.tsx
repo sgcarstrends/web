@@ -1,6 +1,4 @@
-import * as React from "react";
-import { type LucideIcon } from "lucide-react";
-
+import type { ComponentPropsWithoutRef } from "react";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -8,6 +6,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import type { IconType } from "@icons-pack/react-simple-icons";
 
 export const NavSocialMedia = ({
   items,
@@ -16,18 +15,18 @@ export const NavSocialMedia = ({
   items: {
     title: string;
     url: string;
-    icon?: LucideIcon;
+    icon?: IconType;
   }[];
-} & React.ComponentPropsWithoutRef<typeof SidebarGroup>) => (
+} & ComponentPropsWithoutRef<typeof SidebarGroup>) => (
   <SidebarGroup {...props}>
     <SidebarGroupContent>
       <SidebarMenu>
-        {items.map((item) => (
-          <SidebarMenuItem key={item.title}>
+        {items.map(({ title, url, icon: Icon }) => (
+          <SidebarMenuItem key={title}>
             <SidebarMenuButton asChild size="sm">
-              <a href={item.url} target="_blank">
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
+              <a href={url} rel="me noreferrer" target="_blank">
+                {Icon && <Icon title="" />}
+                <span>{title}</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
