@@ -49,30 +49,28 @@ export const MonthSelector = ({ months }: Props) => {
   );
 
   return (
-    <div>
-      <Select value={selectedMonth} onValueChange={handleValueChange}>
-        <SelectTrigger>
-          <SelectValue placeholder="Select Month" />
-        </SelectTrigger>
-        <SelectContent>
-          {sortedMonths.map(([year, months]) => (
-            <SelectGroup key={year}>
-              <SelectLabel>{year}</SelectLabel>
-              {months.slice().map((month) => {
-                const date = `${year}-${month}`;
-                return (
-                  <SelectItem key={month} value={date}>
-                    <div className="flex items-center">
-                      <Calendar className="mr-2 h-4 w-4" />
-                      {formatDateToMonthYear(date)}
-                    </div>
-                  </SelectItem>
-                );
-              })}
-            </SelectGroup>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
+    <Select value={selectedMonth} onValueChange={handleValueChange}>
+      <SelectTrigger>
+        <SelectValue placeholder="Select Month" />
+      </SelectTrigger>
+      <SelectContent>
+        {sortedMonths.map(([year, months]) => (
+          <SelectGroup key={year}>
+            <SelectLabel>{year}</SelectLabel>
+            {months.slice().map((month) => {
+              const date = `${year}-${month}`;
+              return (
+                <SelectItem key={month} value={date}>
+                  <div className="flex items-center">
+                    <Calendar className="mr-2 h-4 w-4" />
+                    {formatDateToMonthYear(date)}
+                  </div>
+                </SelectItem>
+              );
+            })}
+          </SelectGroup>
+        ))}
+      </SelectContent>
+    </Select>
   );
 };

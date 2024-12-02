@@ -23,7 +23,7 @@ import type { WebPage, WithContext } from "schema-dts";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
-const title = "COE Dashboard";
+const title = "COE Result";
 const description =
   "Explore historical trends and bidding results for COE in Singapore.";
 
@@ -117,7 +117,7 @@ const COEPricesPage = async (props: { searchParams: SearchParams }) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-y-4">
-        <Typography.H1>COE Results</Typography.H1>
+        <Typography.H1>COE Result</Typography.H1>
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
           <div className="xl:col-span-8">
             <COEPremiumChart data={data} months={months} />
