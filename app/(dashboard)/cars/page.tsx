@@ -40,20 +40,21 @@ export const generateMetadata = async (props: {
   // const images = `/api/og?title=Car Registrations for ${formattedMonth}`;
 
   return {
+    metadataBase: new URL(SITE_URL),
     title,
     description,
     openGraph: {
-      title,
-      description,
+      images: "/opengraph-image.png",
       url: pageUrl,
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
     },
     twitter: {
-      title,
-      description,
       card: "summary_large_image",
+      images: "/opengraph-image.png",
+      site: "@sgcarstrends",
+      creator: "@sgcarstrends",
     },
     alternates: {
       canonical: pageUrl,

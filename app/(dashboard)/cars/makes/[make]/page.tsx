@@ -30,21 +30,24 @@ export const generateMetadata = async (props: {
 
   const formattedMake = deslugify(make).toUpperCase();
   const description = `Historical trends and monthly breakdown of ${formattedMake} cars by fuel and vehicle types in Singapore.`;
-  const images = `/api/og?title=Historical Trend&make=${make}`;
+  // const images = `/api/og?title=Historical Trend&make=${make}`;
   const canonicalUrl = `/cars/makes/${make}`;
 
   return {
+    metadataBase: new URL(SITE_URL),
     title: formattedMake,
     description,
     openGraph: {
-      images,
+      images: "/opengraph-image.png",
       url: canonicalUrl,
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
     },
     twitter: {
-      images,
+      card: "summary_large_image",
+      images: "/opengraph-image.png",
+      site: "@sgcarstrends",
       creator: "@sgcarstrends",
     },
     alternates: {

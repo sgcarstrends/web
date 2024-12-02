@@ -27,21 +27,24 @@ export const generateMetadata = async (props: {
   const { vehicleType } = params;
 
   const formattedVehicleType = deslugify(vehicleType);
-  const images = `/api/og?title=Historical Trend&type=${vehicleType}`;
+  // const images = `/api/og?title=Historical Trend&type=${vehicleType}`;
   const canonicalUrl = `/cars/vehicle-types/${vehicleType}`;
 
   return {
+    metadataBase: new URL(SITE_URL),
     title: `${formattedVehicleType} Cars in Singapore`,
     description: `Explore registration trends and statistics for ${formattedVehicleType} cars in Singapore.`,
     openGraph: {
-      images,
+      images: "/opengraph-image.png",
       url: canonicalUrl,
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
     },
     twitter: {
-      images,
+      card: "summary_large_image",
+      images: "/opengraph-image.png",
+      site: "@sgcarstrends",
       creator: "@sgcarstrends",
     },
     alternates: {

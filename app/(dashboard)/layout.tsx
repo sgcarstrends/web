@@ -27,6 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
+    images: "/opengraph-image.png",
     url,
     siteName: title,
     locale: "en_SG",
@@ -36,6 +37,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
+    images: "/opengraph-image.png",
     site: "@sgcarstrends",
     creator: "@sgcarstrends",
   },
