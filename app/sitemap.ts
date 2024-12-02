@@ -8,11 +8,11 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const makes = await fetchApi<Make[]>(`${API_URL}/make`);
 
   return [
-    {
-      url: SITE_URL,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-    },
+    // {
+    //   url: SITE_URL,
+    //   lastModified: new Date(),
+    //   changeFrequency: "monthly" as const,
+    // },
     {
       url: `${SITE_URL}/cars`,
       lastModified: new Date(),

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   type IconType,
   SiBluesky,
@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 
 import { BrandLogo } from "@/components/BrandLogo";
+import { LinkWithParams } from "@/components/LinkWithParams";
 import { NavSocialMedia } from "@/components/NavSocialMedia";
 import {
   Sidebar,
@@ -69,8 +70,6 @@ type Nav = {
 
 export const AppSidebar = () => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   const { setOpenMobile } = useSidebar();
 
   return (
@@ -132,15 +131,10 @@ export const AppSidebar = () => {
                             isActive={subItem.url === pathname}
                             onClick={() => setOpenMobile(false)}
                           >
-                            <Link
-                              href={{
-                                pathname: subItem.url,
-                                query: searchParams.toString(),
-                              }}
-                            >
+                            <LinkWithParams href={subItem.url}>
                               {subItem.icon && <subItem.icon />}
                               <span>{subItem.title}</span>
-                            </Link>
+                            </LinkWithParams>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       ))}
