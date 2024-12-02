@@ -132,27 +132,29 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
                     const indicatorColour = `[&>*]:${colour.replace("text", "bg")}`;
 
                     return (
-                      <Link
+                      <div
                         key={make}
-                        href={`/app/(dashboard)/cars/makes/${slugify(make)}`}
                         className="group block w-full rounded-lg p-2 transition-colors hover:bg-gray-50"
                       >
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <span className="font-medium">
-                                {deslugify(make).toUpperCase()}
-                              </span>
-                              <ChevronRight className="h-4 w-4 text-primary opacity-0 transition-opacity group-hover:opacity-100" />
+                        <div className="flex items-center gap-4">
+                          <Link
+                            href={`/cars/makes/${slugify(make)}`}
+                            className="flex grow items-center gap-2"
+                          >
+                            <div className="flex grow flex-col gap-2">
+                              <div className="flex items-center gap-2">
+                                <span>{deslugify(make).toUpperCase()}</span>
+                                <ChevronRight className="h-4 w-4 text-primary opacity-0 transition-opacity group-hover:opacity-100" />
+                              </div>
+                              <Progress
+                                value={(number / maxValue) * 100}
+                                className={cn("h-2", indicatorColour)}
+                              />
                             </div>
-                            <span className="text-gray-600">{number}</span>
-                          </div>
-                          <Progress
-                            value={(number / maxValue) * 100}
-                            className={cn("h-2", indicatorColour)}
-                          />
+                          </Link>
+                          <span className="text-gray-600">{number}</span>
                         </div>
-                      </Link>
+                      </div>
                     );
                   })}
                 </div>
