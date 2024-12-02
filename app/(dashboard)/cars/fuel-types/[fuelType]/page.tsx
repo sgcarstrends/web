@@ -26,19 +26,11 @@ export const generateMetadata = async (props: {
   searchParams: SearchParams;
 }): Promise<Metadata> => {
   const params = await props.params;
-  const searchParams = await props.searchParams;
   const { fuelType } = params;
-  let month = searchParams?.month;
-
-  if (!month) {
-    const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
-    month = latestMonth.cars;
-  }
 
   const formattedFuelType = deslugify(fuelType);
   const title = `${formattedFuelType} Cars in Singapore`;
   const description = `Explore registration trends and statistics for ${formattedFuelType} cars in Singapore.`;
-  // const images = `/api/og?type=${fuelType}&month=${month}`;
   const pageUrl = `/cars/fuel-types/${fuelType}`;
 
   return {
