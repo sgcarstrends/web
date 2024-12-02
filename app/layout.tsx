@@ -21,10 +21,7 @@ const url = new URL(SITE_URL);
 
 export const metadata: Metadata = {
   metadataBase: url,
-  title: {
-    default: title,
-    template: `%s | ${title}`,
-  },
+  title,
   description,
   robots: { index: true, follow: true },
   openGraph: {
