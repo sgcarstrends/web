@@ -4,13 +4,16 @@ import type { MetadataRoute } from "next";
 
 const robots = (): MetadataRoute.Robots => {
   // Set the default rule
-  let rules: MetadataRoute.Robots["rules"] = { userAgent: "*" };
+  let rules: MetadataRoute.Robots["rules"];
 
   // Allow or disallow indexing based on app environment
   if (APP_ENV === AppEnv.PROD) {
-    rules = { ...rules, allow: "/" };
+    rules = { userAgent: "*", allow: "/" };
   } else {
-    rules = { ...rules, disallow: "/" };
+    rules = [
+      { userAgent: "*", disallow: "/" },
+      { userAgent: "AhrefsSiteAudit", allow: "/" },
+    ];
   }
 
   return {
