@@ -3,17 +3,29 @@ import { AppEnv } from "@/types";
 import type { MetadataRoute } from "next";
 
 const robots = (): MetadataRoute.Robots => {
-  // Set the default rule
-  let rules: MetadataRoute.Robots["rules"];
+  const protectedPaths = ["api/", "_next/", "static/"];
 
-  // Allow or disallow indexing based on app environment
-  if (APP_ENV === AppEnv.PROD) {
-    rules = { userAgent: "*", allow: "/" };
-  } else {
-    rules = [
-      { userAgent: "*", disallow: "/" },
-      { userAgent: "AhrefsSiteAudit", allow: "/" },
-    ];
+  let rules: MetadataRoute.Robots["rules"];
+  switch (APP_ENV) {
+    case AppEnv.PROD:
+      rules = [
+        { userAgent: "*", allow: "/" },
+        { userAgent: "*", disallow: protectedPaths },
+      ];
+      break;
+
+    case AppEnv.STAGING:
+    case AppEnv.DEV:
+    default:
+      rules = [
+        { userAgent: "*", disallow: "/" },
+        {
+          userAgent: "AhrefsSiteAudit",
+          allow: "/",
+          disallow: protectedPaths,
+        },
+      ];
+      break;
   }
 
   return {
