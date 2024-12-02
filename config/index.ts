@@ -88,14 +88,14 @@ export const VEHICLE_TYPE_LINKS: LinkItem[] = [
     const label = link.label as VehicleType;
     return {
       ...link,
-      label: VEHICLE_TYPE_MAP[label] || label,
+      label: VEHICLE_TYPE_MAP[label] ?? label,
       href: `/cars/vehicle-types/${slugify(link.label)}`,
     };
   })
   .sort((a, b) => a.label.localeCompare(b.label));
 
 export const COE_LINKS: LinkItem[] = [
-  { href: "/coe", label: "Dashboard" },
+  { href: "/coe", label: "COE Result" },
   // { href: "/coe/prices", label: "COE Prices" },
   // { href: "/coe/bidding", label: "COE Bidding" },
 ];

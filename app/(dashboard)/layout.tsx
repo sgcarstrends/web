@@ -5,7 +5,6 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import classNames from "classnames";
 import { Analytics } from "@/app/components/Analytics";
 import { Announcement } from "@/app/components/Announcement";
-// import { Footer } from "@/app/components/Footer";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Header } from "@/components/Header";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -58,7 +57,7 @@ const RootLayout = async ({
         {ANNOUNCEMENT && <Announcement>{ANNOUNCEMENT}</Announcement>}
         <SidebarProvider>
           <AppSidebar />
-          <main className="w-full">
+          <main className="w-full bg-gray-50">
             <Header breadcrumbs={breadcrumbs}>
               <SidebarTrigger />
             </Header>

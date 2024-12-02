@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   type IconType,
   SiBluesky,
@@ -69,6 +69,8 @@ type Nav = {
 
 export const AppSidebar = () => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const { setOpenMobile } = useSidebar();
 
   return (
@@ -130,7 +132,12 @@ export const AppSidebar = () => {
                             isActive={subItem.url === pathname}
                             onClick={() => setOpenMobile(false)}
                           >
-                            <Link href={subItem.url}>
+                            <Link
+                              href={{
+                                pathname: subItem.url,
+                                query: searchParams.toString(),
+                              }}
+                            >
                               {subItem.icon && <subItem.icon />}
                               <span>{subItem.title}</span>
                             </Link>
@@ -252,7 +259,7 @@ const data: Nav = {
         const title = item.title as VehicleType;
         return {
           ...item,
-          title: VEHICLE_TYPE_MAP[title] || title,
+          title: VEHICLE_TYPE_MAP[title] ?? title,
           url: `/cars/vehicle-types/${slugify(title)}`,
         };
       }),
