@@ -31,13 +31,13 @@ export const generateMetadata = async (props: {
     month = latestMonth.cars;
   }
 
-  const formattedDate = formatDateToMonthYear(month);
+  const formattedMonth = formatDateToMonthYear(month);
 
-  const title = "Car Registrations";
-  const description = `Breakdown of cars registered in ${formattedDate} by fuel types and vehicle types.`;
+  const title = `${formattedMonth} Car Registrations in Singapore`;
+  const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
   const pageUrl = `/cars`;
 
-  // const images = `/api/og?title=Car Registrations for ${formattedDate}`;
+  // const images = `/api/og?title=Car Registrations for ${formattedMonth}`;
 
   return {
     title,
@@ -129,7 +129,7 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: `${formattedMonth} Car Registrations in Singapore`,
-    description: `Breakdown of the cars registered in ${formattedMonth} by fuel type and vehicle type.`,
+    description: `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`,
     url: `${SITE_URL}/cars`,
     publisher: {
       "@type": "Organization",
@@ -142,11 +142,12 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col justify-between gap-2 xl:flex-row">
-          <div className="flex items-start">
-            <Typography.H1>CAR REGISTRATIONS</Typography.H1>
+        <div className="flex flex-col justify-between gap-2 md:flex-row md:items-center">
+          <div className="space-y-2">
+            <Typography.H1 className="grow">CAR REGISTRATIONS</Typography.H1>
+            <Typography.H2>{formattedMonth.toUpperCase()} STATS</Typography.H2>
           </div>
-          <div className="items-end">
+          <div className="shrink">
             <MonthSelector months={months} />
           </div>
         </div>
