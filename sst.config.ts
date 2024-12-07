@@ -35,6 +35,7 @@ export default $config({
       },
       server: {
         architecture: "arm64",
+        memory: "10240 MB",
       },
     });
   },
