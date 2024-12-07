@@ -31,7 +31,7 @@ export const generateMetadata = async (props: {
   const { make } = params;
 
   const formattedMake = deslugify(make).toUpperCase();
-  const title = `${formattedMake} Cars Overview: Registration Trends - ${SITE_TITLE}`;
+  const title = `${formattedMake} Cars Overview: Registration Trends`;
   const description = `${formattedMake} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
   // const images = `/api/og?title=Historical Trend&make=${make}`;
   const canonical = `/cars/makes/${make}`;
@@ -82,7 +82,7 @@ const CarMakePage = async (props: { params: Params }) => {
 
   const formattedMake = deslugify(make).toUpperCase();
 
-  const title = `${formattedMake} Cars Overview: Registration Trends - ${SITE_TITLE}`;
+  const title = `${formattedMake} Cars Overview: Registration Trends`;
   const description = `${formattedMake} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
