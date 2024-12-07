@@ -14,15 +14,15 @@ import type { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const title: string = SITE_TITLE;
+const title = SITE_TITLE;
 const description: string = `Statistics for car trends in Singapore. Data provided by Land Transport Authority (LTA)`;
 const url = new URL(SITE_URL);
 
 export const metadata: Metadata = {
   metadataBase: url,
   title: {
-    template: `%s - ${SITE_TITLE}`,
-    default: SITE_TITLE,
+    template: `%s - ${title}`,
+    default: title,
   },
   description,
   robots: { index: true, follow: true },
