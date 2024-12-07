@@ -25,31 +25,30 @@ type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 const title = "COE Result";
 const description =
-  "Explore historical trends and bidding results for COE in Singapore.";
+  "Explore historical Certificate of Entitlement (COE) price trends and bidding results for car registrations in Singapore.";
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const pageUrl = "/coe";
+  const canonical = "/coe";
   // const images = "/api/og?title=COE Result";
 
   return {
-    metadataBase: new URL(SITE_URL),
     title,
     description,
     openGraph: {
-      images: "/opengraph-image.png",
-      url: pageUrl,
+      images: `${SITE_URL}/opengraph-image.png`,
+      url: canonical,
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      images: "/opengraph-image.png",
+      images: `${SITE_URL}/twitter-image.png`,
       site: "@sgcarstrends",
       creator: "@sgcarstrends",
     },
     alternates: {
-      canonical: pageUrl,
+      canonical,
     },
   };
 };

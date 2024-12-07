@@ -31,28 +31,29 @@ export const generateMetadata = async (props: {
   const { vehicleType } = params;
 
   const formattedVehicleType = deslugify(vehicleType);
+  const title = `${formattedVehicleType} Cars in Singapore`;
+  const description = `${formattedVehicleType} cars registrations by month. Explore registration trends, statistics and distribution by vehicle type for the month in Singapore.`;
   // const images = `/api/og?title=Historical Trend&type=${vehicleType}`;
-  const canonicalUrl = `/cars/vehicle-types/${vehicleType}`;
+  const canonical = `/cars/vehicle-types/${vehicleType}`;
 
   return {
-    metadataBase: new URL(SITE_URL),
-    title: `${formattedVehicleType} Cars in Singapore`,
-    description: `Explore registration trends and statistics for ${formattedVehicleType} cars in Singapore.`,
+    title,
+    description,
     openGraph: {
-      images: "/opengraph-image.png",
-      url: canonicalUrl,
+      images: `${SITE_URL}/opengraph-image.png`,
+      url: canonical,
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      images: "/opengraph-image.png",
+      images: `${SITE_URL}/twitter-image.png`,
       site: "@sgcarstrends",
       creator: "@sgcarstrends",
     },
     alternates: {
-      canonical: canonicalUrl,
+      canonical,
     },
   };
 };
@@ -92,11 +93,14 @@ const CarsByVehicleTypePage = async (props: {
   const filteredCars = mergeCarsByMake(cars);
 
   const formattedVehicleType = deslugify(vehicleType);
+
+  const title = `${formattedVehicleType} Cars in Singapore`;
+  const description = `${formattedVehicleType} cars registrations by month. Explore registration trends, statistics and distribution by vehicle type for the month in Singapore.`;
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: `${formattedVehicleType} Cars in Singapore`,
-    description: `Explore registration trends and statistics for ${formattedVehicleType} cars in Singapore.`,
+    name: title,
+    description,
     url: `${SITE_URL}/cars/vehicle-types/${vehicleType}`,
     publisher: {
       "@type": "Organization",

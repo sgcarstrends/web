@@ -33,18 +33,17 @@ export const generateMetadata = async (props: {
 
   const formattedFuelType = deslugify(fuelType);
   const title = `${formattedFuelType} Cars in Singapore`;
-  const description = `Explore registration trends and statistics for ${formattedFuelType} cars in Singapore.`;
-  const pageUrl = `/cars/fuel-types/${fuelType}`;
+  const description = `${formattedFuelType} cars registrations by month. Explore registration trends, statistics and distribution by fuel type for the month in Singapore.`;
+  const canonical = `/cars/fuel-types/${fuelType}`;
 
   return {
-    metadataBase: new URL(SITE_URL),
     title,
     description,
     openGraph: {
       title,
       description,
-      images: "/opengraph-image.png",
-      url: pageUrl,
+      images: `${SITE_URL}/opengraph-image.png`,
+      url: canonical,
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
@@ -53,12 +52,12 @@ export const generateMetadata = async (props: {
       card: "summary_large_image",
       title,
       description,
-      images: "/opengraph-image.png",
+      images: `${SITE_URL}/twitter-image.png`,
       site: "@sgcarstrends",
       creator: "@sgcarstrends",
     },
     alternates: {
-      canonical: pageUrl,
+      canonical,
     },
   };
 };
@@ -91,11 +90,14 @@ const CarsByFuelTypePage = async (props: {
   const filteredCars = mergeCarsByMake(cars);
 
   const formattedFuelType = deslugify(fuelType);
+
+  const title = `${formattedFuelType} Cars in Singapore`;
+  const description = `${formattedFuelType} cars overview. Explore registration trends, statistics and distribution by fuel type for the month in Singapore.`;
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: `${formattedFuelType} Car in Singapore`,
-    description: `Explore registration trends and statistics for ${formattedFuelType} cars in Singapore.`,
+    name: title,
+    description,
     url: `${SITE_URL}/cars/fuel-types/${fuelType}`,
     publisher: {
       "@type": "Organization",
