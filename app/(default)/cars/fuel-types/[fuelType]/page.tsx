@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { fetchMonths } from "@/app/(dashboard)/cars/utils/fetchMonths";
+import { fetchMonths } from "@/app/(default)/cars/utils/fetchMonths";
 import { EmptyData } from "@/components/EmptyData";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
@@ -16,7 +16,7 @@ import { deslugify, slugify } from "@/utils/slugify";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
-type Params = Promise<{ vehicleType: string }>;
+type Params = Promise<{ fuelType: string }>;
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 const CarOverviewTrends = dynamic(
@@ -26,62 +26,60 @@ const MonthSelector = dynamic(() => import("@/components/MonthSelector"));
 
 export const generateMetadata = async (props: {
   params: Params;
+  searchParams: SearchParams;
 }): Promise<Metadata> => {
   const params = await props.params;
-  const { vehicleType } = params;
+  const { fuelType } = params;
 
-  const formattedVehicleType = deslugify(vehicleType);
-  // const images = `/api/og?title=Historical Trend&type=${vehicleType}`;
-  const canonicalUrl = `/cars/vehicle-types/${vehicleType}`;
+  const formattedFuelType = deslugify(fuelType);
+  const title = `${formattedFuelType} Cars in Singapore`;
+  const description = `${formattedFuelType} cars registrations by month. Explore registration trends, statistics and distribution by fuel type for the month in Singapore.`;
+  const canonical = `/cars/fuel-types/${fuelType}`;
 
   return {
-    metadataBase: new URL(SITE_URL),
-    title: `${formattedVehicleType} Cars in Singapore`,
-    description: `Explore registration trends and statistics for ${formattedVehicleType} cars in Singapore.`,
+    title,
+    description,
     openGraph: {
-      images: "/opengraph-image.png",
-      url: canonicalUrl,
+      title,
+      description,
+      images: `${SITE_URL}/opengraph-image.png`,
+      url: canonical,
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      images: "/opengraph-image.png",
+      title,
+      description,
+      images: `${SITE_URL}/twitter-image.png`,
       site: "@sgcarstrends",
       creator: "@sgcarstrends",
     },
     alternates: {
-      canonical: canonicalUrl,
+      canonical,
     },
   };
 };
 
-const vehicleTypes = [
-  "hatchback",
-  "sedan",
-  "multi-purpose vehicle",
-  "station-wagon",
-  "sports utility vehicle",
-  "coupe/convertible",
-];
+const fuelTypes = ["petrol", "hybrid", "electric", "diesel"];
 
 export const generateStaticParams = () =>
-  vehicleTypes.map((vehicleType) => ({ vehicleType: slugify(vehicleType) }));
+  fuelTypes.map((fuelType) => ({ fuelType: slugify(fuelType) }));
 
-const CarsByVehicleTypePage = async (props: {
+const CarsByFuelTypePage = async (props: {
   params: Params;
   searchParams: SearchParams;
 }) => {
   const params = await props.params;
   const searchParams = await props.searchParams;
-  const { vehicleType } = params;
+  const { fuelType } = params;
 
   const [months, latestMonth]: [Month[], LatestMonth] = await fetchMonths();
 
   const month = searchParams?.month ?? latestMonth.cars;
   const cars = await fetchApi<Car[]>(
-    `${API_URL}/cars?vehicle_type=${vehicleType}&month=${month}`,
+    `${API_URL}/cars?fuel_type=${fuelType}&month=${month}`,
     { next: { tags: [RevalidateTags.Cars] } },
   );
 
@@ -91,13 +89,16 @@ const CarsByVehicleTypePage = async (props: {
 
   const filteredCars = mergeCarsByMake(cars);
 
-  const formattedVehicleType = deslugify(vehicleType);
+  const formattedFuelType = deslugify(fuelType);
+
+  const title = `${formattedFuelType} Cars in Singapore`;
+  const description = `${formattedFuelType} cars overview. Explore registration trends, statistics and distribution by fuel type for the month in Singapore.`;
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: `${formattedVehicleType} Cars in Singapore`,
-    description: `Explore registration trends and statistics for ${formattedVehicleType} cars in Singapore.`,
-    url: `${SITE_URL}/cars/vehicle-types/${vehicleType}`,
+    name: title,
+    description,
+    url: `${SITE_URL}/cars/fuel-types/${fuelType}`,
     publisher: {
       "@type": "Organization",
       name: SITE_TITLE,
@@ -116,9 +117,7 @@ const CarsByVehicleTypePage = async (props: {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col justify-between gap-2 xl:flex-row">
           <div className="flex items-start">
-            <Typography.H1>
-              {deslugify(vehicleType).toUpperCase()}
-            </Typography.H1>
+            <Typography.H1>{deslugify(fuelType).toUpperCase()}</Typography.H1>
           </div>
           <div className="items-end">
             <MonthSelector months={months} />
@@ -130,4 +129,4 @@ const CarsByVehicleTypePage = async (props: {
   );
 };
 
-export default CarsByVehicleTypePage;
+export default CarsByFuelTypePage;

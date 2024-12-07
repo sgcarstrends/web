@@ -20,13 +20,16 @@ const url = new URL(SITE_URL);
 
 export const metadata: Metadata = {
   metadataBase: url,
-  title,
+  title: {
+    template: `%s - ${SITE_TITLE}`,
+    default: SITE_TITLE,
+  },
   description,
   robots: { index: true, follow: true },
   openGraph: {
     title,
     description,
-    images: "/opengraph-image.png",
+    images: `${SITE_URL}/opengraph-image.png`,
     url,
     siteName: title,
     locale: "en_SG",
@@ -36,7 +39,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    images: "/opengraph-image.png",
+    images: `${SITE_URL}/twitter-image.png`,
     site: "@sgcarstrends",
     creator: "@sgcarstrends",
   },

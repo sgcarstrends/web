@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { columns } from "@/app/(dashboard)/cars/makes/[make]/columns";
+import { columns } from "@/app/(default)/cars/makes/[make]/columns";
 import { MakeSelector } from "@/app/components/MakeSelector";
 import { EmptyData } from "@/components/EmptyData";
 import { StructuredData } from "@/components/StructuredData";
@@ -31,29 +31,29 @@ export const generateMetadata = async (props: {
   const { make } = params;
 
   const formattedMake = deslugify(make).toUpperCase();
-  const description = `Historical trends and monthly breakdown of ${formattedMake} cars by fuel and vehicle types in Singapore.`;
+  const title = `${formattedMake} Cars Overview`;
+  const description = `${formattedMake} cars overview. Historical car registrations trends and monthly breakdown by fuel and vehicle types in Singapore.`;
   // const images = `/api/og?title=Historical Trend&make=${make}`;
-  const canonicalUrl = `/cars/makes/${make}`;
+  const canonical = `/cars/makes/${make}`;
 
   return {
-    metadataBase: new URL(SITE_URL),
-    title: formattedMake,
+    title,
     description,
     openGraph: {
-      images: "/opengraph-image.png",
-      url: canonicalUrl,
+      images: `${SITE_URL}/opengraph-image.png`,
+      url: canonical,
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      images: "/opengraph-image.png",
+      images: `${SITE_URL}/twitter-image.png`,
       site: "@sgcarstrends",
       creator: "@sgcarstrends",
     },
     alternates: {
-      canonical: canonicalUrl,
+      canonical,
     },
   };
 };
@@ -81,11 +81,14 @@ const CarMakePage = async (props: { params: Params }) => {
   const filteredCars = mergeCarData(cars);
 
   const formattedMake = deslugify(make).toUpperCase();
+
+  const title = `${formattedMake} Cars Overview`;
+  const description = `${formattedMake} cars overview. Historical car registrations trends and monthly breakdown by fuel and vehicle types in Singapore.`;
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: `${formattedMake} Car Registrations in Singapore`,
-    description: `Historical trends and monthly breakdown of ${formattedMake} cars by fuel and vehicle types in Singapore.`,
+    name: title,
+    description,
     url: `${SITE_URL}/cars/makes/${make}`,
     publisher: {
       "@type": "Organization",

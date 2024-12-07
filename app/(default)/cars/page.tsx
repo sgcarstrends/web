@@ -33,31 +33,30 @@ export const generateMetadata = async (props: {
 
   const formattedMonth = formatDateToMonthYear(month);
 
-  const title = `${formattedMonth} Car Registrations in Singapore`;
+  const title = "Car Registrations in Singapore";
   const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
-  const pageUrl = `/cars`;
+  const canonical = `/cars`;
 
   // const images = `/api/og?title=Car Registrations for ${formattedMonth}`;
 
   return {
-    metadataBase: new URL(SITE_URL),
     title,
     description,
     openGraph: {
-      images: "/opengraph-image.png",
-      url: pageUrl,
+      images: `${SITE_URL}/opengraph-image.png`,
+      url: canonical,
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      images: "/opengraph-image.png",
+      images: `${SITE_URL}/twitter-image.png`,
       site: "@sgcarstrends",
       creator: "@sgcarstrends",
     },
     alternates: {
-      canonical: pageUrl,
+      canonical,
     },
   };
 };
@@ -126,11 +125,14 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
     findTopEntry(numberByVehicleType);
 
   const formattedMonth = formatDateToMonthYear(month);
+
+  const title = "Car Registrations in Singapore";
+  const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: `${formattedMonth} Car Registrations in Singapore`,
-    description: `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`,
+    name: title,
+    description,
     url: `${SITE_URL}/cars`,
     publisher: {
       "@type": "Organization",
