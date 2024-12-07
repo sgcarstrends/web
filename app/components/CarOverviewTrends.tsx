@@ -13,7 +13,7 @@ interface Props {
 }
 
 const DataTable = dynamic(() => import("@/components/DataTable"));
-const TrendChart = dynamic(() => import("@/app/(dashboard)/cars/TrendChart"));
+const TrendChart = dynamic(() => import("@/app/(default)/cars/TrendChart"));
 
 export const CarOverviewTrends = ({ cars }: Props) => {
   const total = cars.reduce((acc, curr) => acc + curr.number, 0);

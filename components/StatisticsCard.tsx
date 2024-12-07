@@ -25,7 +25,7 @@ import { formatPercent } from "@/utils/formatPercent";
 import { slugify } from "@/utils/slugify";
 
 const DistributionPieChart = dynamic(
-  () => import("@/app/(dashboard)/cars/DistributionPieChart"),
+  () => import("@/app/(default)/cars/DistributionPieChart"),
 );
 
 export const StatisticsCard = ({

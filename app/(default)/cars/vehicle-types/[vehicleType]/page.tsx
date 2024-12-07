@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { fetchMonths } from "@/app/(dashboard)/cars/utils/fetchMonths";
+import { fetchMonths } from "@/app/(default)/cars/utils/fetchMonths";
 import { EmptyData } from "@/components/EmptyData";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
@@ -16,7 +16,7 @@ import { deslugify, slugify } from "@/utils/slugify";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
-type Params = Promise<{ fuelType: string }>;
+type Params = Promise<{ vehicleType: string }>;
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 const CarOverviewTrends = dynamic(
@@ -26,61 +26,62 @@ const MonthSelector = dynamic(() => import("@/components/MonthSelector"));
 
 export const generateMetadata = async (props: {
   params: Params;
-  searchParams: SearchParams;
 }): Promise<Metadata> => {
   const params = await props.params;
-  const { fuelType } = params;
+  const { vehicleType } = params;
 
-  const formattedFuelType = deslugify(fuelType);
-  const title = `${formattedFuelType} Cars in Singapore`;
-  const description = `Explore registration trends and statistics for ${formattedFuelType} cars in Singapore.`;
-  const pageUrl = `/cars/fuel-types/${fuelType}`;
+  const formattedVehicleType = deslugify(vehicleType);
+  // const images = `/api/og?title=Historical Trend&type=${vehicleType}`;
+  const canonicalUrl = `/cars/vehicle-types/${vehicleType}`;
 
   return {
     metadataBase: new URL(SITE_URL),
-    title,
-    description,
+    title: `${formattedVehicleType} Cars in Singapore`,
+    description: `Explore registration trends and statistics for ${formattedVehicleType} cars in Singapore.`,
     openGraph: {
-      title,
-      description,
       images: "/opengraph-image.png",
-      url: pageUrl,
+      url: canonicalUrl,
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description,
       images: "/opengraph-image.png",
       site: "@sgcarstrends",
       creator: "@sgcarstrends",
     },
     alternates: {
-      canonical: pageUrl,
+      canonical: canonicalUrl,
     },
   };
 };
 
-const fuelTypes = ["petrol", "hybrid", "electric", "diesel"];
+const vehicleTypes = [
+  "hatchback",
+  "sedan",
+  "multi-purpose vehicle",
+  "station-wagon",
+  "sports utility vehicle",
+  "coupe/convertible",
+];
 
 export const generateStaticParams = () =>
-  fuelTypes.map((fuelType) => ({ fuelType: slugify(fuelType) }));
+  vehicleTypes.map((vehicleType) => ({ vehicleType: slugify(vehicleType) }));
 
-const CarsByFuelTypePage = async (props: {
+const CarsByVehicleTypePage = async (props: {
   params: Params;
   searchParams: SearchParams;
 }) => {
   const params = await props.params;
   const searchParams = await props.searchParams;
-  const { fuelType } = params;
+  const { vehicleType } = params;
 
   const [months, latestMonth]: [Month[], LatestMonth] = await fetchMonths();
 
   const month = searchParams?.month ?? latestMonth.cars;
   const cars = await fetchApi<Car[]>(
-    `${API_URL}/cars?fuel_type=${fuelType}&month=${month}`,
+    `${API_URL}/cars?vehicle_type=${vehicleType}&month=${month}`,
     { next: { tags: [RevalidateTags.Cars] } },
   );
 
@@ -90,13 +91,13 @@ const CarsByFuelTypePage = async (props: {
 
   const filteredCars = mergeCarsByMake(cars);
 
-  const formattedFuelType = deslugify(fuelType);
+  const formattedVehicleType = deslugify(vehicleType);
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: `${formattedFuelType} Car in Singapore`,
-    description: `Explore registration trends and statistics for ${formattedFuelType} cars in Singapore.`,
-    url: `${SITE_URL}/cars/fuel-types/${fuelType}`,
+    name: `${formattedVehicleType} Cars in Singapore`,
+    description: `Explore registration trends and statistics for ${formattedVehicleType} cars in Singapore.`,
+    url: `${SITE_URL}/cars/vehicle-types/${vehicleType}`,
     publisher: {
       "@type": "Organization",
       name: SITE_TITLE,
@@ -115,7 +116,9 @@ const CarsByFuelTypePage = async (props: {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col justify-between gap-2 xl:flex-row">
           <div className="flex items-start">
-            <Typography.H1>{deslugify(fuelType).toUpperCase()}</Typography.H1>
+            <Typography.H1>
+              {deslugify(vehicleType).toUpperCase()}
+            </Typography.H1>
           </div>
           <div className="items-end">
             <MonthSelector months={months} />
@@ -127,4 +130,4 @@ const CarsByFuelTypePage = async (props: {
   );
 };
 
-export default CarsByFuelTypePage;
+export default CarsByVehicleTypePage;

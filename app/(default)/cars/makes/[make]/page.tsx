@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { columns } from "@/app/(dashboard)/cars/makes/[make]/columns";
+import { columns } from "@/app/(default)/cars/makes/[make]/columns";
 import { MakeSelector } from "@/app/components/MakeSelector";
 import { EmptyData } from "@/components/EmptyData";
 import { StructuredData } from "@/components/StructuredData";
