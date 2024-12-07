@@ -1,6 +1,4 @@
-import { Suspense } from "react";
-import { TrendChart } from "@/app/(dashboard)/cars/fuel-types/[fuelType]/TrendChart";
-import { DataTable } from "@/components/DataTable";
+import dynamic from "next/dynamic";
 import {
   Card,
   CardContent,
@@ -14,6 +12,9 @@ interface Props {
   cars: Car[];
 }
 
+const DataTable = dynamic(() => import("@/components/DataTable"));
+const TrendChart = dynamic(() => import("@/app/(dashboard)/cars/TrendChart"));
+
 export const CarOverviewTrends = ({ cars }: Props) => {
   const total = cars.reduce((acc, curr) => acc + curr.number, 0);
 
@@ -24,9 +25,7 @@ export const CarOverviewTrends = ({ cars }: Props) => {
           <CardTitle>Overview</CardTitle>
         </CardHeader>
         <CardContent>
-          <Suspense fallback={null}>
-            <TrendChart data={cars} />
-          </Suspense>
+          <TrendChart data={cars} />
         </CardContent>
       </Card>
       <Card>
@@ -43,3 +42,5 @@ export const CarOverviewTrends = ({ cars }: Props) => {
     </div>
   );
 };
+
+export default CarOverviewTrends;

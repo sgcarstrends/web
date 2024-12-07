@@ -1,7 +1,6 @@
+import dynamic from "next/dynamic";
 import { fetchMonths } from "@/app/(dashboard)/cars/utils/fetchMonths";
-import { CarOverviewTrends } from "@/app/components/CarOverviewTrends";
 import { EmptyData } from "@/components/EmptyData";
-import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
@@ -19,6 +18,11 @@ import type { WebPage, WithContext } from "schema-dts";
 
 type Params = Promise<{ vehicleType: string }>;
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
+const CarOverviewTrends = dynamic(
+  () => import("@/app/components/CarOverviewTrends"),
+);
+const MonthSelector = dynamic(() => import("@/components/MonthSelector"));
 
 export const generateMetadata = async (props: {
   params: Params;

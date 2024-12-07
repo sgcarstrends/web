@@ -66,3 +66,5 @@ export const DataTable = ({ data }: Props) => {
     </Table>
   );
 };
+
+export default DataTable;

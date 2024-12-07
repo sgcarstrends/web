@@ -1,4 +1,4 @@
-import { TrendChart } from "@/app/(dashboard)/cars/makes/[make]/TrendChart";
+import dynamic from "next/dynamic";
 import { columns } from "@/app/(dashboard)/cars/makes/[make]/columns";
 import { MakeSelector } from "@/app/components/MakeSelector";
 import { EmptyData } from "@/components/EmptyData";
@@ -21,6 +21,8 @@ import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
 type Params = Promise<{ [slug: string]: string }>;
+
+const TrendChart = dynamic(() => import("./TrendChart"));
 
 export const generateMetadata = async (props: {
   params: Params;

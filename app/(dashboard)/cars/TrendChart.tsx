@@ -36,3 +36,5 @@ export const TrendChart = ({ data }: Props) => {
     </ChartContainer>
   );
 };
+
+export default TrendChart;

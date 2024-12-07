@@ -53,3 +53,5 @@ const chartConfig = {
     label: "Count",
   },
 } satisfies ChartConfig;
+
+export default TrendChart;

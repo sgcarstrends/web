@@ -74,3 +74,5 @@ export const MonthSelector = ({ months }: Props) => {
     </Select>
   );
 };
+
+export default MonthSelector;

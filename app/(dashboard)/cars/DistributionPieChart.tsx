@@ -61,3 +61,5 @@ export const DistributionPieChart = ({ data, type }: Props) => {
     </ChartContainer>
   );
 };
+
+export default DistributionPieChart;

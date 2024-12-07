@@ -1,8 +1,8 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight } from "lucide-react";
-import { DistributionPieChart } from "@/app/(dashboard)/cars/DistributionPieChart";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -23,6 +23,10 @@ import {
 import { FUEL_TYPE } from "@/config";
 import { formatPercent } from "@/utils/formatPercent";
 import { slugify } from "@/utils/slugify";
+
+const DistributionPieChart = dynamic(
+  () => import("@/app/(dashboard)/cars/DistributionPieChart"),
+);
 
 export const StatisticsCard = ({
   title,
