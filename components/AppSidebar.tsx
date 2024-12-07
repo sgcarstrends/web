@@ -307,7 +307,7 @@ const data: Nav = {
     },
     {
       title: "Bluesky",
-      url: "https://bsky.app/profile/sgcarstrends",
+      url: "https://bsky.app/profile/sgcarstrends.com",
       icon: SiBluesky,
     },
   ].sort((a, b) => a.title.localeCompare(b.title)),
