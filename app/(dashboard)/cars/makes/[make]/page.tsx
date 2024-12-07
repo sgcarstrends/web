@@ -31,29 +31,29 @@ export const generateMetadata = async (props: {
   const { make } = params;
 
   const formattedMake = deslugify(make).toUpperCase();
-  const description = `Historical trends and monthly breakdown of ${formattedMake} cars by fuel and vehicle types in Singapore.`;
+  const title = `${formattedMake} Cars Overview: Registration Trends`;
+  const description = `${formattedMake} cars overview. Historical registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
   // const images = `/api/og?title=Historical Trend&make=${make}`;
-  const canonicalUrl = `/cars/makes/${make}`;
+  const canonical = `/cars/makes/${make}`;
 
   return {
-    metadataBase: new URL(SITE_URL),
-    title: formattedMake,
+    title,
     description,
     openGraph: {
-      images: "/opengraph-image.png",
-      url: canonicalUrl,
+      images: `${SITE_URL}/opengraph-image.png`,
+      url: canonical,
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      images: "/opengraph-image.png",
+      images: `${SITE_URL}/opengraph-image.png`,
       site: "@sgcarstrends",
       creator: "@sgcarstrends",
     },
     alternates: {
-      canonical: canonicalUrl,
+      canonical,
     },
   };
 };
@@ -81,10 +81,11 @@ const CarMakePage = async (props: { params: Params }) => {
   const filteredCars = mergeCarData(cars);
 
   const formattedMake = deslugify(make).toUpperCase();
+  const title = `${formattedMake} Cars Overview: Registration Trends - ${SITE_TITLE}`;
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: `${formattedMake} Car Registrations in Singapore`,
+    name: title,
     description: `Historical trends and monthly breakdown of ${formattedMake} cars by fuel and vehicle types in Singapore.`,
     url: `${SITE_URL}/cars/makes/${make}`,
     publisher: {

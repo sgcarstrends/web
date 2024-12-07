@@ -32,11 +32,9 @@ export const generateMetadata = async (): Promise<Metadata> => {
   // const images = "/api/og?title=COE Result";
 
   return {
-    metadataBase: new URL(SITE_URL),
     title,
     description,
     openGraph: {
-      images: "/opengraph-image.png",
       url: pageUrl,
       siteName: SITE_TITLE,
       locale: "en_SG",
@@ -44,7 +42,6 @@ export const generateMetadata = async (): Promise<Metadata> => {
     },
     twitter: {
       card: "summary_large_image",
-      images: "/opengraph-image.png",
       site: "@sgcarstrends",
       creator: "@sgcarstrends",
     },

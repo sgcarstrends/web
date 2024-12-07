@@ -33,7 +33,7 @@ export const generateMetadata = async (props: {
 
   const formattedMonth = formatDateToMonthYear(month);
 
-  const title = `${formattedMonth} Car Registrations in Singapore`;
+  const title = `Car Registrations in Singapore`;
   const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
   const pageUrl = `/cars`;
 

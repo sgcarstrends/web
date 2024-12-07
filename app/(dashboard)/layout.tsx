@@ -14,19 +14,21 @@ import type { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const title: string = SITE_TITLE;
+const title = SITE_TITLE;
 const description: string = `Statistics for car trends in Singapore. Data provided by Land Transport Authority (LTA)`;
 const url = new URL(SITE_URL);
 
 export const metadata: Metadata = {
   metadataBase: url,
-  title,
+  title: {
+    template: `%s - ${title}`,
+    default: title,
+  },
   description,
   robots: { index: true, follow: true },
   openGraph: {
     title,
     description,
-    images: "/opengraph-image.png",
     url,
     siteName: title,
     locale: "en_SG",
@@ -36,7 +38,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    images: "/opengraph-image.png",
     site: "@sgcarstrends",
     creator: "@sgcarstrends",
   },
