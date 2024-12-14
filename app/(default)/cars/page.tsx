@@ -89,9 +89,9 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
       Object.assign(car, { fuel_type: "Hybrid" });
     }
 
-    Object.assign(car, {
-      vehicle_type: VEHICLE_TYPE_MAP[vehicle_type] ?? vehicle_type,
-    });
+    // Object.assign(car, {
+    //   vehicle_type: VEHICLE_TYPE_MAP[vehicle_type] ?? vehicle_type,
+    // });
 
     return car;
   });
