@@ -59,7 +59,7 @@ export const generateMetadata = async (props: {
 };
 
 export const generateStaticParams = async () => {
-  const makes = await fetchApi<Make[]>(`${API_URL}/make`, {
+  const makes = await fetchApi<Make[]>(`${API_URL}/makes`, {
     next: { tags: [RevalidateTags.Cars] },
   });
   return makes.map((make) => ({ make: slugify(make) }));
@@ -70,7 +70,7 @@ const CarMakePage = async (props: { params: Params }) => {
   const { make } = params;
 
   const [cars, makes]: [Car[], Make[]] = await Promise.all([
-    await fetchApi<Car[]>(`${API_URL}/make/${slugify(make)}`, {
+    await fetchApi<Car[]>(`${API_URL}/makes/${slugify(make)}`, {
       next: { tags: [RevalidateTags.Cars] },
     }),
     await fetchApi<Make[]>(`${API_URL}/cars/makes`, {
