@@ -6,7 +6,6 @@ import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { API_URL, HYBRID_REGEX, SITE_TITLE, SITE_URL } from "@/config";
-import { VEHICLE_TYPE_MAP } from "@/constants";
 import {
   type Car,
   type LatestMonth,
