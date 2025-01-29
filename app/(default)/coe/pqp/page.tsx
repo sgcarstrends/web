@@ -8,7 +8,7 @@ import { fetchApi } from "@/utils/fetchApi";
 import { columns } from "./columns";
 import type { WebPage, WithContext } from "schema-dts";
 
-const title = "PQP Rates";
+const title = "COE PQP Rates";
 const description =
   "Latest Prevailing Quota Premium (PQP) rates for COE renewal in Singapore. These rates show the average COE prices over the last 3 months.";
 
@@ -59,7 +59,7 @@ const PQPRatesPage = async () => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-y-4">
-        <Typography.H1>PQP Rates</Typography.H1>
+        <Typography.H1>COE PQP RATES</Typography.H1>
         <Alert>
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Understanding PQP Rates</AlertTitle>
