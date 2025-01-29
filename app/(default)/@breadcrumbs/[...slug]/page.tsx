@@ -20,6 +20,7 @@ interface BreadcrumbItem {
 
 const BREADCRUMB_MAP: Record<string, string> = {
   coe: "COE",
+  pqp: "PQP Rates",
 };
 
 const generateBreadcrumbs = (slug: string[]): BreadcrumbItem[] => {

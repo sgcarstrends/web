@@ -265,6 +265,10 @@ const data: Nav = {
       icon: DollarSign,
       url: "/coe",
     },
+    {
+      title: "PQP Rates",
+      url: "/coe/pqp",
+    },
     // {
     //   title: "COE",
     //   icon: "",
