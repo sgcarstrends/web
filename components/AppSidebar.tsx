@@ -102,7 +102,7 @@ export const AppSidebar = () => {
                 onClick={() => setOpenMobile(false)}
               >
                 <Link href="/cars">
-                  <Gauge />
+                  {/*<Gauge />*/}
                   <span>Monthly Registrations</span>
                 </Link>
               </SidebarMenuButton>
@@ -226,10 +226,22 @@ const data: Nav = {
       url: "/cars/fuel-types",
       isActive: true,
       items: [
-        { title: "Petrol", icon: Fuel },
-        { title: "Hybrid", icon: Zap },
-        { title: "Electric", icon: Battery },
-        { title: "Diesel", icon: Droplet },
+        {
+          title: "Petrol",
+          // icon: Fuel
+        },
+        {
+          title: "Hybrid",
+          // icon: Zap
+        },
+        {
+          title: "Electric",
+          // icon: Battery
+        },
+        {
+          title: "Diesel",
+          // icon: Droplet
+        },
       ].map((item) => {
         const title = item.title;
         return {
@@ -262,7 +274,7 @@ const data: Nav = {
   coe: [
     {
       title: "Prices",
-      icon: DollarSign,
+      // icon: DollarSign,
       url: "/coe",
     },
     {
