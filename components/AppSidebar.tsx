@@ -1,7 +1,5 @@
-"use client";
-
+import type { ComponentProps } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
   type IconType,
   SiBluesky,
@@ -11,21 +9,7 @@ import {
   SiLinkedin,
   SiX,
 } from "@icons-pack/react-simple-icons";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@radix-ui/react-collapsible";
-import {
-  Battery,
-  ChevronRight,
-  DollarSign,
-  Droplet,
-  Fuel,
-  Gauge,
-  type LucideIcon,
-  Zap,
-} from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 
 import { BrandLogo } from "@/components/BrandLogo";
 import { LinkWithParams } from "@/components/LinkWithParams";
@@ -42,11 +26,10 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-  useSidebar,
+  SidebarRail,
 } from "@/components/ui/sidebar";
 import { VEHICLE_TYPE_MAP } from "@/constants";
 import { slugify } from "@/utils/slugify";
-import type { VehicleType } from "@/types";
 
 type Icon = LucideIcon | IconType;
 
@@ -68,20 +51,13 @@ type Nav = {
   [key: string]: NavItem[];
 };
 
-export const AppSidebar = () => {
-  const pathname = usePathname();
-  const { setOpenMobile } = useSidebar();
-
+export const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
   return (
-    <Sidebar>
+    <Sidebar {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              size="lg"
-              onClick={() => setOpenMobile(false)}
-            >
+            <SidebarMenuButton size="lg" asChild>
               <Link href="/">
                 <div className="flex flex-col gap-0.5 leading-none">
                   <BrandLogo />
@@ -93,89 +69,25 @@ export const AppSidebar = () => {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Cars</SidebarGroupLabel>
           <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                asChild
-                isActive={pathname === "/cars"}
-                onClick={() => setOpenMobile(false)}
-              >
-                <Link href="/cars">
-                  {/*<Gauge />*/}
-                  <span>Monthly Registrations</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            {data.cars.map(({ items, ...item }) => (
-              <Collapsible
-                key={item.title}
-                asChild
-                defaultOpen={item.isActive}
-                className="group/collapsible"
-              >
-                <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton tooltip={item.title}>
-                      {item.icon && <item.icon />}
-                      <span>{item.title}</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {items?.map((subItem) => (
-                        <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton
-                            asChild
-                            isActive={subItem.url === pathname}
-                            onClick={() => setOpenMobile(false)}
-                          >
-                            <LinkWithParams href={subItem.url}>
-                              {subItem.icon && <subItem.icon />}
-                              <span>{subItem.title}</span>
-                            </LinkWithParams>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                </SidebarMenuItem>
-              </Collapsible>
-            ))}
-          </SidebarMenu>
-        </SidebarGroup>
-        <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-          <SidebarGroupLabel>COE</SidebarGroupLabel>
-          <SidebarMenu>
-            {data.coe.map(({ items, ...item }) => (
+            {data.navMain.map(({ items, ...item }) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton
-                  asChild
-                  isActive={item.url === pathname}
-                  onClick={() => setOpenMobile(false)}
-                >
-                  <Link href={item.url}>
-                    {item.icon && <item.icon />}
-                    <span>{item.title}</span>
-                  </Link>
+                <SidebarMenuButton asChild>
+                  <Link href={item.url}>{item.title}</Link>
                 </SidebarMenuButton>
-                <SidebarMenuSub>
-                  {items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton
-                        asChild
-                        isActive={subItem.url === pathname}
-                        onClick={() => setOpenMobile(false)}
-                      >
-                        <Link href={subItem.url}>
-                          {subItem.icon && <subItem.icon />}
-                          <span>{subItem.title}</span>
-                        </Link>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
-                </SidebarMenuSub>
+                {items?.length && (
+                  <SidebarMenuSub>
+                    {items?.map((subItem) => (
+                      <SidebarMenuSubItem key={subItem.title}>
+                        <SidebarMenuSubButton asChild>
+                          <LinkWithParams href={subItem.url}>
+                            {subItem.title}
+                          </LinkWithParams>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    ))}
+                  </SidebarMenuSub>
+                )}
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
@@ -185,75 +97,30 @@ export const AppSidebar = () => {
           <NavSocialMedia items={data.socialMedia} />
         </SidebarGroup>
       </SidebarContent>
-      {/*<SidebarFooter>*/}
-      {/*<SidebarMenu>*/}
-      {/*  <SidebarMenuItem>*/}
-      {/*    <DropdownMenu>*/}
-      {/*      <DropdownMenuTrigger asChild>*/}
-      {/*        <SidebarMenuButton>*/}
-      {/*          <User2 /> Username*/}
-      {/*          <ChevronUp className="ml-auto" />*/}
-      {/*        </SidebarMenuButton>*/}
-      {/*      </DropdownMenuTrigger>*/}
-      {/*      <DropdownMenuContent*/}
-      {/*        side="top"*/}
-      {/*        className="w-[--radix-popper-anchor-width]"*/}
-      {/*      >*/}
-      {/*        <DropdownMenuItem>*/}
-      {/*          <span>Account</span>*/}
-      {/*        </DropdownMenuItem>*/}
-      {/*        <DropdownMenuItem>*/}
-      {/*          <span>Billing</span>*/}
-      {/*        </DropdownMenuItem>*/}
-      {/*        <DropdownMenuItem>*/}
-      {/*          <span>Sign out</span>*/}
-      {/*        </DropdownMenuItem>*/}
-      {/*      </DropdownMenuContent>*/}
-      {/*    </DropdownMenu>*/}
-      {/*  </SidebarMenuItem>*/}
-      {/*</SidebarMenu>*/}
-      {/*</SidebarFooter>*/}
+      <SidebarRail />
     </Sidebar>
   );
 };
 
-// TODO: Slugify URLs
 const data: Nav = {
-  cars: [
+  navMain: [
+    { title: "Latest Registration", url: "/cars" },
     {
       title: "Fuel Types",
-      // icon: Fuel,
       url: "/cars/fuel-types",
-      isActive: true,
       items: [
-        {
-          title: "Petrol",
-          // icon: Fuel
-        },
-        {
-          title: "Hybrid",
-          // icon: Zap
-        },
-        {
-          title: "Electric",
-          // icon: Battery
-        },
-        {
-          title: "Diesel",
-          // icon: Droplet
-        },
-      ].map((item) => {
-        const title = item.title;
-        return {
-          ...item,
-          url: `/cars/fuel-types/${slugify(title)}`,
-        };
-      }),
+        { title: "Petrol" },
+        { title: "Hybrid" },
+        { title: "Electric" },
+        { title: "Diesel" },
+      ].map((item) => ({
+        ...item,
+        url: `/cars/fuel-types/${slugify(item.title)}`,
+      })),
     },
     {
       title: "Vehicle Types",
       url: "/cars/vehicle-types",
-      isActive: true,
       items: [
         { title: "Hatchback" },
         { title: "Sedan" },
@@ -261,39 +128,26 @@ const data: Nav = {
         { title: "Station-wagon" },
         { title: "Sports Utility Vehicle" },
         { title: "Coupe/Convertible" },
-      ].map((item) => {
-        const title = item.title as VehicleType;
-        return {
-          ...item,
-          title: VEHICLE_TYPE_MAP[title] ?? title,
-          url: `/cars/vehicle-types/${slugify(title)}`,
-        };
-      }),
+      ].map((item) => ({
+        ...item,
+        title: VEHICLE_TYPE_MAP[item.title] ?? item.title,
+        url: `/cars/vehicle-types/${slugify(item.title)}`,
+      })),
     },
-  ],
-  coe: [
     {
-      title: "Prices",
-      // icon: DollarSign,
+      title: "COE",
       url: "/coe",
+      items: [
+        {
+          title: "COE Result",
+          url: "/coe",
+        },
+        {
+          title: "COE PQP Rates",
+          url: "/coe/pqp",
+        },
+      ],
     },
-    {
-      title: "PQP Rates",
-      url: "/coe/pqp",
-    },
-    // {
-    //   title: "COE",
-    //   icon: "",
-    //   url: "/coe",
-    //   isActive: true,
-    //   items: [
-    //     {
-    //       title: "Prices",
-    //       icon: DollarSign,
-    //       url: "/coe/prices",
-    //     },
-    //   ] satisfies NavSubItem[],
-    // },
   ],
   socialMedia: [
     {

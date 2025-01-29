@@ -21,7 +21,7 @@ export const MAKE = {
   },
 };
 
-export const VEHICLE_TYPE_MAP: Partial<Record<VehicleType, string>> = {
+export const VEHICLE_TYPE_MAP: Record<string, string> = {
   "Multi-purpose Vehicle": "MPV",
   "Multi-purpose Vehicle/Station-wagon": "MPV",
   "Sports Utility Vehicle": "SUV",
