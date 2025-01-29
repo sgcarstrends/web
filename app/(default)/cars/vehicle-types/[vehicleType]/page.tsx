@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { fetchMonths } from "@/app/(default)/cars/utils/fetchMonths";
-import { EmptyData } from "@/components/EmptyData";
+import NoData from "@/components/NoData";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
@@ -87,7 +87,7 @@ const CarsByVehicleTypePage = async (props: {
   );
 
   if (cars.length === 0) {
-    return <EmptyData />;
+    return <NoData />;
   }
 
   const filteredCars = mergeCarsByMake(cars);

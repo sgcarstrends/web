@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { fetchMonths } from "@/app/(default)/cars/utils/fetchMonths";
-import { EmptyData } from "@/components/EmptyData";
+import NoData from "@/components/NoData";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
@@ -83,10 +83,6 @@ const CarsByFuelTypePage = async (props: {
     { next: { tags: [RevalidateTags.Cars] } },
   );
 
-  if (cars.length === 0) {
-    return <EmptyData />;
-  }
-
   const filteredCars = mergeCarsByMake(cars);
 
   const formattedFuelType = deslugify(fuelType);
@@ -123,7 +119,8 @@ const CarsByFuelTypePage = async (props: {
             <MonthSelector months={months} />
           </div>
         </div>
-        <CarOverviewTrends cars={filteredCars} />
+        {filteredCars.length > 0 && <CarOverviewTrends cars={filteredCars} />}
+        {filteredCars.length === 0 && <NoData />}
       </div>
     </>
   );

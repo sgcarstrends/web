@@ -1,25 +1,23 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { AlertCircle, Home, RotateCcw } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 
-export const EmptyData = () => {
+const NoData = () => {
   const router = useRouter();
-  const pathname = usePathname();
 
   return (
-    <div className="container flex min-h-screen flex-col items-center justify-center gap-4">
+    <div className="flex flex-col items-center justify-center gap-4">
       <Alert variant="destructive">
         <AlertCircle className="h-4 w-4" />
-        <AlertTitle>Error</AlertTitle>
+        <AlertTitle>No Data Available</AlertTitle>
         <AlertDescription>
-          The requested page <code>&quot;{pathname}&quot;</code> does not exist
-          or is not available.
+          The requested page does not exist or no data is available.
         </AlertDescription>
       </Alert>
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
         <Button variant="outline" onClick={() => router.push("/")}>
           <Home className="mr-2 h-4 w-4" />
           Go Home
@@ -32,3 +30,5 @@ export const EmptyData = () => {
     </div>
   );
 };
+
+export default NoData;

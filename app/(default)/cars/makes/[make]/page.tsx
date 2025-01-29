@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { columns } from "@/app/(default)/cars/makes/[make]/columns";
 import { MakeSelector } from "@/app/components/MakeSelector";
-import { EmptyData } from "@/components/EmptyData";
+import NoData from "@/components/NoData";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import {
@@ -98,7 +98,7 @@ const CarMakePage = async (props: { params: Params }) => {
   };
 
   if (cars.length === 0) {
-    return <EmptyData />;
+    return <NoData />;
   }
 
   return (
