@@ -131,7 +131,7 @@ export const COEPremiumChart = ({
   //   [categories, data],
   // );
 
-  const filteredData = data;
+  const filteredData = data.sort((a, b) => a.month.localeCompare(b.month));
 
   const chartConfig = {} satisfies ChartConfig;
 
