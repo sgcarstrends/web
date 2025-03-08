@@ -20,3 +20,6 @@
 - Testing: Jest for unit tests, Playwright for E2E tests
 - Use absolute imports with @ alias
 - Follow ESLint rules configured in project
+
+## Excluded Areas
+- `components/ui/**` - This is shadcn/ui code which should not be modified
