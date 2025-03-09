@@ -53,3 +53,4 @@ jobs:
         with:
           name: next-build
           path: ${{ github.workspace}}/.next
+          include-hidden-files: true
