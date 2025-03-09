@@ -56,6 +56,13 @@ jobs:
         run: |
           pnpm migrate
 
+      - uses: actions/cache@v4
+        with:
+          path: .sst
+          key: ${{ runner.os }}-sst-${{ inputs.stage }}-${{ hashFiles('.sst/**/*')}}
+          restore-keys: |
+            ${{ runner.os }}-sst-${{ inputs.stage }}-
+
       - name: Deploy app
         run: |
           pnpm sst deploy --stage ${{ inputs.stage }}
