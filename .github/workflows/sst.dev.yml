@@ -12,21 +12,14 @@ concurrency:
 
 permissions:
   id-token: write
-  actions: write
   contents: read
 
 jobs:
   test:
     uses: ./.github/workflows/test.yml
 
-  build:
-    uses: ./.github/workflows/build.yml
-    with:
-      environment: Development
-    secrets: inherit
-
   deploy:
-    needs: [test, build]
+    needs: [test]
     uses: ./.github/workflows/deploy.yml
     with:
       environment: Development

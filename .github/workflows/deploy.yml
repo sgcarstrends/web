@@ -42,11 +42,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - uses: actions/download-artifact@v4
-        with:
-          name: next-build
-          path: .next
-
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
@@ -58,10 +53,10 @@ jobs:
 
       - uses: actions/cache@v4
         with:
-          path: .sst
-          key: ${{ runner.os }}-sst-${{ inputs.stage }}-${{ hashFiles('.sst/**/*')}}
+          path: .next/cache
+          key: ${{ runner.os }}-nextjs-${{ inputs.stage }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
           restore-keys: |
-            ${{ runner.os }}-sst-${{ inputs.stage }}-
+            ${{ runner.os }}-nextjs-${{ inputs.stage }}-
 
       - name: Deploy app
         run: |
