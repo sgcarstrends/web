@@ -37,10 +37,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: next-build
+          path: .next
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -50,14 +55,6 @@ jobs:
       - name: Perform database migration
         run: |
           pnpm migrate
-
-      # Restore Next.js cache
-      - uses: actions/cache@v4
-        with:
-          path: .next/cache
-          key: ${{ runner.os }}-nextjs-${{ inputs.environment }}-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ inputs.environment }}-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
       - name: Deploy app
         run: |
