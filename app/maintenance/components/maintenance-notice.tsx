@@ -3,8 +3,6 @@
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AlertTriangle, Clock } from "lucide-react";
-import { Footer } from "@/app/maintenance/components/Footer";
-import { Header } from "@/app/maintenance/components/Header";
 
 export const MaintenanceNotice = () => {
   const router = useRouter();
@@ -38,7 +36,6 @@ export const MaintenanceNotice = () => {
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
-      <Header />
       <div className="flex flex-1 items-center justify-center p-4">
         <div className="w-full max-w-2xl rounded-lg border border-gray-100 bg-white p-8 text-center shadow-sm">
           <div className="mb-6 flex justify-center">
@@ -71,7 +68,6 @@ export const MaintenanceNotice = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
