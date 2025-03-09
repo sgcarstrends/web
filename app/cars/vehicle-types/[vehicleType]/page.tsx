@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { fetchMonths } from "@/app/(default)/cars/utils/fetchMonths";
+import { fetchMonths } from "@/app/cars/utils/fetchMonths";
 import NoData from "@/components/NoData";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
@@ -16,7 +16,7 @@ import { deslugify, slugify } from "@/utils/slugify";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
-type Params = Promise<{ fuelType: string }>;
+type Params = Promise<{ vehicleType: string }>;
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 const CarOverviewTrends = dynamic(
@@ -26,22 +26,20 @@ const MonthSelector = dynamic(() => import("@/components/MonthSelector"));
 
 export const generateMetadata = async (props: {
   params: Params;
-  searchParams: SearchParams;
 }): Promise<Metadata> => {
   const params = await props.params;
-  const { fuelType } = params;
+  const { vehicleType } = params;
 
-  const formattedFuelType = deslugify(fuelType);
-  const title = `${formattedFuelType} Cars in Singapore`;
-  const description = `${formattedFuelType} cars registrations by month. Explore registration trends, statistics and distribution by fuel type for the month in Singapore.`;
-  const canonical = `/cars/fuel-types/${fuelType}`;
+  const formattedVehicleType = deslugify(vehicleType);
+  const title = `${formattedVehicleType} Cars in Singapore`;
+  const description = `${formattedVehicleType} cars registrations by month. Explore registration trends, statistics and distribution by vehicle type for the month in Singapore.`;
+  // const images = `/api/og?title=Historical Trend&type=${vehicleType}`;
+  const canonical = `/cars/vehicle-types/${vehicleType}`;
 
   return {
     title,
     description,
     openGraph: {
-      title,
-      description,
       images: `${SITE_URL}/opengraph-image.png`,
       url: canonical,
       siteName: SITE_TITLE,
@@ -50,8 +48,6 @@ export const generateMetadata = async (props: {
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description,
       images: `${SITE_URL}/twitter-image.png`,
       site: "@sgcarstrends",
       creator: "@sgcarstrends",
@@ -62,39 +58,50 @@ export const generateMetadata = async (props: {
   };
 };
 
-const fuelTypes = ["petrol", "hybrid", "electric", "diesel"];
+const vehicleTypes = [
+  "hatchback",
+  "sedan",
+  "multi-purpose vehicle",
+  "station-wagon",
+  "sports utility vehicle",
+  "coupe/convertible",
+];
 
 export const generateStaticParams = () =>
-  fuelTypes.map((fuelType) => ({ fuelType: slugify(fuelType) }));
+  vehicleTypes.map((vehicleType) => ({ vehicleType: slugify(vehicleType) }));
 
-const CarsByFuelTypePage = async (props: {
+const CarsByVehicleTypePage = async (props: {
   params: Params;
   searchParams: SearchParams;
 }) => {
   const params = await props.params;
   const searchParams = await props.searchParams;
-  const { fuelType } = params;
+  const { vehicleType } = params;
 
   const [months, latestMonth]: [Month[], LatestMonth] = await fetchMonths();
 
   const month = searchParams?.month ?? latestMonth.cars;
   const cars = await fetchApi<Car[]>(
-    `${API_URL}/cars?fuel_type=${fuelType}&month=${month}`,
+    `${API_URL}/cars?vehicle_type=${vehicleType}&month=${month}`,
     { next: { tags: [RevalidateTags.Cars] } },
   );
 
+  if (cars.length === 0) {
+    return <NoData />;
+  }
+
   const filteredCars = mergeCarsByMake(cars);
 
-  const formattedFuelType = deslugify(fuelType);
+  const formattedVehicleType = deslugify(vehicleType);
 
-  const title = `${formattedFuelType} Cars in Singapore`;
-  const description = `${formattedFuelType} cars overview. Explore registration trends, statistics and distribution by fuel type for the month in Singapore.`;
+  const title = `${formattedVehicleType} Cars in Singapore`;
+  const description = `${formattedVehicleType} cars registrations by month. Explore registration trends, statistics and distribution by vehicle type for the month in Singapore.`;
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: title,
     description,
-    url: `${SITE_URL}/cars/fuel-types/${fuelType}`,
+    url: `${SITE_URL}/cars/vehicle-types/${vehicleType}`,
     publisher: {
       "@type": "Organization",
       name: SITE_TITLE,
@@ -113,17 +120,18 @@ const CarsByFuelTypePage = async (props: {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col justify-between gap-2 xl:flex-row">
           <div className="flex items-start">
-            <Typography.H1>{deslugify(fuelType).toUpperCase()}</Typography.H1>
+            <Typography.H1>
+              {deslugify(vehicleType).toUpperCase()}
+            </Typography.H1>
           </div>
           <div className="items-end">
             <MonthSelector months={months} />
           </div>
         </div>
-        {filteredCars.length > 0 && <CarOverviewTrends cars={filteredCars} />}
-        {filteredCars.length === 0 && <NoData />}
+        <CarOverviewTrends cars={filteredCars} />
       </div>
     </>
   );
 };
 
-export default CarsByFuelTypePage;
+export default CarsByVehicleTypePage;

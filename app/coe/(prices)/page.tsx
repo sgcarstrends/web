@@ -1,4 +1,4 @@
-import { TrendTable } from "@/app/(default)/coe/(prices)/TrendTable";
+import { TrendTable } from "@/app/coe/(prices)/TrendTable";
 import { COECategories } from "@/components/COECategories";
 import { COEPremiumChart } from "@/components/COEPremiumChart";
 import { StructuredData } from "@/components/StructuredData";
