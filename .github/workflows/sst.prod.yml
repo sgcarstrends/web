@@ -14,36 +14,9 @@ permissions:
   contents: read
 
 jobs:
-  Deploy:
-    runs-on: ubuntu-latest
-    environment: Production
-    env:
-      NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
-      NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED: ${{ vars.NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED }}
-      NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ vars.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
-      NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
-      NEXT_PUBLIC_REVALIDATE_TOKEN: ${{ secrets.NEXT_PUBLIC_REVALIDATE_TOKEN }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      SG_CARS_TRENDS_API_TOKEN: ${{ secrets.SG_CARS_TRENDS_API_TOKEN }}
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: latest
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install
-      - uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
-          aws-region: ap-southeast-1
-      - name: Perform database migration
-        run: |
-          pnpm migrate
-      - name: Deploy app
-        run: |
-          pnpm sst deploy --stage prod
+  deploy:
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: Production
+      stage: prod
+    secrets: inherit
