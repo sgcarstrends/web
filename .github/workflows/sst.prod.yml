@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 jobs:
-  Deploy:
+  deploy:
     runs-on: ubuntu-latest
     environment: Production
     env:
@@ -37,6 +37,13 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
+      # Restore Next.js cache
+      - uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: ${{ runner.os }}-nextjs-${{ inputs.environment }}-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ inputs.environment }}-${{ hashFiles('**/pnpm-lock.yaml') }}-
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}

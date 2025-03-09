@@ -1,4 +1,4 @@
-name: Deployment (Dev)
+name: Deployment (Development)
 
 on:
   push:
@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 jobs:
-  Test:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,8 +36,8 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-  Deploy:
-    needs: Test
+  deploy:
+    needs: test
     runs-on: ubuntu-latest
     environment: Development
     env:
@@ -60,6 +60,13 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
+      # Restore Next.js cache
+      - uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: ${{ runner.os }}-nextjs-${{ inputs.environment }}-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ inputs.environment }}-${{ hashFiles('**/pnpm-lock.yaml') }}-
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
