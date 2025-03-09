@@ -9,7 +9,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { Header } from "@/components/Header";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
-import "../globals.css";
+import "./globals.css";
 import type { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
