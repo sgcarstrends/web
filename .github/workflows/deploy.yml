@@ -45,7 +45,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: next-build
-          path: ${{ github.workspace }}/.next
+          path: .next
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:

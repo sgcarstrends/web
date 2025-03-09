@@ -52,5 +52,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: next-build
-          path: ${{ github.workspace}}/.next
+          path: .next
           include-hidden-files: true
