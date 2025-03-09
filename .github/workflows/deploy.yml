@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy Web
 
 on:
   workflow_call:
@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
+  deploy-web:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     env:
