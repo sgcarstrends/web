@@ -1,0 +1,29 @@
+name: Next.js Cache Workflow
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+    secrets:
+      DATABASE_URL:
+        required: true
+
+jobs:
+  cache-nextjs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Restore Next.js cache
+      - uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: ${{ runner.os }}-nextjs-${{ inputs.environment }}-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ inputs.environment }}-${{ hashFiles('**/pnpm-lock.yaml') }}-
+
+      - name: Log cache info
+        run: |
+          echo "Cache restored for Next.js build directory."

@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 jobs:
-  Deploy:
+  deploy:
     runs-on: ubuntu-latest
     environment: Production
     env:
@@ -28,15 +28,10 @@ jobs:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - name: Call Next.js caching workflow
+        uses: ./.github/workflows/nextjs-cache.yml
         with:
-          version: latest
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install
+          environment: prod
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}

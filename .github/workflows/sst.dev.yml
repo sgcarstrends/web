@@ -1,4 +1,4 @@
-name: Deployment (Dev)
+name: Deployment (Development)
 
 on:
   push:
@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 jobs:
-  Test:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,8 +36,8 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-  Deploy:
-    needs: Test
+  deploy:
+    needs: test
     runs-on: ubuntu-latest
     environment: Development
     env:
@@ -51,15 +51,10 @@ jobs:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - name: Call Next.js caching workflow
+        uses: ./.github/workflows/nextjs-cache.yml
         with:
-          version: latest
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install
+          environment: dev
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
