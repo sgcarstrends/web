@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { MaintenanceNotice } from "@/components/maintenance-notice";
 
 export const metadata = {
@@ -8,7 +9,11 @@ export const metadata = {
 };
 
 const MaintenancePage = () => {
-  return <MaintenanceNotice />;
+  return (
+    <Suspense fallback={null}>
+      <MaintenanceNotice />
+    </Suspense>
+  );
 };
 
 export default MaintenancePage;
