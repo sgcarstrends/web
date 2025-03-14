@@ -36,6 +36,9 @@ const nextConfig: NextConfig = {
   async redirects() {
     return redirects;
   },
+  experimental: {
+    optimizePackageImports: ["@mantine/core", "@mantine/hooks"],
+  },
 };
 
 export default nextConfig;
