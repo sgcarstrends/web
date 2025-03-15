@@ -45,5 +45,15 @@
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["components/ui/**"],
+      "rules": {
+        // Disable all rules
+        "import/order": "off"
+        // Optionally specify any other rules to disable here
+      }
+    }
+  ]
 }

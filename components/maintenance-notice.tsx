@@ -11,7 +11,7 @@ export const MaintenanceNotice = () => {
       <div className="flex flex-1 items-center justify-center p-4">
         <div className="w-full max-w-2xl rounded-lg border border-gray-100 bg-white p-8 text-center shadow-xs">
           <div className="mb-6 flex justify-center">
-            <AlertTriangle className="h-16 w-16 text-blue-600" />
+            <AlertTriangle className="size-16 text-blue-600" />
           </div>
           <h1 className="mb-4 text-3xl font-semibold text-gray-800">
             System Maintenance

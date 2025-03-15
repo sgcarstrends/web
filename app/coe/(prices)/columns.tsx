@@ -25,7 +25,7 @@ export const columns: ColumnDef<COEResult>[] = [
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Month
-        <ArrowUpDown className="ml-2 h-4 w-4" />
+        <ArrowUpDown className="ml-2 size-4" />
       </Button>
     ),
   },

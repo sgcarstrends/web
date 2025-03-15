@@ -117,7 +117,7 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
             return (
               <div key={title} className="space-y-4">
                 <div className="flex items-center gap-2">
-                  <Icon className={`h-6 w-6 ${colour}`} />
+                  <Icon className={`size-6 ${colour}`} />
                   <div>
                     <Typography.H4>{title}</Typography.H4>
                     <Typography.Muted>{description}</Typography.Muted>
@@ -144,7 +144,7 @@ export const Leaderboard = ({ cars }: LeaderboardProps) => {
                             <div className="flex grow flex-col gap-2">
                               <div className="flex items-center gap-2">
                                 <span>{deslugify(make).toUpperCase()}</span>
-                                <ChevronRight className="h-4 w-4 text-primary opacity-0 transition-opacity group-hover:opacity-100" />
+                                <ChevronRight className="text-primary size-4 opacity-0 transition-opacity group-hover:opacity-100" />
                               </div>
                               <Progress
                                 value={(number / maxValue) * 100}

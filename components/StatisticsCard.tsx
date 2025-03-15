@@ -67,7 +67,7 @@ export const StatisticsCard = ({
         <div className="grid grid-cols-1 gap-4">
           <DistributionPieChart data={data} type={title} />
           {Object.keys(data).includes(FUEL_TYPE.OTHERS) && (
-            <p className="text-sm italic text-muted-foreground">
+            <p className="text-muted-foreground text-sm italic">
               Note: We do not know what is the Land Transport Authority&apos;s
               exact definition of &quot;Others&quot;.
             </p>
@@ -94,7 +94,7 @@ export const StatisticsCard = ({
                     <TableCell>
                       <div className="flex flex-col gap-2">{key}</div>
                     </TableCell>
-                    <TableCell className="flex gap-1 font-semibold text-primary">
+                    <TableCell className="text-primary flex gap-1 font-semibold">
                       {value}
                     </TableCell>
                     <TableCell>
@@ -105,7 +105,7 @@ export const StatisticsCard = ({
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <ArrowRight className="h-4 w-4 text-primary" />
+                      <ArrowRight className="text-primary size-4" />
                     </TableCell>
                   </TableRow>
                 ))}

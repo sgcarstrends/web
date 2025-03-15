@@ -32,7 +32,7 @@ export const COECategories = () => {
             <Tooltip>
               <span>Filter based on Category </span>
               <TooltipTrigger>
-                <HelpCircleIcon className="h-4 w-4" />
+                <HelpCircleIcon className="size-4" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>You can only filter Categories C & D</p>

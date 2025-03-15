@@ -165,7 +165,7 @@ export const COEPremiumChart = ({
         {/*          className="rounded-lg"*/}
         {/*        >*/}
         {/*          <div className="flex items-center rounded-lg">*/}
-        {/*            <CalendarIcon className="mr-2 h-4 w-4" />*/}
+        {/*            <CalendarIcon className="mr-2 size-4" />*/}
         {/*            {label}*/}
         {/*          </div>*/}
         {/*        </SelectItem>*/}
@@ -207,15 +207,15 @@ export const COEPremiumChart = ({
                   formatter={(value: any, name, _, index) => (
                     <>
                       <div
-                        className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-(--colour-bg)"
+                        className="size-2.5 shrink-0 rounded-[2px] bg-(--colour-bg)"
                         style={
                           {
-                            "--colour-bg": `hsl(var(--chart-${index + 1}))`,
+                            "--colour-bg": `var(--chart-${index + 1})`,
                           } as CSSProperties
                         }
                       />
                       {name}
-                      <div className="ml-auto flex items-baseline gap-0.5 font-medium tabular-nums text-foreground">
+                      <div className="text-foreground ml-auto flex items-baseline gap-0.5 font-medium tabular-nums">
                         {Intl.NumberFormat("en-SG", {
                           style: "currency",
                           currency: "SGD",
@@ -235,7 +235,7 @@ export const COEPremiumChart = ({
                   dataKey={category}
                   name={category}
                   type="natural"
-                  stroke={`hsl(var(--chart-${index + 1}))`}
+                  stroke={`var(--chart-${index + 1})`}
                   strokeWidth={2}
                   dot={false}
                 />

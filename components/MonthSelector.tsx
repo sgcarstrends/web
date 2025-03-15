@@ -62,7 +62,7 @@ export const MonthSelector = ({ months }: Props) => {
               return (
                 <SelectItem key={month} value={date}>
                   <div className="flex items-center">
-                    <Calendar className="mr-2 h-4 w-4" />
+                    <Calendar className="mr-2 size-4" />
                     {formatDateToMonthYear(date)}
                   </div>
                 </SelectItem>
