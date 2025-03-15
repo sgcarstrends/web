@@ -10,7 +10,8 @@ export default defineConfig({
       "@/*": path.resolve(__dirname, "./*")
     },
     environment: "jsdom",
-    exclude: [...configDefaults.exclude, "e2e"]
+    exclude: [...configDefaults.exclude, "e2e"],
+    setupFiles: "./setupTests.ts"
   }
 });
  
