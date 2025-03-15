@@ -3,6 +3,7 @@ import { DetailedBreakdown } from "@/app/cars/detailed-breakdown";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
+import { AnimatedNumber } from "@/components/animated-number";
 import { StatCard } from "@/components/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -164,7 +165,7 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
                   <Badge className="bg-blue-600">{formattedMonth}</Badge>
                 </CardHeader>
                 <CardContent className="text-4xl font-bold text-blue-600">
-                  {total}
+                  <AnimatedNumber value={total} />
                 </CardContent>
               </Card>
               <Card>
@@ -173,7 +174,7 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
                   <Badge className="bg-green-600">{topFuelType}</Badge>
                 </CardHeader>
                 <CardContent className="text-4xl font-bold text-green-600">
-                  {topFuelTypeValue}
+                  <AnimatedNumber value={topFuelTypeValue} />
                 </CardContent>
               </Card>
               <Card>
@@ -182,7 +183,7 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
                   <Badge className="bg-pink-600">{topVehicleType}</Badge>
                 </CardHeader>
                 <CardContent className="text-4xl font-bold text-pink-600">
-                  {topVehicleTypeValue}
+                  <AnimatedNumber value={topVehicleTypeValue} />
                 </CardContent>
               </Card>
               {/*<UnreleasedFeature>*/}
