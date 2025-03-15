@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { capitaliseWords } from "@/utils/capitaliseWords";
 
 describe("capitaliseWords", () => {

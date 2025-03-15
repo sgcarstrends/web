@@ -17,7 +17,7 @@
 - Tailwind CSS for styling (prettier-plugin-tailwindcss for class sorting)
 - File naming: camelCase for utils, PascalCase for components
 - Error handling: proper try/catch blocks with meaningful error messages
-- Testing: Jest for unit tests, Playwright for E2E tests
+- Testing: Vitest for unit tests, Playwright for E2E tests
 - Use absolute imports with @ alias
 - Follow ESLint rules configured in project
 

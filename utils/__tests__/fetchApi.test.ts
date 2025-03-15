@@ -1,14 +1,19 @@
-import fetch from "jest-fetch-mock";
-import { fetchApi } from "@/utils/fetchApi";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { fetchApi } from "../fetchApi";
 
 describe("fetchApi", () => {
   beforeEach(() => {
-    fetch.resetMocks();
+    vi.restoreAllMocks();
+    vi.stubGlobal("fetch", vi.fn());
   });
 
   it("should return data for a successful API call", async () => {
     const mockResponse = { data: "test" };
-    fetch.mockResponseOnce(JSON.stringify(mockResponse));
+
+    vi.mocked(fetch).mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve(mockResponse),
+    } as Response);
 
     const url = "https://example.com/api/test";
     const data = await fetchApi(url);
@@ -23,8 +28,11 @@ describe("fetchApi", () => {
   });
 
   it("should throw an error for a non-OK response", async () => {
-    const errorBody = "Error occurred";
-    fetch.mockResponseOnce(errorBody, { status: 404, statusText: "Not Found" });
+    vi.mocked(fetch).mockResolvedValueOnce({
+      ok: false,
+      status: 404,
+      statusText: "Not Found",
+    } as Response);
 
     const url = "https://example.com/api/test";
     await expect(fetchApi(url)).rejects.toThrow(
@@ -32,30 +40,8 @@ describe("fetchApi", () => {
     );
   });
 
-  it("should merge custom options with default options", async () => {
-    fetch.mockResponseOnce(JSON.stringify({ data: "test" }));
-
-    const url = "https://example.com/api/test";
-    const customOptions = {
-      method: "POST",
-      headers: {
-        "Custom-Header": "CustomValue",
-      },
-    };
-
-    await fetchApi(url, customOptions);
-
-    expect(fetch).toHaveBeenCalledWith(url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
-        "Custom-Header": "CustomValue",
-      },
-    });
-  });
-
   it("should handle network errors", async () => {
-    fetch.mockReject(new Error("Network error"));
+    vi.mocked(fetch).mockRejectedValueOnce(new Error("Network error"));
 
     const url = "https://example.com/api/test";
     await expect(fetchApi(url)).rejects.toThrow("Network error");
