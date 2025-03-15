@@ -16,18 +16,19 @@ export const NotificationPrompt = () => {
     setNotificationStatus(status);
   }, [setNotificationStatus]);
 
-  const handleAllow = useCallback(async () => {
+  const handleGranted = useCallback(async () => {
     const permission = await Notification.requestPermission();
     setNotificationStatus(permission);
-
+ 
     toast.success("Notifications Enabled!", {
       description:
         "You will now receive updates and alerts whenever new data is published",
     });
   }, [setNotificationStatus]);
 
-  const handleDeny = useCallback(() => {
-    setNotificationStatus("denied");
+  const handleDenied = useCallback(async () => {
+    const permission = await Notification.requestPermission();
+    setNotificationStatus(permission);
 
     toast.warning("Notifications Disabled!", {
       description:
@@ -36,26 +37,22 @@ export const NotificationPrompt = () => {
   }, [setNotificationStatus]);
 
   useEffect(() => {
-    switch (notificationStatus) {
-      case "default":
-        toast("Enable Notifications?", {
-          duration: Infinity,
-          description:
-            "Stay updated with the latest news and alerts by enabling browser notifications",
-          action: {
-            label: "Allow",
-            onClick: handleAllow,
-          },
-          cancel: {
-            label: "Deny",
-            onClick: handleDeny,
-          },
-        });
-        break;
-      default:
-        break;
+    if (notificationStatus === "default") {
+      toast("Enable Notifications?", {
+        duration: Infinity,
+        description:
+          "Stay updated with the latest news and alerts by enabling browser notifications",
+        action: {
+          label: "Allow",
+          onClick: handleGranted,
+        },
+        cancel: {
+          label: "Deny",
+          onClick: handleDenied,
+        },
+      });
     }
-  }, [handleAllow, handleDeny, notificationStatus]);
+  }, [handleGranted, handleDenied, notificationStatus]);
 
   return null;
 };
