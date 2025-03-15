@@ -20,6 +20,7 @@ export const API_URL = `${API_BASE_URL}/${API_VERSION}`;
 export enum FUEL_TYPE {
   DIESEL = "Diesel",
   ELECTRIC = "Electric",
+  HYBRID = "Hybrid",
   OTHERS = "Others",
   PETROL = "Petrol",
 }

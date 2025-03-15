@@ -28,7 +28,7 @@ const DistributionPieChart = dynamic(
   () => import("@/app/cars/DistributionPieChart"),
 );
 
-export const StatisticsCard = ({
+export const StatCard = ({
   title,
   description,
   data,

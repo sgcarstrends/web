@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
-import { Leaderboard } from "@/components/Leaderboard";
+import { DetailedBreakdown } from "@/app/cars/detailed-breakdown";
 import { MonthSelector } from "@/components/MonthSelector";
-import { StatisticsCard } from "@/components/StatisticsCard";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
+import { StatCard } from "@/components/stat-card";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { API_URL, HYBRID_REGEX, SITE_TITLE, SITE_URL } from "@/config";
 import {
@@ -95,7 +96,7 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
     return car;
   });
   const months = await fetchApi<Month[]>(`${API_URL}/cars/months`);
-  const total = cars.reduce((accum, curr) => accum + (curr.number || 0), 0);
+  const total = cars.reduce((total, { number = 0 }) => total + number, 0);
 
   const aggregateData = (
     data: any[],
@@ -145,13 +146,8 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
         <div className="flex flex-col justify-between gap-2 md:flex-row md:items-center">
-          <div className="space-y-2">
-            <Typography.H1 className="grow">CAR REGISTRATIONS</Typography.H1>
-            <Typography.H2>{formattedMonth.toUpperCase()} STATS</Typography.H2>
-          </div>
-          <div className="shrink">
-            <MonthSelector months={months} />
-          </div>
+          <Typography.H1>CAR REGISTRATIONS</Typography.H1>
+          <MonthSelector months={months} />
         </div>
         {/*TODO: Improvise*/}
         {cars.length === 0 && (
@@ -163,71 +159,62 @@ const CarsPage = async (props: { searchParams: SearchParams }) => {
           <div className="flex flex-col gap-y-4">
             <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
               <Card>
-                <CardHeader>
+                <CardHeader className="flex items-center justify-between">
                   <CardTitle>Total Registrations</CardTitle>
+                  <Badge className="bg-blue-600">{formattedMonth}</Badge>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-4xl font-bold text-primary">{total}</p>
+                <CardContent className="text-4xl font-bold text-blue-600">
+                  {total}
                 </CardContent>
               </Card>
               <Card>
-                <CardHeader>
+                <CardHeader className="flex items-center justify-between">
                   <CardTitle>Top Fuel Type</CardTitle>
+                  <Badge className="bg-green-600">{topFuelType}</Badge>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-2xl font-bold text-green-600">
-                    {topFuelType} ({topFuelTypeValue})
-                  </p>
-                  <p className="text-gray-600">Highest adoption rate</p>
+                <CardContent className="text-4xl font-bold text-green-600">
+                  {topFuelTypeValue}
                 </CardContent>
               </Card>
               <Card>
-                <CardHeader>
+                <CardHeader className="flex items-center justify-between">
                   <CardTitle>Top Vehicle Type</CardTitle>
+                  <Badge className="bg-pink-600">{topVehicleType}</Badge>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-2xl font-bold text-pink-600">
-                    {topVehicleType} ({topVehicleTypeValue})
-                  </p>
-                  <p className="text-gray-600">Highest adoption rate</p>
+                <CardContent className="text-4xl font-bold text-pink-600">
+                  {topVehicleTypeValue}
                 </CardContent>
               </Card>
               {/*<UnreleasedFeature>*/}
               {/*  <Card>*/}
               {/*    <CardHeader>*/}
-              {/*      <CardTitle>Trend</CardTitle>*/}
+              {/*      <CardTitle>Growth Trend: Electric</CardTitle>*/}
               {/*    </CardHeader>*/}
               {/*    <CardContent>*/}
-              {/*      <p className="text-2xl font-bold text-orange-600">*/}
-              {/*        Electric*/}
-              {/*      </p>*/}
-              {/*      <p className="text-gray-600">*/}
-              {/*        Steady increase in registrations*/}
-              {/*      </p>*/}
+              {/*      <p className="text-4xl font-bold text-purple-600">1037</p>*/}
               {/*    </CardContent>*/}
               {/*  </Card>*/}
               {/*</UnreleasedFeature>*/}
             </div>
-            <div className="grid gap-4 xl:grid-cols-12">
-              <div className="grid grid-cols-1 gap-4 xl:col-span-6">
-                <StatisticsCard
-                  title="By Fuel Type"
-                  description="Distribution of vehicles based on fuel type"
-                  data={numberByFuelType}
-                  total={total}
-                  linkPrefix="fuel-types"
-                />
-                <StatisticsCard
-                  title="By Vehicle Type"
-                  description="Distribution of vehicles based on vehicle type"
-                  data={numberByVehicleType}
-                  total={total}
-                  linkPrefix="vehicle-types"
-                />
-              </div>
-              <div className="grid grid-cols-1 gap-4 xl:col-span-6">
-                <Leaderboard cars={cars} />
-              </div>
+            <DetailedBreakdown data={cars} />
+            <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+              <StatCard
+                title="By Fuel Type"
+                description="Distribution of vehicles based on fuel type"
+                data={numberByFuelType}
+                total={total}
+                linkPrefix="fuel-types"
+              />
+              <StatCard
+                title="By Vehicle Type"
+                description="Distribution of vehicles based on vehicle type"
+                data={numberByVehicleType}
+                total={total}
+                linkPrefix="vehicle-types"
+              />
+              {/*<div className="grid grid-cols-1 gap-4 xl:col-span-6">*/}
+              {/*  <Leaderboard cars={cars} />*/}
+              {/*</div>*/}
             </div>
           </div>
         )}
