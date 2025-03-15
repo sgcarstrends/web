@@ -7,7 +7,9 @@ import { Analytics } from "@/app/components/Analytics";
 import { Announcement } from "@/app/components/Announcement";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Header } from "@/components/Header";
+import { NotificationPrompt } from "@/components/notification-prompt";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
 import "./globals.css";
 import type { Metadata } from "next";
@@ -57,6 +59,7 @@ const RootLayout = async ({
   return (
     <html lang="en">
       <body className={classNames(inter.className)}>
+        <NotificationPrompt />
         {ANNOUNCEMENT && <Announcement>{ANNOUNCEMENT}</Announcement>}
         <SidebarProvider>
           <AppSidebar />
@@ -67,6 +70,7 @@ const RootLayout = async ({
             <div className="bg-gray-50 p-4">{children}</div>
           </main>
         </SidebarProvider>
+        <Toaster theme="light" position="top-right" closeButton richColors />
         {/*<Footer />*/}
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>

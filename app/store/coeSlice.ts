@@ -1,7 +1,7 @@
 import type { COECategoryFilter, COECategory } from "@/types";
 import type { StateCreator } from "zustand";
 
-export type CoeSlice = {
+export type COEState = {
   categories: COECategoryFilter;
 };
 
@@ -17,7 +17,7 @@ const defaultCategories: COECategoryFilter = {
   "Category E": true,
 };
 
-export const createCoeSlice: StateCreator<CoeSlice & COEAction> = (set) => ({
+export const createCoeSlice: StateCreator<COEState & COEAction> = (set) => ({
   categories: defaultCategories,
   updateCategories: (category) =>
     set(({ categories }) => ({
