@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { formatPercent } from "@/utils/formatPercent";
 
 describe("formatPercent", () => {
