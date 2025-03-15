@@ -207,7 +207,7 @@ export const COEPremiumChart = ({
                   formatter={(value: any, name, _, index) => (
                     <>
                       <div
-                        className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--colour-bg]"
+                        className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-(--colour-bg)"
                         style={
                           {
                             "--colour-bg": `hsl(var(--chart-${index + 1}))`,

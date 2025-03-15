@@ -9,7 +9,7 @@ export const MaintenanceNotice = () => {
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
       <div className="flex flex-1 items-center justify-center p-4">
-        <div className="w-full max-w-2xl rounded-lg border border-gray-100 bg-white p-8 text-center shadow-sm">
+        <div className="w-full max-w-2xl rounded-lg border border-gray-100 bg-white p-8 text-center shadow-xs">
           <div className="mb-6 flex justify-center">
             <AlertTriangle className="h-16 w-16 text-blue-600" />
           </div>
