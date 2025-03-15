@@ -1,11 +1,6 @@
 import React, { type ReactNode } from "react";
 import { Inter } from "next/font/google";
 import Script from "next/script";
-import {
-  ColorSchemeScript,
-  mantineHtmlProps,
-  MantineProvider,
-} from "@mantine/core";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import classNames from "classnames";
 import { Analytics } from "@/app/components/Analytics";
@@ -15,7 +10,6 @@ import { Header } from "@/components/Header";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
 import "./globals.css";
-import "@mantine/core/styles.css";
 import type { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -61,23 +55,18 @@ const RootLayout = async ({
   const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
-    <html lang="en" {...mantineHtmlProps}>
-      <head>
-        <ColorSchemeScript />
-      </head>
+    <html lang="en">
       <body className={classNames(inter.className)}>
         {ANNOUNCEMENT && <Announcement>{ANNOUNCEMENT}</Announcement>}
-        <MantineProvider>
-          <SidebarProvider>
-            <AppSidebar />
-            <main className="w-full bg-gray-50">
-              <Header breadcrumbs={breadcrumbs}>
-                <SidebarTrigger />
-              </Header>
-              <div className="bg-gray-50 p-4">{children}</div>
-            </main>
-          </SidebarProvider>
-        </MantineProvider>
+        <SidebarProvider>
+          <AppSidebar />
+          <main className="w-full bg-gray-50">
+            <Header breadcrumbs={breadcrumbs}>
+              <SidebarTrigger />
+            </Header>
+            <div className="bg-gray-50 p-4">{children}</div>
+          </main>
+        </SidebarProvider>
         {/*<Footer />*/}
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
