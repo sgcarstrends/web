@@ -38,7 +38,7 @@ export const CategoryInfo = ({
       )}
       onClick={handleFilterCategories}
     >
-      <Icon className="h-6 w-6" />
+      <Icon className="size-6" />
       <div>
         <h4 className="font-semibold">{category}</h4>
         <p className="text-sm text-gray-600">{description}</p>

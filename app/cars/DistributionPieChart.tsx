@@ -26,7 +26,7 @@ export const DistributionPieChart = ({ data, type }: Props) => {
     .map(([key, value], index) => ({
       label: key,
       value,
-      fill: `hsl(var(--chart-${index + 1}))`,
+      fill: `var(--chart-${index + 1})`,
     }));
 
   const chartConfig = {

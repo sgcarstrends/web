@@ -11,7 +11,7 @@ const NoData = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <Alert variant="destructive">
-        <AlertCircle className="h-4 w-4" />
+        <AlertCircle className="size-4" />
         <AlertTitle>No Data Available</AlertTitle>
         <AlertDescription>
           The requested page does not exist or no data is available.
@@ -19,11 +19,11 @@ const NoData = () => {
       </Alert>
       <div className="flex items-center gap-2">
         <Button variant="outline" onClick={() => router.push("/")}>
-          <Home className="mr-2 h-4 w-4" />
+          <Home className="mr-2 size-4" />
           Go Home
         </Button>
         <Button variant="outline" onClick={() => router.back()}>
-          <RotateCcw className="mr-2 h-4 w-4" />
+          <RotateCcw className="mr-2 size-4" />
           Go Back
         </Button>
       </div>

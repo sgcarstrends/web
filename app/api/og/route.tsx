@@ -59,12 +59,12 @@ export const GET = async (req: NextRequest) => {
                 {make && <span tw="capitalize text-blue-600">{make}</span>}
               </div>
               {/*<div tw="mt-8 flex md:mt-0">*/}
-              {/*  <div tw="flex rounded-md shadow">*/}
+              {/*  <div tw="flex rounded-md shadow-sm">*/}
               {/*    <a tw="flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-5 py-3 text-base font-medium text-white">*/}
               {/*      Explore*/}
               {/*    </a>*/}
               {/*  </div>*/}
-              {/*  <div tw="ml-3 flex rounded-md shadow">*/}
+              {/*  <div tw="ml-3 flex rounded-md shadow-sm">*/}
               {/*    <a tw="flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-blue-600">*/}
               {/*      Details*/}
               {/*    </a>*/}

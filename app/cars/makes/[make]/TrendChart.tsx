@@ -39,8 +39,8 @@ export const TrendChart = ({ data }: Props) => {
         <Area
           dataKey="number"
           type="monotone"
-          fill="hsl(var(--primary))"
-          stroke="hsl(var(--primary))"
+          fill="var(--primary)"
+          stroke="var(--primary)"
           strokeWidth={2}
         />
       </AreaChart>

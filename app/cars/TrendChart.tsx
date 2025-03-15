@@ -31,7 +31,7 @@ export const TrendChart = ({ data }: Props) => {
           axisLine={false}
         />
         <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
-        <Bar dataKey="number" fill="hsl(var(--primary))" radius={8} />
+        <Bar dataKey="number" fill="var(--primary)" radius={8} />
       </BarChart>
     </ChartContainer>
   );

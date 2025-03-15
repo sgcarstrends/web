@@ -67,7 +67,7 @@ const P = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("leading-7 [&:not(:first-child)]:mt-6", className)}
+    className={cn("leading-7 not-first:mt-6", className)}
     {...props}
   />
 ));
@@ -104,7 +104,7 @@ const InlineCode = React.forwardRef<
   <code
     ref={ref}
     className={cn(
-      "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
+      "relative rounded-sm bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
       className,
     )}
     {...props}
