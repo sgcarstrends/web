@@ -4,8 +4,8 @@ import {
   loadSearchParams,
   coeSearchParams,
 } from "@/app/coe/(prices)/search-params";
+import { COEPremiumChart } from "@/components/COE-premium-chart";
 import { COECategories } from "@/components/COECategories";
-import { COEPremiumChart } from "@/components/COEPremiumChart";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import {

@@ -1,9 +1,15 @@
 "use client";
 
-import { type CSSProperties, useEffect, useMemo, useState } from "react";
+import {
+  type CSSProperties,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { numberFormat } from "@ruchernchong/number-format";
-import { parse, subMonths, subYears } from "date-fns";
+import { parse, subMonths } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { CartesianGrid, Label, Line, LineChart, XAxis, YAxis } from "recharts";
 import useStore from "@/app/store";
@@ -45,88 +51,74 @@ const LAST_12_MONTHS = (30 * 12).toString();
 const LAST_5_YEARS = (5 * 30 * 12).toString();
 const LAST_10_YEARS = (10 * 30 * 12).toString();
 
+const TIME_RANGES: TimeRange[] = [
+  { timeRange: LAST_12_MONTHS, label: "Last 12 Months" },
+  { timeRange: LAST_5_YEARS, label: "Last 5 Years" },
+  { timeRange: LAST_10_YEARS, label: "Last 10 Years" },
+  { timeRange: "YTD", label: "Year to Date" },
+  { timeRange: "ALL", label: "All Time" },
+];
+
 export const COEPremiumChart = ({ data, months }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
-
-  const categories = useStore(({ categories }) => categories);
-
+  const categories = useStore((state) => state.categories);
   const [timeRange, setTimeRange] = useState(LAST_12_MONTHS);
-
   const latestMonth = months[0];
   const earliestMonth = months[months.length - 1];
 
-  useEffect(() => {
+  const updateRouterWithTimeRange = useCallback(() => {
     const params = new URLSearchParams();
 
     const formatMonth = (date: Date) => {
       const year = date.getFullYear();
-      const month = ("0" + date.getMonth()).slice(-2);
+      const month = ("0" + (date.getMonth() + 1)).slice(-2); // Note: getMonth() returns 0-based month
       return `${year}-${month}`;
     };
 
-    switch (timeRange) {
-      case LAST_12_MONTHS:
-        params.append(
-          "from",
-          `${formatMonth(subMonths(parse(latestMonth, "yyyy-MM", new Date()), 12))}`,
-        );
-        params.append("to", latestMonth);
-        break;
-      case LAST_5_YEARS:
-        params.append(
-          "from",
-          `${formatMonth(subYears(parse(latestMonth, "yyyy-MM", new Date()), 5))}`,
-        );
-        params.append("to", latestMonth);
-        break;
-      case LAST_10_YEARS:
-        params.append(
-          "from",
-          `${formatMonth(subYears(parse(latestMonth, "yyyy-MM", new Date()), 10))}`,
-        );
-        params.append("to", latestMonth);
-        break;
-      case "YTD":
-        params.append("from", `${new Date().getFullYear()}-01`);
-        params.append("to", latestMonth);
-        break;
-      case "ALL":
-        params.append("from", earliestMonth);
-        params.append("to", latestMonth);
-        break;
-      default:
+    const timeRangesMap = {
+      [LAST_12_MONTHS]: 12,
+      [LAST_5_YEARS]: 5 * 12,
+      [LAST_10_YEARS]: 10 * 12,
+      YTD: null,
+      ALL: null,
+    };
+
+    const duration = timeRangesMap[timeRange as keyof typeof timeRangesMap];
+    if (timeRange === "YTD") {
+      params.append("from", `${new Date().getFullYear()}-01`); // Correctly set from to the start of the current year
+    } else if (timeRange === "ALL") {
+      params.append("from", earliestMonth);
+    } else if (duration !== null) {
+      params.append(
+        "from",
+        `${formatMonth(subMonths(parse(latestMonth, "yyyy-MM", new Date()), duration))}`,
+      );
     }
 
+    params.append("to", latestMonth);
     router.push(`${pathname}?${params.toString()}`);
   }, [earliestMonth, latestMonth, pathname, router, timeRange]);
 
-  const filteredData: COEBiddingResult[] = useMemo(
-    () =>
-      data.map((item) =>
-        Object.entries(item).reduce((acc: any, [key, value]) => {
-          if (
-            key === "month" ||
-            (key.startsWith("Category") && categories[key as COECategory])
-          ) {
-            acc[key] = value;
-          }
+  useEffect(() => {
+    updateRouterWithTimeRange();
+  }, [updateRouterWithTimeRange]);
 
-          return acc;
-        }, {}),
-      ),
-    [categories, data],
-  );
+  const filteredData = useMemo(() => {
+    return data.map((item) =>
+      Object.entries(item).reduce((acc: Record<string, any>, [key, value]) => {
+        if (
+          key === "month" ||
+          (key.startsWith("Category") && categories[key as COECategory])
+        ) {
+          acc[key] = value;
+        }
+        return acc;
+      }, {}),
+    );
+  }, [categories, data]);
 
-  const chartConfig = {} satisfies ChartConfig;
-
-  const TIME_RANGES: TimeRange[] = [
-    { timeRange: LAST_12_MONTHS, label: "Last 12 Months" },
-    { timeRange: LAST_5_YEARS, label: "Last 5 Years" },
-    { timeRange: LAST_10_YEARS, label: "Last 10 Years" },
-    { timeRange: "YTD", label: "Year to Date" },
-    { timeRange: "ALL", label: "All Time" },
-  ];
+  const chartConfig: ChartConfig = {};
 
   return (
     <Card>
@@ -161,11 +153,11 @@ export const COEPremiumChart = ({ data, months }: Props) => {
       </CardHeader>
       <CardContent className="p-6">
         <ChartContainer config={chartConfig} className="h-[400px] w-full">
-          <LineChart accessibilityLayer data={filteredData}>
+          <LineChart data={filteredData}>
             <CartesianGrid />
             <XAxis
               dataKey="month"
-              tickFormatter={(value) => formatDateToMonthYear(value)}
+              tickFormatter={formatDateToMonthYear}
               axisLine={false}
             />
             <YAxis
@@ -173,7 +165,7 @@ export const COEPremiumChart = ({ data, months }: Props) => {
                 (dataMin: number) => Math.floor(dataMin / 10000) * 10000,
                 (dataMax: number) => Math.ceil(dataMax / 10000) * 10000,
               ]}
-              tickFormatter={(value) => numberFormat(value)}
+              tickFormatter={numberFormat}
               axisLine={false}
             >
               <Label
@@ -188,7 +180,7 @@ export const COEPremiumChart = ({ data, months }: Props) => {
               content={
                 <ChartTooltipContent
                   indicator="line"
-                  labelFormatter={(value) => formatDateToMonthYear(value)}
+                  labelFormatter={formatDateToMonthYear}
                   formatter={(value: any, name, _, index) => (
                     <>
                       <div
@@ -201,7 +193,7 @@ export const COEPremiumChart = ({ data, months }: Props) => {
                       />
                       {name}
                       <div className="text-foreground ml-auto flex items-baseline gap-0.5 font-medium tabular-nums">
-                        {Intl.NumberFormat("en-SG", {
+                        {new Intl.NumberFormat("en-SG", {
                           style: "currency",
                           currency: "SGD",
                           minimumFractionDigits: 0,
@@ -213,8 +205,8 @@ export const COEPremiumChart = ({ data, months }: Props) => {
               }
             />
             {Object.entries(categories)
-              .filter(([key, value]) => value)
-              .map(([category, value], index) => (
+              .filter(([, value]) => value)
+              .map(([category], index) => (
                 <Line
                   key={category}
                   dataKey={category}
