@@ -1,9 +1,6 @@
-import { createSerializer, type SearchParams } from "nuqs/server";
+import { type SearchParams } from "nuqs/server";
 import { TrendTable } from "@/app/coe/(prices)/TrendTable";
-import {
-  loadSearchParams,
-  coeSearchParams,
-} from "@/app/coe/(prices)/search-params";
+import { loadSearchParams } from "@/app/coe/(prices)/search-params";
 import { COEPremiumChart } from "@/components/COE-premium-chart";
 import { COECategories } from "@/components/COECategories";
 import { StructuredData } from "@/components/StructuredData";

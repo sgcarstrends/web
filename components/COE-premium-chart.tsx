@@ -7,10 +7,10 @@ import {
   useMemo,
   useState,
 } from "react";
-import { usePathname, useRouter } from "next/navigation";
 import { numberFormat } from "@ruchernchong/number-format";
-import { parse, subMonths } from "date-fns";
+import { addYears, format, parse, subMonths } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { useQueryState } from "nuqs";
 import { CartesianGrid, Label, Line, LineChart, XAxis, YAxis } from "recharts";
 import useStore from "@/app/store";
 import {
@@ -60,45 +60,56 @@ const TIME_RANGES: TimeRange[] = [
 ];
 
 export const COEPremiumChart = ({ data, months }: Props) => {
-  const router = useRouter();
-  const pathname = usePathname();
   const categories = useStore((state) => state.categories);
   const [timeRange, setTimeRange] = useState(LAST_12_MONTHS);
   const latestMonth = months[0];
   const earliestMonth = months[months.length - 1];
 
-  const updateRouterWithTimeRange = useCallback(() => {
-    const params = new URLSearchParams();
+  const dateOneYearAgo = format(addYears(latestMonth, -1), "yyyy-MM");
 
+  const [, setFrom] = useQueryState("from", {
+    defaultValue: dateOneYearAgo,
+    shallow: false,
+  });
+  const [, setTo] = useQueryState("to", {
+    defaultValue: latestMonth,
+    shallow: false,
+  });
+
+  const updateRouterWithTimeRange = useCallback(() => {
     const formatMonth = (date: Date) => {
       const year = date.getFullYear();
       const month = ("0" + (date.getMonth() + 1)).slice(-2); // Note: getMonth() returns 0-based month
       return `${year}-${month}`;
     };
 
-    const timeRangesMap = {
+    const timeRangesMap: Record<string, number> = {
       [LAST_12_MONTHS]: 12,
       [LAST_5_YEARS]: 5 * 12,
       [LAST_10_YEARS]: 10 * 12,
-      YTD: null,
-      ALL: null,
+      YTD: 0,
+      ALL: Number.POSITIVE_INFINITY,
     };
 
-    const duration = timeRangesMap[timeRange as keyof typeof timeRangesMap];
-    if (timeRange === "YTD") {
-      params.append("from", `${new Date().getFullYear()}-01`); // Correctly set from to the start of the current year
-    } else if (timeRange === "ALL") {
-      params.append("from", earliestMonth);
-    } else if (duration !== null) {
-      params.append(
-        "from",
-        `${formatMonth(subMonths(parse(latestMonth, "yyyy-MM", new Date()), duration))}`,
-      );
-    }
+    const currentYear = new Date().getFullYear();
+    const formatDate = (month: string, duration: number) =>
+      formatMonth(subMonths(parse(month, "yyyy-MM", new Date()), duration));
 
-    params.append("to", latestMonth);
-    router.push(`${pathname}?${params.toString()}`);
-  }, [earliestMonth, latestMonth, pathname, router, timeRange]);
+    const duration = timeRangesMap[timeRange as keyof typeof timeRangesMap];
+    const setFromDate = () => {
+      switch (timeRange) {
+        case "YTD":
+          return `${currentYear}-01`;
+        case "ALL":
+          return earliestMonth;
+        default:
+          return formatDate(latestMonth, duration);
+      }
+    };
+
+    void setFrom(setFromDate());
+    void setTo(latestMonth);
+  }, [earliestMonth, latestMonth, setFrom, setTo, timeRange]);
 
   useEffect(() => {
     updateRouterWithTimeRange();
