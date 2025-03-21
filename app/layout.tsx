@@ -1,4 +1,4 @@
-import React, { type ReactNode } from "react";
+import React, { type ReactNode, Suspense } from "react";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -6,8 +6,8 @@ import classNames from "classnames";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Analytics } from "@/app/components/Analytics";
 import { Announcement } from "@/app/components/Announcement";
-import { AppSidebar } from "@/components/AppSidebar";
 import { Header } from "@/components/Header";
+import { AppSidebar } from "@/components/app-sidebar";
 import { NotificationPrompt } from "@/components/notification-prompt";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
@@ -63,15 +63,17 @@ const RootLayout = async ({
         <NotificationPrompt />
         {ANNOUNCEMENT && <Announcement>{ANNOUNCEMENT}</Announcement>}
         <SidebarProvider>
-          <AppSidebar />
-          <main className="w-full bg-gray-50">
-            <Header breadcrumbs={breadcrumbs}>
-              <SidebarTrigger />
-            </Header>
-            <div className="bg-gray-50 p-4">
-              <NuqsAdapter>{children}</NuqsAdapter>
-            </div>
-          </main>
+          <NuqsAdapter>
+            <Suspense>
+              <AppSidebar />
+            </Suspense>
+            <main className="w-full bg-gray-50">
+              <Header breadcrumbs={breadcrumbs}>
+                <SidebarTrigger />
+              </Header>
+              <div className="bg-gray-50 p-4">{children}</div>
+            </main>
+          </NuqsAdapter>
         </SidebarProvider>
         <Toaster theme="light" position="top-right" closeButton richColors />
         {/*<Footer />*/}
