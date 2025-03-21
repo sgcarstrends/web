@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import classNames from "classnames";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Analytics } from "@/app/components/Analytics";
 import { Announcement } from "@/app/components/Announcement";
 import { AppSidebar } from "@/components/AppSidebar";
@@ -67,7 +68,9 @@ const RootLayout = async ({
             <Header breadcrumbs={breadcrumbs}>
               <SidebarTrigger />
             </Header>
-            <div className="bg-gray-50 p-4">{children}</div>
+            <div className="bg-gray-50 p-4">
+              <NuqsAdapter>{children}</NuqsAdapter>
+            </div>
           </main>
         </SidebarProvider>
         <Toaster theme="light" position="top-right" closeButton richColors />
