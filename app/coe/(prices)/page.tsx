@@ -1,4 +1,9 @@
+import { createSerializer, type SearchParams } from "nuqs/server";
 import { TrendTable } from "@/app/coe/(prices)/TrendTable";
+import {
+  loadSearchParams,
+  coeSearchParams,
+} from "@/app/coe/(prices)/search-params";
 import { COECategories } from "@/components/COECategories";
 import { COEPremiumChart } from "@/components/COEPremiumChart";
 import { StructuredData } from "@/components/StructuredData";
@@ -21,7 +26,9 @@ import { fetchApi } from "@/utils/fetchApi";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+interface Props {
+  searchParams: Promise<SearchParams>;
+}
 
 const title = "COE Result";
 const description =
@@ -53,30 +60,13 @@ export const generateMetadata = async (): Promise<Metadata> => {
   };
 };
 
-const COEPricesPage = async (props: { searchParams: SearchParams }) => {
-  const searchParams = await props.searchParams;
+const COEPricesPage = async ({ searchParams }: Props) => {
+  const { from, to } = await loadSearchParams(searchParams);
 
-  // Convert searchParams to a valid format for URLSearchParams
-  const params = new URLSearchParams(
-    Object.entries(searchParams).reduce(
-      (acc: Record<string, string>, [key, value]) => {
-        if (typeof value === "string") {
-          acc[key] = value;
-        } else if (Array.isArray(value)) {
-          acc[key] = value.join(","); // Or handle arrays in any other way you prefer
-        }
-        return acc;
-      },
-      {},
-    ),
-  );
-
-  params.append("sort", "month");
-  params.append("orderBy", "asc");
-  const queryString = params.toString();
+  const params = new URLSearchParams({ from, to });
 
   const [coeResults, months]: [COEResult[], Month[]] = await Promise.all([
-    await fetchApi<COEResult[]>(`${API_URL}/coe?${queryString}`, {
+    await fetchApi<COEResult[]>(`${API_URL}/coe?${params.toString()}`, {
       next: { tags: [RevalidateTags.COE] },
     }),
     await fetchApi<Month[]>(`${API_URL}/coe/months`),
