@@ -1,7 +1,7 @@
 {
   "name": "@sgcarstrends/web",
   "description": "Statistics for car trends in Singapore. Data provided by Land Transport Authority (LTA)",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "license": "MIT",
   "scripts": {
     "build": "next build",
