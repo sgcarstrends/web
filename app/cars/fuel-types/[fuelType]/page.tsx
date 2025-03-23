@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import { loadSearchParams } from "@/app/cars/fuel-types/[fuelType]/search-params";
 import { fetchMonths } from "@/app/cars/utils/fetchMonths";
 import NoData from "@/components/NoData";
 import { StructuredData } from "@/components/StructuredData";
@@ -14,27 +15,30 @@ import { fetchApi } from "@/utils/fetchApi";
 import { mergeCarsByMake } from "@/utils/mergeCarsByMake";
 import { deslugify, slugify } from "@/utils/slugify";
 import type { Metadata } from "next";
+import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 
-type Params = Promise<{ fuelType: string }>;
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+interface Props {
+  params: Promise<{ fuelType: string }>;
+  searchParams: Promise<SearchParams>;
+}
 
 const CarOverviewTrends = dynamic(
   () => import("@/app/components/CarOverviewTrends"),
 );
 const MonthSelector = dynamic(() => import("@/components/MonthSelector"));
 
-export const generateMetadata = async (props: {
-  params: Params;
-  searchParams: SearchParams;
-}): Promise<Metadata> => {
-  const params = await props.params;
-  const { fuelType } = params;
+export const generateMetadata = async ({
+  params,
+  searchParams,
+}: Props): Promise<Metadata> => {
+  const { fuelType } = await params;
+  const { month } = await loadSearchParams(searchParams);
 
   const formattedFuelType = deslugify(fuelType);
   const title = `${formattedFuelType} Cars in Singapore`;
   const description = `${formattedFuelType} cars registrations by month. Explore registration trends, statistics and distribution by fuel type for the month in Singapore.`;
-  const canonical = `/cars/fuel-types/${fuelType}`;
+  const canonical = `/cars/fuel-types/${fuelType}?month=${month}`;
 
   return {
     title,
@@ -67,21 +71,21 @@ const fuelTypes = ["petrol", "hybrid", "electric", "diesel"];
 export const generateStaticParams = () =>
   fuelTypes.map((fuelType) => ({ fuelType: slugify(fuelType) }));
 
-const CarsByFuelTypePage = async (props: {
-  params: Params;
-  searchParams: SearchParams;
-}) => {
-  const params = await props.params;
-  const searchParams = await props.searchParams;
-  const { fuelType } = params;
+const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
+  const { fuelType } = await params;
+  const { month } = await loadSearchParams(searchParams);
 
-  const [months, latestMonth]: [Month[], LatestMonth] = await fetchMonths();
+  const [months]: [Month[], LatestMonth] = await fetchMonths();
 
-  const month = searchParams?.month ?? latestMonth.cars;
-  const cars = await fetchApi<Car[]>(
-    `${API_URL}/cars?fuel_type=${fuelType}&month=${month}`,
-    { next: { tags: [RevalidateTags.Cars] } },
-  );
+  const queries = {
+    fuel_type: fuelType,
+    ...(month && { month }),
+  };
+  const search = new URLSearchParams(queries);
+
+  const cars = await fetchApi<Car[]>(`${API_URL}/cars?${search.toString()}`, {
+    next: { tags: [RevalidateTags.Cars] },
+  });
 
   const filteredCars = mergeCarsByMake(cars);
 

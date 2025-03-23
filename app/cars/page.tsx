@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { DetailedBreakdown } from "@/app/cars/detailed-breakdown";
+import { loadSearchParams } from "@/app/cars/search-params";
 import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
@@ -17,15 +18,17 @@ import {
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { Metadata } from "next";
+import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+interface Props {
+  searchParams: Promise<SearchParams>;
+}
 
-export const generateMetadata = async (props: {
-  searchParams: SearchParams;
-}): Promise<Metadata> => {
-  const searchParams = await props.searchParams;
-  let month = searchParams.month as string;
+export const generateMetadata = async ({
+  searchParams,
+}: Props): Promise<Metadata> => {
+  let { month } = await loadSearchParams(searchParams);
 
   if (!month) {
     const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
@@ -36,7 +39,7 @@ export const generateMetadata = async (props: {
 
   const title = "Car Registrations in Singapore";
   const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
-  const canonical = `/cars`;
+  const canonical = `/cars?month=${month}`;
 
   // const images = `/api/og?title=Car Registrations for ${formattedMonth}`;
 
@@ -62,9 +65,8 @@ export const generateMetadata = async (props: {
   };
 };
 
-const CarsPage = async (props: { searchParams: SearchParams }) => {
-  const searchParams = await props.searchParams;
-  let month = searchParams.month as string;
+const CarsPage = async ({ searchParams }: Props) => {
+  let { month } = await loadSearchParams(searchParams);
 
   // TODO: Interim solution
   if (!month) {

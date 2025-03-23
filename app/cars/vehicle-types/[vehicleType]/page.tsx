@@ -1,5 +1,7 @@
 import dynamic from "next/dynamic";
+import { type SearchParams } from "nuqs/server";
 import { fetchMonths } from "@/app/cars/utils/fetchMonths";
+import { loadSearchParams } from "@/app/cars/vehicle-types/[vehicleType]/search-params";
 import NoData from "@/components/NoData";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
@@ -16,25 +18,28 @@ import { deslugify, slugify } from "@/utils/slugify";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
-type Params = Promise<{ vehicleType: string }>;
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+interface Props {
+  params: Promise<{ vehicleType: string }>;
+  searchParams: Promise<SearchParams>;
+}
 
 const CarOverviewTrends = dynamic(
   () => import("@/app/components/CarOverviewTrends"),
 );
 const MonthSelector = dynamic(() => import("@/components/MonthSelector"));
 
-export const generateMetadata = async (props: {
-  params: Params;
-}): Promise<Metadata> => {
-  const params = await props.params;
-  const { vehicleType } = params;
+export const generateMetadata = async ({
+  params,
+  searchParams,
+}: Props): Promise<Metadata> => {
+  const { vehicleType } = await params;
+  const { month } = await loadSearchParams(searchParams);
 
   const formattedVehicleType = deslugify(vehicleType);
   const title = `${formattedVehicleType} Cars in Singapore`;
   const description = `${formattedVehicleType} cars registrations by month. Explore registration trends, statistics and distribution by vehicle type for the month in Singapore.`;
   // const images = `/api/og?title=Historical Trend&type=${vehicleType}`;
-  const canonical = `/cars/vehicle-types/${vehicleType}`;
+  const canonical = `/cars/vehicle-types/${vehicleType}?month=${month}`;
 
   return {
     title,
@@ -70,21 +75,20 @@ const vehicleTypes = [
 export const generateStaticParams = () =>
   vehicleTypes.map((vehicleType) => ({ vehicleType: slugify(vehicleType) }));
 
-const CarsByVehicleTypePage = async (props: {
-  params: Params;
-  searchParams: SearchParams;
-}) => {
-  const params = await props.params;
-  const searchParams = await props.searchParams;
-  const { vehicleType } = params;
+const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
+  const { vehicleType } = await params;
+  const { month } = await loadSearchParams(searchParams);
 
-  const [months, latestMonth]: [Month[], LatestMonth] = await fetchMonths();
+  const queries = {
+    vehicle_type: vehicleType,
+    ...(month && { month }),
+  };
+  const search = new URLSearchParams(queries);
 
-  const month = searchParams?.month ?? latestMonth.cars;
-  const cars = await fetchApi<Car[]>(
-    `${API_URL}/cars?vehicle_type=${vehicleType}&month=${month}`,
-    { next: { tags: [RevalidateTags.Cars] } },
-  );
+  const [months]: [Month[], LatestMonth] = await fetchMonths();
+  const cars = await fetchApi<Car[]>(`${API_URL}/cars?${search.toString()}`, {
+    next: { tags: [RevalidateTags.Cars] },
+  });
 
   if (cars.length === 0) {
     return <NoData />;

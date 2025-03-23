@@ -1,3 +1,5 @@
+"use client";
+
 import type { ComponentProps } from "react";
 import Link from "next/link";
 import {
@@ -10,9 +12,8 @@ import {
   SiX,
 } from "@icons-pack/react-simple-icons";
 import { type LucideIcon } from "lucide-react";
-
+import { useQueryState, parseAsString } from "nuqs";
 import { BrandLogo } from "@/components/BrandLogo";
-import { LinkWithParams } from "@/components/LinkWithParams";
 import { NavSocialMedia } from "@/components/NavSocialMedia";
 import {
   Sidebar,
@@ -52,6 +53,8 @@ type Nav = {
 };
 
 export const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
+  const [month] = useQueryState("month", parseAsString);
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -80,9 +83,14 @@ export const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                     {items?.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
                         <SidebarMenuSubButton asChild>
-                          <LinkWithParams href={subItem.url}>
+                          <Link
+                            href={{
+                              pathname: subItem.url,
+                              query: { month },
+                            }}
+                          >
                             {subItem.title}
-                          </LinkWithParams>
+                          </Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}
