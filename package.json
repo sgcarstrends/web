@@ -12,7 +12,8 @@
     "test:e2e": "playwright test",
     "migrate": "drizzle-kit migrate",
     "changeset": "changeset",
-    "version": "changeset version"
+    "version": "changeset version",
+    "tag-release": "changeset tag"
   },
   "dependencies": {
     "@icons-pack/react-simple-icons": "^10.2.0",
