@@ -56,7 +56,7 @@ export const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
   const [month] = useQueryState("month", parseAsString);
 
   return (
-    <Sidebar {...props}>
+    <Sidebar variant="inset" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>

@@ -9,7 +9,11 @@ import { Announcement } from "@/app/components/Announcement";
 import { Header } from "@/components/Header";
 import { AppSidebar } from "@/components/app-sidebar";
 import { NotificationPrompt } from "@/components/notification-prompt";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
 import "./globals.css";
@@ -62,19 +66,22 @@ const RootLayout = async ({
       <body className={classNames(inter.className)}>
         <NotificationPrompt />
         {ANNOUNCEMENT && <Announcement>{ANNOUNCEMENT}</Announcement>}
-        <SidebarProvider>
-          <NuqsAdapter>
-            <Suspense>
+        <NuqsAdapter>
+          <SidebarProvider>
+            {/*TODO: To wrap Suspense directly on the affected parts*/}
+            <Suspense fallback={null}>
               <AppSidebar />
             </Suspense>
-            <main className="w-full bg-gray-50">
+            <SidebarInset>
               <Header breadcrumbs={breadcrumbs}>
                 <SidebarTrigger />
               </Header>
-              <div className="bg-gray-50 p-4">{children}</div>
-            </main>
-          </NuqsAdapter>
-        </SidebarProvider>
+              <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                {children}
+              </main>
+            </SidebarInset>
+          </SidebarProvider>
+        </NuqsAdapter>
         <Toaster theme="light" position="top-right" closeButton richColors />
         {/*<Footer />*/}
         {process.env.NODE_ENV === "production" && <Analytics />}
