@@ -5,6 +5,7 @@ import { COEPremiumChart } from "@/components/COE-premium-chart";
 import { COECategories } from "@/components/COECategories";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
+import { LastUpdated } from "@/components/last-updated";
 import {
   Card,
   CardContent,
@@ -12,7 +13,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
+import { API_URL, LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@/config";
+import redis from "@/config/redis";
 import {
   type COEBiddingResult,
   type COEResult,
@@ -68,6 +70,7 @@ const COEPricesPage = async ({ searchParams }: Props) => {
     }),
     await fetchApi<Month[]>(`${API_URL}/coe/months`),
   ]);
+  const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
 
   const groupedData = coeResults.reduce<COEBiddingResult[]>(
     (acc: any, item) => {
@@ -106,6 +109,11 @@ const COEPricesPage = async ({ searchParams }: Props) => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-y-4">
         <Typography.H1>COE RESULT</Typography.H1>
+        {lastUpdated && (
+          <div>
+            <LastUpdated lastUpdated={lastUpdated} />
+          </div>
+        )}
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
           <div className="xl:col-span-8">
             <COEPremiumChart data={data} months={months} />

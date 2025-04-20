@@ -4,7 +4,9 @@ import { fetchMonths } from "@/app/cars/utils/fetchMonths";
 import NoData from "@/components/NoData";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
-import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
+import { LastUpdated } from "@/components/last-updated";
+import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
+import redis from "@/config/redis";
 import {
   type Car,
   type LatestMonth,
@@ -12,6 +14,7 @@ import {
   RevalidateTags,
 } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
+import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { mergeCarsByMake } from "@/utils/mergeCarsByMake";
 import { deslugify, slugify } from "@/utils/slugify";
 import type { Metadata } from "next";
@@ -73,9 +76,16 @@ export const generateStaticParams = () =>
 
 const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   const { fuelType } = await params;
-  const { month } = await loadSearchParams(searchParams);
+  let { month } = await loadSearchParams(searchParams);
 
-  const [months]: [Month[], LatestMonth] = await fetchMonths();
+  // TODO: Interim solution
+  if (!month) {
+    const latestMonths = await fetchApi<LatestMonth>(
+      `${API_URL}/months/latest`,
+      { next: { tags: [RevalidateTags.Cars] } },
+    );
+    month = latestMonths.cars;
+  }
 
   const queries = {
     fuel_type: fuelType,
@@ -86,6 +96,7 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   const cars = await fetchApi<Car[]>(`${API_URL}/cars?${search.toString()}`, {
     next: { tags: [RevalidateTags.Cars] },
   });
+  const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
 
   const filteredCars = mergeCarsByMake(cars);
 
@@ -115,12 +126,12 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col justify-between gap-2 xl:flex-row">
-          <div className="flex items-start">
-            <Typography.H1>{deslugify(fuelType).toUpperCase()}</Typography.H1>
-          </div>
-          <div className="items-end">
-            <MonthSelector months={months} />
+        <div className="flex flex-col gap-2">
+          <Typography.H1>{deslugify(fuelType).toUpperCase()}</Typography.H1>
+          <div className="text-muted-foreground flex items-center gap-2">
+            &mdash;
+            <span className="uppercase">{formatDateToMonthYear(month)}</span>
+            {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
           </div>
         </div>
         {filteredCars.length > 0 && <CarOverviewTrends cars={filteredCars} />}

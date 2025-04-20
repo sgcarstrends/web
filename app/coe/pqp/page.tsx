@@ -1,9 +1,11 @@
 import { AlertCircle } from "lucide-react";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
+import { LastUpdated } from "@/components/last-updated";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { DataTable } from "@/components/ui/data-table";
-import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
+import { API_URL, LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@/config";
+import redis from "@/config/redis";
 import { fetchApi } from "@/utils/fetchApi";
 import { columns } from "./columns";
 import type { WebPage, WithContext } from "schema-dts";
@@ -41,6 +43,7 @@ const PQPRatesPage = async () => {
   const pqpRates = await fetchApi<
     Array<Record<string, Record<string, number>>>
   >(`${API_URL}/coe/pqp`);
+  const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
 
   const data = Object.entries(pqpRates).map(([month, pqpRates]) => ({
     month,
@@ -60,6 +63,11 @@ const PQPRatesPage = async () => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-y-4">
         <Typography.H1>COE PQP RATES</Typography.H1>
+        {lastUpdated && (
+          <div>
+            <LastUpdated lastUpdated={lastUpdated} />
+          </div>
+        )}
         <Alert>
           <AlertCircle className="size-4" />
           <AlertTitle>Understanding PQP Rates</AlertTitle>
