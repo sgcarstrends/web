@@ -9,6 +9,7 @@
     "lint": "next lint",
     "start": "next start",
     "test": "vitest",
+    "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "migrate": "drizzle-kit migrate",
     "changeset": "changeset",
@@ -75,6 +76,7 @@
     "@types/react": "19.0.0",
     "@types/react-dom": "19.0.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^3.1.1",
     "constructs": "10.2.69",
     "drizzle-kit": "^0.30.5",
     "eslint": "^9.0.0",
@@ -88,7 +90,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.8"
+    "vitest": "^3.1.1"
   },
   "packageManager": "pnpm@10.8.0",
   "pnpm": {

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AnimatedNumber > renders without crashing 1`] = `
+exports[`AnimatedNumber > should render without crashing 1`] = `
 <div>
   <span>
     0
