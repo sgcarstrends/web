@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import { columns } from "@/app/cars/makes/[make]/columns";
+import { loadSearchParams } from "@/app/cars/makes/[make]/search-params";
 import { MakeSelector } from "@/app/components/MakeSelector";
 import NoData from "@/components/NoData";
 import { StructuredData } from "@/components/StructuredData";
@@ -23,21 +24,25 @@ import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 
-type Params = Promise<{ [slug: string]: string }>;
+interface Props {
+  params: Promise<{ make: string }>;
+  searchParams: Promise<SearchParams>;
+}
 
 const TrendChart = dynamic(() => import("./TrendChart"));
 
-export const generateMetadata = async (props: {
-  params: Params;
-}): Promise<Metadata> => {
-  const params = await props.params;
-  const { make } = params;
+export const generateMetadata = async ({
+  params,
+  searchParams,
+}: Props): Promise<Metadata> => {
+  const { make } = await params;
+  const { month } = await loadSearchParams(searchParams);
 
   const formattedMake = deslugify(make).toUpperCase();
   const title = `${formattedMake} Cars Overview: Registration Trends`;
   const description = `${formattedMake} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
   // const images = `/api/og?title=Historical Trend&make=${make}`;
-  const canonical = `/cars/makes/${make}`;
+  const canonical = `/cars/makes/${make}?month=${month}`;
 
   return {
     title,
@@ -68,14 +73,9 @@ export const generateStaticParams = async () => {
   return makes.map((make) => ({ make: slugify(make) }));
 };
 
-const CarMakePage = async (props: {
-  params: Params;
-  searchParams: Promise<SearchParams>;
-}) => {
-  const params = await props.params;
-  const searchParams = await props.searchParams;
-  const { make } = params;
-  let { month } = searchParams;
+const CarMakePage = async ({ params, searchParams }: Props) => {
+  const { make } = await params;
+  let { month } = await loadSearchParams(searchParams);
 
   // TODO: Interim solution
   if (!month) {
@@ -130,7 +130,7 @@ const CarMakePage = async (props: {
               &mdash;
               <span className="uppercase">
                 {/*TODO: Fix later*/}
-                {formatDateToMonthYear(month as string)}
+                {formatDateToMonthYear(month)}
               </span>
               {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
             </div>
