@@ -1,22 +1,35 @@
 import type { PropsWithChildren, ReactNode } from "react";
+import { API_URL } from "@/config";
 import { cn } from "@/lib/utils";
+import { fetchApi } from "@/utils/fetchApi";
+import { MonthSelector } from "./MonthSelector";
+import type { Month } from "@/types";
 
 interface Props extends PropsWithChildren {
   breadcrumbs: ReactNode;
   className?: string;
 }
 
-export const Header = ({
+export const Header = async ({
   breadcrumbs,
   children,
   className,
   ...props
-}: Props) => (
-  <header
-    className={cn("flex h-16 items-center gap-2 px-4", className)}
-    {...props}
-  >
-    {children}
-    {breadcrumbs}
-  </header>
-);
+}: Props) => {
+  const months = await fetchApi<Month[]>(`${API_URL}/cars/months`);
+
+  return (
+    <header
+      className={cn("flex h-16 items-center gap-2 px-4", className)}
+      {...props}
+    >
+      <div className="flex w-full items-center justify-between">
+        <div className="flex items-center gap-2">
+          {children}
+          {breadcrumbs}
+        </div>
+        <MonthSelector months={months} />
+      </div>
+    </header>
+  );
+};
