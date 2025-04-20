@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { vi, describe, it, beforeAll, afterAll, expect } from "vitest";
-import { LastUpdate } from "./last-update";
+import { LastUpdated } from "./last-updated";
 
-const mockLastUpdated = new Date("2025-01-01T00:00:00Z");
+const mockLastUpdated = 1735660800; // 1 Jan 2025, 00:00:00 GMT+8
 
-describe("LastUpdate component", () => {
+describe("LastUpdated", () => {
   let toLocaleStringSpy: ReturnType<typeof vi.spyOn>;
 
   beforeAll(() => {
@@ -19,18 +19,17 @@ describe("LastUpdate component", () => {
   });
 
   it("should render", () => {
-    const { container } = render(<LastUpdate lastUpdated={mockLastUpdated} />);
+    const { container } = render(<LastUpdated lastUpdated={mockLastUpdated} />);
     expect(container).toMatchSnapshot();
   });
 
   it("renders the separator and label", () => {
-    render(<LastUpdate lastUpdated={mockLastUpdated} />);
-    expect(screen.getByText("|")).toBeVisible();
-    expect(screen.getByText(/Last update:/)).toBeVisible();
+    render(<LastUpdated lastUpdated={mockLastUpdated} />);
+    expect(screen.getByText(/Last updated:/)).toBeVisible();
   });
 
   it("displays the mocked formatted date", () => {
-    render(<LastUpdate lastUpdated={mockLastUpdated} />);
+    render(<LastUpdated lastUpdated={mockLastUpdated} />);
     // We expect our mock return value to appear in the DOM
     expect(screen.getByText("JAN 2025")).toBeVisible();
   });
@@ -38,7 +37,7 @@ describe("LastUpdate component", () => {
   it("accepts and uses a custom locale", () => {
     // Change the mock to verify locale override path
     toLocaleStringSpy.mockReturnValueOnce("LOCALE_OVERRIDDEN");
-    render(<LastUpdate lastUpdated={mockLastUpdated} locale="fr-FR" />);
+    render(<LastUpdated lastUpdated={mockLastUpdated} locale="en-US" />);
     expect(screen.getByText("LOCALE_OVERRIDDEN")).toBeVisible();
   });
 });

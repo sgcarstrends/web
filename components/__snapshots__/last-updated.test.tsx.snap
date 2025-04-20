@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`LastUpdate component > should render 1`] = `
+exports[`LastUpdated > should render 1`] = `
 <div>
   <span
     class="first:hidden"

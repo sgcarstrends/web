@@ -4,11 +4,17 @@ import { loadSearchParams } from "@/app/cars/search-params";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { AnimatedNumber } from "@/components/animated-number";
-import { LastUpdate } from "@/components/last-update";
+import { LastUpdated } from "@/components/last-updated";
 import { StatCard } from "@/components/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { API_URL, HYBRID_REGEX, SITE_TITLE, SITE_URL } from "@/config";
+import {
+  API_URL,
+  HYBRID_REGEX,
+  LAST_UPDATED_CARS_KEY,
+  SITE_TITLE,
+  SITE_URL,
+} from "@/config";
 import redis from "@/config/redis";
 import { type Car, type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
@@ -77,7 +83,7 @@ const CarsPage = async ({ searchParams }: Props) => {
     next: { tags: [RevalidateTags.Cars] },
   });
 
-  const lastUpdated = await redis.get<Date>("lastUpdated:cars");
+  const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
 
   if (cars.length === 0) {
     return notFound();
@@ -150,7 +156,7 @@ const CarsPage = async ({ searchParams }: Props) => {
           <div className="text-muted-foreground flex items-center gap-2">
             &mdash;
             <span className="uppercase">{formatDateToMonthYear(month)}</span>
-            {lastUpdated && <LastUpdate lastUpdated={lastUpdated} />}
+            {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
           </div>
         </div>
         {/*TODO: Improvise*/}

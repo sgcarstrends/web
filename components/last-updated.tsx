@@ -1,16 +1,16 @@
 import { RefreshCw } from "lucide-react";
 
 interface Props {
-  lastUpdated: Date;
+  lastUpdated: number;
   locale?: Intl.LocalesArgument;
 }
 
-export const LastUpdate = ({ lastUpdated, locale = "en-SG" }: Props) => {
+export const LastUpdated = ({ lastUpdated, locale = "en-SG" }: Props) => {
   return (
     <>
-      <span>|</span>
+      <span className="first:hidden">|</span>
       <span className="flex items-center gap-2">
-        Last update:{" "}
+        Last updated:
         <span className="text-foreground flex items-center gap-2 font-bold">
           <span className="uppercase">
             {new Date(lastUpdated).toLocaleString(locale)}
@@ -21,5 +21,3 @@ export const LastUpdate = ({ lastUpdated, locale = "en-SG" }: Props) => {
     </>
   );
 };
-
-export default LastUpdate;
