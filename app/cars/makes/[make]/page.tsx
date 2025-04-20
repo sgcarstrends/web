@@ -4,6 +4,7 @@ import { MakeSelector } from "@/app/components/MakeSelector";
 import NoData from "@/components/NoData";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
+import { LastUpdated } from "@/components/last-updated";
 import {
   Card,
   CardContent,
@@ -12,12 +13,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
-import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
-import { type Car, type Make, RevalidateTags } from "@/types";
+import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
+import redis from "@/config/redis";
+import { type Car, type LatestMonth, type Make, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { deslugify, slugify } from "@/utils/slugify";
 import type { Metadata } from "next";
+import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 
 type Params = Promise<{ [slug: string]: string }>;
@@ -65,9 +68,23 @@ export const generateStaticParams = async () => {
   return makes.map((make) => ({ make: slugify(make) }));
 };
 
-const CarMakePage = async (props: { params: Params }) => {
+const CarMakePage = async (props: {
+  params: Params;
+  searchParams: Promise<SearchParams>;
+}) => {
   const params = await props.params;
+  const searchParams = await props.searchParams;
   const { make } = params;
+  let { month } = searchParams;
+
+  // TODO: Interim solution
+  if (!month) {
+    const latestMonths = await fetchApi<LatestMonth>(
+      `${API_URL}/months/latest`,
+      { next: { tags: [RevalidateTags.Cars] } },
+    );
+    month = latestMonths.cars;
+  }
 
   const [cars, makes]: [Car[], Make[]] = await Promise.all([
     await fetchApi<Car[]>(`${API_URL}/makes/${slugify(make)}`, {
@@ -77,6 +94,7 @@ const CarMakePage = async (props: { params: Params }) => {
       next: { tags: [RevalidateTags.Cars] },
     }),
   ]);
+  const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
 
   const filteredCars = mergeCarData(cars);
 
@@ -106,7 +124,17 @@ const CarMakePage = async (props: { params: Params }) => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
         <div className="flex flex-col justify-between gap-2 lg:flex-row">
-          <Typography.H1>{formattedMake}</Typography.H1>
+          <div className="flex flex-col gap-2">
+            <Typography.H1>{formattedMake}</Typography.H1>
+            <div className="text-muted-foreground flex items-center gap-2">
+              &mdash;
+              <span className="uppercase">
+                {/*TODO: Fix later*/}
+                {formatDateToMonthYear(month as string)}
+              </span>
+              {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
+            </div>
+          </div>
           <MakeSelector makes={makes} selectedMake={make} />
         </div>
         <Card>

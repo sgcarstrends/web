@@ -1,18 +1,15 @@
 import dynamic from "next/dynamic";
 import { type SearchParams } from "nuqs/server";
-import { fetchMonths } from "@/app/cars/utils/fetchMonths";
 import { loadSearchParams } from "@/app/cars/vehicle-types/[vehicleType]/search-params";
 import NoData from "@/components/NoData";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
-import { API_URL, SITE_TITLE, SITE_URL } from "@/config";
-import {
-  type Car,
-  type LatestMonth,
-  type Month,
-  RevalidateTags,
-} from "@/types";
+import { LastUpdated } from "@/components/last-updated";
+import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
+import redis from "@/config/redis";
+import { type Car, type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
+import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { mergeCarsByMake } from "@/utils/mergeCarsByMake";
 import { deslugify, slugify } from "@/utils/slugify";
 import type { Metadata } from "next";
@@ -26,7 +23,6 @@ interface Props {
 const CarOverviewTrends = dynamic(
   () => import("@/app/components/CarOverviewTrends"),
 );
-const MonthSelector = dynamic(() => import("@/components/MonthSelector"));
 
 export const generateMetadata = async ({
   params,
@@ -77,7 +73,16 @@ export const generateStaticParams = () =>
 
 const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
   const { vehicleType } = await params;
-  const { month } = await loadSearchParams(searchParams);
+  let { month } = await loadSearchParams(searchParams);
+
+  // TODO: Interim solution
+  if (!month) {
+    const latestMonths = await fetchApi<LatestMonth>(
+      `${API_URL}/months/latest`,
+      { next: { tags: [RevalidateTags.Cars] } },
+    );
+    month = latestMonths.cars;
+  }
 
   const queries = {
     vehicle_type: vehicleType,
@@ -85,10 +90,10 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
   };
   const search = new URLSearchParams(queries);
 
-  const [months]: [Month[], LatestMonth] = await fetchMonths();
   const cars = await fetchApi<Car[]>(`${API_URL}/cars?${search.toString()}`, {
     next: { tags: [RevalidateTags.Cars] },
   });
+  const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
 
   if (cars.length === 0) {
     return <NoData />;
@@ -122,14 +127,12 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col justify-between gap-2 xl:flex-row">
-          <div className="flex items-start">
-            <Typography.H1>
-              {deslugify(vehicleType).toUpperCase()}
-            </Typography.H1>
-          </div>
-          <div className="items-end">
-            <MonthSelector months={months} />
+        <div className="flex flex-col gap-2">
+          <Typography.H1>{deslugify(vehicleType).toUpperCase()}</Typography.H1>
+          <div className="text-muted-foreground flex items-center gap-2">
+            &mdash;
+            <span className="uppercase">{formatDateToMonthYear(month)}</span>
+            {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
           </div>
         </div>
         <CarOverviewTrends cars={filteredCars} />

@@ -1,20 +1,22 @@
 import { notFound } from "next/navigation";
 import { DetailedBreakdown } from "@/app/cars/detailed-breakdown";
 import { loadSearchParams } from "@/app/cars/search-params";
-import { MonthSelector } from "@/components/MonthSelector";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { AnimatedNumber } from "@/components/animated-number";
+import { LastUpdated } from "@/components/last-updated";
 import { StatCard } from "@/components/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { API_URL, HYBRID_REGEX, SITE_TITLE, SITE_URL } from "@/config";
 import {
-  type Car,
-  type LatestMonth,
-  type Month,
-  RevalidateTags,
-} from "@/types";
+  API_URL,
+  HYBRID_REGEX,
+  LAST_UPDATED_CARS_KEY,
+  SITE_TITLE,
+  SITE_URL,
+} from "@/config";
+import redis from "@/config/redis";
+import { type Car, type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { Metadata } from "next";
@@ -81,6 +83,8 @@ const CarsPage = async ({ searchParams }: Props) => {
     next: { tags: [RevalidateTags.Cars] },
   });
 
+  const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
+
   if (cars.length === 0) {
     return notFound();
   }
@@ -98,7 +102,6 @@ const CarsPage = async ({ searchParams }: Props) => {
 
     return car;
   });
-  const months = await fetchApi<Month[]>(`${API_URL}/cars/months`);
   const total = cars.reduce((total, { number = 0 }) => total + number, 0);
 
   const aggregateData = (
@@ -148,9 +151,13 @@ const CarsPage = async ({ searchParams }: Props) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col justify-between gap-2 md:flex-row md:items-center">
+        <div className="flex flex-col gap-2">
           <Typography.H1>CAR REGISTRATIONS</Typography.H1>
-          <MonthSelector months={months} />
+          <div className="text-muted-foreground flex items-center gap-2">
+            &mdash;
+            <span className="uppercase">{formatDateToMonthYear(month)}</span>
+            {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
+          </div>
         </div>
         {/*TODO: Improvise*/}
         {cars.length === 0 && (
