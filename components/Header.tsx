@@ -1,4 +1,4 @@
-import type { PropsWithChildren, ReactNode } from "react";
+import { type PropsWithChildren, type ReactNode, Suspense } from "react";
 import { API_URL } from "@/config";
 import { cn } from "@/lib/utils";
 import { fetchApi } from "@/utils/fetchApi";
@@ -28,7 +28,9 @@ export const Header = async ({
           {children}
           {breadcrumbs}
         </div>
-        <MonthSelector months={months} />
+        <Suspense fallback={null}>
+          <MonthSelector months={months} />
+        </Suspense>
       </div>
     </header>
   );
