@@ -31,6 +31,8 @@ export default $config({
       environment: {
         SG_CARS_TRENDS_API_TOKEN: process.env.SG_CARS_TRENDS_API_TOKEN!,
         DATABASE_URL: process.env.DATABASE_URL!,
+        UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL!,
+        UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN!,
         APP_ENV: $app.stage,
       },
       server: {
