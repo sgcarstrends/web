@@ -46,7 +46,7 @@
     "react-dom": "19.0.0",
     "recharts": "^2.14.1",
     "schema-dts": "^1.1.2",
-    "sst": "^3.3.56",
+    "sst": "^3.12.3",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^5.0.2"
