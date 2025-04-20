@@ -52,7 +52,7 @@
     "recharts": "^2.15.1",
     "schema-dts": "^1.1.2",
     "sonner": "^2.0.1",
-    "sst": "^3.3.56",
+    "sst": "^3.12.3",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^5.0.2"
