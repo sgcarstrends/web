@@ -9,7 +9,9 @@ const DOMAIN: Record<string, any> = {
 };
 
 export default $config({
-  app(input) {
+  async app(input) {
+    const { AppEnv } = await import("./types");
+
     return {
       name: "sgcarstrends",
       removal: input?.stage === "prod" ? "retain" : "remove",
