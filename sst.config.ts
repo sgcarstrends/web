@@ -1,7 +1,5 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 
-import { AppEnv } from "./types";
-
 const DOMAIN_NAME = "sgcarstrends.com";
 
 const DOMAIN: Record<string, any> = {
@@ -14,7 +12,7 @@ export default $config({
   app(input) {
     return {
       name: "sgcarstrends",
-      removal: input?.stage === AppEnv.PROD ? "retain" : "remove",
+      removal: input?.stage === "prod" ? "retain" : "remove",
       home: "aws",
       providers: {
         aws: { region: "ap-southeast-1" },
