@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
-import { RefreshCw } from "lucide-react";
 import { DetailedBreakdown } from "@/app/cars/detailed-breakdown";
 import { loadSearchParams } from "@/app/cars/search-params";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { AnimatedNumber } from "@/components/animated-number";
+import { LastUpdate } from "@/components/last-update";
 import { StatCard } from "@/components/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -150,20 +150,7 @@ const CarsPage = async ({ searchParams }: Props) => {
           <div className="text-muted-foreground flex items-center gap-2">
             &mdash;
             <span className="uppercase">{formatDateToMonthYear(month)}</span>
-            {lastUpdated && (
-              <>
-                <span>|</span>
-                <span className="flex items-center gap-2">
-                  Last update:
-                  <span className="text-foreground flex items-center gap-2 font-bold">
-                    <span className="uppercase">
-                      {new Date(lastUpdated).toLocaleString("en-SG")}
-                    </span>
-                    <RefreshCw className="size-4" />
-                  </span>
-                </span>
-              </>
-            )}
+            {lastUpdated && <LastUpdate lastUpdated={lastUpdated} />}
           </div>
         </div>
         {/*TODO: Improvise*/}
