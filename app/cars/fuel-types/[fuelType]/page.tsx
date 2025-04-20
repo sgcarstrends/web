@@ -1,18 +1,12 @@
 import dynamic from "next/dynamic";
 import { loadSearchParams } from "@/app/cars/fuel-types/[fuelType]/search-params";
-import { fetchMonths } from "@/app/cars/utils/fetchMonths";
 import NoData from "@/components/NoData";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { LastUpdated } from "@/components/last-updated";
 import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
-import {
-  type Car,
-  type LatestMonth,
-  type Month,
-  RevalidateTags,
-} from "@/types";
+import { type Car, type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import { mergeCarsByMake } from "@/utils/mergeCarsByMake";
@@ -29,7 +23,6 @@ interface Props {
 const CarOverviewTrends = dynamic(
   () => import("@/app/components/CarOverviewTrends"),
 );
-const MonthSelector = dynamic(() => import("@/components/MonthSelector"));
 
 export const generateMetadata = async ({
   params,

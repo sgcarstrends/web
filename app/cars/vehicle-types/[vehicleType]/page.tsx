@@ -23,7 +23,6 @@ interface Props {
 const CarOverviewTrends = dynamic(
   () => import("@/app/components/CarOverviewTrends"),
 );
-const MonthSelector = dynamic(() => import("@/components/MonthSelector"));
 
 export const generateMetadata = async ({
   params,
