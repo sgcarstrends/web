@@ -1,4 +1,6 @@
 name: Claude PR Creation
+permissions:
+  contents: read
 on:
   issue_comment:
     types: [created]  # Triggers when someone comments on an issue or PR
