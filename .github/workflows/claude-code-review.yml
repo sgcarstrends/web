@@ -1,4 +1,6 @@
 name: Claude Code Review
+permissions:
+  contents: read
 
 on:
   pull_request:
