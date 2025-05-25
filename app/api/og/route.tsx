@@ -21,8 +21,8 @@ export const GET = async (req: NextRequest) => {
           backgroundSize: "100px 100px",
         }}
       >
-        <div tw="flex h-[630px] w-[1200px] flex-col items-center justify-center relative">
-          <div tw="flex items-center gap-x-2 absolute left-8 top-8">
+        <div tw="relative flex h-[630px] w-[1200px] flex-col items-center justify-center">
+          <div tw="absolute top-8 left-8 flex items-center gap-x-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -52,11 +52,11 @@ export const GET = async (req: NextRequest) => {
               backgroundImage: "linear-gradient(90deg, #f9fafb, #e5e7eb)",
             }}
           >
-            <div tw="flex flex-col md:flex-row w-full py-12 px-4 md:items-center justify-between p-8">
-              <div tw="flex flex-col text-3xl sm:text-4xl font-bold tracking-tight text-gray-900">
+            <div tw="flex w-full flex-col justify-between p-8 px-4 py-12 md:flex-row md:items-center">
+              <div tw="flex flex-col text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                 {title || <span>Car Trends ({formattedMonth})</span>}
-                {type && <span tw="capitalize text-blue-600">{type}</span>}
-                {make && <span tw="capitalize text-blue-600">{make}</span>}
+                {type && <span tw="text-blue-600 capitalize">{type}</span>}
+                {make && <span tw="text-blue-600 capitalize">{make}</span>}
               </div>
               {/*<div tw="mt-8 flex md:mt-0">*/}
               {/*  <div tw="flex rounded-md shadow-sm">*/}
