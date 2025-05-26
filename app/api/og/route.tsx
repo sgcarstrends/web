@@ -13,7 +13,7 @@ export const GET = async (request: NextRequest) => {
     topFuelValue,
     topVehicleType,
     topVehicleValue,
-  } = loadSearchParams(request);
+  } = loadSearchParams(request.nextUrl.searchParams);
 
   let formattedMonth = month;
   if (month) {

@@ -6,7 +6,7 @@ import { formatOrdinal } from "@/utils/formatOrdinal";
 
 export const GET = async (request: NextRequest) => {
   const { title, subtitle, biddingNo, categoryA, categoryB, categoryE } =
-    loadSearchParams(request);
+    loadSearchParams(request.nextUrl.searchParams);
 
   return new ImageResponse(
     (
