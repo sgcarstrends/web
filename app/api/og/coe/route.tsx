@@ -1,24 +1,12 @@
 import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
-import { loadSearchParams } from "@/app/api/og/search-params";
-import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
+import { loadSearchParams } from "@/app/api/og/coe/search-params";
+import { formatCurrency } from "@/utils/format-currency";
+import { formatOrdinal } from "@/utils/formatOrdinal";
 
 export const GET = async (request: NextRequest) => {
-  const {
-    month,
-    title,
-    subtitle,
-    total,
-    topFuelType,
-    topFuelValue,
-    topVehicleType,
-    topVehicleValue,
-  } = loadSearchParams(request);
-
-  let formattedMonth = month;
-  if (month) {
-    formattedMonth = formatDateToMonthYear(month);
-  }
+  const { title, subtitle, biddingNo, categoryA, categoryB, categoryE } =
+    loadSearchParams(request);
 
   return new ImageResponse(
     (
@@ -74,47 +62,71 @@ export const GET = async (request: NextRequest) => {
             >
               <h1 tw="flex flex-col text-left text-3xl font-bold sm:text-4xl">
                 <span>{title}</span>
-                <span tw="text-blue-600">{formattedMonth}</span>
+                <span tw="text-blue-600">
+                  {formatOrdinal(biddingNo)} Bidding Exercise
+                </span>
               </h1>
               <h2 tw="text-gray-600">{subtitle}</h2>
             </div>
-            {total && (
-              <div tw="flex flex-col text-2xl">
-                {total && (
+            {/*TODO: Refactor and clean up*/}
+            <div tw="flex flex-col text-2xl">
+              <div tw="flex flex-col">
+                {categoryA && (
                   <div tw="-mr-64 mb-4 flex w-[50vw] flex-col rounded-2xl bg-gray-50 p-8 shadow-lg">
-                    Total Registrations
+                    Category A
                     <span
                       tw="text-blue-600"
                       style={{ textShadow: `0 2px 4px rgba(0,0,0,0.3)` }}
                     >
-                      {total}
+                      {formatCurrency(categoryA)}
                     </span>
                   </div>
                 )}
-                {topFuelType && (
+                {categoryB && (
                   <div tw="-mr-64 mb-4 flex w-[50vw] flex-col rounded-2xl bg-gray-50 p-8 shadow-lg">
-                    Top Fuel Type
+                    Category B
                     <span
-                      tw="text-green-600"
+                      tw="text-blue-600"
                       style={{ textShadow: `0 2px 4px rgba(0,0,0,0.3)` }}
                     >
-                      {topFuelType}
+                      {formatCurrency(categoryB)}
                     </span>
                   </div>
                 )}
-                {topVehicleType && (
+                {/*<div tw="-mr-64 mb-4 flex w-[50vw] flex-col rounded-2xl bg-gray-50 p-8 shadow-lg">*/}
+                {/*  Category C*/}
+                {/*  <span*/}
+                {/*    tw="text-blue-600"*/}
+                {/*    style={{ textShadow: `0 2px 4px rgba(0,0,0,0.3)` }}*/}
+                {/*  >*/}
+                {/*    {categoryC}*/}
+                {/*  </span>*/}
+                {/*</div>*/}
+                {/*<div tw="-mr-64 mb-4 flex w-[50vw] flex-col rounded-2xl bg-gray-50 p-8 shadow-lg">*/}
+                {/*  Category D*/}
+                {/*  <span*/}
+                {/*    tw="text-blue-600"*/}
+                {/*    style={{ textShadow: `0 2px 4px rgba(0,0,0,0.3)` }}*/}
+                {/*  >*/}
+                {/*    {categoryD}*/}
+                {/*  </span>*/}
+                {/*</div>*/}
+                {categoryE && (
                   <div tw="-mr-64 mb-4 flex w-[50vw] flex-col rounded-2xl bg-gray-50 p-8 shadow-lg">
-                    Top Vehicle Type
+                    Category E
                     <span
-                      tw="text-pink-600"
+                      tw="text-blue-600"
                       style={{ textShadow: `0 2px 4px rgba(0,0,0,0.3)` }}
                     >
-                      {topVehicleType}
+                      {formatCurrency(categoryE)}
                     </span>
                   </div>
                 )}
               </div>
-            )}
+              <span tw="text-xs">
+                * Prices are denoted in Singapore Dollars (SGD)
+              </span>
+            </div>
           </div>
         </div>
       </div>

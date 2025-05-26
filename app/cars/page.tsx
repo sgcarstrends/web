@@ -16,7 +16,12 @@ import {
   SITE_URL,
 } from "@/config";
 import redis from "@/config/redis";
-import { type Car, type LatestMonth, RevalidateTags } from "@/types";
+import {
+  type Car,
+  type LatestMonth,
+  type Registration,
+  RevalidateTags,
+} from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 import type { Metadata } from "next";
@@ -30,26 +35,38 @@ interface Props {
 export const generateMetadata = async ({
   searchParams,
 }: Props): Promise<Metadata> => {
-  let { month } = await loadSearchParams(searchParams);
+  const { month } = await loadSearchParams(searchParams);
 
-  if (!month) {
-    const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
-    month = latestMonth.cars;
-  }
-
-  const formattedMonth = formatDateToMonthYear(month);
+  const formattedMonth = formatDateToMonthYear(month as string);
 
   const title = "Car Registrations in Singapore";
   const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
-  const canonical = `/cars?month=${month}`;
 
-  // const images = `/api/og?title=Car Registrations for ${formattedMonth}`;
+  const { data } = await fetchApi<Registration>(
+    `${API_URL}/cars/registration?month=${month}`,
+  );
+  const { total, fuelType, vehicleType } = data;
+  const topFuelType = Object.entries(fuelType).reduce(
+    (top, current) =>
+      current[1] > top.count ? { type: current[0], count: current[1] } : top,
+    { type: "", count: -Infinity },
+  );
+
+  const topVehicleType = Object.entries(vehicleType).reduce(
+    (top, current) =>
+      current[1] > top.count ? { type: current[0], count: current[1] } : top,
+    { type: "", count: -Infinity },
+  );
+
+  const images = `/api/og?title=Car Registrations&subtitle=Monthly Stats Summary&month=${month}&total=${total}&topFuelType=${topFuelType.type}&topVehicleType=${topVehicleType.type}`;
+
+  const canonical = `/cars?month=${month}`;
 
   return {
     title,
     description,
     openGraph: {
-      images: `${SITE_URL}/opengraph-image.png`,
+      images,
       url: canonical,
       siteName: SITE_TITLE,
       locale: "en_SG",
@@ -57,7 +74,7 @@ export const generateMetadata = async ({
     },
     twitter: {
       card: "summary_large_image",
-      images: `${SITE_URL}/twitter-image.png`,
+      images,
       site: "@sgcarstrends",
       creator: "@sgcarstrends",
     },

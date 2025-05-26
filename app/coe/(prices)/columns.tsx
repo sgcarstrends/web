@@ -2,16 +2,10 @@
 
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { formatCurrency } from "@/utils/format-currency";
 import { formatOrdinal } from "@/utils/formatOrdinal";
 import type { COEResult } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
-
-const formatCurrency = (value: any) =>
-  Intl.NumberFormat("en-SG", {
-    style: "currency",
-    currency: "SGD",
-    minimumFractionDigits: 0,
-  }).format(value);
 
 // const formatPercent = (value: any) =>
 //   Intl.NumberFormat("en-SG", { style: "percent" }).format(value);

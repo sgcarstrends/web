@@ -34,14 +34,24 @@ const description =
   "Explore historical Certificate of Entitlement (COE) price trends and bidding results for car registrations in Singapore.";
 
 export const generateMetadata = async (): Promise<Metadata> => {
+  // TODO: Refactor and clean up
+  const results = await fetchApi<COEResult[]>(`${API_URL}/coe/latest`);
+  const categories = results.reduce<Record<string, number>>(
+    (category, current) => {
+      category[current.vehicle_class] = current.premium;
+      return category;
+    },
+    {},
+  );
+
   const canonical = "/coe";
-  // const images = "/api/og?title=COE Result";
+  const images = `/api/og/coe?title=COE Results&subtitle=Overview&biddingNo=2&categoryA=${categories["Category A"]}&categoryB=${categories["Category B"]}&categoryC=${categories["Category C"]}&categoryD=${categories["Category D"]}&categoryE=${categories["Category E"]}`;
 
   return {
     title,
     description,
     openGraph: {
-      images: `${SITE_URL}/opengraph-image.png`,
+      images,
       url: canonical,
       siteName: SITE_TITLE,
       locale: "en_SG",
@@ -49,7 +59,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
     },
     twitter: {
       card: "summary_large_image",
-      images: `${SITE_URL}/twitter-image.png`,
+      images,
       site: "@sgcarstrends",
       creator: "@sgcarstrends",
     },
