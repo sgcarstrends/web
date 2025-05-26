@@ -41,14 +41,21 @@ export const generateMetadata = async ({
   const formattedMake = deslugify(make).toUpperCase();
   const title = `${formattedMake} Cars Overview: Registration Trends`;
   const description = `${formattedMake} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
-  // const images = `/api/og?title=Historical Trend&make=${make}`;
+
+  // TODO: Refactor and clean up
+  const result = await fetchApi<Car[]>(
+    `${API_URL}/makes/${make}?month=${month}`,
+  );
+  const total = result.reduce((total, current) => total + current.number, 0);
+
+  const images = `/api/og?title=${make.toUpperCase()}&subtitle=Stats by Make&month=${month}&total=${total}`;
   const canonical = `/cars/makes/${make}?month=${month}`;
 
   return {
     title,
     description,
     openGraph: {
-      images: `${SITE_URL}/opengraph-image.png`,
+      images,
       url: canonical,
       siteName: SITE_TITLE,
       locale: "en_SG",
@@ -56,7 +63,7 @@ export const generateMetadata = async ({
     },
     twitter: {
       card: "summary_large_image",
-      images: `${SITE_URL}/twitter-image.png`,
+      images,
       site: "@sgcarstrends",
       creator: "@sgcarstrends",
     },

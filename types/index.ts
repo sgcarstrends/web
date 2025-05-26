@@ -89,3 +89,26 @@ export interface LinkItem {
   icon?: LucideIcon;
   comingSoon?: boolean;
 }
+
+export interface Registration {
+  data: {
+    month: string;
+    fuelType: {
+      Diesel: number;
+      "Petrol-Electric (Plug-In)": number;
+      Petrol: number;
+      Electric: number;
+      "Petrol-Electric": number;
+    };
+    vehicleType: {
+      Hatchback: number;
+      "Coupe/Convertible": number;
+      Sedan: number;
+      "Multi-purpose Vehicle": number;
+      "Station-wagon": number;
+      "Multi-purpose Vehicle/Station-wagon": number;
+      "Sports Utility Vehicle": number;
+    };
+    total: number;
+  };
+}
