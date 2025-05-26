@@ -2,6 +2,10 @@ name: Test
 on:
   workflow_call:
 
+permissions:
+  contents: read
+  statuses: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
