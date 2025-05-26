@@ -3,6 +3,7 @@ import { DetailedBreakdown } from "@/app/cars/detailed-breakdown";
 import { loadSearchParams } from "@/app/cars/search-params";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
+import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import { AnimatedNumber } from "@/components/animated-number";
 import { LastUpdated } from "@/components/last-updated";
 import { StatCard } from "@/components/stat-card";
@@ -228,7 +229,9 @@ const CarsPage = async ({ searchParams }: Props) => {
               {/*  </Card>*/}
               {/*</UnreleasedFeature>*/}
             </div>
-            <DetailedBreakdown data={cars} />
+            <UnreleasedFeature>
+              <DetailedBreakdown data={cars} />
+            </UnreleasedFeature>
             <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
               <StatCard
                 title="By Fuel Type"
