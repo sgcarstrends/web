@@ -99,5 +99,5 @@ export const SITE_LINKS: LinkItem[] = [
   ...COE_LINKS,
 ];
 
-export const LAST_UPDATED_CARS_KEY = "lastUpdated:cars";
-export const LAST_UPDATED_COE_KEY = "lastUpdated:coe";
+export const LAST_UPDATED_CARS_KEY = "last_updated:cars";
+export const LAST_UPDATED_COE_KEY = "last_updated:coe";
