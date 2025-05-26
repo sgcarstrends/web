@@ -35,9 +35,14 @@ interface Props {
 export const generateMetadata = async ({
   searchParams,
 }: Props): Promise<Metadata> => {
-  const { month } = await loadSearchParams(searchParams);
+  let { month } = await loadSearchParams(searchParams);
 
-  const formattedMonth = formatDateToMonthYear(month as string);
+  if (!month) {
+    const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
+    month = latestMonth.cars;
+  }
+
+  const formattedMonth = formatDateToMonthYear(month);
 
   const title = "Car Registrations in Singapore";
   const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
