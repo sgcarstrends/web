@@ -36,7 +36,16 @@ export const generateMetadata = async ({
   searchParams,
 }: Props): Promise<Metadata> => {
   const { make } = await params;
-  const { month } = await loadSearchParams(searchParams);
+  let { month } = await loadSearchParams(searchParams);
+
+  // TODO: Interim solution
+  if (!month) {
+    const latestMonths = await fetchApi<LatestMonth>(
+      `${API_URL}/months/latest`,
+      { next: { tags: [RevalidateTags.Cars] } },
+    );
+    month = latestMonths.cars;
+  }
 
   const formattedMake = deslugify(make).toUpperCase();
   const title = `${formattedMake} Cars Overview: Registration Trends`;
