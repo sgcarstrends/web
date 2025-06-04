@@ -1,5 +1,11 @@
 # @sgcarstrends/web
 
+## 2.5.4
+
+### Patch Changes
+
+- [#249](https://github.com/sgcarstrends/web/pull/249) [`480c6cc`](https://github.com/sgcarstrends/web/commit/480c6cc1fbe9d8837532cbacf79712677266f537) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Fix Safari web browser rendering charts over elements
+
 ## 2.5.3
 
 ### Patch Changes
