@@ -197,7 +197,7 @@ const data: Nav = {
       url: "/coe",
       items: [
         {
-          title: "Result",
+          title: "Historical Results",
           url: "/coe",
         },
         {

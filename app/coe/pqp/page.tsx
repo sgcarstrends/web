@@ -8,6 +8,7 @@ import { API_URL, LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
 import { fetchApi } from "@/utils/fetchApi";
 import { columns } from "./columns";
+import type { PQP } from "@/types";
 import type { WebPage, WithContext } from "schema-dts";
 
 const title = "COE PQP Rates";
@@ -40,9 +41,8 @@ export const generateMetadata = () => {
 };
 
 const PQPRatesPage = async () => {
-  const pqpRates = await fetchApi<
-    Array<Record<string, Record<string, number>>>
-  >(`${API_URL}/coe/pqp`);
+  const pqpRates = await fetchApi<Record<string, PQP>>(`${API_URL}/coe/pqp`);
+
   const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
 
   const data = Object.entries(pqpRates).map(([month, pqpRates]) => ({
@@ -62,12 +62,10 @@ const PQPRatesPage = async () => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-y-4">
-        <Typography.H1>COE PQP RATES</Typography.H1>
-        {lastUpdated && (
-          <div>
-            <LastUpdated lastUpdated={lastUpdated} />
-          </div>
-        )}
+        <div className="flex flex-col justify-between xl:flex-row xl:items-center">
+          <Typography.H1>PQP RATES</Typography.H1>
+          {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
+        </div>
         <Alert>
           <AlertCircle className="size-4" />
           <AlertTitle>Understanding PQP Rates</AlertTitle>

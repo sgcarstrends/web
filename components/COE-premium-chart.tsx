@@ -133,8 +133,8 @@ export const COEPremiumChart = ({ data, months }: Props) => {
 
   return (
     <Card>
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
-        <div className="grid flex-1 gap-1 text-center sm:text-left">
+      <CardHeader className="flex flex-col gap-2 border-b lg:flex-row lg:items-center lg:justify-between">
+        <div className="grid flex-1 gap-1">
           <CardTitle>Quota Premium ($)</CardTitle>
           <CardDescription>
             {`Showing ${TIME_RANGES.find((range) => range.timeRange === timeRange)?.label.toLowerCase()} of COE prices`}
@@ -163,7 +163,7 @@ export const COEPremiumChart = ({ data, months }: Props) => {
         </div>
       </CardHeader>
       <CardContent className="p-6">
-        <ChartContainer config={chartConfig} className="h-[400px] w-full">
+        <ChartContainer config={chartConfig} className="max-h-[300px] w-full">
           <LineChart data={filteredData}>
             <CartesianGrid />
             <XAxis
@@ -178,6 +178,7 @@ export const COEPremiumChart = ({ data, months }: Props) => {
               ]}
               tickFormatter={numberFormat}
               axisLine={false}
+              hide
             >
               <Label
                 value="Quota Premium (S$)"
