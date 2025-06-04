@@ -11,14 +11,20 @@ import {
   SiLinkedin,
   SiX,
 } from "@icons-pack/react-simple-icons";
-import { type LucideIcon } from "lucide-react";
+import { ChevronDown, type LucideIcon } from "lucide-react";
 import { useQueryState, parseAsString } from "nuqs";
 import { BrandLogo } from "@/components/BrandLogo";
 import { NavSocialMedia } from "@/components/NavSocialMedia";
 import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
+  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
@@ -29,8 +35,9 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { VEHICLE_TYPE_MAP } from "@/constants";
+// import { VEHICLE_TYPE_MAP } from "@/constants";
 import { slugify } from "@/utils/slugify";
+import { sortByName } from "@/utils/sorting";
 
 type Icon = LucideIcon | IconType;
 
@@ -71,35 +78,51 @@ export const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarMenu>
-            {data.navMain.map(({ items, ...item }) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
-                  <Link href={item.url}>{item.title}</Link>
-                </SidebarMenuButton>
-                {items?.length && (
-                  <SidebarMenuSub>
-                    {items?.map((subItem) => (
-                      <SidebarMenuSubItem key={subItem.title}>
-                        <SidebarMenuSubButton asChild>
-                          <Link
-                            href={{
-                              pathname: subItem.url,
-                              query: { month },
-                            }}
-                          >
-                            {subItem.title}
-                          </Link>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
-                  </SidebarMenuSub>
-                )}
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroup>
+        {data.navMain.map(({ items, ...item }) => (
+          <Collapsible
+            key={item.title}
+            defaultOpen
+            className="group/collapsible"
+          >
+            <SidebarGroup>
+              <SidebarGroupLabel asChild>
+                <CollapsibleTrigger>
+                  {item.title}
+                  <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                </CollapsibleTrigger>
+              </SidebarGroupLabel>
+              <CollapsibleContent>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {/*<SidebarMenuButton asChild>*/}
+                    {/*  <Link href={item.url}>{item.title}</Link>*/}
+                    {/*</SidebarMenuButton>*/}
+                    {items?.length && (
+                      <SidebarMenuItem key={item.title}>
+                        <SidebarMenuSub>
+                          {items?.map((subItem) => (
+                            <SidebarMenuSubItem key={subItem.title}>
+                              <SidebarMenuSubButton asChild>
+                                <Link
+                                  href={{
+                                    pathname: subItem.url,
+                                    query: { month },
+                                  }}
+                                >
+                                  {subItem.title}
+                                </Link>
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+                          ))}
+                        </SidebarMenuSub>
+                      </SidebarMenuItem>
+                    )}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </CollapsibleContent>
+            </SidebarGroup>
+          </Collapsible>
+        ))}
         <SidebarGroup className="mt-auto">
           <SidebarGroupLabel>Social Media</SidebarGroupLabel>
           <NavSocialMedia items={data.socialMedia} />
@@ -112,16 +135,28 @@ export const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
 
 const data: Nav = {
   navMain: [
-    { title: "Latest Registration", url: "/cars" },
+    {
+      title: "Car Registrations",
+      url: "/cars",
+      items: [
+        {
+          title: "Monthly",
+          url: "/cars",
+        },
+      ],
+    },
     {
       title: "Fuel Types",
       url: "/cars/fuel-types",
-      items: [
-        { title: "Petrol" },
-        { title: "Hybrid" },
-        { title: "Electric" },
-        { title: "Diesel" },
-      ].map((item) => ({
+      items: sortByName(
+        [
+          { title: "Petrol" },
+          { title: "Hybrid" },
+          { title: "Electric" },
+          { title: "Diesel" },
+        ],
+        { sortKey: "title" },
+      ).map((item) => ({
         ...item,
         url: `/cars/fuel-types/${slugify(item.title)}`,
       })),
@@ -129,64 +164,82 @@ const data: Nav = {
     {
       title: "Vehicle Types",
       url: "/cars/vehicle-types",
-      items: [
-        { title: "Hatchback" },
-        { title: "Sedan" },
-        { title: "Multi-purpose Vehicle" },
-        { title: "Station-wagon" },
-        { title: "Sports Utility Vehicle" },
-        { title: "Coupe/Convertible" },
-      ].map((item) => ({
+      items: sortByName(
+        [
+          { title: "Hatchback" },
+          { title: "Sedan" },
+          { title: "Multi-purpose Vehicle" },
+          { title: "Station-wagon" },
+          { title: "Sports Utility Vehicle" },
+          { title: "Coupe/Convertible" },
+        ],
+        { sortKey: "title" },
+      ).map((item) => ({
         ...item,
-        title: VEHICLE_TYPE_MAP[item.title] ?? item.title,
+        // TODO: Clean up
+        // title: VEHICLE_TYPE_MAP[item.title] ?? item.title,
         url: `/cars/vehicle-types/${slugify(item.title)}`,
       })),
     },
+    // TODO: Not ready
+    // {
+    //   title: "Makes",
+    //   url: "/makes",
+    //   items: [
+    //     {
+    //       title: "Popular",
+    //       url: "/makes/popular",
+    //     },
+    //   ],
+    // },
     {
       title: "COE",
       url: "/coe",
       items: [
         {
-          title: "COE Result",
+          title: "Historical Results",
           url: "/coe",
         },
         {
-          title: "COE PQP Rates",
+          title: "PQP Rates",
           url: "/coe/pqp",
         },
       ],
     },
   ],
-  socialMedia: [
-    {
-      title: "Facebook",
-      url: "https://facebook.com/sgcarstrends",
-      icon: SiFacebook,
-    },
-    {
-      title: "Twitter",
-      url: "https://twitter.com/sgcarstrends",
-      icon: SiX,
-    },
-    {
-      title: "Instagram",
-      url: "https://instagram.com/sgcarstrends",
-      icon: SiInstagram,
-    },
-    {
-      title: "LinkedIn",
-      url: "https://linkedin.com/company/sgcarstrends",
-      icon: SiLinkedin,
-    },
-    {
-      title: "GitHub",
-      url: "https://github.com/sgcarstrends",
-      icon: SiGithub,
-    },
-    {
-      title: "Bluesky",
-      url: "https://bsky.app/profile/sgcarstrends.com",
-      icon: SiBluesky,
-    },
-  ].sort((a, b) => a.title.localeCompare(b.title)),
+  socialMedia: sortByName(
+    [
+      {
+        title: "Facebook",
+        url: "https://facebook.com/sgcarstrends",
+        icon: SiFacebook,
+      },
+      {
+        title: "Twitter",
+        url: "https://twitter.com/sgcarstrends",
+        icon: SiX,
+      },
+      {
+        title: "Instagram",
+        url: "https://instagram.com/sgcarstrends",
+        icon: SiInstagram,
+      },
+      {
+        title: "LinkedIn",
+        url: "https://linkedin.com/company/sgcarstrends",
+        icon: SiLinkedin,
+      },
+      {
+        title: "GitHub",
+        url: "https://github.com/sgcarstrends",
+        icon: SiGithub,
+      },
+      {
+        title: "Bluesky",
+        url: "https://bsky.app/profile/sgcarstrends.com",
+        icon: SiBluesky,
+      },
+    ],
+    { sortKey: "title" },
+  ),
 };

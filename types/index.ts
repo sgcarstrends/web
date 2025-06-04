@@ -53,6 +53,13 @@ export interface COEResult {
   premium: number;
 }
 
+export type PQP = {
+  "Category A": number;
+  "Category B": number;
+  "Category C": number;
+  "Category D": number;
+};
+
 export interface LatestMonth {
   cars: string;
   coe: string;

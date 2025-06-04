@@ -1,12 +1,11 @@
 import { notFound } from "next/navigation";
-import { DetailedBreakdown } from "@/app/cars/detailed-breakdown";
 import { loadSearchParams } from "@/app/cars/search-params";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
-import { UnreleasedFeature } from "@/components/UnreleasedFeature";
 import { AnimatedNumber } from "@/components/animated-number";
 import { LastUpdated } from "@/components/last-updated";
 import { StatCard } from "@/components/stat-card";
+import { TopMakes } from "@/components/top-makes";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -45,7 +44,7 @@ export const generateMetadata = async ({
 
   const formattedMonth = formatDateToMonthYear(month);
 
-  const title = "Car Registrations in Singapore";
+  const title = `${formattedMonth} Car Registrations`;
   const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
 
   const { data } = await fetchApi<Registration>(
@@ -155,7 +154,7 @@ const CarsPage = async ({ searchParams }: Props) => {
 
   const formattedMonth = formatDateToMonthYear(month);
 
-  const title = "Car Registrations in Singapore";
+  const title = `${formattedMonth} Car Registrations`;
   const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
@@ -175,10 +174,8 @@ const CarsPage = async ({ searchParams }: Props) => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <Typography.H1>CAR REGISTRATIONS</Typography.H1>
-          <div className="text-muted-foreground flex items-center gap-2">
-            &mdash;
-            <span className="uppercase">{formatDateToMonthYear(month)}</span>
+          <div className="flex flex-col justify-between lg:flex-row lg:items-center">
+            <Typography.H1>Car Registrations</Typography.H1>
             {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
           </div>
         </div>
@@ -189,10 +186,10 @@ const CarsPage = async ({ searchParams }: Props) => {
           </Typography.H3>
         )}
         {cars.length > 0 && (
-          <div className="flex flex-col gap-y-4">
-            <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
+          <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
               <Card>
-                <CardHeader className="flex items-center justify-between">
+                <CardHeader>
                   <CardTitle>Total Registrations</CardTitle>
                   <Badge className="bg-blue-600">{formattedMonth}</Badge>
                 </CardHeader>
@@ -201,7 +198,7 @@ const CarsPage = async ({ searchParams }: Props) => {
                 </CardContent>
               </Card>
               <Card>
-                <CardHeader className="flex items-center justify-between">
+                <CardHeader>
                   <CardTitle>Top Fuel Type</CardTitle>
                   <Badge className="bg-green-600">{topFuelType}</Badge>
                 </CardHeader>
@@ -210,7 +207,7 @@ const CarsPage = async ({ searchParams }: Props) => {
                 </CardContent>
               </Card>
               <Card>
-                <CardHeader className="flex items-center justify-between">
+                <CardHeader>
                   <CardTitle>Top Vehicle Type</CardTitle>
                   <Badge className="bg-pink-600">{topVehicleType}</Badge>
                 </CardHeader>
@@ -229,10 +226,7 @@ const CarsPage = async ({ searchParams }: Props) => {
               {/*  </Card>*/}
               {/*</UnreleasedFeature>*/}
             </div>
-            <UnreleasedFeature>
-              <DetailedBreakdown data={cars} />
-            </UnreleasedFeature>
-            <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <StatCard
                 title="By Fuel Type"
                 description="Distribution of vehicles based on fuel type"
@@ -247,10 +241,11 @@ const CarsPage = async ({ searchParams }: Props) => {
                 total={total}
                 linkPrefix="vehicle-types"
               />
-              {/*<div className="grid grid-cols-1 gap-4 xl:col-span-6">*/}
-              {/*  <Leaderboard cars={cars} />*/}
-              {/*</div>*/}
             </div>
+            <div className="flex items-center justify-between">
+              <Typography.H2>Top Makes</Typography.H2>
+            </div>
+            <TopMakes cars={cars} />
           </div>
         )}
       </div>

@@ -26,8 +26,7 @@ export const columns: ColumnDef<COEResult>[] = [
   {
     accessorKey: "vehicle_class",
     header: "Category",
-    cell: ({ row }) =>
-      row.getValue<string>("vehicle_class").split("Category")[1],
+    cell: ({ row }) => row.getValue<string>("vehicle_class"),
   },
   {
     accessorKey: "premium",

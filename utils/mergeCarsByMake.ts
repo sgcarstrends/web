@@ -1,3 +1,4 @@
+import { sortByValue, SortDirection } from "@/utils/sorting";
 import type { Car } from "@/types";
 
 /**
@@ -23,5 +24,8 @@ export const mergeCarsByMake = (cars: Car[]): Car[] => {
       return acc;
     }, {});
 
-  return Object.values(mergedData).sort((a, b) => b.number - a.number);
+  return sortByValue(Object.values(mergedData), {
+    sortKey: "number",
+    direction: SortDirection.DESC,
+  });
 };

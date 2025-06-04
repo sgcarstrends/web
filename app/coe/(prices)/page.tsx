@@ -29,7 +29,7 @@ interface Props {
   searchParams: Promise<SearchParams>;
 }
 
-const title = "COE Result";
+const title = "COE Historical Results";
 const description =
   "Explore historical Certificate of Entitlement (COE) price trends and bidding results for car registrations in Singapore.";
 
@@ -117,30 +117,30 @@ const COEPricesPage = async ({ searchParams }: Props) => {
   return (
     <>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-y-4">
-        <Typography.H1>COE RESULT</Typography.H1>
-        {lastUpdated && (
-          <div>
-            <LastUpdated lastUpdated={lastUpdated} />
-          </div>
-        )}
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col justify-between xl:flex-row xl:items-center">
+          <Typography.H1>Historical Results</Typography.H1>
+          {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
+        </div>
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
-          <div className="xl:col-span-8">
+          <div className="xl:col-span-9">
             <COEPremiumChart data={data} months={months} />
           </div>
-          <div className="xl:col-span-4">
+          <div className="xl:col-span-3">
             <COECategories />
           </div>
         </div>
-        <Card>
-          <CardHeader>
-            <CardTitle>Overview</CardTitle>
-            <CardDescription>List of historical COE prices</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <TrendTable coeResults={coeResults} />
-          </CardContent>
-        </Card>
+        <div className="grid grid-cols-1 gap-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Overview</CardTitle>
+              <CardDescription>List of historical COE prices</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <TrendTable coeResults={coeResults} />
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </>
   );
