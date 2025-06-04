@@ -53,6 +53,13 @@ export interface COEResult {
   premium: number;
 }
 
+export type PQP = {
+  "Category A": number;
+  "Category B": number;
+  "Category C": number;
+  "Category D": number;
+};
+
 export interface LatestMonth {
   cars: string;
   coe: string;
@@ -88,4 +95,27 @@ export interface LinkItem {
   description?: string;
   icon?: LucideIcon;
   comingSoon?: boolean;
+}
+
+export interface Registration {
+  data: {
+    month: string;
+    fuelType: {
+      Diesel: number;
+      "Petrol-Electric (Plug-In)": number;
+      Petrol: number;
+      Electric: number;
+      "Petrol-Electric": number;
+    };
+    vehicleType: {
+      Hatchback: number;
+      "Coupe/Convertible": number;
+      Sedan: number;
+      "Multi-purpose Vehicle": number;
+      "Station-wagon": number;
+      "Multi-purpose Vehicle/Station-wagon": number;
+      "Sports Utility Vehicle": number;
+    };
+    total: number;
+  };
 }

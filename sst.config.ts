@@ -14,7 +14,7 @@ export default $config({
 
     return {
       name: "sgcarstrends",
-      removal: input?.stage === "prod" ? "retain" : "remove",
+      removal: input?.stage === AppEnv.PROD ? "retain" : "remove",
       home: "aws",
       providers: {
         aws: { region: "ap-southeast-1" },
@@ -31,11 +31,12 @@ export default $config({
       environment: {
         SG_CARS_TRENDS_API_TOKEN: process.env.SG_CARS_TRENDS_API_TOKEN!,
         DATABASE_URL: process.env.DATABASE_URL!,
+        UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL!,
+        UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN!,
         APP_ENV: $app.stage,
       },
       server: {
         architecture: "arm64",
-        memory: "4096 MB",
       },
       warm: 1,
     });

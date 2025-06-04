@@ -1,9 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useMemo } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo } from "react";
 import { Calendar } from "lucide-react";
-import useStore from "@/app/store";
+import { useQueryState } from "nuqs";
 import {
   Select,
   SelectContent,
@@ -22,17 +21,14 @@ interface Props {
 }
 
 export const MonthSelector = ({ months }: Props) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const month = searchParams.get("month");
-
-  const selectedMonth = useStore((state) => state.selectedMonth);
-  const setSelectedMonth = useStore((state) => state.setSelectedMonth);
+  const [month, setMonth] = useQueryState("month", { shallow: false });
+  const latestMonth = months[0];
 
   useEffect(() => {
-    setSelectedMonth(month ?? months[0]);
-  }, [month, months, setSelectedMonth]);
+    if (!month) {
+      void setMonth(latestMonth);
+    }
+  }, [latestMonth, month, months, setMonth]);
 
   const memoisedGroupByYear = useMemo(() => groupByYear, []);
   const sortedMonths = useMemo(
@@ -40,16 +36,8 @@ export const MonthSelector = ({ months }: Props) => {
     [memoisedGroupByYear, months],
   );
 
-  const handleValueChange = useCallback(
-    (month: string) => {
-      const queryString = new URLSearchParams({ month }).toString();
-      router.replace(`${pathname}?${queryString}`);
-    },
-    [pathname, router],
-  );
-
   return (
-    <Select value={selectedMonth} onValueChange={handleValueChange}>
+    <Select value={month || latestMonth} onValueChange={setMonth}>
       <SelectTrigger>
         <SelectValue placeholder="Select Month" />
       </SelectTrigger>
@@ -62,7 +50,7 @@ export const MonthSelector = ({ months }: Props) => {
               return (
                 <SelectItem key={month} value={date}>
                   <div className="flex items-center">
-                    <Calendar className="mr-2 h-4 w-4" />
+                    <Calendar className="mr-2 size-4" />
                     {formatDateToMonthYear(date)}
                   </div>
                 </SelectItem>

@@ -1,76 +1,120 @@
 import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
+import { loadSearchParams } from "@/app/api/og/search-params";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
 
-export const GET = async (req: NextRequest) => {
-  const searchParams = req.nextUrl.searchParams;
-  const title = searchParams.get("title");
-  const type = searchParams.get("type");
-  const make = searchParams.get("make");
-  const month = searchParams.get("month");
-  const formattedMonth = month && formatDateToMonthYear(month);
+export const GET = async (request: NextRequest) => {
+  const {
+    month,
+    title,
+    subtitle,
+    total,
+    topFuelType,
+    topFuelValue,
+    topVehicleType,
+    topVehicleValue,
+  } = loadSearchParams(request.nextUrl.searchParams);
+
+  let formattedMonth = month;
+  if (month) {
+    formattedMonth = formatDateToMonthYear(month);
+  }
 
   return new ImageResponse(
     (
       <div
+        tw="flex h-full w-full flex-col items-center justify-center bg-white"
         style={{
-          display: "flex",
-          backgroundColor: "#ffffff",
-          backgroundImage:
-            "radial-gradient(circle at 25px 25px, #e5e7eb 2%, transparent 0%), radial-gradient(circle at 75px 75px, #e5e7eb 2%, transparent 0%)",
-          backgroundSize: "100px 100px",
+          position: "relative",
+          background: "linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%)",
         }}
       >
-        <div tw="flex h-[630px] w-[1200px] flex-col items-center justify-center relative">
-          <div tw="flex items-center gap-x-2 absolute left-8 top-8">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#2563eb"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-trending-up"
-            >
-              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-              <polyline points="16 7 22 7 22 13" />
-            </svg>
-            <span tw="ml-2 text-sm font-bold lg:text-xl">
-              <span tw="text-black">SGCars</span>
-              <span tw="text-blue-600">Trends</span>
-            </span>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              boxShadow:
-                "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-              backgroundImage: "linear-gradient(90deg, #f9fafb, #e5e7eb)",
-            }}
+        {/* Background Pattern */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(128,128,128,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>')`,
+            backgroundSize: "500px 500px",
+            opacity: 0.5,
+          }}
+        />
+        <div tw="absolute bottom-8 left-8 flex items-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#2563eb"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-trending-up"
           >
-            <div tw="flex flex-col md:flex-row w-full py-12 px-4 md:items-center justify-between p-8">
-              <div tw="flex flex-col text-3xl sm:text-4xl font-bold tracking-tight text-gray-900">
-                {title || <span>Car Trends ({formattedMonth})</span>}
-                {type && <span tw="capitalize text-blue-600">{type}</span>}
-                {make && <span tw="capitalize text-blue-600">{make}</span>}
-              </div>
-              {/*<div tw="mt-8 flex md:mt-0">*/}
-              {/*  <div tw="flex rounded-md shadow">*/}
-              {/*    <a tw="flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-5 py-3 text-base font-medium text-white">*/}
-              {/*      Explore*/}
-              {/*    </a>*/}
-              {/*  </div>*/}
-              {/*  <div tw="ml-3 flex rounded-md shadow">*/}
-              {/*    <a tw="flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-blue-600">*/}
-              {/*      Details*/}
-              {/*    </a>*/}
-              {/*  </div>*/}
-              {/*</div>*/}
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+            <polyline points="16 7 22 7 22 13" />
+          </svg>
+          <span
+            tw="ml-2 text-xl"
+            style={{ textShadow: `0 2px 4px rgba(0,0,0,0.3)` }}
+          >
+            <span tw="text-black">SGCars</span>
+            <span tw="text-blue-600">Trends</span>
+          </span>
+        </div>
+        <div tw="flex w-full p-32">
+          <div tw="flex w-full items-center justify-between py-8">
+            <div
+              tw="flex flex-col"
+              style={{ textShadow: `0 2px 4px rgba(0,0,0,0.3)` }}
+            >
+              <h1 tw="flex flex-col text-left text-3xl font-bold sm:text-4xl">
+                <span>{title}</span>
+                <span tw="text-blue-600">{formattedMonth}</span>
+              </h1>
+              <h2 tw="text-gray-600">{subtitle}</h2>
             </div>
+            {total && (
+              <div tw="flex flex-col text-2xl">
+                {total && (
+                  <div tw="-mr-64 mb-4 flex w-[50vw] flex-col rounded-2xl bg-gray-50 p-8 shadow-lg">
+                    Total Registrations
+                    <span
+                      tw="text-blue-600"
+                      style={{ textShadow: `0 2px 4px rgba(0,0,0,0.3)` }}
+                    >
+                      {total}
+                    </span>
+                  </div>
+                )}
+                {topFuelType && (
+                  <div tw="-mr-64 mb-4 flex w-[50vw] flex-col rounded-2xl bg-gray-50 p-8 shadow-lg">
+                    Top Fuel Type
+                    <span
+                      tw="text-green-600"
+                      style={{ textShadow: `0 2px 4px rgba(0,0,0,0.3)` }}
+                    >
+                      {topFuelType}
+                    </span>
+                  </div>
+                )}
+                {topVehicleType && (
+                  <div tw="-mr-64 mb-4 flex w-[50vw] flex-col rounded-2xl bg-gray-50 p-8 shadow-lg">
+                    Top Vehicle Type
+                    <span
+                      tw="text-pink-600"
+                      style={{ textShadow: `0 2px 4px rgba(0,0,0,0.3)` }}
+                    >
+                      {topVehicleType}
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -20,6 +20,7 @@ export const API_URL = `${API_BASE_URL}/${API_VERSION}`;
 export enum FUEL_TYPE {
   DIESEL = "Diesel",
   ELECTRIC = "Electric",
+  HYBRID = "Hybrid",
   OTHERS = "Others",
   PETROL = "Petrol",
 }
@@ -97,3 +98,6 @@ export const SITE_LINKS: LinkItem[] = [
   ...VEHICLE_TYPE_LINKS,
   ...COE_LINKS,
 ];
+
+export const LAST_UPDATED_CARS_KEY = "last_updated:cars";
+export const LAST_UPDATED_COE_KEY = "last_updated:coe";
