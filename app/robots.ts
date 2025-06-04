@@ -10,8 +10,8 @@ const robots = (): MetadataRoute.Robots => {
     case AppEnv.PROD:
       rules = [
         { userAgent: "*", allow: "/" },
-        { userAgent: "*", allow: "/api/og/" },
         { userAgent: "*", disallow: protectedPaths },
+        { userAgent: "*", allow: "/api/og/" },
       ];
       break;
 
@@ -19,8 +19,8 @@ const robots = (): MetadataRoute.Robots => {
     case AppEnv.DEV:
     default:
       rules = [
-        { userAgent: "*", allow: "/api/og/" },
         { userAgent: "*", disallow: "/" },
+        { userAgent: "*", allow: "/api/og/" },
         {
           userAgent: "AhrefsSiteAudit",
           allow: "/",
