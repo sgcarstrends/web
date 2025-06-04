@@ -1,9 +1,11 @@
-import dynamic from "next/dynamic";
 import { loadSearchParams } from "@/app/cars/fuel-types/[fuelType]/search-params";
-import NoData from "@/components/NoData";
+import { CarOverviewTrends } from "@/app/components/CarOverviewTrends";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
+import { AnimatedNumber } from "@/components/animated-number";
 import { LastUpdated } from "@/components/last-updated";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
 import { type Car, type LatestMonth, RevalidateTags } from "@/types";
@@ -19,10 +21,6 @@ interface Props {
   params: Promise<{ fuelType: string }>;
   searchParams: Promise<SearchParams>;
 }
-
-const CarOverviewTrends = dynamic(
-  () => import("@/app/components/CarOverviewTrends"),
-);
 
 export const generateMetadata = async ({
   params,
@@ -93,7 +91,14 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
 
   const filteredCars = mergeCarsByMake(cars);
 
+  const total = filteredCars.reduce(
+    (total, { number = 0 }) => total + number,
+    0,
+  );
+
   const formattedFuelType = deslugify(fuelType);
+
+  const formattedMonth = formatDateToMonthYear(month);
 
   const title = `${formattedFuelType} Cars in Singapore`;
   const description = `${formattedFuelType} cars overview. Explore registration trends, statistics and distribution by fuel type for the month in Singapore.`;
@@ -120,15 +125,25 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <Typography.H1>{deslugify(fuelType).toUpperCase()}</Typography.H1>
-          <div className="text-muted-foreground flex items-center gap-2">
-            &mdash;
-            <span className="uppercase">{formatDateToMonthYear(month)}</span>
+          <div className="flex flex-col justify-between lg:flex-row lg:items-center">
+            <Typography.H1>{deslugify(fuelType)}</Typography.H1>
             {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
           </div>
         </div>
+        <div className="flex flex-col gap-4">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+            <Card>
+              <CardHeader>
+                <CardTitle>Registrations</CardTitle>
+                <Badge>{formattedMonth}</Badge>
+              </CardHeader>
+              <CardContent className="text-primary text-4xl font-bold">
+                <AnimatedNumber value={total} />
+              </CardContent>
+            </Card>
+          </div>
+        </div>
         {filteredCars.length > 0 && <CarOverviewTrends cars={filteredCars} />}
-        {filteredCars.length === 0 && <NoData />}
       </div>
     </>
   );

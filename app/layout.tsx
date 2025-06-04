@@ -6,8 +6,8 @@ import classNames from "classnames";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Analytics } from "@/app/components/Analytics";
 import { Announcement } from "@/app/components/Announcement";
-import { Header } from "@/components/Header";
 import { AppSidebar } from "@/components/app-sidebar";
+import { Navbar } from "@/components/navbar";
 import { NotificationPrompt } from "@/components/notification-prompt";
 import {
   SidebarInset,
@@ -52,13 +52,7 @@ export const metadata: Metadata = {
   },
 };
 
-const RootLayout = async ({
-  breadcrumbs,
-  children,
-}: {
-  breadcrumbs: ReactNode;
-  children: ReactNode;
-}) => {
+const RootLayout = async ({ children }: { children: ReactNode }) => {
   const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
@@ -73,10 +67,10 @@ const RootLayout = async ({
               <AppSidebar />
             </Suspense>
             <SidebarInset>
-              <Header breadcrumbs={breadcrumbs}>
+              <Navbar>
                 <SidebarTrigger />
-              </Header>
-              <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
+              </Navbar>
+              <main className="bg-sidebar flex flex-1 flex-col gap-4 p-4">
                 {children}
               </main>
             </SidebarInset>

@@ -1,6 +1,6 @@
-import dynamic from "next/dynamic";
 import { columns } from "@/app/cars/makes/[make]/columns";
 import { loadSearchParams } from "@/app/cars/makes/[make]/search-params";
+import { TrendChart } from "@/app/cars/makes/[make]/trend-chart";
 import { MakeSelector } from "@/app/components/MakeSelector";
 import NoData from "@/components/NoData";
 import { StructuredData } from "@/components/StructuredData";
@@ -28,8 +28,6 @@ interface Props {
   params: Promise<{ make: string }>;
   searchParams: Promise<SearchParams>;
 }
-
-const TrendChart = dynamic(() => import("./TrendChart"));
 
 export const generateMetadata = async ({
   params,
@@ -139,19 +137,14 @@ const CarMakePage = async ({ params, searchParams }: Props) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col justify-between gap-2 lg:flex-row">
-          <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col justify-between lg:flex-row lg:items-center">
             <Typography.H1>{formattedMake}</Typography.H1>
-            <div className="text-muted-foreground flex items-center gap-2">
-              &mdash;
-              <span className="uppercase">
-                {/*TODO: Fix later*/}
-                {formatDateToMonthYear(month)}
-              </span>
+            <div className="flex items-center justify-between gap-2">
               {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
+              <MakeSelector makes={makes} selectedMake={make} />
             </div>
           </div>
-          <MakeSelector makes={makes} selectedMake={make} />
         </div>
         <Card>
           <CardHeader>

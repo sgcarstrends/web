@@ -1,6 +1,6 @@
 "use client";
 
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import {
   type ChartConfig,
   ChartContainer,
@@ -29,21 +29,21 @@ export const TrendChart = ({ data }: Props) => {
   }));
 
   return (
-    <ChartContainer config={chartConfig} className="h-[300px] w-full">
-      <AreaChart accessibilityLayer data={chartData}>
+    <ChartContainer config={chartConfig} className="h-[250px] w-full">
+      <LineChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />
         <XAxis dataKey="month" tickMargin={8} />
         <ChartTooltip
           content={<ChartTooltipContent indicator="line" label />}
         />
-        <Area
+        <Line
           dataKey="number"
           type="monotone"
           fill="var(--primary)"
           stroke="var(--primary)"
           strokeWidth={2}
         />
-      </AreaChart>
+      </LineChart>
     </ChartContainer>
   );
 };
@@ -53,5 +53,3 @@ const chartConfig = {
     label: "Count",
   },
 } satisfies ChartConfig;
-
-export default TrendChart;
