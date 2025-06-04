@@ -87,18 +87,8 @@ export const generateStaticParams = async () => {
   return makes.map((make) => ({ make: slugify(make) }));
 };
 
-const CarMakePage = async ({ params, searchParams }: Props) => {
+const CarMakePage = async ({ params }: Props) => {
   const { make } = await params;
-  let { month } = await loadSearchParams(searchParams);
-
-  // TODO: Interim solution
-  if (!month) {
-    const latestMonths = await fetchApi<LatestMonth>(
-      `${API_URL}/months/latest`,
-      { next: { tags: [RevalidateTags.Cars] } },
-    );
-    month = latestMonths.cars;
-  }
 
   const [cars, makes]: [Car[], Make[]] = await Promise.all([
     await fetchApi<Car[]>(`${API_URL}/makes/${slugify(make)}`, {

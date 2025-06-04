@@ -40,38 +40,36 @@ export const BarChartByType = ({ data, type }: Props) => {
   } satisfies ChartConfig;
 
   return (
-    <>
-      <ChartContainer config={chartConfig} className="max-h-[250px] w-full">
-        <BarChart accessibilityLayer data={chartData} layout="vertical">
-          <XAxis type="number" dataKey="value" />
-          <YAxis
+    <ChartContainer config={chartConfig} className="max-h-[250px] w-full">
+      <BarChart accessibilityLayer data={chartData} layout="vertical">
+        <XAxis type="number" dataKey="value" />
+        <YAxis
+          dataKey="label"
+          type="category"
+          tickLine={false}
+          tickMargin={10}
+          axisLine={false}
+          hide
+        />
+        <ChartTooltip content={<ChartTooltipContent />} />
+        <Bar dataKey="value">
+          <LabelList
             dataKey="label"
-            type="category"
-            tickLine={false}
-            tickMargin={10}
-            axisLine={false}
-            hide
+            position="insideLeft"
+            offset={8}
+            className="fill-(--color-label)"
+            fontSize={12}
           />
-          <ChartTooltip content={<ChartTooltipContent />} />
-          <Bar dataKey="value">
-            <LabelList
-              dataKey="label"
-              position="insideLeft"
-              offset={8}
-              className="fill-(--color-label)"
-              fontSize={12}
-            />
-            <LabelList
-              dataKey="value"
-              position="right"
-              offset={8}
-              className="fill-foreground"
-              fontSize={12}
-            />
-          </Bar>
-        </BarChart>
-      </ChartContainer>
-    </>
+          <LabelList
+            dataKey="value"
+            position="right"
+            offset={8}
+            className="fill-foreground"
+            fontSize={12}
+          />
+        </Bar>
+      </BarChart>
+    </ChartContainer>
   );
 };
 

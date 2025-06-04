@@ -90,56 +90,54 @@ const getPopularMakes = (cars: Car[], fuelType: string): PopularMake[] => {
 
 export const TopMakes = ({ cars }: Props) => {
   return (
-    <>
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
-        {CATEGORIES.map(({ title, description, icon: Icon, colour, url }) => {
-          const popularMakes = getPopularMakes(cars, title);
+    <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
+      {CATEGORIES.map(({ title, description, icon: Icon, colour, url }) => {
+        const popularMakes = getPopularMakes(cars, title);
 
-          if (popularMakes.length === 0) {
-            return null;
-          }
+        if (popularMakes.length === 0) {
+          return null;
+        }
 
-          return (
-            <Card key={title}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Icon className={`size-6 ${colour}`} />
-                  {title}
-                </CardTitle>
-                <CardDescription>{description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                {popularMakes.map(({ make, number }) => {
-                  const maxValue = Math.max(
-                    ...popularMakes.map(({ number }) => number),
-                  );
+        return (
+          <Card key={title}>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Icon className={`size-6 ${colour}`} />
+                {title}
+              </CardTitle>
+              <CardDescription>{description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {popularMakes.map(({ make, number }) => {
+                const maxValue = Math.max(
+                  ...popularMakes.map(({ number }) => number),
+                );
 
-                  return (
-                    <div
-                      key={make}
-                      className="flex justify-between border-b py-2"
-                    >
-                      <span>{make.toUpperCase()}</span>
-                      <div className="flex items-center gap-2">
-                        <AnimatedNumber value={number} />
-                        <progress
-                          className="progress w-16"
-                          value={number / maxValue}
-                        />
-                      </div>
+                return (
+                  <div
+                    key={make}
+                    className="flex justify-between border-b py-2"
+                  >
+                    <span>{make.toUpperCase()}</span>
+                    <div className="flex items-center gap-2">
+                      <AnimatedNumber value={number} />
+                      <progress
+                        className="progress w-16"
+                        value={number / maxValue}
+                      />
                     </div>
-                  );
-                })}
-              </CardContent>
-              <CardFooter>
-                <Link href={url} className="underline">
-                  View More
-                </Link>
-              </CardFooter>
-            </Card>
-          );
-        })}
-      </div>
-    </>
+                  </div>
+                );
+              })}
+            </CardContent>
+            <CardFooter>
+              <Link href={url} className="underline">
+                View More
+              </Link>
+            </CardFooter>
+          </Card>
+        );
+      })}
+    </div>
   );
 };

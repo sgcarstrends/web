@@ -18,11 +18,13 @@ const sortBy =
   };
 
 export const sortByName = <T>(data: T[], options: SortOptions<T>) =>
-  data.sort(
+  data.toSorted(
     sortBy<T>((a, b, key) => String(a[key]).localeCompare(String(b[key])))(
       options,
     ),
   );
 
 export const sortByValue = <T>(data: T[], options: SortOptions<T>) =>
-  data.sort(sortBy<T>((a, b, key) => Number(a[key]) - Number(b[key]))(options));
+  data.toSorted(
+    sortBy<T>((a, b, key) => Number(a[key]) - Number(b[key]))(options),
+  );

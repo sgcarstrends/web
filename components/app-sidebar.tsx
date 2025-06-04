@@ -35,7 +35,7 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { VEHICLE_TYPE_MAP } from "@/constants";
+// import { VEHICLE_TYPE_MAP } from "@/constants";
 import { slugify } from "@/utils/slugify";
 import { sortByName } from "@/utils/sorting";
 
