@@ -189,6 +189,9 @@ importers:
       constructs:
         specifier: 10.2.69
         version: 10.2.69
+      daisyui:
+        specifier: ^5.0.43
+        version: 5.0.43
       drizzle-kit:
         specifier: ^0.30.5
         version: 0.30.5
@@ -3014,6 +3017,9 @@ packages:
   d3@7.8.5:
     resolution: {integrity: sha512-JgoahDG51ncUfJu6wX/1vWQEqOflgXyl4MaHqlcSruTez7yhaRKR9i8VjjcQGeS2en/jnFivXuaIMnseMMt0XA==}
     engines: {node: '>=12'}
+
+  daisyui@5.0.43:
+    resolution: {integrity: sha512-2pshHJ73vetSpsbAyaOncGnNYL0mwvgseS1EWy1I9Qpw8D11OuBoDNIWrPIME4UFcq2xuff3A9x+eXbuFR9fUQ==}
 
   damerau-levenshtein@1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
@@ -9200,6 +9206,8 @@ snapshots:
       d3-timer: 3.0.1
       d3-transition: 3.0.1(d3-selection@3.0.0)
       d3-zoom: 3.0.0
+
+  daisyui@5.0.43: {}
 
   damerau-levenshtein@1.0.8: {}
 
