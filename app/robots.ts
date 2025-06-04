@@ -3,13 +3,14 @@ import { AppEnv } from "@/types";
 import type { MetadataRoute } from "next";
 
 const robots = (): MetadataRoute.Robots => {
-  const protectedPaths = ["/api/", "/public", "/_next/", "/static/"];
+  const protectedPaths = ["/api/", "/_next/"];
 
   let rules: MetadataRoute.Robots["rules"];
   switch (APP_ENV) {
     case AppEnv.PROD:
       rules = [
         { userAgent: "*", allow: "/" },
+        { userAgent: "*", allow: "/api/og/" },
         { userAgent: "*", disallow: protectedPaths },
       ];
       break;
@@ -18,6 +19,7 @@ const robots = (): MetadataRoute.Robots => {
     case AppEnv.DEV:
     default:
       rules = [
+        { userAgent: "*", allow: "/api/og/" },
         { userAgent: "*", disallow: "/" },
         {
           userAgent: "AhrefsSiteAudit",
