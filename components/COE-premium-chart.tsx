@@ -163,7 +163,7 @@ export const COEPremiumChart = ({ data, months }: Props) => {
         </div>
       </CardHeader>
       <CardContent className="p-6">
-        <ChartContainer config={chartConfig} className="max-h-[300px] w-full">
+        <ChartContainer config={chartConfig} className="h-[250px] w-full">
           <LineChart data={filteredData}>
             <CartesianGrid />
             <XAxis

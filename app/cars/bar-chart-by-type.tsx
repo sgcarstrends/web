@@ -40,7 +40,7 @@ export const BarChartByType = ({ data, type }: Props) => {
   } satisfies ChartConfig;
 
   return (
-    <ChartContainer config={chartConfig} className="max-h-[250px] w-full">
+    <ChartContainer config={chartConfig} className="h-[250px] w-full">
       <BarChart accessibilityLayer data={chartData} layout="vertical">
         <XAxis type="number" dataKey="value" />
         <YAxis
