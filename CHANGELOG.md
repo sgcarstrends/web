@@ -1,5 +1,11 @@
 # @sgcarstrends/web
 
+## 2.5.2
+
+### Patch Changes
+
+- [`c91ca79`](https://github.com/sgcarstrends/web/commit/c91ca7994da7a8e96f43a414181e836c210b384b) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Update robots.txt
+
 ## 2.5.1
 
 ### Patch Changes
