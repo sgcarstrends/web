@@ -17,7 +17,6 @@ interface Props {
 }
 
 export const CarOverviewTrends = ({ cars }: Props) => {
-  console.log(cars);
   sortByValue(cars, { sortKey: "number", direction: SortDirection.DESC });
   const total = cars.reduce((acc, curr) => acc + curr.number, 0);
 
