@@ -1,5 +1,11 @@
 # @sgcarstrends/web
 
+## 2.5.1
+
+### Patch Changes
+
+- [`0e6ffcc`](https://github.com/sgcarstrends/web/commit/0e6ffcc891b8f773ea2e453f6d62db48aa9503b3) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Update GitHub workflows
+
 ## 2.5.0
 
 ### Minor Changes
