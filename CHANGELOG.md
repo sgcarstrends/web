@@ -1,5 +1,11 @@
 # @sgcarstrends/web
 
+## 2.5.3
+
+### Patch Changes
+
+- [`7b8a748`](https://github.com/sgcarstrends/web/commit/7b8a748f9eef3ec59fe059fc4d8e488d6d56182c) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Fix order of whitelisting in robots.txt
+
 ## 2.5.2
 
 ### Patch Changes
