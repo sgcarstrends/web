@@ -4,10 +4,17 @@ import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { AnimatedNumber } from "@/components/animated-number";
 import { LastUpdated } from "@/components/last-updated";
+import { MetricsComparison } from "@/components/metrics-comparison";
 import { StatCard } from "@/components/stat-card";
 import { TopMakes } from "@/components/top-makes";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   API_URL,
   HYBRID_REGEX,
@@ -24,6 +31,7 @@ import {
 } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
+import type { Comparison } from "@/types/cars";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -104,6 +112,12 @@ const CarsPage = async ({ searchParams }: Props) => {
   let cars = await fetchApi<Car[]>(`${API_URL}/cars?month=${month}`, {
     next: { tags: [RevalidateTags.Cars] },
   });
+  const comparison = await fetchApi<Comparison>(
+    `${API_URL}/cars/compare?month=${month}`,
+    {
+      next: { tags: [RevalidateTags.Cars] },
+    },
+  );
 
   const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
 
@@ -111,19 +125,6 @@ const CarsPage = async ({ searchParams }: Props) => {
     return notFound();
   }
 
-  cars = cars.map((car) => {
-    const { fuel_type, vehicle_type } = car;
-
-    if (HYBRID_REGEX.test(fuel_type)) {
-      Object.assign(car, { fuel_type: "Hybrid" });
-    }
-
-    // Object.assign(car, {
-    //   vehicle_type: VEHICLE_TYPE_MAP[vehicle_type] ?? vehicle_type,
-    // });
-
-    return car;
-  });
   const total = cars.reduce((total, { number = 0 }) => total + number, 0);
 
   const aggregateData = (
@@ -196,6 +197,13 @@ const CarsPage = async ({ searchParams }: Props) => {
                 <CardContent className="text-4xl font-bold text-blue-600">
                   <AnimatedNumber value={total} />
                 </CardContent>
+                <CardFooter>
+                  <MetricsComparison
+                    current={total}
+                    previousMonth={comparison.data.previousMonth.total}
+                    previousYear={comparison.data.previousYear.total}
+                  />
+                </CardFooter>
               </Card>
               <Card>
                 <CardHeader>
@@ -205,6 +213,21 @@ const CarsPage = async ({ searchParams }: Props) => {
                 <CardContent className="text-4xl font-bold text-green-600">
                   <AnimatedNumber value={topFuelTypeValue} />
                 </CardContent>
+                <CardFooter>
+                  <MetricsComparison
+                    current={topFuelTypeValue}
+                    previousMonth={
+                      comparison.data.previousMonth.fuelType.find(
+                        (f) => f.label === topFuelType,
+                      )?.count || 0
+                    }
+                    previousYear={
+                      comparison.data.previousYear.fuelType.find(
+                        (f) => f.label === topFuelType,
+                      )?.count || 0
+                    }
+                  />
+                </CardFooter>
               </Card>
               <Card>
                 <CardHeader>
@@ -214,6 +237,21 @@ const CarsPage = async ({ searchParams }: Props) => {
                 <CardContent className="text-4xl font-bold text-pink-600">
                   <AnimatedNumber value={topVehicleTypeValue} />
                 </CardContent>
+                <CardFooter>
+                  <MetricsComparison
+                    current={topVehicleTypeValue}
+                    previousMonth={
+                      comparison.data.previousMonth.vehicleType.find(
+                        (v) => v.label === topVehicleType,
+                      )?.count || 0
+                    }
+                    previousYear={
+                      comparison.data.previousYear.vehicleType.find(
+                        (v) => v.label === topVehicleType,
+                      )?.count || 0
+                    }
+                  />
+                </CardFooter>
               </Card>
               {/*<UnreleasedFeature>*/}
               {/*  <Card>*/}
