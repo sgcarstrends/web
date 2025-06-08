@@ -12,20 +12,20 @@ export const mergeCarsByMake = (cars: Car[]): Car[] => {
   if (!cars?.length) return [];
 
   const mergedData = cars
-    .filter(({ number }) => number > 0)
+    .filter(({ count }) => count > 0)
     .reduce<Record<Car["make"], Car>>((acc, car) => {
       const { make } = car;
 
       if (!acc[make]) {
-        acc[make] = { ...car, number: 0 };
+        acc[make] = { ...car, count: 0 };
       }
 
-      acc[make].number += car.number;
+      acc[make].count += car.count;
       return acc;
     }, {});
 
   return sortByValue(Object.values(mergedData), {
-    sortKey: "number",
+    sortKey: "count",
     direction: SortDirection.DESC,
   });
 };

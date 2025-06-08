@@ -22,6 +22,16 @@ import {
 import { FUEL_TYPE } from "@/config";
 import { formatPercent } from "@/utils/formatPercent";
 import { slugify } from "@/utils/slugify";
+import type { RegistrationStat } from "@/types/cars";
+
+interface Props {
+  title: string;
+  description: string;
+  data: RegistrationStat[];
+  total: number;
+  // TODO: Temporary solution
+  linkPrefix?: string;
+}
 
 export const StatCard = ({
   title,
@@ -30,14 +40,7 @@ export const StatCard = ({
   total,
   // TODO: Temporary solution
   linkPrefix,
-}: {
-  title: string;
-  description: string;
-  data: Record<string, number>;
-  total: number;
-  // TODO: Temporary solution
-  linkPrefix?: string;
-}) => {
+}: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -59,51 +62,50 @@ export const StatCard = ({
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1">
-        <BarChartByType data={data} type={title} />
+        <BarChartByType data={data} />
         {Object.keys(data).includes(FUEL_TYPE.OTHERS) && (
           <p className="text-muted-foreground text-sm italic">
             Note: We do not know what is the Land Transport Authority&apos;s
             exact definition of &quot;Others&quot;.
           </p>
         )}
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Type</TableHead>
-              <TableHead>Count</TableHead>
-              <TableHead>Distribution</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {Object.entries(data)
-              .filter(([_, value]) => value)
-              .sort(([_A, numberA], [_B, numberB]) => numberB - numberA)
-              .map(([key, value], index) => (
-                <TableRow
-                  key={key}
-                  className="cursor-pointer"
-                  onClick={() => handleRowClick(key)}
-                >
-                  <TableCell>
-                    <div className="flex flex-col gap-2">{key}</div>
-                  </TableCell>
-                  <TableCell className="text-primary flex gap-1 font-semibold">
-                    {value}
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={getBadgeVariant(value)}>
-                      {formatPercent(value / total, {
-                        minimumFractionDigits: 2,
-                      })}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <ArrowRight className="text-primary size-4" />
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
+        {/*<Table>*/}
+        {/*  <TableHeader>*/}
+        {/*    <TableRow>*/}
+        {/*      <TableHead>Type</TableHead>*/}
+        {/*      <TableHead>Count</TableHead>*/}
+        {/*      <TableHead>Distribution</TableHead>*/}
+        {/*    </TableRow>*/}
+        {/*  </TableHeader>*/}
+        {/*  <TableBody>*/}
+        {/*    {data.map(({ name, count }) => {*/}
+        {/*      return (*/}
+        {/*        <TableRow*/}
+        {/*          key={name}*/}
+        {/*          className="cursor-pointer"*/}
+        {/*          onClick={() => handleRowClick(name)}*/}
+        {/*        >*/}
+        {/*          <TableCell>*/}
+        {/*            <div className="flex flex-col gap-2">{name}</div>*/}
+        {/*          </TableCell>*/}
+        {/*          <TableCell className="text-primary flex gap-1 font-semibold">*/}
+        {/*            {count}*/}
+        {/*          </TableCell>*/}
+        {/*          <TableCell>*/}
+        {/*            <Badge variant={getBadgeVariant(count)}>*/}
+        {/*              {formatPercent(count / total, {*/}
+        {/*                minimumFractionDigits: 2,*/}
+        {/*              })}*/}
+        {/*            </Badge>*/}
+        {/*          </TableCell>*/}
+        {/*          <TableCell>*/}
+        {/*            <ArrowRight className="text-primary size-4" />*/}
+        {/*          </TableCell>*/}
+        {/*        </TableRow>*/}
+        {/*      );*/}
+        {/*    })}*/}
+        {/*  </TableBody>*/}
+        {/*</Table>*/}
       </CardContent>
     </Card>
   );

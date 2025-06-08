@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const TrendChart = ({ data }: Props) => {
-  const chartData = data.slice(0, 10);
+  const chartData = data;
 
   const chartConfig = {
     number: {

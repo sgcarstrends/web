@@ -1,6 +1,3 @@
-"use client";
-
-import * as React from "react";
 import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts";
 import {
   type ChartConfig,
@@ -8,41 +5,28 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import type { RegistrationStat } from "@/types/cars";
 
 interface Props {
-  data: Record<string, number>;
-  type: string;
+  data: RegistrationStat[];
 }
 
-interface ChartConfigItem {
-  label: string;
-}
-
-export const BarChartByType = ({ data, type }: Props) => {
-  const chartData = Object.entries(data)
-    .filter(([_, value]) => value)
-    .map(([key, value], index) => ({
-      label: key,
-      value,
-      fill: `var(--chart-${index + 1})`,
-    }))
-    .sort((a, b) => b.value - a.value);
+export const BarChartByType = ({ data }: Props) => {
+  const chartData = data.map(({ name, count }) => ({
+    label: name,
+    count,
+    fill: "var(--primary)",
+  }));
 
   const chartConfig = {
-    type: {
-      label: type,
-    },
-    ...Object.keys(data).reduce<Record<string, ChartConfigItem>>((acc, key) => {
-      acc[key] = { label: key };
-      return acc;
-    }, {}),
+    count: { label: "Count" },
     label: { color: "var(--background)" },
   } satisfies ChartConfig;
 
   return (
     <ChartContainer config={chartConfig} className="h-[250px] w-full">
       <BarChart accessibilityLayer data={chartData} layout="vertical">
-        <XAxis type="number" dataKey="value" />
+        <XAxis type="number" dataKey="count" hide />
         <YAxis
           dataKey="label"
           type="category"
@@ -51,8 +35,8 @@ export const BarChartByType = ({ data, type }: Props) => {
           axisLine={false}
           hide
         />
-        <ChartTooltip content={<ChartTooltipContent />} />
-        <Bar dataKey="value">
+        <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
+        <Bar dataKey="count" radius={4}>
           <LabelList
             dataKey="label"
             position="insideLeft"
@@ -61,7 +45,7 @@ export const BarChartByType = ({ data, type }: Props) => {
             fontSize={12}
           />
           <LabelList
-            dataKey="value"
+            dataKey="count"
             position="right"
             offset={8}
             className="fill-foreground"

@@ -1,6 +1,6 @@
 import { type SearchParams } from "nuqs/server";
 import { loadSearchParams } from "@/app/cars/vehicle-types/[vehicleType]/search-params";
-import { CarOverviewTrends } from "@/app/components/CarOverviewTrends";
+import { CarOverviewTrends } from "@/app/components/car-overview-trends";
 import NoData from "@/components/NoData";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
@@ -89,21 +89,8 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
   };
   const search = new URLSearchParams(queries);
 
-  const cars = await fetchApi<Car[]>(`${API_URL}/cars?${search.toString()}`, {
-    next: { tags: [RevalidateTags.Cars] },
-  });
+  const cars = await fetchApi<Car[]>(`${API_URL}/cars?${search.toString()}`);
   const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
-
-  if (cars.length === 0) {
-    return <NoData />;
-  }
-
-  const filteredCars = mergeCarsByMake(cars);
-
-  const total = filteredCars.reduce(
-    (total, { number = 0 }) => total + number,
-    0,
-  );
 
   const formattedVehicleType = deslugify(vehicleType);
 
@@ -147,12 +134,15 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
                 <Badge>{formattedMonth}</Badge>
               </CardHeader>
               <CardContent className="text-primary text-4xl font-bold">
-                <AnimatedNumber value={total} />
+                <AnimatedNumber value={cars.data.total} />
               </CardContent>
             </Card>
           </div>
         </div>
-        <CarOverviewTrends cars={filteredCars} />
+        <CarOverviewTrends
+          cars={cars.data.vehicleType}
+          total={cars.data.total}
+        />
       </div>
     </>
   );

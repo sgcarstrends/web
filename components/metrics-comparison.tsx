@@ -11,14 +11,17 @@ const TrendIndicator = ({ change, label }: TrendIndicatorProps) => (
     <span
       className={`flex items-center gap-1 ${change >= 0 ? "text-green-600" : "text-red-600"}`}
     >
-      {change >= 0 ? <TrendingUp /> : <TrendingDown />}
-      {change >= 0 ? "+" : ""}
-      {formatPercent(change, { maximumFractionDigits: 2 })}
+      {change >= 0 ? (
+        <TrendingUp className="size-4" />
+      ) : (
+        <TrendingDown className="size-4" />
+      )}
+      {formatPercent(Math.abs(change), { maximumFractionDigits: 1 })}
     </span>
-    <span className="text-gray-600">{label}</span>
+    <span className="text-muted-foreground text-sm">{label}</span>
   </div>
 );
-
+ 
 interface MetricsComparisonProps {
   current: number;
   previousMonth: number;
@@ -35,8 +38,8 @@ export const MetricsComparison = ({
 
   return (
     <div className="flex flex-col gap-1">
-      <TrendIndicator change={monthChange} label="vs prev month" />
-      <TrendIndicator change={yearChange} label="vs prev year" />
+      <TrendIndicator change={monthChange} label="vs. Last Month" />
+      <TrendIndicator change={yearChange} label="vs. Last Year" />
     </div>
   );
 };

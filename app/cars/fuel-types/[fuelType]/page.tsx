@@ -1,5 +1,5 @@
 import { loadSearchParams } from "@/app/cars/fuel-types/[fuelType]/search-params";
-import { CarOverviewTrends } from "@/app/components/CarOverviewTrends";
+import { CarOverviewTrends } from "@/app/components/car-overview-trends";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { AnimatedNumber } from "@/components/animated-number";
@@ -84,17 +84,8 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   };
   const search = new URLSearchParams(queries);
 
-  const cars = await fetchApi<Car[]>(`${API_URL}/cars?${search.toString()}`, {
-    next: { tags: [RevalidateTags.Cars] },
-  });
+  const cars = await fetchApi<Car[]>(`${API_URL}/cars?${search.toString()}`);
   const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
-
-  const filteredCars = mergeCarsByMake(cars);
-
-  const total = filteredCars.reduce(
-    (total, { number = 0 }) => total + number,
-    0,
-  );
 
   const formattedFuelType = deslugify(fuelType);
 
@@ -138,12 +129,12 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
                 <Badge>{formattedMonth}</Badge>
               </CardHeader>
               <CardContent className="text-primary text-4xl font-bold">
-                <AnimatedNumber value={total} />
+                <AnimatedNumber value={cars.data.total} />
               </CardContent>
             </Card>
           </div>
         </div>
-        {filteredCars.length > 0 && <CarOverviewTrends cars={filteredCars} />}
+        <CarOverviewTrends cars={cars.data.fuelType} total={cars.data.total} />
       </div>
     </>
   );
