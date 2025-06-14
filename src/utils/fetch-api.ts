@@ -1,7 +1,10 @@
+import { API_URL } from "@/config";
+
 export const fetchApi = async <T>(
-  url: string,
+  path: string,
   options: RequestInit = {},
 ): Promise<T> => {
+  const url = `${API_URL}${path}`;
   const response = await fetch(url, {
     ...options,
     headers: {

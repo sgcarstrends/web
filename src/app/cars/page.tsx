@@ -16,12 +16,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
+import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
 import { type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetch-api";
 import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
-import type { Registration, Comparison, TopMake, TopType } from "@/types/cars";
+import type { Comparison, Registration, TopMake, TopType } from "@/types/cars";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -36,7 +36,7 @@ export const generateMetadata = async ({
   let { month } = await loadSearchParams(searchParams);
 
   if (!month) {
-    const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
+    const latestMonth = await fetchApi<LatestMonth>(`/months/latest`);
     month = latestMonth.cars;
   }
 
@@ -45,12 +45,8 @@ export const generateMetadata = async ({
   const title = `${formattedMonth} Car Registrations`;
   const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
 
-  const getTopTypes = fetchApi<TopType>(
-    `${API_URL}/cars/top-types?month=${month}`,
-  );
-  const getCarRegistration = fetchApi<Registration>(
-    `${API_URL}/cars?month=${month}`,
-  );
+  const getTopTypes = fetchApi<TopType>(`/cars/top-types?month=${month}`);
+  const getCarRegistration = fetchApi<Registration>(`/cars?month=${month}`);
   const [topTypes, carRegistration] = await Promise.all([
     getTopTypes,
     getCarRegistration,
@@ -86,23 +82,16 @@ const CarsPage = async ({ searchParams }: Props) => {
 
   // TODO: Interim solution
   if (!month) {
-    const latestMonths = await fetchApi<LatestMonth>(
-      `${API_URL}/months/latest`,
-      { next: { tags: [RevalidateTags.Cars] } },
-    );
+    const latestMonths = await fetchApi<LatestMonth>(`/months/latest`, {
+      next: { tags: [RevalidateTags.Cars] },
+    });
     month = latestMonths.cars;
   }
 
-  const getCars = fetchApi<Registration>(`${API_URL}/cars?month=${month}`);
-  const getComparison = fetchApi<Comparison>(
-    `${API_URL}/cars/compare?month=${month}`,
-  );
-  const getTopTypes = fetchApi<TopType>(
-    `${API_URL}/cars/top-types?month=${month}`,
-  );
-  const getTopMakes = fetchApi<TopMake>(
-    `${API_URL}/cars/top-makes?month=${month}`,
-  );
+  const getCars = fetchApi<Registration>(`/cars?month=${month}`);
+  const getComparison = fetchApi<Comparison>(`/cars/compare?month=${month}`);
+  const getTopTypes = fetchApi<TopType>(`/cars/top-types?month=${month}`);
+  const getTopMakes = fetchApi<TopMake>(`/cars/top-makes?month=${month}`);
 
   const [cars, comparison, topTypes, topMakes] = await Promise.all([
     getCars,

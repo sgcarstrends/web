@@ -4,7 +4,7 @@ import { StructuredData } from "@/components/structured-data";
 import Typography from "@/components/typography";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { DataTable } from "@/components/ui/data-table";
-import { API_URL, LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@/config";
+import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
 import { fetchApi } from "@/utils/fetch-api";
 import { columns } from "./columns";
@@ -41,7 +41,7 @@ export const generateMetadata = () => {
 };
 
 const PQPRatesPage = async () => {
-  const pqpRates = await fetchApi<Record<string, PQP>>(`${API_URL}/coe/pqp`);
+  const pqpRates = await fetchApi<Record<string, PQP>>(`/coe/pqp`);
 
   const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
 

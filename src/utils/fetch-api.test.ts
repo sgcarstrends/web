@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fetchApi } from "@/utils/fetch-api";
+import { API_URL } from "@/config";
 
 describe("fetchApi", () => {
   beforeEach(() => {
@@ -15,11 +16,11 @@ describe("fetchApi", () => {
       json: () => Promise.resolve(mockResponse),
     } as Response);
 
-    const url = "https://example.com/api/test";
-    const data = await fetchApi(url);
+    const path = "/api/test";
+    const data = await fetchApi(path);
 
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith(url, {
+    expect(fetch).toHaveBeenCalledWith(`${API_URL}${path}`, {
       headers: {
         Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
       },
@@ -34,16 +35,16 @@ describe("fetchApi", () => {
       statusText: "Not Found",
     } as Response);
 
-    const url = "https://example.com/api/test";
-    await expect(fetchApi(url)).rejects.toThrow(
-      `API call failed: ${url} - 404 - Not Found`,
+    const path = "/api/test";
+    await expect(fetchApi(path)).rejects.toThrow(
+      `API call failed: ${API_URL}${path} - 404 - Not Found`,
     );
   });
 
   it("should handle network errors", async () => {
     vi.mocked(fetch).mockRejectedValueOnce(new Error("Network error"));
 
-    const url = "https://example.com/api/test";
-    await expect(fetchApi(url)).rejects.toThrow("Network error");
+    const path = "/api/test";
+    await expect(fetchApi(path)).rejects.toThrow("Network error");
   });
 });
