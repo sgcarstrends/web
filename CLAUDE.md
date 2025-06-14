@@ -7,8 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Build: `pnpm build` (uses Turbopack)
 - Dev: `pnpm dev` (uses Turbopack)
 - Lint: `pnpm lint`
-- Test: `pnpm test` (Vitest with jsdom)
-- Test coverage: `pnpm test:coverage`
+- Test: `pnpm test:coverage` (Vitest with jsdom and coverage reporting)
 - Test single file: `pnpm test -- path/to/file.test.ts`
 - E2E tests: `pnpm test:e2e` (Playwright)
 - E2E tests UI: `pnpm test:e2e:ui`
@@ -81,6 +80,8 @@ Singapore car market analytics:
 - E2E tests: Playwright (Chromium only)
 - Test files excluded from Vitest: `tests/` directory (reserved for E2E)
 - Setup file: `setupTests.ts`
+- **Focus on basic functionality testing only** - test core component behaviour, prop handling, and essential user interactions rather than comprehensive edge cases
+- **Write tests to increase code coverage** - prioritise coverage of untested components and utilities, but keep tests simple and focused on core functionality
 
 ## Database
 
