@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { API_URL, LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@/config";
+import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
 import {
   type COEBiddingResult,
@@ -35,7 +35,7 @@ const description =
 
 export const generateMetadata = async (): Promise<Metadata> => {
   // TODO: Refactor and clean up
-  const results = await fetchApi<COEResult[]>(`${API_URL}/coe/latest`);
+  const results = await fetchApi<COEResult[]>(`/coe/latest`);
   const categories = results.reduce<Record<string, number>>(
     (category, current) => {
       category[current.vehicle_class] = current.premium;
@@ -75,10 +75,10 @@ const COEPricesPage = async ({ searchParams }: Props) => {
   const params = new URLSearchParams({ from, to });
 
   const [coeResults, months]: [COEResult[], Month[]] = await Promise.all([
-    await fetchApi<COEResult[]>(`${API_URL}/coe?${params.toString()}`, {
+    await fetchApi<COEResult[]>(`/coe?${params.toString()}`, {
       next: { tags: [RevalidateTags.COE] },
     }),
-    await fetchApi<Month[]>(`${API_URL}/coe/months`),
+    await fetchApi<Month[]>(`/coe/months`),
   ]);
   const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
 

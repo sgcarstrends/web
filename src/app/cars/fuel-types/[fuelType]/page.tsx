@@ -7,7 +7,7 @@ import { StructuredData } from "@/components/structured-data";
 import Typography from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
+import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
 import { type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetch-api";
@@ -71,9 +71,7 @@ export const generateMetadata = async ({
 };
 
 export const generateStaticParams = async () => {
-  const fuelTypes = await fetchApi<{ data: string[] }>(
-    `${API_URL}/cars/fuel-types`,
-  );
+  const fuelTypes = await fetchApi<{ data: string[] }>(`/cars/fuel-types`);
   return fuelTypes.data.map((fuelType) => ({
     fuelType: slugify(fuelType),
   }));
@@ -85,15 +83,14 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
 
   // TODO: Interim solution
   if (!month) {
-    const latestMonths = await fetchApi<LatestMonth>(
-      `${API_URL}/months/latest`,
-      { next: { tags: [RevalidateTags.Cars] } },
-    );
+    const latestMonths = await fetchApi<LatestMonth>(`/months/latest`, {
+      next: { tags: [RevalidateTags.Cars] },
+    });
     month = latestMonths.cars;
   }
 
   const cars = await fetchApi<FuelType>(
-    `${API_URL}/cars/fuel-types/${fuelType}?month=${month}`,
+    `/cars/fuel-types/${fuelType}?month=${month}`,
   );
   const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
 

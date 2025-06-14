@@ -1,5 +1,4 @@
 import { type PropsWithChildren, Suspense } from "react";
-import { API_URL } from "@/config";
 import { cn } from "@/lib/utils";
 import { fetchApi } from "@/utils/fetch-api";
 import { MonthSelector } from "./month-selector";
@@ -10,7 +9,7 @@ interface Props extends PropsWithChildren {
 }
 
 export const Navbar = async ({ children, className, ...props }: Props) => {
-  const months = await fetchApi<Month[]>(`${API_URL}/cars/months`);
+  const months = await fetchApi<Month[]>(`/cars/months`);
 
   return (
     <header
