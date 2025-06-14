@@ -1,5 +1,11 @@
 # @sgcarstrends/web
 
+## 2.7.0
+
+### Minor Changes
+
+- [#259](https://github.com/sgcarstrends/web/pull/259) [`061171d`](https://github.com/sgcarstrends/web/commit/061171d46d02281a1631291bc91efe235c3ed3b1) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Refactor project to use src directory
+
 ## 2.6.0
 
 ### Minor Changes
