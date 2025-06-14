@@ -1,5 +1,13 @@
 # @sgcarstrends/web
 
+## 2.7.1
+
+### Patch Changes
+
+- [#264](https://github.com/sgcarstrends/web/pull/264) [`7e5dae1`](https://github.com/sgcarstrends/web/commit/7e5dae1c01a6e789b6fd83fa4da56c8d6abb0ca2) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Update GitHub Actions workflows
+
+- [#267](https://github.com/sgcarstrends/web/pull/267) [`8e441c7`](https://github.com/sgcarstrends/web/commit/8e441c710c977ca26f05e28c485faaf38a58b3e9) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Fix accessibility issue with CategoryInfo component
+
 ## 2.7.0
 
 ### Minor Changes
