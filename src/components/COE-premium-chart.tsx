@@ -34,7 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
+import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
 import type { COEBiddingResult, COECategory, Month } from "@/types";
 
 interface Props {

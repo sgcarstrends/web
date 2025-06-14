@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { create } from "zustand";
-import { createCoeSlice, type COEState, type COEAction } from "./coeSlice";
+import { createCoeSlice, type COEState, type COEAction } from "./coe-slice";
 
 describe("COE Slice", () => {
   it("should initialize with default categories", () => {

@@ -3,7 +3,7 @@
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/utils/format-currency";
-import { formatOrdinal } from "@/utils/formatOrdinal";
+import { formatOrdinal } from "@/utils/format-ordinal";
 import type { COEResult } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 

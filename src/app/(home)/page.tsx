@@ -1,9 +1,9 @@
-import { KeyStatistics } from "@/app/components/KeyStatistics";
-import { Top5CarMakesByYear } from "@/app/components/Top5CarMakesByYear";
-import { TotalNewCarRegistrationsByYear } from "@/app/components/TotalNewCarRegistrationsByYear";
-import { StructuredData } from "@/components/StructuredData";
-import Typography from "@/components/Typography";
-import { UnreleasedFeature } from "@/components/UnreleasedFeature";
+import { KeyStatistics } from "@/app/components/key-statistics";
+import { Top5CarMakesByYear } from "@/app/components/top-5-car-makes-by-year";
+import { TotalNewCarRegistrationsByYear } from "@/app/components/total-new-car-registrations-by-year";
+import { StructuredData } from "@/components/structured-data";
+import Typography from "@/components/typography";
+import { UnreleasedFeature } from "@/components/unreleased-feature";
 import { SITE_TITLE, SITE_URL } from "@/config";
 import type { WebSite, WithContext } from "schema-dts";
 

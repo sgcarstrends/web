@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { Car } from "lucide-react";
 import { describe, expect, it, vi } from "vitest";
-import { CategoryInfo } from "./CategoryInfo";
+import { CategoryInfo } from "./category-info";
 
 const mockCategories = {
   "Category A": true,

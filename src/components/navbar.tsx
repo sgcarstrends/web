@@ -1,8 +1,8 @@
 import { type PropsWithChildren, Suspense } from "react";
 import { API_URL } from "@/config";
 import { cn } from "@/lib/utils";
-import { fetchApi } from "@/utils/fetchApi";
-import { MonthSelector } from "./MonthSelector";
+import { fetchApi } from "@/utils/fetch-api";
+import { MonthSelector } from "./month-selector";
 import type { Month } from "@/types";
 
 interface Props extends PropsWithChildren {
