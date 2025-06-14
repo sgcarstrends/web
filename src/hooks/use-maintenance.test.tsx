@@ -1,5 +1,5 @@
-import { renderHook } from "@testing-library/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { renderHook } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import useMaintenance from "./use-maintenance";
 
@@ -14,13 +14,16 @@ describe("useMaintenance", () => {
   const mockGet = vi.fn();
   let intervalSpy: any;
 
+  const waitForAsyncEffect = (delay = 0) =>
+    new Promise((resolve) => setTimeout(resolve, delay));
+
   beforeEach(() => {
     vi.clearAllMocks();
-    
+
     (useRouter as any).mockReturnValue({
       replace: mockReplace,
     });
-    
+
     (useSearchParams as any).mockReturnValue({
       get: mockGet,
     });
@@ -41,7 +44,7 @@ describe("useMaintenance", () => {
     renderHook(() => useMaintenance(1000));
 
     // Wait for the async effect to complete
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await waitForAsyncEffect();
 
     expect(mockReplace).toHaveBeenCalledWith("/");
   });
@@ -52,7 +55,7 @@ describe("useMaintenance", () => {
 
     renderHook(() => useMaintenance(1000));
 
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await waitForAsyncEffect();
 
     expect(mockReplace).toHaveBeenCalledWith("/dashboard");
   });
@@ -63,7 +66,7 @@ describe("useMaintenance", () => {
 
     renderHook(() => useMaintenance(1000));
 
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await waitForAsyncEffect();
 
     expect(mockReplace).toHaveBeenCalledWith("/dashboard/settings");
   });
@@ -73,7 +76,7 @@ describe("useMaintenance", () => {
 
     renderHook(() => useMaintenance(1000));
 
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await waitForAsyncEffect();
 
     expect(mockReplace).not.toHaveBeenCalled();
   });
@@ -81,19 +84,13 @@ describe("useMaintenance", () => {
   it("should set up polling interval with custom interval", () => {
     renderHook(() => useMaintenance(2000));
 
-    expect(intervalSpy).toHaveBeenCalledWith(
-      expect.any(Function),
-      2000
-    );
+    expect(intervalSpy).toHaveBeenCalledWith(expect.any(Function), 2000);
   });
 
   it("should use default polling interval when not specified", () => {
     renderHook(() => useMaintenance());
 
-    expect(intervalSpy).toHaveBeenCalledWith(
-      expect.any(Function),
-      5000
-    );
+    expect(intervalSpy).toHaveBeenCalledWith(expect.any(Function), 5000);
   });
 
   it("should clear interval on unmount", () => {
@@ -106,11 +103,11 @@ describe("useMaintenance", () => {
 
   it("should handle errors gracefully", async () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    
+
     // Set up normal mocks first
     vi.stubEnv("MAINTENANCE_MODE", undefined);
     mockGet.mockReturnValue(null);
-    
+
     // Make router.replace throw an error to simulate an error in the checkMaintenance function
     mockReplace.mockImplementation(() => {
       throw new Error("Test error");
@@ -118,11 +115,11 @@ describe("useMaintenance", () => {
 
     renderHook(() => useMaintenance(1000));
 
-    await new Promise(resolve => setTimeout(resolve, 10));
+    await waitForAsyncEffect(10);
 
     expect(consoleSpy).toHaveBeenCalledWith(
       "Error checking maintenance status:",
-      expect.any(Error)
+      expect.any(Error),
     );
 
     consoleSpy.mockRestore();

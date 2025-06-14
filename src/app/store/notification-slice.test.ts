@@ -1,13 +1,20 @@
 import { describe, expect, it, beforeAll, afterAll } from "vitest";
 import { create } from "zustand";
-import { createNotificationSlice, type NotificationState, type NotificationAction } from "./notificationSlice";
+import {
+  createNotificationSlice,
+  type NotificationState,
+  type NotificationAction,
+} from "./notificationSlice";
 
 describe("Notification Slice", () => {
   let originalNotification: any;
 
+  const createNotificationStore = () =>
+    create<NotificationState & NotificationAction>()(createNotificationSlice);
+
   beforeAll(() => {
     originalNotification = global.Notification;
-    
+
     // Mock Notification API
     global.Notification = {
       permission: "default",
@@ -19,14 +26,14 @@ describe("Notification Slice", () => {
   });
 
   it("should initialize with undefined notification status", () => {
-    const store = create<NotificationState & NotificationAction>()(createNotificationSlice);
+    const store = createNotificationStore();
     const state = store.getState();
 
     expect(state.notificationStatus).toBeUndefined();
   });
 
   it("should set notification status to 'default'", () => {
-    const store = create<NotificationState & NotificationAction>()(createNotificationSlice);
+    const store = createNotificationStore();
     const { setNotificationStatus } = store.getState();
 
     setNotificationStatus("default");
@@ -34,7 +41,7 @@ describe("Notification Slice", () => {
   });
 
   it("should set notification status to 'granted'", () => {
-    const store = create<NotificationState & NotificationAction>()(createNotificationSlice);
+    const store = createNotificationStore();
     const { setNotificationStatus } = store.getState();
 
     setNotificationStatus("granted");
@@ -42,7 +49,7 @@ describe("Notification Slice", () => {
   });
 
   it("should set notification status to 'denied'", () => {
-    const store = create<NotificationState & NotificationAction>()(createNotificationSlice);
+    const store = createNotificationStore();
     const { setNotificationStatus } = store.getState();
 
     setNotificationStatus("denied");
@@ -50,7 +57,7 @@ describe("Notification Slice", () => {
   });
 
   it("should update notification status multiple times", () => {
-    const store = create<NotificationState & NotificationAction>()(createNotificationSlice);
+    const store = createNotificationStore();
     const { setNotificationStatus } = store.getState();
 
     // Start with default
