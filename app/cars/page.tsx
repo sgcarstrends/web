@@ -1,29 +1,27 @@
 import { notFound } from "next/navigation";
+import { BarChart3, CarFront, Fuel } from "lucide-react";
 import { loadSearchParams } from "@/app/cars/search-params";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { AnimatedNumber } from "@/components/animated-number";
 import { LastUpdated } from "@/components/last-updated";
+import { MetricsComparison } from "@/components/metrics-comparison";
 import { StatCard } from "@/components/stat-card";
 import { TopMakes } from "@/components/top-makes";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  API_URL,
-  HYBRID_REGEX,
-  LAST_UPDATED_CARS_KEY,
-  SITE_TITLE,
-  SITE_URL,
-} from "@/config";
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
-import {
-  type Car,
-  type LatestMonth,
-  type Registration,
-  RevalidateTags,
-} from "@/types";
+import { type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
+import type { Registration, Comparison, TopMake, TopType } from "@/types/cars";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -47,23 +45,17 @@ export const generateMetadata = async ({
   const title = `${formattedMonth} Car Registrations`;
   const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
 
-  const { data } = await fetchApi<Registration>(
-    `${API_URL}/cars/registration?month=${month}`,
+  const getTopTypes = fetchApi<TopType>(
+    `${API_URL}/cars/top-types?month=${month}`,
   );
-  const { total, fuelType, vehicleType } = data;
-  const topFuelType = Object.entries(fuelType).reduce(
-    (top, current) =>
-      current[1] > top.count ? { type: current[0], count: current[1] } : top,
-    { type: "", count: -Infinity },
+  const getCarRegistration = fetchApi<Registration>(
+    `${API_URL}/cars?month=${month}`,
   );
-
-  const topVehicleType = Object.entries(vehicleType).reduce(
-    (top, current) =>
-      current[1] > top.count ? { type: current[0], count: current[1] } : top,
-    { type: "", count: -Infinity },
-  );
-
-  const images = `/api/og?title=Car Registrations&subtitle=Monthly Stats Summary&month=${month}&total=${total}&topFuelType=${topFuelType.type}&topVehicleType=${topVehicleType.type}`;
+  const [topTypes, carRegistration] = await Promise.all([
+    getTopTypes,
+    getCarRegistration,
+  ]);
+  const images = `/api/og?title=Car Registrations&subtitle=Monthly Stats Summary&month=${month}&total=${carRegistration.data.total}&topFuelType=${topTypes.data.topFuelType.name}&topVehicleType=${topTypes.data.topVehicleType.name}`;
 
   const canonical = `/cars?month=${month}`;
 
@@ -101,56 +93,29 @@ const CarsPage = async ({ searchParams }: Props) => {
     month = latestMonths.cars;
   }
 
-  let cars = await fetchApi<Car[]>(`${API_URL}/cars?month=${month}`, {
-    next: { tags: [RevalidateTags.Cars] },
-  });
+  const getCars = fetchApi<Registration>(`${API_URL}/cars?month=${month}`);
+  const getComparison = fetchApi<Comparison>(
+    `${API_URL}/cars/compare?month=${month}`,
+  );
+  const getTopTypes = fetchApi<TopType>(
+    `${API_URL}/cars/top-types?month=${month}`,
+  );
+  const getTopMakes = fetchApi<TopMake>(
+    `${API_URL}/cars/top-makes?month=${month}`,
+  );
+
+  const [cars, comparison, topTypes, topMakes] = await Promise.all([
+    getCars,
+    getComparison,
+    getTopTypes,
+    getTopMakes,
+  ]);
 
   const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
 
-  if (cars.length === 0) {
+  if (!cars.data) {
     return notFound();
   }
-
-  cars = cars.map((car) => {
-    const { fuel_type, vehicle_type } = car;
-
-    if (HYBRID_REGEX.test(fuel_type)) {
-      Object.assign(car, { fuel_type: "Hybrid" });
-    }
-
-    // Object.assign(car, {
-    //   vehicle_type: VEHICLE_TYPE_MAP[vehicle_type] ?? vehicle_type,
-    // });
-
-    return car;
-  });
-  const total = cars.reduce((total, { number = 0 }) => total + number, 0);
-
-  const aggregateData = (
-    data: any[],
-    key: keyof Car,
-  ): Record<string, number> => {
-    return data.reduce((acc, item) => {
-      const value = item[key];
-      acc[value] = (acc[value] || 0) + (item.number || 0);
-      return acc;
-    }, {});
-  };
-
-  const findTopEntry = (data: Record<string, number>) => {
-    const entries = Object.entries(data);
-    return entries.reduce(
-      (max, entry) => (entry[1] > max[1] ? entry : max),
-      entries[0],
-    );
-  };
-
-  const numberByFuelType = aggregateData(cars, "fuel_type");
-  const [topFuelType, topFuelTypeValue] = findTopEntry(numberByFuelType);
-
-  const numberByVehicleType = aggregateData(cars, "vehicle_type");
-  const [topVehicleType, topVehicleTypeValue] =
-    findTopEntry(numberByVehicleType);
 
   const formattedMonth = formatDateToMonthYear(month);
 
@@ -180,40 +145,90 @@ const CarsPage = async ({ searchParams }: Props) => {
           </div>
         </div>
         {/*TODO: Improvise*/}
-        {cars.length === 0 && (
+        {!cars.data && (
           <Typography.H3>
             No data available for the selected period.
           </Typography.H3>
         )}
-        {cars.length > 0 && (
+        {cars.data && (
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
               <Card>
                 <CardHeader>
-                  <CardTitle>Total Registrations</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    <BarChart3 className="size-6 text-blue-600" />
+                    Total Registrations
+                  </CardTitle>
                   <Badge className="bg-blue-600">{formattedMonth}</Badge>
                 </CardHeader>
                 <CardContent className="text-4xl font-bold text-blue-600">
-                  <AnimatedNumber value={total} />
+                  <AnimatedNumber value={cars.data.total} />
                 </CardContent>
+                <CardFooter>
+                  <MetricsComparison
+                    current={cars.data.total}
+                    previousMonth={comparison.data.previousMonth.total}
+                    previousYear={comparison.data.previousYear.total}
+                  />
+                </CardFooter>
               </Card>
               <Card>
                 <CardHeader>
-                  <CardTitle>Top Fuel Type</CardTitle>
-                  <Badge className="bg-green-600">{topFuelType}</Badge>
+                  <CardTitle className="flex items-center gap-2">
+                    <Fuel className="size-6 text-green-600" />
+                    Top Fuel Type
+                  </CardTitle>
+                  <Badge className="bg-green-600">
+                    {topTypes.data.topFuelType.name}
+                  </Badge>
                 </CardHeader>
                 <CardContent className="text-4xl font-bold text-green-600">
-                  <AnimatedNumber value={topFuelTypeValue} />
+                  <AnimatedNumber value={topTypes.data.topFuelType.total} />
                 </CardContent>
+                <CardFooter>
+                  <MetricsComparison
+                    current={topTypes.data.topFuelType.total}
+                    previousMonth={
+                      comparison.data.previousMonth.fuelType.find(
+                        (f) => f.label === topTypes.data.topFuelType.name,
+                      )?.count ?? 0
+                    }
+                    previousYear={
+                      comparison.data.previousYear.fuelType.find(
+                        (f) => f.label === topTypes.data.topFuelType.name,
+                      )?.count ?? 0
+                    }
+                  />
+                </CardFooter>
               </Card>
               <Card>
                 <CardHeader>
-                  <CardTitle>Top Vehicle Type</CardTitle>
-                  <Badge className="bg-pink-600">{topVehicleType}</Badge>
+                  <CardTitle className="flex items-center gap-2">
+                    <CarFront className="size-6 text-pink-600" />
+                    Top Vehicle Type
+                  </CardTitle>
+                  <Badge className="bg-pink-600">
+                    {topTypes.data.topVehicleType.name}
+                  </Badge>
                 </CardHeader>
                 <CardContent className="text-4xl font-bold text-pink-600">
-                  <AnimatedNumber value={topVehicleTypeValue} />
+                  <AnimatedNumber value={topTypes.data.topVehicleType.total} />
                 </CardContent>
+                <CardFooter>
+                  <MetricsComparison
+                    current={topTypes.data.topVehicleType.total}
+                    previousMonth={
+                      comparison.data.previousMonth.vehicleType.find(
+                        (v) => v.label === topTypes.data.topVehicleType.name,
+                      )?.count ?? 0
+                    }
+                    previousYear={
+                      comparison.data.previousYear.vehicleType.find(
+                        (v) => v.label === topTypes.data.topVehicleType.name,
+                      )?.count ?? 0
+                    }
+                  />
+                </CardFooter>
               </Card>
               {/*<UnreleasedFeature>*/}
               {/*  <Card>*/}
@@ -230,22 +245,22 @@ const CarsPage = async ({ searchParams }: Props) => {
               <StatCard
                 title="By Fuel Type"
                 description="Distribution of vehicles based on fuel type"
-                data={numberByFuelType}
-                total={total}
+                data={cars.data.fuelType}
+                total={cars.data.total}
                 linkPrefix="fuel-types"
               />
               <StatCard
                 title="By Vehicle Type"
                 description="Distribution of vehicles based on vehicle type"
-                data={numberByVehicleType}
-                total={total}
+                data={cars.data.vehicleType}
+                total={cars.data.total}
                 linkPrefix="vehicle-types"
               />
             </div>
             <div className="flex items-center justify-between">
-              <Typography.H2>Top Makes</Typography.H2>
+              <Typography.H2>Top Makes by Fuel Type</Typography.H2>
             </div>
-            <TopMakes cars={cars} />
+            <TopMakes data={topMakes.data} />
           </div>
         )}
       </div>

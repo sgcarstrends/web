@@ -1,5 +1,6 @@
+import slugify from "@sindresorhus/slugify";
 import { loadSearchParams } from "@/app/cars/fuel-types/[fuelType]/search-params";
-import { CarOverviewTrends } from "@/app/components/CarOverviewTrends";
+import { CarOverviewTrends } from "@/app/components/car-overview-trends";
 import { StructuredData } from "@/components/StructuredData";
 import Typography from "@/components/Typography";
 import { AnimatedNumber } from "@/components/animated-number";
@@ -8,11 +9,10 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
-import { type Car, type LatestMonth, RevalidateTags } from "@/types";
+import { type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetchApi";
 import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
-import { mergeCarsByMake } from "@/utils/mergeCarsByMake";
-import { deslugify, slugify } from "@/utils/slugify";
+import { deslugify } from "@/utils/slugify";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -20,6 +20,16 @@ import type { WebPage, WithContext } from "schema-dts";
 interface Props {
   params: Promise<{ fuelType: string }>;
   searchParams: Promise<SearchParams>;
+}
+
+interface FuelType {
+  total: number;
+  data: {
+    month: string;
+    make: string;
+    fuelType: string;
+    count: number;
+  }[];
 }
 
 export const generateMetadata = async ({
@@ -60,10 +70,14 @@ export const generateMetadata = async ({
   };
 };
 
-const fuelTypes = ["petrol", "hybrid", "electric", "diesel"];
-
-export const generateStaticParams = () =>
-  fuelTypes.map((fuelType) => ({ fuelType: slugify(fuelType) }));
+export const generateStaticParams = async () => {
+  const fuelTypes = await fetchApi<{ data: string[] }>(
+    `${API_URL}/cars/fuel-types`,
+  );
+  return fuelTypes.data.map((fuelType) => ({
+    fuelType: slugify(fuelType),
+  }));
+};
 
 const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
   const { fuelType } = await params;
@@ -78,23 +92,10 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
     month = latestMonths.cars;
   }
 
-  const queries = {
-    fuel_type: fuelType,
-    ...(month && { month }),
-  };
-  const search = new URLSearchParams(queries);
-
-  const cars = await fetchApi<Car[]>(`${API_URL}/cars?${search.toString()}`, {
-    next: { tags: [RevalidateTags.Cars] },
-  });
-  const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
-
-  const filteredCars = mergeCarsByMake(cars);
-
-  const total = filteredCars.reduce(
-    (total, { number = 0 }) => total + number,
-    0,
+  const cars = await fetchApi<FuelType>(
+    `${API_URL}/cars/fuel-types/${fuelType}?month=${month}`,
   );
+  const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
 
   const formattedFuelType = deslugify(fuelType);
 
@@ -138,12 +139,12 @@ const CarsByFuelTypePage = async ({ params, searchParams }: Props) => {
                 <Badge>{formattedMonth}</Badge>
               </CardHeader>
               <CardContent className="text-primary text-4xl font-bold">
-                <AnimatedNumber value={total} />
+                <AnimatedNumber value={cars.total} />
               </CardContent>
             </Card>
           </div>
         </div>
-        {filteredCars.length > 0 && <CarOverviewTrends cars={filteredCars} />}
+        <CarOverviewTrends cars={cars.data} total={cars.total} />
       </div>
     </>
   );

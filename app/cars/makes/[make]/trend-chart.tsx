@@ -7,25 +7,24 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import type { Car } from "@/types";
 
 interface Props {
-  data: Car[];
+  data: any[];
 }
 
 export const TrendChart = ({ data }: Props) => {
   const monthlyTotals: { [key: string]: number } = {};
-  data.forEach(({ month, number }) => {
+  for (const { month, count } of data) {
     if (monthlyTotals[month]) {
-      monthlyTotals[month] += number;
+      monthlyTotals[month] += count;
     } else {
-      monthlyTotals[month] = number;
+      monthlyTotals[month] = count;
     }
-  });
+  }
 
-  const chartData = Object.entries(monthlyTotals).map(([month, number]) => ({
+  const chartData = Object.entries(monthlyTotals).map(([month, count]) => ({
     month,
-    number,
+    count,
   }));
 
   return (
@@ -37,7 +36,7 @@ export const TrendChart = ({ data }: Props) => {
           content={<ChartTooltipContent indicator="line" label />}
         />
         <Line
-          dataKey="number"
+          dataKey="count"
           type="monotone"
           fill="var(--primary)"
           stroke="var(--primary)"
@@ -49,7 +48,5 @@ export const TrendChart = ({ data }: Props) => {
 };
 
 const chartConfig = {
-  number: {
-    label: "Count",
-  },
+  count: { label: "Count" },
 } satisfies ChartConfig;

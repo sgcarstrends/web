@@ -1,4 +1,5 @@
 import Link from "next/link";
+import slugify from "@sindresorhus/slugify";
 import { Battery, Droplet, Fuel, type LucideIcon, Zap } from "lucide-react";
 import { AnimatedNumber } from "@/components/animated-number";
 import {
@@ -10,128 +11,92 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import type { Car } from "@/types";
+import type { FuelType } from "@/types/cars";
 
-interface Category {
-  title: string;
-  description?: string;
-  icon: LucideIcon;
-  colour: string;
-  url: string;
-}
-
-type PopularMake = Pick<Car, "make" | "number">;
+// interface Category {
+//   title: string;
+//   description?: string;
+//   icon: LucideIcon;
+//   colour: string;
+//   url: string;
+// }
 
 interface Props {
-  cars: Car[];
+  data: FuelType[];
 }
+ 
+// TODO: Keeping this for now
+// const CATEGORIES: Category[] = [
+//   {
+//     title: "Overall",
+//     description: "Combination of all fuel types",
+//     icon: Trophy,
+//     colour: "text-yellow-600",
+//   },
+//   {
+//     title: "Petrol",
+//     description: "Internal Combustion Engine (ICE) vehicles",
+//     icon: Fuel,
+//     colour: "text-red-600",
+//     url: "/cars/fuel-types/petrol",
+//   },
+//   {
+//     title: "Hybrid",
+//     description: "Includes Petrol, Diesel and Plug-In types",
+//     icon: Zap,
+//     colour: "text-blue-600",
+//     url: "/cars/fuel-types/hybrid",
+//   },
+//   {
+//     title: "Electric",
+//     description: "Battery Electric Vehicles (BEV)",
+//     icon: Battery,
+//     colour: "text-green-600",
+//     url: "/cars/fuel-types/electric",
+//   },
+//   {
+//     title: "Diesel",
+//     description: "Compression-ignition engine vehicles",
+//     icon: Droplet,
+//     colour: "text-gray-600",
+//     url: "/cars/fuel-types/diesel",
+//   },
+// ];
 
-const CATEGORIES: Category[] = [
-  // {
-  //   title: "Overall",
-  //   description: "Combination of all fuel types",
-  //   icon: Trophy,
-  //   colour: "text-yellow-600",
-  // },
-  {
-    title: "Petrol",
-    description: "Internal Combustion Engine (ICE) vehicles",
-    icon: Fuel,
-    colour: "text-red-600",
-    url: "/cars/fuel-types/petrol",
-  },
-  {
-    title: "Hybrid",
-    description: "Includes Petrol, Diesel and Plug-In types",
-    icon: Zap,
-    colour: "text-blue-600",
-    url: "/cars/fuel-types/hybrid",
-  },
-  {
-    title: "Electric",
-    description: "Battery Electric Vehicles (BEV)",
-    icon: Battery,
-    colour: "text-green-600",
-    url: "/cars/fuel-types/electric",
-  },
-  {
-    title: "Diesel",
-    description: "Compression-ignition engine vehicles",
-    icon: Droplet,
-    colour: "text-gray-600",
-    url: "/cars/fuel-types/diesel",
-  },
-];
-
-const HYBRID_TYPES: string[] = [
-  "Petrol-Electric",
-  "Petrol-Electric (Plug-In)",
-  "Diesel-Electric",
-];
-
-const getPopularMakes = (cars: Car[], fuelType: string): PopularMake[] => {
-  const makeCount: Record<string, number> = {};
-
-  cars.forEach(({ make, number, fuel_type }, index) => {
-    if (
-      fuelType === "Overall" ||
-      (fuelType === "Hybrid" && HYBRID_TYPES.includes(fuel_type)) ||
-      fuel_type === fuelType
-    ) {
-      makeCount[make] = (makeCount[make] || 0) + (number || 0);
-    }
-  });
-
-  return Object.entries(makeCount)
-    .filter(([_, number]) => Boolean(number)) // Remove 0 registrations
-    .map(([make, number]) => ({ make, number }))
-    .sort((a, b) => b.number - a.number)
-    .slice(0, 3);
-};
-
-export const TopMakes = ({ cars }: Props) => {
+export const TopMakes = ({ data }: Props) => {
   return (
     <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
-      {CATEGORIES.map(({ title, description, icon: Icon, colour, url }) => {
-        const popularMakes = getPopularMakes(cars, title);
-
-        if (popularMakes.length === 0) {
-          return null;
-        }
+      {data.map(({ fuelType, total, makes }) => {
+        const href = `/cars/fuel-types/${slugify(fuelType)}`;
 
         return (
-          <Card key={title}>
+          <Card key={fuelType}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Icon className={`size-6 ${colour}`} />
-                {title}
+                {/*<Icon className={`size-6 ${colour}`} />*/}
+                {fuelType}
               </CardTitle>
-              <CardDescription>{description}</CardDescription>
+              {/*<CardDescription>{description}</CardDescription>*/}
             </CardHeader>
             <CardContent>
-              {popularMakes.map(({ make, number }) => {
-                const maxValue = Math.max(
-                  ...popularMakes.map(({ number }) => number),
-                );
-
-                return (
-                  <div
-                    key={make}
-                    className="flex justify-between border-b py-2"
-                  >
-                    <span>{make.toUpperCase()}</span>
-                    <div className="flex items-center gap-2">
-                      <AnimatedNumber value={number} />
-                      <progress
-                        className="progress w-16"
-                        value={number / maxValue}
-                      />
-                    </div>
+              {makes.map(({ make, count }) => (
+                <div
+                  key={make}
+                  className="grid grid-cols-2 border-b py-2 last:border-none"
+                >
+                  <span>{make.toUpperCase()}</span>
+                  <div className="flex items-center gap-2">
+                    <AnimatedNumber value={count} />
+                    <progress
+                      className="progress text-primary"
+                      value={count / total}
+                    />
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </CardContent>
             <CardFooter>
-              <Link href={url} className="underline">
+              <Link href={href} className="underline">
                 View More
               </Link>
             </CardFooter>

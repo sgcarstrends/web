@@ -11,7 +11,6 @@ export type VehicleType =
   | "Station-wagon";
 
 export interface Car {
-  _id?: string;
   month: string;
   make: string;
   importer_type?: string;
@@ -81,6 +80,7 @@ export enum RevalidateTags {
 }
 
 export type Make = Car["make"];
+
 export type Month = Car["month"] | COEResult["month"];
 
 export enum AppEnv {
@@ -95,27 +95,4 @@ export interface LinkItem {
   description?: string;
   icon?: LucideIcon;
   comingSoon?: boolean;
-}
-
-export interface Registration {
-  data: {
-    month: string;
-    fuelType: {
-      Diesel: number;
-      "Petrol-Electric (Plug-In)": number;
-      Petrol: number;
-      Electric: number;
-      "Petrol-Electric": number;
-    };
-    vehicleType: {
-      Hatchback: number;
-      "Coupe/Convertible": number;
-      Sedan: number;
-      "Multi-purpose Vehicle": number;
-      "Station-wagon": number;
-      "Multi-purpose Vehicle/Station-wagon": number;
-      "Sports Utility Vehicle": number;
-    };
-    total: number;
-  };
 }
