@@ -1,14 +1,17 @@
-name: Deploy Web
+name: Deployment (Production)
 
 on:
-  workflow_call:
-    inputs:
-      stage:
-        required: true
-        type: string
-      environment:
-        required: true
-        type: string
+  push:
+    branches:
+      - 'release/**'
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+'
+    paths:
+      - 'src/**'
+
+concurrency:
+  group: merge-${{ github.ref }}
 
 permissions:
   id-token: write
@@ -17,7 +20,7 @@ permissions:
 jobs:
   deploy-web:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: Production
 
     steps:
       - uses: actions/checkout@v4
@@ -46,9 +49,9 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: .next/cache
-          key: ${{ runner.os }}-nextjs-${{ inputs.stage }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          key: ${{ runner.os }}-nextjs-prod-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ inputs.stage }}-
+            ${{ runner.os }}-nextjs-prod-
 
       - name: Deploy app
         env:
@@ -63,4 +66,4 @@ jobs:
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: |
-          pnpm sst deploy --stage ${{ inputs.stage }}
+          pnpm deploy:prod
