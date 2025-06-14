@@ -1,5 +1,11 @@
 # @sgcarstrends/web
 
+## 2.6.0
+
+### Minor Changes
+
+- [#252](https://github.com/sgcarstrends/web/pull/252) [`751496e`](https://github.com/sgcarstrends/web/commit/751496eaadcd83a2e4da6d32db9c169c6bd83691) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Add M/M and Y/Y comparisons for car registrations
+
 ## 2.5.4
 
 ### Patch Changes
