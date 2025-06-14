@@ -12,8 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
-import { groupByYear } from "@/utils/groupByYear";
+import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
+import { groupByYear } from "@/utils/group-by-year";
 import type { Month } from "@/types";
 
 interface Props {

@@ -2,11 +2,11 @@ import slugify from "@sindresorhus/slugify";
 import { columns } from "@/app/cars/makes/[make]/columns";
 import { loadSearchParams } from "@/app/cars/makes/[make]/search-params";
 import { TrendChart } from "@/app/cars/makes/[make]/trend-chart";
-import { MakeSelector } from "@/app/components/make-selector";
-import NoData from "@/components/NoData";
-import { StructuredData } from "@/components/StructuredData";
-import Typography from "@/components/Typography";
 import { LastUpdated } from "@/components/last-updated";
+import { MakeSelector } from "@/components/make-selector";
+import NoData from "@/components/no-data";
+import { StructuredData } from "@/components/structured-data";
+import Typography from "@/components/typography";
 import {
   Card,
   CardContent,
@@ -18,7 +18,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
 import { type Car, type LatestMonth, type Make, RevalidateTags } from "@/types";
-import { fetchApi } from "@/utils/fetchApi";
+import { fetchApi } from "@/utils/fetch-api";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";

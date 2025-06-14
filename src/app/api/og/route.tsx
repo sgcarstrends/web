@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
 import { loadSearchParams } from "@/app/api/og/search-params";
-import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
+import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
 
 export const GET = async (request: NextRequest) => {
   const {

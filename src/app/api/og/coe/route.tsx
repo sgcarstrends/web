@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
 import { loadSearchParams } from "@/app/api/og/coe/search-params";
 import { formatCurrency } from "@/utils/format-currency";
-import { formatOrdinal } from "@/utils/formatOrdinal";
+import { formatOrdinal } from "@/utils/format-ordinal";
 
 export const GET = async (request: NextRequest) => {
   const { title, subtitle, biddingNo, categoryA, categoryB, categoryE } =

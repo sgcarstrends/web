@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { groupByYear } from "@/utils/groupByYear";
+import { groupByYear } from "@/utils/group-by-year";
 
 const mockDates = [
   "2023-01",

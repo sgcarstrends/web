@@ -1,11 +1,11 @@
 import { type SearchParams } from "nuqs/server";
-import { TrendTable } from "@/app/coe/(prices)/TrendTable";
 import { loadSearchParams } from "@/app/coe/(prices)/search-params";
+import { TrendTable } from "@/app/coe/(prices)/trend-table";
 import { COEPremiumChart } from "@/components/COE-premium-chart";
-import { COECategories } from "@/components/COECategories";
-import { StructuredData } from "@/components/StructuredData";
-import Typography from "@/components/Typography";
+import { COECategories } from "@/components/coe-categories";
 import { LastUpdated } from "@/components/last-updated";
+import { StructuredData } from "@/components/structured-data";
+import Typography from "@/components/typography";
 import {
   Card,
   CardContent,
@@ -21,7 +21,7 @@ import {
   type Month,
   RevalidateTags,
 } from "@/types";
-import { fetchApi } from "@/utils/fetchApi";
+import { fetchApi } from "@/utils/fetch-api";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 

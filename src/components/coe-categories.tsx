@@ -7,7 +7,7 @@ import {
   HelpCircleIcon,
   Truck,
 } from "lucide-react";
-import { CategoryInfo } from "@/components/CategoryInfo";
+import { CategoryInfo } from "@/components/category-info";
 import {
   Card,
   CardContent,

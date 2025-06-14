@@ -1,5 +1,5 @@
 import { API_URL, SITE_LINKS, SITE_URL } from "@/config";
-import { fetchApi } from "@/utils/fetchApi";
+import { fetchApi } from "@/utils/fetch-api";
 import { slugify } from "@/utils/slugify";
 import type { Make } from "@/types";
 import type { MetadataRoute } from "next";

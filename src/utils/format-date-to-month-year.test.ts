@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
+import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
 
 describe("formatDateToMonthYear", () => {
   it("should return the formatted dates correctly", () => {

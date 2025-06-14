@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { sortAscendingDates, sortDescendingDates } from "@/utils/sortDates";
+import { sortAscendingDates, sortDescendingDates } from "@/utils/sort-dates";
 
 describe("sortDates", () => {
   const testDates = [

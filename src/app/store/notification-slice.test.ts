@@ -4,7 +4,7 @@ import {
   createNotificationSlice,
   type NotificationState,
   type NotificationAction,
-} from "./notificationSlice";
+} from "./notification-slice";
 
 describe("Notification Slice", () => {
   let originalNotification: any;

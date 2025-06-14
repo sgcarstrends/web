@@ -13,8 +13,8 @@ import {
 } from "@icons-pack/react-simple-icons";
 import { ChevronDown, type LucideIcon } from "lucide-react";
 import { useQueryState, parseAsString } from "nuqs";
-import { BrandLogo } from "@/components/BrandLogo";
-import { NavSocialMedia } from "@/components/NavSocialMedia";
+import { BrandLogo } from "@/components/brand-logo";
+import { NavSocialMedia } from "@/components/nav-social-media";
 import {
   Collapsible,
   CollapsibleContent,

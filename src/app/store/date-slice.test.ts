@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { create } from "zustand";
-import { createDateSlice, type DateState, type DateAction } from "./dateSlice";
+import { createDateSlice, type DateState, type DateAction } from "./date-slice";
 
 describe("Date Slice", () => {
   it("should initialize with correct default values", () => {

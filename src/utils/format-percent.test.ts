@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatPercent } from "@/utils/formatPercent";
+import { formatPercent } from "@/utils/format-percent";
 
 describe("formatPercent", () => {
   it("should format a value in percentage", () => {

@@ -1,13 +1,13 @@
 import { notFound } from "next/navigation";
 import { BarChart3, CarFront, Fuel } from "lucide-react";
 import { loadSearchParams } from "@/app/cars/search-params";
-import { StructuredData } from "@/components/StructuredData";
-import Typography from "@/components/Typography";
 import { AnimatedNumber } from "@/components/animated-number";
 import { LastUpdated } from "@/components/last-updated";
 import { MetricsComparison } from "@/components/metrics-comparison";
 import { StatCard } from "@/components/stat-card";
+import { StructuredData } from "@/components/structured-data";
 import { TopMakes } from "@/components/top-makes";
+import Typography from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -19,8 +19,8 @@ import {
 import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
 import { type LatestMonth, RevalidateTags } from "@/types";
-import { fetchApi } from "@/utils/fetchApi";
-import { formatDateToMonthYear } from "@/utils/formatDateToMonthYear";
+import { fetchApi } from "@/utils/fetch-api";
+import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
 import type { Registration, Comparison, TopMake, TopType } from "@/types/cars";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";

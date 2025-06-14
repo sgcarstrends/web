@@ -1,6 +1,6 @@
 import { API_URL } from "@/config";
 import { type LatestMonth, type Month, RevalidateTags } from "@/types";
-import { fetchApi } from "@/utils/fetchApi";
+import { fetchApi } from "@/utils/fetch-api";
 
 export const fetchMonths = async () =>
   Promise.all([

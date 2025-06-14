@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { capitaliseWords } from "@/utils/capitaliseWords";
+import { capitaliseWords } from "@/utils/capitalise-words";
 
 describe("capitaliseWords", () => {
   it("should return as it is when words are already capitalised", () => {

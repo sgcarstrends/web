@@ -27,6 +27,13 @@ export const CategoryInfo = ({
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      handleFilterCategories();
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -37,6 +44,10 @@ export const CategoryInfo = ({
         },
       )}
       onClick={handleFilterCategories}
+      onKeyDown={handleKeyDown}
+      tabIndex={canFilter ? 0 : -1}
+      role="button"
+      aria-pressed={categories[category]}
     >
       <Icon className="size-6" />
       <div>
