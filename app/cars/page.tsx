@@ -191,12 +191,12 @@ const CarsPage = async ({ searchParams }: Props) => {
                     previousMonth={
                       comparison.data.previousMonth.fuelType.find(
                         (f) => f.label === topTypes.data.topFuelType.name,
-                      )?.count || 0
+                      )?.count ?? 0
                     }
                     previousYear={
                       comparison.data.previousYear.fuelType.find(
                         (f) => f.label === topTypes.data.topFuelType.name,
-                      )?.count || 0
+                      )?.count ?? 0
                     }
                   />
                 </CardFooter>
@@ -220,12 +220,12 @@ const CarsPage = async ({ searchParams }: Props) => {
                     previousMonth={
                       comparison.data.previousMonth.vehicleType.find(
                         (v) => v.label === topTypes.data.topVehicleType.name,
-                      )?.count || 0
+                      )?.count ?? 0
                     }
                     previousYear={
                       comparison.data.previousYear.vehicleType.find(
                         (v) => v.label === topTypes.data.topVehicleType.name,
-                      )?.count || 0
+                      )?.count ?? 0
                     }
                   />
                 </CardFooter>

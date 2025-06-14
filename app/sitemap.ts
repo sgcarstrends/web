@@ -1,11 +1,11 @@
 import { API_URL, SITE_LINKS, SITE_URL } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import { slugify } from "@/utils/slugify";
-import type { Make, NewMakes } from "@/types";
+import type { Make } from "@/types";
 import type { MetadataRoute } from "next";
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const makes = await fetchApi<NewMakes>(`${API_URL}/cars/makes`);
+  const makes = await fetchApi<{ data: Make[] }>(`${API_URL}/cars/makes`);
 
   return [
     // {
