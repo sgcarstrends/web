@@ -16,6 +16,7 @@ export default defineConfig({
         "src/schema",
         "src/types",
       ],
+      reporter: ["text", "json", "html", "lcov"],
     },
     environment: "jsdom",
     exclude: [...configDefaults.exclude, "tests"],
