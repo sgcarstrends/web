@@ -15,6 +15,7 @@ export default defineConfig({
         "src/lib",
         "src/schema",
         "src/types",
+        "**/use-mobile.ts", // Part of shadcn/ui Sidebar
       ],
       reporter: ["text", "json", "html", "lcov"],
     },
