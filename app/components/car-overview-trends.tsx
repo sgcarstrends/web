@@ -1,6 +1,6 @@
 import Link from "next/link";
 import slugify from "@sindresorhus/slugify";
-// import { TrendChart } from "@/app/cars/trend-chart";
+import { TrendChart } from "@/app/cars/trend-chart";
 import { AnimatedNumber } from "@/components/animated-number";
 import {
   Card,
@@ -9,24 +9,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { Car } from "@/types";
- 
+
 interface Props {
-  cars: Car[];
+  cars: any[];
   total: number;
 }
 
 export const CarOverviewTrends = ({ cars, total }: Props) => (
   <div className="grid grid-cols-1 gap-4">
-    {/*<Card>*/}
-    {/*  <CardHeader>*/}
-    {/*    <CardTitle>By Make</CardTitle>*/}
-    {/*    <CardDescription>Top 10 makes</CardDescription>*/}
-    {/*  </CardHeader>*/}
-    {/*  <CardContent>*/}
-    {/*    <TrendChart data={cars} />*/}
-    {/*  </CardContent>*/}
-    {/*</Card>*/}
+    <Card>
+      <CardHeader>
+        <CardTitle>By Make</CardTitle>
+        <CardDescription>Top 10 makes</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <TrendChart data={cars} />
+      </CardContent>
+    </Card>
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <Card>
         <CardHeader>
@@ -37,15 +36,15 @@ export const CarOverviewTrends = ({ cars, total }: Props) => (
         </CardHeader>
         <CardContent>
           {cars.length > 0 &&
-            cars.map(({ name, count }) => {
-              const marketShare = (number: number) => number / total;
+            cars.map(({ make, count }) => {
+              const marketShare = (count: number) => count / total;
 
               return (
                 <div
-                  key={name}
+                  key={make}
                   className="flex items-center justify-between border-b py-2"
                 >
-                  <Link href={`/cars/makes/${slugify(name)}`}>{name}</Link>
+                  <Link href={`/cars/makes/${slugify(make)}`}>{make}</Link>
                   <div className="flex items-center gap-2">
                     <AnimatedNumber value={count} />
                     <progress

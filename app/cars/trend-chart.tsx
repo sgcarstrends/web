@@ -7,17 +7,16 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import type { Car } from "@/types";
 
 interface Props {
-  data: Car[];
+  data: any[];
 }
 
 export const TrendChart = ({ data }: Props) => {
-  const chartData = data;
+  const chartData = data.slice(0, 10);
 
   const chartConfig = {
-    number: {
+    count: {
       label: "Count",
     },
     label: { color: "var(--background)" },
@@ -26,7 +25,7 @@ export const TrendChart = ({ data }: Props) => {
   return (
     <ChartContainer config={chartConfig} className="h-[250px] w-full">
       <BarChart accessibilityLayer data={chartData} layout="vertical">
-        <XAxis type="number" dataKey="number" hide />
+        <XAxis type="number" dataKey="count" hide />
         <YAxis
           dataKey="make"
           type="category"
@@ -36,7 +35,7 @@ export const TrendChart = ({ data }: Props) => {
           hide
         />
         <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
-        <Bar dataKey="number" fill="var(--primary)">
+        <Bar dataKey="count" fill="var(--primary)">
           <LabelList
             dataKey="make"
             position="insideLeft"
@@ -45,7 +44,7 @@ export const TrendChart = ({ data }: Props) => {
             fontSize={12}
           />
           <LabelList
-            dataKey="number"
+            dataKey="count"
             position="right"
             offset={8}
             className="fill-foreground"

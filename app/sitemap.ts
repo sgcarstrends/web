@@ -1,11 +1,11 @@
 import { API_URL, SITE_LINKS, SITE_URL } from "@/config";
 import { fetchApi } from "@/utils/fetchApi";
 import { slugify } from "@/utils/slugify";
-import type { Make } from "@/types";
+import type { Make, NewMakes } from "@/types";
 import type { MetadataRoute } from "next";
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const makes = await fetchApi<Make[]>(`${API_URL}/makes`);
+  const makes = await fetchApi<NewMakes>(`${API_URL}/cars/makes`);
 
   return [
     // {
@@ -23,7 +23,7 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
     })),
-    ...makes.map((make) => ({
+    ...makes.data.map((make) => ({
       url: `${SITE_URL}/cars/makes/${slugify(make)}`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
