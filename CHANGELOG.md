@@ -1,5 +1,11 @@
 # @sgcarstrends/web
 
+## 2.7.1
+
+### Patch Changes
+
+- [#264](https://github.com/sgcarstrends/web/pull/264) [`7e5dae1`](https://github.com/sgcarstrends/web/commit/7e5dae1c01a6e789b6fd83fa4da56c8d6abb0ca2) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Update GitHub Actions workflows
+
 ## 2.7.0
 
 ### Minor Changes
