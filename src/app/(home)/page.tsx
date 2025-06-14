@@ -1,7 +1,7 @@
-import { KeyStatistics } from "@/app/components/key-statistics";
-import { Top5CarMakesByYear } from "@/app/components/top-5-car-makes-by-year";
-import { TotalNewCarRegistrationsByYear } from "@/app/components/total-new-car-registrations-by-year";
+import { KeyStatistics } from "@/components/key-statistics";
 import { StructuredData } from "@/components/structured-data";
+import { Top5CarMakesByYear } from "@/components/top-5-car-makes-by-year";
+import { TotalNewCarRegistrationsByYear } from "@/components/total-new-car-registrations-by-year";
 import Typography from "@/components/typography";
 import { UnreleasedFeature } from "@/components/unreleased-feature";
 import { SITE_TITLE, SITE_URL } from "@/config";

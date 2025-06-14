@@ -1,8 +1,8 @@
 import slugify from "@sindresorhus/slugify";
 import { type SearchParams } from "nuqs/server";
 import { loadSearchParams } from "@/app/cars/vehicle-types/[vehicleType]/search-params";
-import { CarOverviewTrends } from "@/app/components/car-overview-trends";
 import { AnimatedNumber } from "@/components/animated-number";
+import { CarOverviewTrends } from "@/components/car-overview-trends";
 import { LastUpdated } from "@/components/last-updated";
 import { StructuredData } from "@/components/structured-data";
 import Typography from "@/components/typography";
