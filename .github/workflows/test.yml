@@ -1,4 +1,5 @@
 name: Test
+
 on:
   workflow_call:
 
@@ -30,7 +31,6 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-      - uses: sonarcloud-github-action@v2
+      - uses: SonarSource/sonarqube-scan-action@v4
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
