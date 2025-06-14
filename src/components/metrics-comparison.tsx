@@ -1,5 +1,5 @@
 import { TrendingDown, TrendingUp } from "lucide-react";
-import { formatPercent } from "@/utils/formatPercent";
+import { formatPercent } from "@/utils/format-percent";
 
 interface TrendIndicatorProps {
   change: number;

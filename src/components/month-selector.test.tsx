@@ -1,16 +1,16 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { MonthSelector } from "./MonthSelector";
+import { MonthSelector } from "./month-selector";
 
 vi.mock("nuqs", () => ({
   useQueryState: vi.fn(() => [null, vi.fn()]),
 }));
 
-vi.mock("@/utils/formatDateToMonthYear", () => ({
+vi.mock("@/utils/format-date-to-month-year", () => ({
   formatDateToMonthYear: vi.fn(() => "January 2024"),
 }));
 
-vi.mock("@/utils/groupByYear", () => ({
+vi.mock("@/utils/group-by-year", () => ({
   groupByYear: vi.fn(() => ({ "2024": ["01"] })),
 }));
 

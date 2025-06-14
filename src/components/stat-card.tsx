@@ -20,7 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { FUEL_TYPE } from "@/config";
-import { formatPercent } from "@/utils/formatPercent";
+import { formatPercent } from "@/utils/format-percent";
 import { slugify } from "@/utils/slugify";
 import type { RegistrationStat } from "@/types/cars";
 
