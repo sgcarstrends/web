@@ -1,11 +1,8 @@
 name: Deployment (Development)
 
 on:
-  push:
-    branches-ignore:
-      - 'main'
-      - 'release/**'
-      - 'legacy-**'
+  pull_request:
+    types: [opened, synchronize]
     paths:
       - 'src/**'
 
