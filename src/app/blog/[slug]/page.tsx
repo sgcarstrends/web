@@ -42,10 +42,10 @@ export const generateMetadata = async ({
   };
 };
 
-export const generateStaticParams = async () => {
-  const posts = getAllBlogPosts();
-  return posts.map((post) => ({ slug: post.slug }));
-};
+// export const generateStaticParams = async () => {
+//   const posts = getAllBlogPosts();
+//   return posts.map((post) => ({ slug: post.slug }));
+// };
 
 const BlogPostPage = async ({ params }: BlogPostPageProps) => {
   const { slug } = await params;
