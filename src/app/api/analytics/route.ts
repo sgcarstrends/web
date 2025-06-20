@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { sql, count, desc, isNotNull, ne } from "drizzle-orm";
 import { db } from "@/config/db";
 import { geolocation } from "@/functions/geolocation";
 import { analyticsTable, type InsertAnalytics } from "@/schema/analytics";
@@ -29,4 +30,95 @@ export const POST = async (request: NextRequest) => {
   await db.insert(analyticsTable).values(dataToInsert);
 
   return NextResponse.json({ message: dataToInsert });
+};
+
+export const GET = async () => {
+  try {
+    // Get total page views
+    const totalViews = await db
+      .select({ count: count() })
+      .from(analyticsTable);
+
+    // Get unique visitors (based on unique country/city combinations)
+    const uniqueVisitors = await db
+      .select({ count: sql<number>`count(distinct concat(coalesce(${analyticsTable.country}, ''), '-', coalesce(${analyticsTable.city}, '')))` })
+      .from(analyticsTable);
+
+    // Get top countries
+    const topCountries = await db
+      .select({
+        country: analyticsTable.country,
+        flag: analyticsTable.flag,
+        count: count(),
+      })
+      .from(analyticsTable)
+      .where(isNotNull(analyticsTable.country))
+      .groupBy(analyticsTable.country, analyticsTable.flag)
+      .orderBy(desc(count()))
+      .limit(10);
+
+    // Get top cities
+    const topCities = await db
+      .select({
+        city: analyticsTable.city,
+        country: analyticsTable.country,
+        flag: analyticsTable.flag,
+        count: count(),
+      })
+      .from(analyticsTable)
+      .where(isNotNull(analyticsTable.city))
+      .groupBy(analyticsTable.city, analyticsTable.country, analyticsTable.flag)
+      .orderBy(desc(count()))
+      .limit(10);
+
+    // Get top pages
+    const topPages = await db
+      .select({
+        pathname: analyticsTable.pathname,
+        count: count(),
+      })
+      .from(analyticsTable)
+      .groupBy(analyticsTable.pathname)
+      .orderBy(desc(count()))
+      .limit(10);
+
+    // Get top referrers
+    const topReferrers = await db
+      .select({
+        referrer: analyticsTable.referrer,
+        count: count(),
+      })
+      .from(analyticsTable)
+      .where(sql`${analyticsTable.referrer} IS NOT NULL AND ${analyticsTable.referrer} != ''`)
+      .groupBy(analyticsTable.referrer)
+      .orderBy(desc(count()))
+      .limit(10);
+
+    // Get daily views for the last 30 days
+    const dailyViews = await db
+      .select({
+        date: sql<string>`DATE(${analyticsTable.date})`,
+        count: count(),
+      })
+      .from(analyticsTable)
+      .where(sql`${analyticsTable.date} >= CURRENT_DATE - INTERVAL '30 days'`)
+      .groupBy(sql`DATE(${analyticsTable.date})`)
+      .orderBy(sql`DATE(${analyticsTable.date})`);
+
+    return NextResponse.json({
+      totalViews: totalViews[0]?.count || 0,
+      uniqueVisitors: uniqueVisitors[0]?.count || 0,
+      topCountries,
+      topCities,
+      topPages,
+      topReferrers,
+      dailyViews,
+    });
+  } catch (error) {
+    console.error('Analytics API error:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch analytics data' },
+      { status: 500 }
+    );
+  }
 };
