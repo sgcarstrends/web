@@ -9,6 +9,7 @@ export default defineConfig({
     coverage: {
       include: ["src"],
       exclude: [
+        "src/app",
         "src/components/ui",
         "src/config",
         "src/functions",
