@@ -96,3 +96,5 @@ export interface LinkItem {
   icon?: LucideIcon;
   comingSoon?: boolean;
 }
+
+export * from "./blog";
