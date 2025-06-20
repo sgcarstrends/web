@@ -37,6 +37,7 @@ export default $config({
       },
       server: {
         architecture: "arm64",
+        runtime: "nodejs22.x",
       },
       warm: 1,
     });
