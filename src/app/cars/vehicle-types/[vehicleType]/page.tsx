@@ -71,7 +71,7 @@ export const generateStaticParams = async () => {
   const vehicleTypes = await fetchApi<{ data: string[] }>(
     `${API_URL}/cars/vehicle-types`,
   );
-  return vehicleTypes.data.map((vehicleType) => ({
+  return vehicleTypes.map((vehicleType) => ({
     vehicleType: slugify(vehicleType),
   }));
 };

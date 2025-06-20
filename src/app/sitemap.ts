@@ -23,7 +23,7 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
     })),
-    ...makes.data.map((make) => ({
+    ...makes.map((make) => ({
       url: `${SITE_URL}/cars/makes/${slugify(make)}`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,

@@ -55,7 +55,7 @@ export const generateMetadata = async ({
     getTopTypes,
     getCarRegistration,
   ]);
-  const images = `/api/og?title=Car Registrations&subtitle=Monthly Stats Summary&month=${month}&total=${carRegistration.data.total}&topFuelType=${topTypes.data.topFuelType.name}&topVehicleType=${topTypes.data.topVehicleType.name}`;
+  const images = `/api/og?title=Car Registrations&subtitle=Monthly Stats Summary&month=${month}&total=${carRegistration.total}&topFuelType=${topTypes.topFuelType.name}&topVehicleType=${topTypes.topVehicleType.name}`;
 
   const canonical = `/cars?month=${month}`;
 
@@ -113,7 +113,7 @@ const CarsPage = async ({ searchParams }: Props) => {
 
   const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
 
-  if (!cars.data) {
+  if (!cars) {
     return notFound();
   }
 
@@ -145,12 +145,12 @@ const CarsPage = async ({ searchParams }: Props) => {
           </div>
         </div>
         {/*TODO: Improvise*/}
-        {!cars.data && (
+        {!cars && (
           <Typography.H3>
             No data available for the selected period.
           </Typography.H3>
         )}
-        {cars.data && (
+        {cars && (
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
               <Card>
@@ -162,13 +162,13 @@ const CarsPage = async ({ searchParams }: Props) => {
                   <Badge className="bg-blue-600">{formattedMonth}</Badge>
                 </CardHeader>
                 <CardContent className="text-4xl font-bold text-blue-600">
-                  <AnimatedNumber value={cars.data.total} />
+                  <AnimatedNumber value={cars.total} />
                 </CardContent>
                 <CardFooter>
                   <MetricsComparison
-                    current={cars.data.total}
-                    previousMonth={comparison.data.previousMonth.total}
-                    previousYear={comparison.data.previousYear.total}
+                    current={cars.total}
+                    previousMonth={comparison.previousMonth.total}
+                    previousYear={comparison.previousYear.total}
                   />
                 </CardFooter>
               </Card>
@@ -179,23 +179,23 @@ const CarsPage = async ({ searchParams }: Props) => {
                     Top Fuel Type
                   </CardTitle>
                   <Badge className="bg-green-600">
-                    {topTypes.data.topFuelType.name}
+                    {topTypes.topFuelType.name}
                   </Badge>
                 </CardHeader>
                 <CardContent className="text-4xl font-bold text-green-600">
-                  <AnimatedNumber value={topTypes.data.topFuelType.total} />
+                  <AnimatedNumber value={topTypes.topFuelType.total} />
                 </CardContent>
                 <CardFooter>
                   <MetricsComparison
-                    current={topTypes.data.topFuelType.total}
+                    current={topTypes.topFuelType.total}
                     previousMonth={
-                      comparison.data.previousMonth.fuelType.find(
-                        (f) => f.label === topTypes.data.topFuelType.name,
+                      comparison.previousMonth.fuelType.find(
+                        (f) => f.label === topTypes.topFuelType.name,
                       )?.count ?? 0
                     }
                     previousYear={
-                      comparison.data.previousYear.fuelType.find(
-                        (f) => f.label === topTypes.data.topFuelType.name,
+                      comparison.previousYear.fuelType.find(
+                        (f) => f.label === topTypes.topFuelType.name,
                       )?.count ?? 0
                     }
                   />
@@ -208,23 +208,23 @@ const CarsPage = async ({ searchParams }: Props) => {
                     Top Vehicle Type
                   </CardTitle>
                   <Badge className="bg-pink-600">
-                    {topTypes.data.topVehicleType.name}
+                    {topTypes.topVehicleType.name}
                   </Badge>
                 </CardHeader>
                 <CardContent className="text-4xl font-bold text-pink-600">
-                  <AnimatedNumber value={topTypes.data.topVehicleType.total} />
+                  <AnimatedNumber value={topTypes.topVehicleType.total} />
                 </CardContent>
                 <CardFooter>
                   <MetricsComparison
-                    current={topTypes.data.topVehicleType.total}
+                    current={topTypes.topVehicleType.total}
                     previousMonth={
-                      comparison.data.previousMonth.vehicleType.find(
-                        (v) => v.label === topTypes.data.topVehicleType.name,
+                      comparison.previousMonth.vehicleType.find(
+                        (v) => v.label === topTypes.topVehicleType.name,
                       )?.count ?? 0
                     }
                     previousYear={
-                      comparison.data.previousYear.vehicleType.find(
-                        (v) => v.label === topTypes.data.topVehicleType.name,
+                      comparison.previousYear.vehicleType.find(
+                        (v) => v.label === topTypes.topVehicleType.name,
                       )?.count ?? 0
                     }
                   />
@@ -245,22 +245,22 @@ const CarsPage = async ({ searchParams }: Props) => {
               <StatCard
                 title="By Fuel Type"
                 description="Distribution of vehicles based on fuel type"
-                data={cars.data.fuelType}
-                total={cars.data.total}
+                data={cars.fuelType}
+                total={cars.total}
                 linkPrefix="fuel-types"
               />
               <StatCard
                 title="By Vehicle Type"
                 description="Distribution of vehicles based on vehicle type"
-                data={cars.data.vehicleType}
-                total={cars.data.total}
+                data={cars.vehicleType}
+                total={cars.total}
                 linkPrefix="vehicle-types"
               />
             </div>
             <div className="flex items-center justify-between">
               <Typography.H2>Top Makes by Fuel Type</Typography.H2>
             </div>
-            <TopMakes data={topMakes.data} />
+            <TopMakes data={topMakes} />
           </div>
         )}
       </div>

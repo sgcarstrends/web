@@ -78,21 +78,19 @@ export const generateMetadata = async ({
 
 export const generateStaticParams = async () => {
   const makes = await fetchApi<{ data: Make[] }>(`${API_URL}/cars/makes`);
-  return makes.data.map((make) => ({ make: slugify(make) }));
+  return makes.map((make) => ({ make: slugify(make) }));
 };
 
 const CarMakePage = async ({ params }: Props) => {
   const { make } = await params;
 
-  const [cars, makes]: [
-    { make: string; total: number; data: Car[] },
-    { data: Make[] },
-  ] = await Promise.all([
-    fetchApi<{ make: string; total: number; data: Car[] }>(
-      `${API_URL}/cars/makes/${slugify(make)}`,
-    ),
-    fetchApi<{ data: Make[] }>(`${API_URL}/cars/makes`),
-  ]);
+  const [cars, makes]: [{ make: string; total: number; data: Car[] }, Make[]] =
+    await Promise.all([
+      fetchApi<{ make: string; total: number; data: Car[] }>(
+        `${API_URL}/cars/makes/${slugify(make)}`,
+      ),
+      fetchApi<Make[]>(`${API_URL}/cars/makes`),
+    ]);
   const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
 
   const title = `${cars.make} Cars Overview: Registration Trends`;
@@ -110,7 +108,7 @@ const CarMakePage = async ({ params }: Props) => {
     },
   };
 
-  if (!cars.data) {
+  if (!cars) {
     return <NoData />;
   }
 
@@ -123,7 +121,7 @@ const CarMakePage = async ({ params }: Props) => {
             <Typography.H1>{cars.make}</Typography.H1>
             <div className="flex items-center justify-between gap-2">
               {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
-              <MakeSelector makes={makes.data} selectedMake={make} />
+              <MakeSelector makes={makes} selectedMake={make} />
             </div>
           </div>
         </div>
