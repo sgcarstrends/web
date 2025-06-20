@@ -6,8 +6,6 @@ on:
       - 'main'
     tags-ignore:
       - '*'
-    paths:
-      - 'src/**'
 
 concurrency:
   group: merge-${{ github.ref }}
