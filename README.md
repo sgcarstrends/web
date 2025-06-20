@@ -1,44 +1,96 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [
-`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SG Cars Trends
+
+A comprehensive analytics platform for Singapore's car market, providing insights into car registrations, COE (
+Certificate of Entitlement) bidding results, and market trends.
+
+## Features
+
+- **Car Registration Analytics**: Track registrations by make, fuel type, and vehicle type
+- **COE Bidding Results**: Monitor COE premiums and bidding trends
+- **Trend Analysis**: Month-over-month and year-over-year comparisons
+- **Interactive Charts**: Responsive data visualisation with Recharts
+- **Geographic Insights**: User analytics by location
+
+## Tech Stack
+
+- **Next.js 15** with App Router and React 19
+- **TypeScript** with strict type checking
+- **Tailwind CSS v4** for styling
+- **Drizzle ORM** with PostgreSQL (Neon Database)
+- **Zustand** for state management
+- **shadcn/ui** + Radix UI components
+- **Vitest** for unit testing, **Playwright** for E2E testing
+- **SST** for AWS deployment
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- pnpm (recommended package manager)
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clone the repository
+git clone <repository-url>
+cd web
+
+# Install dependencies
+pnpm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your configuration
+
+# Run database migrations
+pnpm migrate
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Start development server
+pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and
-load Inter, a custom Google Font.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-## Learn More
+## Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+- `pnpm build` - Build for production (uses Turbopack)
+- `pnpm dev` - Start development server (uses Turbopack)
+- `pnpm lint` - Run ESLint
+- `pnpm test:coverage` - Run unit tests with coverage
+- `pnpm test:e2e` - Run E2E tests with Playwright
+- `pnpm test:e2e:ui` - Run E2E tests with Playwright UI
+- `pnpm migrate` - Run database migrations
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions
-are welcome!
+```
+src/
+├── app/           # Next.js App Router pages and API routes
+├── components/    # React components
+├── config/        # Database and app configuration
+├── schema/        # Drizzle database schemas
+├── types/         # TypeScript type definitions
+└── utils/         # Utility functions
+```
 
-## Deploy on Vercel
+## Contributing
 
-The easiest way to deploy your Next.js app is to use
-the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests for new functionality
+5. Run tests and linting: `pnpm test:coverage && pnpm lint`
+6. Submit a pull request
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Deployment
+
+This application is deployed on AWS using SST with CloudFlare DNS. The deployment process is automated through the
+configured CI/CD pipeline.
 
 ## Repo Activity
 
