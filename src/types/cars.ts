@@ -16,33 +16,27 @@ export interface RegistrationStat {
 }
 
 export interface Registration {
-  data: {
-    month: string;
-    total: number;
-    fuelType: RegistrationStat[];
-    vehicleType: RegistrationStat[];
-  };
+  month: string;
+  total: number;
+  fuelType: RegistrationStat[];
+  vehicleType: RegistrationStat[];
 }
 
 export interface Comparison {
-  data: {
-    currentMonth: Data;
-    previousMonth: Data;
-    previousYear: Data;
-  };
+  currentMonth: Data;
+  previousMonth: Data;
+  previousYear: Data;
 }
 
 export interface TopType {
-  data: {
-    month: string;
-    topFuelType: {
-      name: string;
-      total: number;
-    };
-    topVehicleType: {
-      name: string;
-      total: number;
-    };
+  month: string;
+  topFuelType: {
+    name: string;
+    total: number;
+  };
+  topVehicleType: {
+    name: string;
+    total: number;
   };
 }
 
@@ -58,5 +52,13 @@ export interface FuelType {
 }
 
 export interface TopMake {
-  data: FuelType[];
+  month: string;
+  topFuelType: {
+    name: string;
+    total: number;
+  };
+  topVehicleType: {
+    name: string;
+    total: number;
+  };
 }

@@ -68,7 +68,7 @@ export const generateMetadata = async ({
 };
 
 export const generateStaticParams = async () => {
-  const vehicleTypes = await fetchApi<{ data: string[] }>(
+  const vehicleTypes = await fetchApi<string[]>(
     `${API_URL}/cars/vehicle-types`,
   );
   return vehicleTypes.map((vehicleType) => ({

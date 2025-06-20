@@ -71,9 +71,7 @@ export const generateMetadata = async ({
 };
 
 export const generateStaticParams = async () => {
-  const fuelTypes = await fetchApi<{ data: string[] }>(
-    `${API_URL}/cars/fuel-types`,
-  );
+  const fuelTypes = await fetchApi<string[]>(`${API_URL}/cars/fuel-types`);
   return fuelTypes.map((fuelType) => ({
     fuelType: slugify(fuelType),
   }));

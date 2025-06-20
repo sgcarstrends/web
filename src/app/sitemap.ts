@@ -5,7 +5,7 @@ import type { Make } from "@/types";
 import type { MetadataRoute } from "next";
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const makes = await fetchApi<{ data: Make[] }>(`${API_URL}/cars/makes`);
+  const makes = await fetchApi<Make[]>(`${API_URL}/cars/makes`);
 
   return [
     // {

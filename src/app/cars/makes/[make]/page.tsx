@@ -77,7 +77,7 @@ export const generateMetadata = async ({
 };
 
 export const generateStaticParams = async () => {
-  const makes = await fetchApi<{ data: Make[] }>(`${API_URL}/cars/makes`);
+  const makes = await fetchApi<Make[]>(`${API_URL}/cars/makes`);
   return makes.map((make) => ({ make: slugify(make) }));
 };
 

@@ -21,7 +21,13 @@ import redis from "@/config/redis";
 import { type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetch-api";
 import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
-import type { Registration, Comparison, TopMake, TopType } from "@/types/cars";
+import type {
+  Registration,
+  Comparison,
+  TopMake,
+  TopType,
+  FuelType,
+} from "@/types/cars";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -45,7 +51,7 @@ export const generateMetadata = async ({
   const title = `${formattedMonth} Car Registrations`;
   const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
 
-  const getTopTypes = fetchApi<TopType>(
+  const getTopTypes = fetchApi<TopMake>(
     `${API_URL}/cars/top-types?month=${month}`,
   );
   const getCarRegistration = fetchApi<Registration>(
@@ -100,7 +106,7 @@ const CarsPage = async ({ searchParams }: Props) => {
   const getTopTypes = fetchApi<TopType>(
     `${API_URL}/cars/top-types?month=${month}`,
   );
-  const getTopMakes = fetchApi<TopMake>(
+  const getTopMakes = fetchApi<FuelType[]>(
     `${API_URL}/cars/top-makes?month=${month}`,
   );
 
