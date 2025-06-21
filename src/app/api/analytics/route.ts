@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { sql, count, desc, isNotNull, ne } from "drizzle-orm";
+import { sql, count, desc, isNotNull, ne, gte, lte, and } from "drizzle-orm";
 import { db } from "@/config/db";
 import { geolocation } from "@/functions/geolocation";
 import { analyticsTable, type InsertAnalytics } from "@/schema/analytics";
@@ -32,19 +32,41 @@ export const POST = async (request: NextRequest) => {
   return NextResponse.json({ message: dataToInsert });
 };
 
-export const GET = async () => {
+export const GET = async (request: NextRequest) => {
   try {
-    // Get total page views
+    const { searchParams } = new URL(request.url);
+    const start = searchParams.get("start");
+    const end = searchParams.get("end");
+
+    // Build date filter condition
+    let dateFilter;
+    if (start && end) {
+      dateFilter = and(
+        gte(analyticsTable.date, sql`${start}::date`),
+        lte(
+          analyticsTable.date,
+          sql`${end}::date + INTERVAL '1 day' - INTERVAL '1 second'`,
+        ),
+      );
+    } else if (start) {
+      dateFilter = gte(analyticsTable.date, sql`${start}::date`);
+    } else if (end) {
+      dateFilter = lte(
+        analyticsTable.date,
+        sql`${end}::date + INTERVAL '1 day' - INTERVAL '1 second'`,
+      );
+    } else {
+      // No date filter - return all data for "All Time"
+      dateFilter = sql`1=1`;
+    }
+
+    // Get total page views within date range
     const totalViews = await db
       .select({ count: count() })
-      .from(analyticsTable);
+      .from(analyticsTable)
+      .where(dateFilter);
 
-    // Get unique visitors (based on unique country/city combinations)
-    const uniqueVisitors = await db
-      .select({ count: sql<number>`count(distinct concat(coalesce(${analyticsTable.country}, ''), '-', coalesce(${analyticsTable.city}, '')))` })
-      .from(analyticsTable);
-
-    // Get top countries
+    // Get top countries within date range
     const topCountries = await db
       .select({
         country: analyticsTable.country,
@@ -52,12 +74,13 @@ export const GET = async () => {
         count: count(),
       })
       .from(analyticsTable)
-      .where(isNotNull(analyticsTable.country))
+      .where(dateFilter)
       .groupBy(analyticsTable.country, analyticsTable.flag)
+      .having(isNotNull(analyticsTable.country))
       .orderBy(desc(count()))
       .limit(10);
 
-    // Get top cities
+    // Get top cities within date range
     const topCities = await db
       .select({
         city: analyticsTable.city,
@@ -66,48 +89,51 @@ export const GET = async () => {
         count: count(),
       })
       .from(analyticsTable)
-      .where(isNotNull(analyticsTable.city))
+      .where(dateFilter)
       .groupBy(analyticsTable.city, analyticsTable.country, analyticsTable.flag)
+      .having(isNotNull(analyticsTable.city))
       .orderBy(desc(count()))
       .limit(10);
 
-    // Get top pages
+    // Get top pages within date range
     const topPages = await db
       .select({
         pathname: analyticsTable.pathname,
         count: count(),
       })
       .from(analyticsTable)
+      .where(dateFilter)
       .groupBy(analyticsTable.pathname)
       .orderBy(desc(count()))
       .limit(10);
 
-    // Get top referrers
+    // Get top referrers within date range
     const topReferrers = await db
       .select({
         referrer: analyticsTable.referrer,
         count: count(),
       })
       .from(analyticsTable)
-      .where(sql`${analyticsTable.referrer} IS NOT NULL AND ${analyticsTable.referrer} != ''`)
+      .where(and(ne(analyticsTable.referrer, ""), dateFilter))
       .groupBy(analyticsTable.referrer)
+      .having(isNotNull(analyticsTable.referrer))
       .orderBy(desc(count()))
       .limit(10);
 
-    // Get daily views for the last 30 days
+    // Get daily views within date range
     const dailyViews = await db
       .select({
-        date: sql<string>`DATE(${analyticsTable.date})`,
+        date: sql<string>`DATE
+          (${analyticsTable.date})`,
         count: count(),
       })
       .from(analyticsTable)
-      .where(sql`${analyticsTable.date} >= CURRENT_DATE - INTERVAL '30 days'`)
-      .groupBy(sql`DATE(${analyticsTable.date})`)
-      .orderBy(sql`DATE(${analyticsTable.date})`);
+      .where(dateFilter).groupBy(sql`DATE
+        (${analyticsTable.date})`).orderBy(sql`DATE
+        (${analyticsTable.date})`);
 
     return NextResponse.json({
       totalViews: totalViews[0]?.count || 0,
-      uniqueVisitors: uniqueVisitors[0]?.count || 0,
       topCountries,
       topCities,
       topPages,
@@ -115,10 +141,10 @@ export const GET = async () => {
       dailyViews,
     });
   } catch (error) {
-    console.error('Analytics API error:', error);
+    console.error("Analytics API error:", error);
     return NextResponse.json(
-      { error: 'Failed to fetch analytics data' },
-      { status: 500 }
+      { error: "Failed to fetch analytics data" },
+      { status: 500 },
     );
   }
 };
