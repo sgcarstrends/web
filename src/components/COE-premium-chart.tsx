@@ -67,11 +67,11 @@ export const COEPremiumChart = ({ data, months }: Props) => {
 
   const dateOneYearAgo = format(addYears(latestMonth, -1), "yyyy-MM");
 
-  const [, setFrom] = useQueryState("from", {
+  const [, setStart] = useQueryState("start", {
     defaultValue: dateOneYearAgo,
     shallow: false,
   });
-  const [, setTo] = useQueryState("to", {
+  const [, setEnd] = useQueryState("end", {
     defaultValue: latestMonth,
     shallow: false,
   });
@@ -107,9 +107,9 @@ export const COEPremiumChart = ({ data, months }: Props) => {
       }
     };
 
-    void setFrom(setFromDate());
-    void setTo(latestMonth);
-  }, [earliestMonth, latestMonth, setFrom, setTo, timeRange]);
+    void setStart(setFromDate());
+    void setEnd(latestMonth);
+  }, [earliestMonth, latestMonth, setStart, setEnd, timeRange]);
 
   useEffect(() => {
     updateRouterWithTimeRange();

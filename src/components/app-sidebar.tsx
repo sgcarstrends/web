@@ -196,8 +196,20 @@ const data: Nav = {
       url: "/coe",
       items: [
         {
-          title: "Historical Results",
+          title: "Overview",
           url: "/coe",
+        },
+        {
+          title: "Historical Results",
+          url: "/coe/results",
+        },
+        {
+          title: "Trends Analysis",
+          url: "/coe/trends",
+        },
+        {
+          title: "Bidding Results",
+          url: "/coe/bidding",
         },
         {
           title: "PQP Rates",
