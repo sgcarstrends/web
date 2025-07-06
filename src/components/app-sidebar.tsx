@@ -209,11 +209,6 @@ const data: Nav = {
   socialMedia: sortByName(
     [
       {
-        title: "Facebook",
-        url: "https://facebook.com/sgcarstrends",
-        icon: SiFacebook,
-      },
-      {
         title: "Twitter",
         url: "https://twitter.com/sgcarstrends",
         icon: SiX,
@@ -232,11 +227,6 @@ const data: Nav = {
         title: "GitHub",
         url: "https://github.com/sgcarstrends",
         icon: SiGithub,
-      },
-      {
-        title: "Bluesky",
-        url: "https://bsky.app/profile/sgcarstrends.com",
-        icon: SiBluesky,
       },
     ],
     { sortKey: "title" },
