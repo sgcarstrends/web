@@ -1,5 +1,5 @@
 import { AlertCircle } from "lucide-react";
-import { LastUpdated } from "@/components/last-updated";
+import { PageHeader } from "@/components/page-header";
 import { StructuredData } from "@/components/structured-data";
 import Typography from "@/components/typography";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -62,10 +62,10 @@ const PQPRatesPage = async () => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-y-4">
-        <div className="flex flex-col justify-between xl:flex-row xl:items-center">
-          <Typography.H1>PQP RATES</Typography.H1>
-          {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
-        </div>
+        <PageHeader
+          title="PQP RATES"
+          lastUpdated={lastUpdated}
+        />
         <Alert>
           <AlertCircle className="size-4" />
           <AlertTitle>Understanding PQP Rates</AlertTitle>

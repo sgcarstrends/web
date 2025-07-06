@@ -106,7 +106,6 @@ export const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                                 <Link
                                   href={{
                                     pathname: subItem.url,
-                                    query: { month },
                                   }}
                                 >
                                   {subItem.title}
