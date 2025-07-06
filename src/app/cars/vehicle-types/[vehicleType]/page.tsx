@@ -3,16 +3,17 @@ import { type SearchParams } from "nuqs/server";
 import { loadSearchParams } from "@/app/cars/vehicle-types/[vehicleType]/search-params";
 import { AnimatedNumber } from "@/components/animated-number";
 import { CarOverviewTrends } from "@/components/car-overview-trends";
-import { LastUpdated } from "@/components/last-updated";
+import { PageHeader } from "@/components/page-header";
 import { StructuredData } from "@/components/structured-data";
 import Typography from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
-import { type LatestMonth, RevalidateTags } from "@/types";
+import { type LatestMonth, type Month, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetch-api";
 import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
+import { fetchMonthsForCars, getMonthOrLatest } from "@/utils/month-utils";
 import { deslugify } from "@/utils/slugify";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
@@ -80,18 +81,12 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
   const { vehicleType } = await params;
   let { month } = await loadSearchParams(searchParams);
 
-  // TODO: Interim solution
-  if (!month) {
-    const latestMonths = await fetchApi<LatestMonth>(
-      `${API_URL}/months/latest`,
-      { next: { tags: [RevalidateTags.Cars] } },
-    );
-    month = latestMonths.cars;
-  }
+  month = await getMonthOrLatest(month, "cars");
 
-  const cars = await fetchApi<VehicleType>(
-    `${API_URL}/cars/vehicle-types/${vehicleType}?month=${month}`,
-  );
+  const [cars, months] = await Promise.all([
+    fetchApi<VehicleType>(`${API_URL}/cars/vehicle-types/${vehicleType}?month=${month}`),
+    fetchMonthsForCars(),
+  ]);
   const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
 
   const formattedVehicleType = deslugify(vehicleType);
@@ -122,12 +117,12 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <div className="flex flex-col justify-between lg:flex-row lg:items-center">
-            <Typography.H1>{deslugify(vehicleType)}</Typography.H1>
-            {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
-          </div>
-        </div>
+        <PageHeader
+          title={deslugify(vehicleType)}
+          lastUpdated={lastUpdated}
+          months={months}
+          showMonthSelector={true}
+        />
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             <Card>

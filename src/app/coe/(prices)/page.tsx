@@ -3,7 +3,7 @@ import { loadSearchParams } from "@/app/coe/(prices)/search-params";
 import { TrendTable } from "@/app/coe/(prices)/trend-table";
 import { COEPremiumChart } from "@/components/COE-premium-chart";
 import { COECategories } from "@/components/coe-categories";
-import { LastUpdated } from "@/components/last-updated";
+import { PageHeader } from "@/components/page-header";
 import { StructuredData } from "@/components/structured-data";
 import Typography from "@/components/typography";
 import {
@@ -118,10 +118,10 @@ const COEPricesPage = async ({ searchParams }: Props) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col justify-between xl:flex-row xl:items-center">
-          <Typography.H1>Historical Results</Typography.H1>
-          {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
-        </div>
+        <PageHeader
+          title="Historical Results"
+          lastUpdated={lastUpdated}
+        />
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
           <div className="xl:col-span-9">
             <COEPremiumChart data={data} months={months} />

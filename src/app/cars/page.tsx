@@ -2,8 +2,8 @@ import { notFound } from "next/navigation";
 import { BarChart3, CarFront, Fuel } from "lucide-react";
 import { loadSearchParams } from "@/app/cars/search-params";
 import { AnimatedNumber } from "@/components/animated-number";
-import { LastUpdated } from "@/components/last-updated";
 import { MetricsComparison } from "@/components/metrics-comparison";
+import { PageHeader } from "@/components/page-header";
 import { StatCard } from "@/components/stat-card";
 import { StructuredData } from "@/components/structured-data";
 import { TopMakes } from "@/components/top-makes";
@@ -21,6 +21,7 @@ import redis from "@/config/redis";
 import { type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetch-api";
 import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
+import { fetchMonthsForCars, getMonthOrLatest } from "@/utils/month-utils";
 import type {
   Registration,
   Comparison,
@@ -41,10 +42,7 @@ export const generateMetadata = async ({
 }: Props): Promise<Metadata> => {
   let { month } = await loadSearchParams(searchParams);
 
-  if (!month) {
-    const latestMonth = await fetchApi<LatestMonth>(`${API_URL}/months/latest`);
-    month = latestMonth.cars;
-  }
+  month = await getMonthOrLatest(month, "cars");
 
   const formattedMonth = formatDateToMonthYear(month);
 
@@ -90,14 +88,7 @@ export const generateMetadata = async ({
 const CarsPage = async ({ searchParams }: Props) => {
   let { month } = await loadSearchParams(searchParams);
 
-  // TODO: Interim solution
-  if (!month) {
-    const latestMonths = await fetchApi<LatestMonth>(
-      `${API_URL}/months/latest`,
-      { next: { tags: [RevalidateTags.Cars] } },
-    );
-    month = latestMonths.cars;
-  }
+  month = await getMonthOrLatest(month, "cars");
 
   const getCars = fetchApi<Registration>(`${API_URL}/cars?month=${month}`);
   const getComparison = fetchApi<Comparison>(
@@ -110,11 +101,12 @@ const CarsPage = async ({ searchParams }: Props) => {
     `${API_URL}/cars/top-makes?month=${month}`,
   );
 
-  const [cars, comparison, topTypes, topMakes] = await Promise.all([
+  const [cars, comparison, topTypes, topMakes, months] = await Promise.all([
     getCars,
     getComparison,
     getTopTypes,
     getTopMakes,
+    fetchMonthsForCars(),
   ]);
 
   const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
@@ -144,12 +136,12 @@ const CarsPage = async ({ searchParams }: Props) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <div className="flex flex-col justify-between lg:flex-row lg:items-center">
-            <Typography.H1>Car Registrations</Typography.H1>
-            {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
-          </div>
-        </div>
+        <PageHeader
+          title="Car Registrations"
+          lastUpdated={lastUpdated}
+          months={months}
+          showMonthSelector={true}
+        />
         {/*TODO: Improvise*/}
         {!cars && (
           <Typography.H3>
