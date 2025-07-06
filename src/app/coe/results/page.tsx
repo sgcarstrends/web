@@ -1,6 +1,10 @@
 import { type SearchParams } from "nuqs/server";
-import { loadSearchParams } from "@/app/coe/(prices)/search-params";
-import { TrendTable } from "@/app/coe/(prices)/trend-table";
+import {
+  loadSearchParams,
+  getDefaultStartDate,
+  getDefaultEndDate,
+} from "@/app/coe/search-params";
+import { TrendTable } from "@/app/coe/trend-table";
 import { COEPremiumChart } from "@/components/COE-premium-chart";
 import { COECategories } from "@/components/coe-categories";
 import { PageHeader } from "@/components/page-header";
@@ -44,8 +48,8 @@ export const generateMetadata = async (): Promise<Metadata> => {
     {},
   );
 
-  const canonical = "/coe";
-  const images = `/api/og/coe?title=COE Results&subtitle=Overview&biddingNo=2&categoryA=${categories["Category A"]}&categoryB=${categories["Category B"]}&categoryC=${categories["Category C"]}&categoryD=${categories["Category D"]}&categoryE=${categories["Category E"]}`;
+  const canonical = "/coe/results";
+  const images = `/api/og/coe?title=COE Results&subtitle=Historical Data&biddingNo=2&categoryA=${categories["Category A"]}&categoryB=${categories["Category B"]}&categoryC=${categories["Category C"]}&categoryD=${categories["Category D"]}&categoryE=${categories["Category E"]}`;
 
   return {
     title,
@@ -69,10 +73,15 @@ export const generateMetadata = async (): Promise<Metadata> => {
   };
 };
 
-const COEPricesPage = async ({ searchParams }: Props) => {
-  const { from, to } = await loadSearchParams(searchParams);
+const COEResultsPage = async ({ searchParams }: Props) => {
+  const { start, end } = await loadSearchParams(searchParams);
+  const defaultStart = await getDefaultStartDate();
+  const defaultEnd = await getDefaultEndDate();
 
-  const params = new URLSearchParams({ from, to });
+  const params = new URLSearchParams({
+    start: start || defaultStart,
+    end: end || defaultEnd,
+  });
 
   const [coeResults, months]: [COEResult[], Month[]] = await Promise.all([
     await fetchApi<COEResult[]>(`${API_URL}/coe?${params.toString()}`, {
@@ -106,7 +115,7 @@ const COEPricesPage = async ({ searchParams }: Props) => {
     "@type": "WebPage",
     name: title,
     description,
-    url: `${SITE_URL}/coe`,
+    url: `${SITE_URL}/coe/results`,
     publisher: {
       "@type": "Organization",
       name: SITE_TITLE,
@@ -118,10 +127,7 @@ const COEPricesPage = async ({ searchParams }: Props) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <PageHeader
-          title="Historical Results"
-          lastUpdated={lastUpdated}
-        />
+        <PageHeader title="Historical Results" lastUpdated={lastUpdated} />
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
           <div className="xl:col-span-9">
             <COEPremiumChart data={data} months={months} />
@@ -146,4 +152,4 @@ const COEPricesPage = async ({ searchParams }: Props) => {
   );
 };
 
-export default COEPricesPage;
+export default COEResultsPage;
