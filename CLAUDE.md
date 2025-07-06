@@ -23,14 +23,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Tailwind CSS** (v4) with prettier-plugin-tailwindcss for class sorting
 - **Drizzle ORM** with PostgreSQL (Neon Database)
 - **Zustand** for state management with persistence
-- **shadcn/ui** + Radix UI components
+- **HeroUI** components for modern, professional UI (transitioning away from shadcn/ui)
 - **Vitest** for unit tests, **Playwright** for E2E tests
 - **SST** for AWS deployment with CloudFlare DNS
 
 ### Project Structure
 
 - `src/app/` - Next.js App Router with route-based organization
-- `src/components/` - React components (shadcn/ui + custom)
+- `src/components/` - React components (HeroUI + custom)
 - `src/config/` - Database and application configuration
 - `src/utils/` - Utility functions with comprehensive test coverage
 - `src/types/` - TypeScript type definitions
@@ -74,6 +74,9 @@ Singapore car market analytics:
 - Absolute imports with `@/` alias
 - Follow ESLint rules configured in project
 - Use British English spelling
+- Prefer HeroUI components for new features and refactoring
+- Use HeroUI's TypeScript-first approach with proper component typing
+- Leverage HeroUI's professional design system for analytics dashboard components
 
 ## Testing
 
@@ -96,6 +99,18 @@ Singapore car market analytics:
 - Environment-specific configurations (dev/staging/prod)
 - Lambda warming to reduce cold starts
 
+## UI Component Strategy
+
+The codebase uses HeroUI as the primary component library:
+
+- **New Features**: Use HeroUI components with TypeScript-first approach
+- **Component Selection**: Leverage HeroUI's professional design system for analytics interfaces
+- **Data Visualization**: Utilize HeroUI's advanced table and chart components for market data
+- **Customization**: Apply HeroUI's theming system to match Singapore car market branding
+- **Performance**: Take advantage of HeroUI's tree-shakeable, optimized components
+- **Legacy Code**: Gradually migrate existing shadcn/ui components to HeroUI equivalents
+- **DaisyUI Removal**: Remove DaisyUI dependency once HeroUI migration is completed
+
 ## Excluded Areas
 
-- `components/ui/**` - shadcn/ui code which should not be modified
+- `components/ui/**` - shadcn/ui code (avoid enhancing, prefer replacing during refactors)
