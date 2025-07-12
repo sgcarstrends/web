@@ -150,9 +150,12 @@ const data: Nav = {
       items: sortByName(
         [
           { title: "Petrol" },
-          { title: "Hybrid" },
+          { title: "Petrol-Electric" },
+          { title: "Petrol-Electric (Plug-In)" },
           { title: "Electric" },
           { title: "Diesel" },
+          { title: "Diesel-Electric" },
+          { title: "Diesel-Electric (Plug-In)" },
         ],
         { sortKey: "title" },
       ).map((item) => ({

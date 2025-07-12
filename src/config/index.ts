@@ -19,10 +19,13 @@ export const API_URL = `${API_BASE_URL}/${API_VERSION}`;
 
 export enum FUEL_TYPE {
   DIESEL = "Diesel",
+  DIESEL_ELECTRIC = "Diesel-Electric",
+  DIESEL_ELECTRIC_PLUG_IN = "Diesel-Electric (Plug-In)",
   ELECTRIC = "Electric",
-  HYBRID = "Hybrid",
   OTHERS = "Others",
   PETROL = "Petrol",
+  PETROL_ELECTRIC = "Petrol-Electric",
+  PETROL_ELECTRIC_PLUG_IN = "Petrol-Electric (Plug-In)",
 }
 
 export const HYBRID_REGEX = /^(Diesel|Petrol)-(Electric)(\s\(Plug-In\))?$/;
@@ -48,8 +51,13 @@ export const FUEL_TYPE_LINKS: LinkItem[] = [
     icon: Fuel,
   },
   {
-    label: "Hybrid",
-    description: "Includes Petrol, Diesel and Plug-In types",
+    label: "Petrol-Electric",
+    description: "Petrol hybrid vehicles",
+    icon: Zap,
+  },
+  {
+    label: "Petrol-Electric (Plug-In)",
+    description: "Plug-in petrol hybrid vehicles",
     icon: Zap,
   },
   {
@@ -61,6 +69,16 @@ export const FUEL_TYPE_LINKS: LinkItem[] = [
     label: "Diesel",
     description: "Compression-ignition engine vehicles",
     icon: Droplet,
+  },
+  {
+    label: "Diesel-Electric",
+    description: "Diesel hybrid vehicles",
+    icon: Zap,
+  },
+  {
+    label: "Diesel-Electric (Plug-In)",
+    description: "Plug-in diesel hybrid vehicles",
+    icon: Zap,
   },
 ]
   .map((link) => ({
