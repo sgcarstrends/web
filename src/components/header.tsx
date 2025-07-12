@@ -24,6 +24,7 @@ import {
 } from "@icons-pack/react-simple-icons";
 import { ChevronDown } from "lucide-react";
 import { BrandLogo } from "@/components/brand-logo";
+import { UnreleasedFeature } from "@/components/unreleased-feature";
 import { slugify } from "@/utils/slugify";
 import { sortByName } from "@/utils/sorting";
 import type { NavbarProps } from "@heroui/navbar";
@@ -49,6 +50,16 @@ export const Header = (props: NavbarProps) => {
         <NavbarItem>
           <Link href="/cars">Car Registrations</Link>
         </NavbarItem>
+        <UnreleasedFeature>
+          <NavbarItem>
+            <Link href="/visitors">Visitors</Link>
+          </NavbarItem>
+        </UnreleasedFeature>
+        <UnreleasedFeature>
+          <NavbarItem>
+            <Link href="/blog">Blog</Link>
+          </NavbarItem>
+        </UnreleasedFeature>
         <Dropdown>
           <NavbarItem>
             <DropdownTrigger>
@@ -175,6 +186,20 @@ export const Header = (props: NavbarProps) => {
             Car Registrations
           </Link>
         </NavbarMenuItem>
+        <UnreleasedFeature>
+          <NavbarMenuItem>
+            <Link href="/visitors" className="w-full">
+              Visitors
+            </Link>
+          </NavbarMenuItem>
+        </UnreleasedFeature>
+        <UnreleasedFeature>
+          <NavbarMenuItem>
+            <Link href="/blog" className="w-full">
+              Blog
+            </Link>
+          </NavbarMenuItem>
+        </UnreleasedFeature>
         <NavbarMenuItem>
           <div className="text-default-600 py-2 text-sm font-medium">
             Fuel Types

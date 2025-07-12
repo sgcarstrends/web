@@ -9,13 +9,14 @@ import {
   SiX,
 } from "@icons-pack/react-simple-icons";
 import { BrandLogo } from "@/components/brand-logo";
+import { UnreleasedFeature } from "@/components/unreleased-feature";
 import { slugify } from "@/utils/slugify";
 import { sortByName } from "@/utils/sorting";
 
 export const Footer = () => (
   <footer className="bg-content1 border-divider mt-16 border-t">
     <div className="container mx-auto px-4 py-12">
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
         {/* Brand Section */}
         <div className="space-y-4">
           <BrandLogo />
@@ -42,6 +43,27 @@ export const Footer = () => (
             ))}
           </div>
         </div>
+
+        {/* General Section */}
+        <UnreleasedFeature>
+          <div className="space-y-4">
+            <h3 className="text-default-900 text-lg font-semibold">General</h3>
+            <div className="space-y-2">
+              <Link
+                href="/visitors"
+                className="text-default-600 hover:text-primary block text-sm transition-colors"
+              >
+                Visitors
+              </Link>
+              <Link
+                href="/blog"
+                className="text-default-600 hover:text-primary block text-sm transition-colors"
+              >
+                Blog
+              </Link>
+            </div>
+          </div>
+        </UnreleasedFeature>
 
         {/* Car Data Section */}
         <div className="space-y-4">
