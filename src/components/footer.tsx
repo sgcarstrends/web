@@ -2,16 +2,9 @@
 
 import Link from "next/link";
 import { Button, Divider } from "@heroui/react";
-import {
-  SiGithub,
-  SiInstagram,
-  SiLinkedin,
-  SiX,
-} from "@icons-pack/react-simple-icons";
 import { BrandLogo } from "@/components/brand-logo";
 import { UnreleasedFeature } from "@/components/unreleased-feature";
-import { slugify } from "@/utils/slugify";
-import { sortByName } from "@/utils/sorting";
+import { navLinks } from "@/config/navigation";
 
 export const Footer = () => (
   <footer className="bg-content1 border-divider mt-16 border-t">
@@ -25,7 +18,7 @@ export const Footer = () => (
             sense of the numbers so you don&apos;t have to.
           </p>
           <div className="flex gap-2">
-            {socialMediaLinks.map(({ title, url, icon: Icon }) => (
+            {navLinks.socialMedia.map(({ title, url, icon: Icon }) => (
               <Button
                 key={title}
                 as="a"
@@ -44,64 +37,28 @@ export const Footer = () => (
           </div>
         </div>
 
-        {/* General Section */}
-        <UnreleasedFeature>
-          <div className="space-y-4">
-            <h3 className="text-default-900 text-lg font-semibold">General</h3>
-            <div className="space-y-2">
-              <Link
-                href="/visitors"
-                className="text-default-600 hover:text-primary block text-sm transition-colors"
-              >
-                Visitors
-              </Link>
-              <Link
-                href="/blog"
-                className="text-default-600 hover:text-primary block text-sm transition-colors"
-              >
-                Blog
-              </Link>
-            </div>
-          </div>
-        </UnreleasedFeature>
-
-        {/* Car Data Section */}
+        {/* Cars Section */}
         <div className="space-y-4">
-          <h3 className="text-default-900 text-lg font-semibold">Car Data</h3>
+          <h3 className="text-default-900 text-lg font-semibold">Cars</h3>
           <div className="space-y-2">
             <Link
-              href="/cars"
+              href={navLinks.cars.overview.url}
               className="text-default-600 hover:text-primary block text-sm transition-colors"
             >
-              Car Registrations
+              {navLinks.cars.overview.title}
             </Link>
-            {fuelTypes.map((item) => (
-              <Link
-                key={item.title}
-                href={item.url}
-                className="text-default-600 hover:text-primary block text-sm transition-colors"
-              >
-                {item.title}
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* Vehicle Types Section */}
-        <div className="space-y-4">
-          <h3 className="text-default-900 text-lg font-semibold">
-            Vehicle Types
-          </h3>
-          <div className="space-y-2">
-            {vehicleTypes.map((item) => (
-              <Link
-                key={item.title}
-                href={item.url}
-                className="text-default-600 hover:text-primary block text-sm transition-colors"
-              >
-                {item.title}
-              </Link>
-            ))}
+            <Link
+              href={navLinks.cars.fuelTypes.url}
+              className="text-default-600 hover:text-primary block text-sm transition-colors"
+            >
+              {navLinks.cars.fuelTypes.title}
+            </Link>
+            <Link
+              href={navLinks.cars.vehicleTypes.url}
+              className="text-default-600 hover:text-primary block text-sm transition-colors"
+            >
+              {navLinks.cars.vehicleTypes.title}
+            </Link>
           </div>
         </div>
 
@@ -109,7 +66,7 @@ export const Footer = () => (
         <div className="space-y-4">
           <h3 className="text-default-900 text-lg font-semibold">COE</h3>
           <div className="space-y-2">
-            {coeLinks.map((item) => (
+            {navLinks.coe.map((item) => (
               <Link
                 key={item.title}
                 href={item.url}
@@ -120,6 +77,24 @@ export const Footer = () => (
             ))}
           </div>
         </div>
+
+        {/* General Section */}
+        <UnreleasedFeature>
+          <div className="space-y-4">
+            <h3 className="text-default-900 text-lg font-semibold">General</h3>
+            <div className="space-y-2">
+              {navLinks.general.map((item) => (
+                <Link
+                  key={item.title}
+                  href={item.url}
+                  className="text-default-600 hover:text-primary block text-sm transition-colors"
+                >
+                  {item.title}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </UnreleasedFeature>
       </div>
 
       <Divider className="my-8" />
@@ -160,82 +135,4 @@ export const Footer = () => (
       </div>
     </div>
   </footer>
-);
-
-// Navigation data extracted from header component
-const fuelTypes = sortByName(
-  [
-    { title: "Petrol" },
-    { title: "Hybrid" },
-    { title: "Electric" },
-    { title: "Diesel" },
-  ],
-  { sortKey: "title" },
-).map((item) => ({
-  ...item,
-  url: `/cars/fuel-types/${slugify(item.title)}`,
-}));
-
-const vehicleTypes = sortByName(
-  [
-    { title: "Hatchback" },
-    { title: "Sedan" },
-    { title: "Multi-purpose Vehicle" },
-    { title: "Station-wagon" },
-    { title: "Sports Utility Vehicle" },
-    { title: "Coupe/Convertible" },
-  ],
-  { sortKey: "title" },
-).map((item) => ({
-  ...item,
-  url: `/cars/vehicle-types/${slugify(item.title)}`,
-}));
-
-const coeLinks = [
-  {
-    title: "Overview",
-    url: "/coe",
-  },
-  {
-    title: "Historical Results",
-    url: "/coe/results",
-  },
-  {
-    title: "Trends Analysis",
-    url: "/coe/trends",
-  },
-  {
-    title: "Bidding Results",
-    url: "/coe/bidding",
-  },
-  {
-    title: "PQP Rates",
-    url: "/coe/pqp",
-  },
-];
-
-const socialMediaLinks = sortByName(
-  [
-    {
-      title: "Twitter",
-      url: "https://twitter.com/sgcarstrends",
-      icon: SiX,
-    },
-    {
-      title: "Instagram",
-      url: "https://instagram.com/sgcarstrends",
-      icon: SiInstagram,
-    },
-    {
-      title: "LinkedIn",
-      url: "https://linkedin.com/company/sgcarstrends",
-      icon: SiLinkedin,
-    },
-    {
-      title: "GitHub",
-      url: "https://github.com/sgcarstrends",
-      icon: SiGithub,
-    },
-  ],
-  { sortKey: "title" },
 );

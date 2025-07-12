@@ -16,17 +16,10 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@heroui/react";
-import {
-  SiGithub,
-  SiInstagram,
-  SiLinkedin,
-  SiX,
-} from "@icons-pack/react-simple-icons";
 import { ChevronDown } from "lucide-react";
 import { BrandLogo } from "@/components/brand-logo";
 import { UnreleasedFeature } from "@/components/unreleased-feature";
-import { slugify } from "@/utils/slugify";
-import { sortByName } from "@/utils/sorting";
+import { navLinks } from "@/config/navigation";
 import type { NavbarProps } from "@heroui/navbar";
 
 export const Header = (props: NavbarProps) => {
@@ -47,19 +40,6 @@ export const Header = (props: NavbarProps) => {
         </Link>
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex" justify="center">
-        <NavbarItem>
-          <Link href="/cars">Car Registrations</Link>
-        </NavbarItem>
-        <UnreleasedFeature>
-          <NavbarItem>
-            <Link href="/visitors">Visitors</Link>
-          </NavbarItem>
-        </UnreleasedFeature>
-        <UnreleasedFeature>
-          <NavbarItem>
-            <Link href="/blog">Blog</Link>
-          </NavbarItem>
-        </UnreleasedFeature>
         <Dropdown>
           <NavbarItem>
             <DropdownTrigger>
@@ -70,56 +50,37 @@ export const Header = (props: NavbarProps) => {
                 radius="sm"
                 variant="light"
               >
-                Fuel Types
+                Cars
               </Button>
             </DropdownTrigger>
           </NavbarItem>
           <DropdownMenu
-            aria-label="Fuel Types"
+            aria-label="Cars"
             itemClasses={{
               base: "gap-4",
             }}
           >
-            {navData.fuelTypes.map((item) => (
-              <DropdownItem
-                key={item.title}
-                href={item.url}
-                className="text-foreground hover:text-primary"
-              >
-                {item.title}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
-        <Dropdown>
-          <NavbarItem>
-            <DropdownTrigger>
-              <Button
-                disableRipple
-                className="bg-transparent p-0 data-[hover=true]:bg-transparent"
-                endContent={<ChevronDown className="size-4" />}
-                radius="sm"
-                variant="light"
-              >
-                Vehicle Types
-              </Button>
-            </DropdownTrigger>
-          </NavbarItem>
-          <DropdownMenu
-            aria-label="Vehicle Types"
-            itemClasses={{
-              base: "gap-4",
-            }}
-          >
-            {navData.vehicleTypes.map((item) => (
-              <DropdownItem
-                key={item.title}
-                href={item.url}
-                className="text-foreground hover:text-primary"
-              >
-                {item.title}
-              </DropdownItem>
-            ))}
+            <DropdownItem
+              key={navLinks.cars.overview.title}
+              href={navLinks.cars.overview.url}
+              className="text-foreground hover:text-primary"
+            >
+              {navLinks.cars.overview.title}
+            </DropdownItem>
+            <DropdownItem
+              key={navLinks.cars.fuelTypes.title}
+              href={navLinks.cars.fuelTypes.url}
+              className="text-foreground hover:text-primary"
+            >
+              {navLinks.cars.fuelTypes.title}
+            </DropdownItem>
+            <DropdownItem
+              key={navLinks.cars.vehicleTypes.title}
+              href={navLinks.cars.vehicleTypes.url}
+              className="text-foreground hover:text-primary"
+            >
+              {navLinks.cars.vehicleTypes.title}
+            </DropdownItem>
           </DropdownMenu>
         </Dropdown>
         <Dropdown>
@@ -142,7 +103,7 @@ export const Header = (props: NavbarProps) => {
               base: "gap-4",
             }}
           >
-            {navData.coe.map((item) => (
+            {navLinks.coe.map((item) => (
               <DropdownItem
                 key={item.title}
                 href={item.url}
@@ -153,10 +114,20 @@ export const Header = (props: NavbarProps) => {
             ))}
           </DropdownMenu>
         </Dropdown>
+        <UnreleasedFeature>
+          <NavbarItem>
+            <Link href="/blog">Blog</Link>
+          </NavbarItem>
+        </UnreleasedFeature>
+        <UnreleasedFeature>
+          <NavbarItem>
+            <Link href="/visitors">Visitors</Link>
+          </NavbarItem>
+        </UnreleasedFeature>
       </NavbarContent>
       <NavbarContent className="hidden md:flex" justify="end">
         <NavbarItem className="ml-2 !flex gap-2">
-          {navData.socialMedia.map(({ title, url, icon: Icon }) => (
+          {navLinks.socialMedia.map(({ title, url, icon: Icon }) => (
             <Button
               key={title}
               as="a"
@@ -182,136 +153,54 @@ export const Header = (props: NavbarProps) => {
 
       <NavbarMenu>
         <NavbarMenuItem>
-          <Link href="/cars" className="w-full">
-            Car Registrations
+          <div className="text-default-600 py-2 text-sm font-medium">Cars</div>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link
+            href={navLinks.cars.overview.url}
+            className="text-default-700 w-full pl-4"
+          >
+            {navLinks.cars.overview.title}
           </Link>
         </NavbarMenuItem>
-        <UnreleasedFeature>
-          <NavbarMenuItem>
-            <Link href="/visitors" className="w-full">
-              Visitors
-            </Link>
-          </NavbarMenuItem>
-        </UnreleasedFeature>
-        <UnreleasedFeature>
-          <NavbarMenuItem>
-            <Link href="/blog" className="w-full">
-              Blog
-            </Link>
-          </NavbarMenuItem>
-        </UnreleasedFeature>
         <NavbarMenuItem>
-          <div className="text-default-600 py-2 text-sm font-medium">
-            Fuel Types
-          </div>
+          <Link
+            href={navLinks.cars.fuelTypes.url}
+            className="text-default-700 w-full pl-4"
+          >
+            {navLinks.cars.fuelTypes.title}
+          </Link>
         </NavbarMenuItem>
-        {navData.fuelTypes.map((item) => (
-          <NavbarMenuItem key={item.title}>
-            <Link href={item.url} className="text-default-700 w-full pl-4">
-              {item.title}
-            </Link>
-          </NavbarMenuItem>
-        ))}
         <NavbarMenuItem>
-          <div className="text-default-600 py-2 text-sm font-medium">
-            Vehicle Types
-          </div>
+          <Link
+            href={navLinks.cars.vehicleTypes.url}
+            className="text-default-700 w-full pl-4"
+          >
+            {navLinks.cars.vehicleTypes.title}
+          </Link>
         </NavbarMenuItem>
-        {navData.vehicleTypes.map((item) => (
-          <NavbarMenuItem key={item.title}>
-            <Link href={item.url} className="text-default-700 w-full pl-4">
-              {item.title}
-            </Link>
-          </NavbarMenuItem>
-        ))}
         <NavbarMenuItem>
           <div className="text-default-600 py-2 text-sm font-medium">COE</div>
         </NavbarMenuItem>
-        {navData.coe.map((item) => (
+        {navLinks.coe.map((item) => (
           <NavbarMenuItem key={item.title}>
             <Link href={item.url} className="text-default-700 w-full pl-4">
               {item.title}
             </Link>
           </NavbarMenuItem>
         ))}
+
+        <UnreleasedFeature>
+          <NavbarMenuItem>
+            <Link href="/blog">Blog</Link>
+          </NavbarMenuItem>
+        </UnreleasedFeature>
+        <UnreleasedFeature>
+          <NavbarMenuItem>
+            <Link href="/visitors">Visitors</Link>
+          </NavbarMenuItem>
+        </UnreleasedFeature>
       </NavbarMenu>
     </Navbar>
   );
-};
-
-// Navigation data extracted from the sidebar
-const navData = {
-  fuelTypes: sortByName(
-    [
-      { title: "Petrol" },
-      { title: "Hybrid" },
-      { title: "Electric" },
-      { title: "Diesel" },
-    ],
-    { sortKey: "title" },
-  ).map((item) => ({
-    ...item,
-    url: `/cars/fuel-types/${slugify(item.title)}`,
-  })),
-  vehicleTypes: sortByName(
-    [
-      { title: "Hatchback" },
-      { title: "Sedan" },
-      { title: "Multi-purpose Vehicle" },
-      { title: "Station-wagon" },
-      { title: "Sports Utility Vehicle" },
-      { title: "Coupe/Convertible" },
-    ],
-    { sortKey: "title" },
-  ).map((item) => ({
-    ...item,
-    url: `/cars/vehicle-types/${slugify(item.title)}`,
-  })),
-  coe: [
-    {
-      title: "Overview",
-      url: "/coe",
-    },
-    {
-      title: "Historical Results",
-      url: "/coe/results",
-    },
-    {
-      title: "Trends Analysis",
-      url: "/coe/trends",
-    },
-    {
-      title: "Bidding Results",
-      url: "/coe/bidding",
-    },
-    {
-      title: "PQP Rates",
-      url: "/coe/pqp",
-    },
-  ],
-  socialMedia: sortByName(
-    [
-      {
-        title: "Twitter",
-        url: "https://twitter.com/sgcarstrends",
-        icon: SiX,
-      },
-      {
-        title: "Instagram",
-        url: "https://instagram.com/sgcarstrends",
-        icon: SiInstagram,
-      },
-      {
-        title: "LinkedIn",
-        url: "https://linkedin.com/company/sgcarstrends",
-        icon: SiLinkedin,
-      },
-      {
-        title: "GitHub",
-        url: "https://github.com/sgcarstrends",
-        icon: SiGithub,
-      },
-    ],
-    { sortKey: "title" },
-  ),
 };
