@@ -11,11 +11,11 @@ const PrivacyPage = () => (
     </header>
 
     <section>
-      <h2>Privacy? We've Got You Covered</h2>
+      <h2>Privacy? We&apos;ve Got You Covered</h2>
       <p>
         We care about your privacy. This policy explains how we collect and use
-        your information when you visit SGCarsTrends. We'll keep it simple and
-        straightforward.
+        your information when you visit SGCarsTrends. We&apos;ll keep it simple
+        and straightforward.
       </p>
     </section>
 
@@ -28,7 +28,7 @@ const PrivacyPage = () => (
       </p>
       <ul>
         <li>Your IP address and general location</li>
-        <li>What browser you're using</li>
+        <li>What browser you&apos;re using</li>
         <li>Your operating system</li>
         <li>Which pages you visit and how long you stay</li>
         <li>What website sent you to us</li>
@@ -72,9 +72,9 @@ const PrivacyPage = () => (
     <section>
       <h2>Third-Party Services</h2>
       <p>
-        Our website might link to other sites, but we're not responsible for
-        their privacy practices. Make sure to check their privacy policies if
-        you visit them.
+        Our website might link to other sites, but we&apos;re not responsible
+        for their privacy practices. Make sure to check their privacy policies
+        if you visit them.
       </p>
       <p>
         We use some third-party services for analytics and website features.
@@ -101,8 +101,8 @@ const PrivacyPage = () => (
     <section>
       <h2>Changes to This Policy</h2>
       <p>
-        We might update this privacy policy occasionally. When we do, we'll post
-        the changes here and update the "last updated" date.
+        We might update this privacy policy occasionally. When we do, we&apos;ll
+        post the changes here and update the &quot;last updated&quot; date.
       </p>
     </section>
 
@@ -110,8 +110,8 @@ const PrivacyPage = () => (
       <h2>Questions?</h2>
       <p>
         If you have any questions about this privacy policy, feel free to reach
-        out to us on social media or through our GitHub repository. We'll get
-        back to you as soon as we can.
+        out to us on social media or through our GitHub repository. We&apos;ll
+        get back to you as soon as we can.
       </p>
     </section>
   </article>

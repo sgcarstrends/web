@@ -33,19 +33,20 @@ const TermsPage = () => (
       <p>
         We get our data from the LTA DataMall and other official government
         sources. While we do our best to keep everything accurate and current,
-        we can't guarantee that every single piece of information is perfect.
+        we can&apos;t guarantee that every single piece of information is
+        perfect.
       </p>
       <p>
-        If you're making important decisions, please double-check with official
-        sources first.
+        If you&apos;re making important decisions, please double-check with
+        official sources first.
       </p>
     </section>
 
     <section>
-      <h2>What You Can (and Can't) Do</h2>
+      <h2>What You Can (and Can&apos;t) Do</h2>
       <p>
         You can use our website for personal, non-commercial purposes. However,
-        please don't:
+        please don&apos;t:
       </p>
       <ul>
         <li>Copy or modify our content</li>
@@ -58,9 +59,9 @@ const TermsPage = () => (
     <section>
       <h2>Liability Limits</h2>
       <p>
-        We won't be responsible for any damages that might arise from using (or
-        not being able to use) our website. This includes things like lost data,
-        business interruption, or any other issues.
+        We won&apos;t be responsible for any damages that might arise from using
+        (or not being able to use) our website. This includes things like lost
+        data, business interruption, or any other issues.
       </p>
     </section>
 
@@ -75,9 +76,9 @@ const TermsPage = () => (
     <section>
       <h2>Changes to These Terms</h2>
       <p>
-        We might update these terms from time to time. When we do, we'll post
-        the changes here. If you keep using the website after we make changes,
-        that means you're okay with the new terms.
+        We might update these terms from time to time. When we do, we&apos;ll
+        post the changes here. If you keep using the website after we make
+        changes, that means you&apos;re okay with the new terms.
       </p>
     </section>
 
