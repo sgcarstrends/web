@@ -8,8 +8,8 @@
     "build": "next build --turbopack",
     "lint": "next lint",
     "start": "next start",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "test": "vitest",
+    "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
@@ -22,6 +22,8 @@
     "tag-release": "changeset tag"
   },
   "dependencies": {
+    "@heroui/navbar": "^2.2.20",
+    "@heroui/react": "2.8.0-beta.15",
     "@icons-pack/react-simple-icons": "^10.2.0",
     "@neondatabase/serverless": "^0.9.4",
     "@next/third-parties": "^15.0.4",
