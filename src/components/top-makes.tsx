@@ -1,16 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import {
+  Progress,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+} from "@heroui/react";
 import slugify from "@sindresorhus/slugify";
 import { Battery, Droplet, Fuel, type LucideIcon, Zap } from "lucide-react";
-import { AnimatedNumber } from "@/components/animated-number";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import type { Car } from "@/types";
 import type { FuelType } from "@/types/cars";
 
 // interface Category {
@@ -24,7 +23,7 @@ import type { FuelType } from "@/types/cars";
 interface Props {
   data: FuelType[];
 }
- 
+
 // TODO: Keeping this for now
 // const CATEGORIES: Category[] = [
 //   {
@@ -72,29 +71,27 @@ export const TopMakes = ({ data }: Props) => {
         return (
           <Card key={fuelType}>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                {/*<Icon className={`size-6 ${colour}`} />*/}
-                {fuelType}
-              </CardTitle>
-              {/*<CardDescription>{description}</CardDescription>*/}
+              <h4 className="text-large font-bold">{fuelType}</h4>
             </CardHeader>
-            <CardContent>
+            <CardBody>
               {makes.map(({ make, count }) => (
-                <div
-                  key={make}
-                  className="grid grid-cols-2 border-b py-2 last:border-none"
-                >
-                  <span>{make.toUpperCase()}</span>
-                  <div className="flex items-center gap-2">
-                    <AnimatedNumber value={count} />
-                    <progress
-                      className="progress text-primary"
-                      value={count / total}
-                    />
-                  </div>
+                <div key={make} className="py-2">
+                  <Progress
+                    className="max-w-md"
+                    color="primary"
+                    formatOptions={{
+                      style: "decimal",
+                      maximumFractionDigits: 0,
+                    }}
+                    label={make.toUpperCase()}
+                    maxValue={total}
+                    showValueLabel={true}
+                    size="sm"
+                    value={count}
+                  />
                 </div>
               ))}
-            </CardContent>
+            </CardBody>
             <CardFooter>
               <Link href={href} className="underline">
                 View More
