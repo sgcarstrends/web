@@ -1,5 +1,4 @@
-import { renderHook } from "@testing-library/react";
-import { toast } from "sonner";
+import { render, screen } from "@testing-library/react";
 import {
   afterAll,
   beforeAll,
@@ -11,10 +10,6 @@ import {
 } from "vitest";
 import useStore from "@/app/store";
 import { NotificationPrompt } from "./notification-prompt";
-
-vi.mock("sonner", () => ({
-  toast: vi.fn(),
-}));
 
 vi.mock("@/app/store", () => ({
   default: vi.fn(() => ({
@@ -52,41 +47,37 @@ describe("NotificationPrompt Component", () => {
       setNotificationStatus,
     });
 
-    renderHook(() => NotificationPrompt());
+    render(<NotificationPrompt />);
 
     expect(setNotificationStatus).toHaveBeenCalledWith("default");
   });
 
-  it("should display a toast when notificationStatus is 'default'", () => {
+  it("should display an alert when notificationStatus is 'default'", () => {
     const setNotificationStatus = vi.fn();
     mockUseStore.mockReturnValue({
       notificationStatus: "default",
       setNotificationStatus,
     });
 
-    renderHook(() => NotificationPrompt());
+    render(<NotificationPrompt />);
 
-    expect(toast).toHaveBeenCalledWith(
-      "Enable Notifications?",
-      expect.objectContaining({
-        duration: Infinity,
-        description:
-          "Stay updated with the latest news and alerts by enabling browser notifications",
-        action: expect.any(Object),
-        cancel: expect.any(Object),
-      }),
-    );
+    expect(screen.getByText("Enable Notifications?")).toBeInTheDocument();
+    expect(screen.getByText(
+      "Stay updated with the latest news and alerts by enabling browser notifications"
+    )).toBeInTheDocument();
+    expect(screen.getByText("Allow")).toBeInTheDocument();
+    expect(screen.getByText("Deny")).toBeInTheDocument();
   });
 
-  it("should do nothing if notificationStatus is not 'default' (e.g., granted/denied)", () => {
+  it("should not display anything if notificationStatus is not 'default' (e.g., granted/denied)", () => {
     const setNotificationStatus = vi.fn();
     mockUseStore.mockReturnValue({
       notificationStatus: "granted",
       setNotificationStatus,
     });
 
-    renderHook(() => NotificationPrompt());
+    const { container } = render(<NotificationPrompt />);
 
-    expect(toast).not.toHaveBeenCalled();
+    expect(container.firstChild).toBeNull();
   });
 });

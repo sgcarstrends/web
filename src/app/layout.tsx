@@ -9,7 +9,6 @@ import { Analytics } from "@/components/analytics";
 import { Announcement } from "@/components/announcement";
 import { Header } from "@/components/header";
 import { NotificationPrompt } from "@/components/notification-prompt";
-import { Toaster } from "@/components/ui/sonner";
 import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
 import "./globals.css";
 import type { Metadata } from "next";
@@ -60,7 +59,6 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
             <Header />
             <main className="container mx-auto px-4 py-8">{children}</main>
           </NuqsAdapter>
-          <Toaster theme="light" position="top-right" closeButton richColors />
           {/*<Footer />*/}
           {process.env.NODE_ENV === "production" && <Analytics />}
         </Providers>

@@ -61,7 +61,6 @@
     "react-dom": "19.0.0",
     "recharts": "^2.15.1",
     "schema-dts": "^1.1.2",
-    "sonner": "^2.0.1",
     "sst": "^3.14.12",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
