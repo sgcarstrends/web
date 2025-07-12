@@ -7,6 +7,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Providers } from "@/app/providers";
 import { Analytics } from "@/components/analytics";
 import { Announcement } from "@/components/announcement";
+import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { NotificationPrompt } from "@/components/notification-prompt";
 import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
@@ -58,8 +59,8 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
           <NuqsAdapter>
             <Header />
             <main className="container mx-auto px-4 py-8">{children}</main>
+            <Footer />
           </NuqsAdapter>
-          {/*<Footer />*/}
           {process.env.NODE_ENV === "production" && <Analytics />}
         </Providers>
       </body>
