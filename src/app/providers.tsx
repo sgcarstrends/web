@@ -6,7 +6,7 @@ import { HeroUIProvider, ToastProvider } from "@heroui/react";
 export const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <HeroUIProvider>
-      <ToastProvider 
+      <ToastProvider
         placement="top-right"
         toastProps={{
           timeout: 6000,
