@@ -123,13 +123,13 @@ export const Footer = () => (
 
         <div className="flex gap-4 text-sm">
           <Link
-            href="/privacy"
+            href="/legal/privacy-policy"
             className="text-default-600 hover:text-primary transition-colors"
           >
             Privacy Policy
           </Link>
           <Link
-            href="/terms"
+            href="/legal/terms-of-service"
             className="text-default-600 hover:text-primary transition-colors"
           >
             Terms of Service

@@ -28,6 +28,16 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
     })),
+    {
+      url: `${SITE_URL}/legal/privacy-policy`,
+      lastModified: new Date(),
+      changeFrequency: "yearly" as const,
+    },
+    {
+      url: `${SITE_URL}/legal/terms-of-service`,
+      lastModified: new Date(),
+      changeFrequency: "yearly" as const,
+    },
   ];
 };
 
