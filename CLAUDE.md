@@ -114,3 +114,7 @@ The codebase uses HeroUI as the primary component library:
 ## Excluded Areas
 
 - `components/ui/**` - shadcn/ui code (avoid enhancing, prefer replacing during refactors)
+
+## Development Guidelines
+
+- DO NOT build the project after making changes
