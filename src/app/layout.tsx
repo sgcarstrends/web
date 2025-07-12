@@ -7,7 +7,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Providers } from "@/app/providers";
 import { Analytics } from "@/components/analytics";
 import { Announcement } from "@/components/announcement";
-import { Header } from "@/components/navbar";
+import { Header } from "@/components/header";
 import { NotificationPrompt } from "@/components/notification-prompt";
 import { Toaster } from "@/components/ui/sonner";
 import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
