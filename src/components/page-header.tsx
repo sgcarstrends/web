@@ -8,6 +8,7 @@ import type { Month } from "@/types";
 interface Props {
   title: string;
   subtitle?: string;
+  description?: string;
   children?: ReactNode;
   className?: string;
   lastUpdated?: number | null;
@@ -18,6 +19,7 @@ interface Props {
 export const PageHeader = ({
   title,
   subtitle,
+  description,
   children,
   className,
   lastUpdated,

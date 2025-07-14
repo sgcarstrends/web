@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/card";
 import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
+import { generateDatasetSchema } from "@/lib/structured-data";
 import { type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetch-api";
 import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
@@ -135,6 +136,9 @@ const CarsPage = async ({ searchParams }: Props) => {
   return (
     <>
       <StructuredData data={structuredData} />
+      <StructuredData
+        data={{ "@context": "https://schema.org", ...generateDatasetSchema() }}
+      />
       <div className="flex flex-col gap-4">
         <PageHeader
           title="Car Registrations"
