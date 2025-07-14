@@ -1,5 +1,21 @@
 # @sgcarstrends/web
 
+## 2.8.0
+
+### Minor Changes
+
+- [`8cc1b47`](https://github.com/sgcarstrends/web/commit/8cc1b4715f7cc3289232472ef68a86a40c5f3c19) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Setup up pages relevant for writing blog posts
+
+- [#278](https://github.com/sgcarstrends/web/pull/278) [`39d8329`](https://github.com/sgcarstrends/web/commit/39d8329150038a34ff27396329c94ddafc8ae20f) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Add additional COE pages to show more stats and trends
+
+- [#274](https://github.com/sgcarstrends/web/pull/274) [`c68df19`](https://github.com/sgcarstrends/web/commit/c68df193fb24db6cb133dc4da3e4dbc3d9891437) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Add Visitors' page to showcase site traffic
+
+### Patch Changes
+
+- [#264](https://github.com/sgcarstrends/web/pull/264) [`7e5dae1`](https://github.com/sgcarstrends/web/commit/7e5dae1c01a6e789b6fd83fa4da56c8d6abb0ca2) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Update GitHub Actions workflows
+
+- [#267](https://github.com/sgcarstrends/web/pull/267) [`8e441c7`](https://github.com/sgcarstrends/web/commit/8e441c710c977ca26f05e28c485faaf38a58b3e9) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Fix accessibility issue with CategoryInfo component
+
 ## 2.7.0
 
 ### Minor Changes
