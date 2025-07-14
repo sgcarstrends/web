@@ -1,22 +1,57 @@
 "use client";
 
-import { Card, CardBody, Tabs, Tab } from "@heroui/react";
-import { AnimatedNumber } from "@/components/animated-number";
-import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
+import { Suspense } from "react";
 
-interface TypeItem {
-  name: string;
-  count: number;
-}
+import { Tab, Tabs } from "@heroui/react";
+import {
+  createInsightData,
+  defaultIcons,
+  InsightCards,
+  MarketShareDonut,
+  TopPerformersBar,
+} from "@/components/charts";
+import { formatPercentage } from "@/utils/chart-formatters";
+import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
+import type { TypeItem } from "@/types";
+import type { MarketShareResponse } from "@/utils/api/cars-market-share";
+import type { TopPerformersData } from "@/utils/api/cars-top-performers";
 
 interface Props {
   types: TypeItem[];
   month: string;
   category: string;
   title: string;
+  topPerformers: TopPerformersData;
+  marketShare: MarketShareResponse;
+  totalRegistrations: number;
 }
 
-export const CategoryTypesTabsView = ({ types, month, title }: Props) => {
+export const CategoryTypesTabsView = ({
+  types,
+  month,
+  title,
+  topPerformers,
+  marketShare,
+  totalRegistrations,
+}: Props) => {
+  const overviewInsights = [
+    createInsightData("Total Registrations", totalRegistrations, {
+      icon: defaultIcons.barChart,
+      colour: "blue",
+      subtitle: `${formatDateToMonthYear(month)}`,
+    }),
+    createInsightData("Categories", types.length, {
+      icon: defaultIcons.pieChart,
+      colour: "emerald",
+      subtitle: `Active ${title.toLowerCase()} categories`,
+    }),
+    createInsightData("Top Performer", marketShare.dominantType.name, {
+      icon: defaultIcons.award,
+      colour: "amber",
+      subtitle: `${formatPercentage(marketShare.dominantType.percentage)} market share`,
+    }),
+  ];
+
   return (
     <div className="w-full">
       <Tabs
@@ -24,52 +59,80 @@ export const CategoryTypesTabsView = ({ types, month, title }: Props) => {
         variant="underlined"
         className="w-full"
       >
+        <Tab key="overview" title="Overview">
+          <div className="space-y-6 py-4">
+            <InsightCards insights={overviewInsights} />
+
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <Suspense
+                fallback={
+                  <div className="h-80 animate-pulse rounded-lg bg-gray-100" />
+                }
+              >
+                <MarketShareDonut
+                  data={marketShare.data}
+                  title={`${title} Market Share`}
+                  subtitle={`Distribution for ${formatDateToMonthYear(month)}`}
+                />
+              </Suspense>
+
+              <Suspense
+                fallback={
+                  <div className="h-80 animate-pulse rounded-lg bg-gray-100" />
+                }
+              >
+                <TopPerformersBar
+                  data={
+                    marketShare.category === "fuelType"
+                      ? topPerformers.topFuelTypes
+                      : topPerformers.topVehicleTypes
+                  }
+                  title={`Top ${title}s`}
+                  subtitle="Most popular categories"
+                  maxItems={5}
+                />
+              </Suspense>
+            </div>
+          </div>
+        </Tab>
+
         {types.map((type) => {
-          const TypeTabContent = () => {
-            return (
-              <div className="space-y-4 py-4">
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  <Card>
-                    <CardBody className="text-center">
-                      <div className="text-2xl font-bold text-blue-600">
-                        <AnimatedNumber value={type.count} />
-                      </div>
-                      <p className="text-sm text-gray-600">
-                        Total Registrations
-                      </p>
-                    </CardBody>
-                  </Card>
+          const typeInsights = [
+            createInsightData("Registrations", type.count, {
+              icon: defaultIcons.barChart,
+              colour: "blue",
+              subtitle: `${formatDateToMonthYear(month)}`,
+            }),
+            createInsightData(
+              "Market Share",
+              formatPercentage((type.count / totalRegistrations) * 100),
+              {
+                icon: defaultIcons.pieChart,
+                colour: "emerald",
+                subtitle: `Of total ${title.toLowerCase()} registrations`,
+              },
+            ),
+            createInsightData(
+              "Rank",
+              `#${types.findIndex((t) => t.name === type.name) + 1}`,
+              {
+                icon: defaultIcons.award,
+                colour: "amber",
+                subtitle: `Among ${types.length} ${title.toLowerCase()}s`,
+              },
+            ),
+          ];
 
-                  <Card>
-                    <CardBody className="text-center">
-                      <div className="text-2xl font-bold text-green-600">
-                        {type.name}
-                      </div>
-                      <p className="text-sm text-gray-600">{title}</p>
-                    </CardBody>
-                  </Card>
-
-                  <Card>
-                    <CardBody className="text-center">
-                      <div className="text-2xl font-bold text-purple-600">
-                        {formatDateToMonthYear(month)}
-                      </div>
-                      <p className="text-sm text-gray-600">Period</p>
-                    </CardBody>
-                  </Card>
-                </div>
+          return (
+            <Tab key={type.name} title={type.name}>
+              <div className="space-y-6 py-4">
+                <InsightCards insights={typeInsights} />
 
                 <div className="text-center text-sm text-gray-500">
                   Detailed statistics for {type.name} {title.toLowerCase()} in{" "}
                   {formatDateToMonthYear(month)}
                 </div>
               </div>
-            );
-          };
-
-          return (
-            <Tab key={type.name} title={type.name}>
-              <TypeTabContent />
             </Tab>
           );
         })}

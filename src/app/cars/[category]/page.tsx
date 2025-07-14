@@ -3,10 +3,13 @@ import { PageHeader } from "@/components/page-header";
 import { StructuredData } from "@/components/structured-data";
 import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
+import { fetchMarketShare } from "@/utils/api/cars-market-share";
+import { fetchTopPerformers } from "@/utils/api/cars-top-performers";
 import { fetchApi } from "@/utils/fetch-api";
 import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@/utils/month-utils";
 import { CategoryTypesTabsView } from "./category-tabs";
+import type { CategoryData } from "@/types";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -14,11 +17,6 @@ import type { WebPage, WithContext } from "schema-dts";
 interface Props {
   params: Promise<{ category: string }>;
   searchParams: Promise<SearchParams>;
-}
-
-interface TypeItem {
-  name: string;
-  count: number;
 }
 
 interface CategoryConfig {
@@ -116,17 +114,14 @@ const CategoryPage = async ({ params, searchParams }: Props) => {
   let { month } = await loadSearchParams(searchParams);
   month = await getMonthOrLatest(month, "cars");
 
-  const getCars = fetchApi<{
-    month: string;
-    total: number;
-    fuelType: TypeItem[];
-    vehicleType: TypeItem[];
-  }>(`${API_URL}/cars?month=${month}`);
+  const getCars = fetchApi<CategoryData>(`${API_URL}/cars?month=${month}`);
+  const months = await fetchMonthsForCars();
 
-  const [lastUpdated, months, cars] = await Promise.all([
+  const [lastUpdated, cars, topPerformers, marketShare] = await Promise.all([
     redis.get<number>(LAST_UPDATED_CARS_KEY),
-    fetchMonthsForCars(),
     getCars,
+    fetchTopPerformers(month),
+    fetchMarketShare(month, config.apiDataField),
   ]);
 
   const categoryData = cars?.[config.apiDataField] || [];
@@ -165,6 +160,9 @@ const CategoryPage = async ({ params, searchParams }: Props) => {
             month={month}
             category={config.apiEndpoint}
             title={config.tabTitle}
+            topPerformers={topPerformers}
+            marketShare={marketShare}
+            totalRegistrations={cars.total}
           />
         ) : (
           <div className="py-8 text-center">

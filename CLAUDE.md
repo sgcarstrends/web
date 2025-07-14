@@ -59,11 +59,13 @@ Singapore car market analytics:
 - RESTful API endpoints in `src/app/api/`
 - Upstash Redis for caching with Next.js revalidation tags
 
-#### Data Visualization
+#### Data Visualisation
 
-- Recharts for interactive charts
-- D3.js for data manipulation
-- Responsive design with mobile-first approach
+- **Chart Types**: AreaChart, BarChart, DonutChart, LineChart for analytics
+- **Responsive design** with mobile-first approach
+- **Custom tooltips** and interactive features for enhanced UX
+- **Performance**: Use dynamic imports for chart components to reduce bundle size
+- **Migration**: Gradually migrate existing Recharts components to Tremor equivalents
 
 ## Code Style
 
@@ -84,8 +86,10 @@ Singapore car market analytics:
 - E2E tests: Playwright (Chromium only)
 - Test files excluded from Vitest: `tests/` directory (reserved for E2E)
 - Setup file: `setup-tests.ts`
-- **Focus on basic functionality testing only** - test core component behaviour, prop handling, and essential user interactions rather than comprehensive edge cases
-- **Write tests to increase code coverage** - prioritise coverage of untested components and utilities, but keep tests simple and focused on core functionality
+- **Focus on basic functionality testing only** - test core component behaviour, prop handling, and essential user
+  interactions rather than comprehensive edge cases
+- **Write tests to increase code coverage** - prioritise coverage of untested components and utilities, but keep tests
+  simple and focused on core functionality
 
 ## Database
 
@@ -105,9 +109,9 @@ The codebase uses HeroUI as the primary component library:
 
 - **New Features**: Use HeroUI components with TypeScript-first approach
 - **Component Selection**: Leverage HeroUI's professional design system for analytics interfaces
-- **Data Visualization**: Utilize HeroUI's advanced table and chart components for market data
-- **Customization**: Apply HeroUI's theming system to match Singapore car market branding
-- **Performance**: Take advantage of HeroUI's tree-shakeable, optimized components
+- **Data Visualisation**: Utilise HeroUI's advanced table and chart components for market data
+- **Customisation**: Apply HeroUI's theming system to match Singapore car market branding
+- **Performance**: Take advantage of HeroUI's tree-shakeable, optimised components
 - **Legacy Code**: Gradually migrate existing shadcn/ui components to HeroUI equivalents
 - **DaisyUI Removal**: Remove DaisyUI dependency once HeroUI migration is completed
 

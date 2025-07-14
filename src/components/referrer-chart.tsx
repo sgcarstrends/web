@@ -45,7 +45,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const COLORS = [
+const COLOURS = [
   "hsl(var(--chart-1))",
   "hsl(var(--chart-2))",
   "hsl(var(--chart-3))",
@@ -58,22 +58,25 @@ export const ReferrerChart = ({ data, totalViews }: Props) => {
   const directViews = totalViews - referrerTotal;
 
   const formattedData = [
-    ...(directViews > 0 ? [{ name: "Direct", count: directViews, fill: COLORS[0] }] : []),
+    ...(directViews > 0
+      ? [{ name: "Direct", count: directViews, fill: COLOURS[0] }]
+      : []),
     ...data.slice(0, 4).map((item, index) => {
       let name = item.referrer;
-      
+
       // Simplify common referrers
-      if (name.includes('google.com')) name = 'Google';
-      else if (name.includes('facebook.com')) name = 'Facebook';
-      else if (name.includes('twitter.com') || name.includes('x.com')) name = 'X (Twitter)';
-      else if (name.includes('linkedin.com')) name = 'LinkedIn';
-      else if (name.includes('youtube.com')) name = 'YouTube';
+      if (name.includes("google.com")) name = "Google";
+      else if (name.includes("facebook.com")) name = "Facebook";
+      else if (name.includes("twitter.com") || name.includes("x.com"))
+        name = "X (Twitter)";
+      else if (name.includes("linkedin.com")) name = "LinkedIn";
+      else if (name.includes("youtube.com")) name = "YouTube";
       else if (name.length > 20) name = `${name.substring(0, 20)}...`;
 
       return {
         name,
         count: item.count,
-        fill: COLORS[(directViews > 0 ? 1 : 0) + index] || COLORS[4],
+        fill: COLOURS[(directViews > 0 ? 1 : 0) + index] || COLOURS[4],
       };
     }),
   ];
@@ -83,11 +86,9 @@ export const ReferrerChart = ({ data, totalViews }: Props) => {
       <Card>
         <CardHeader>
           <CardTitle>Traffic Sources</CardTitle>
-          <CardDescription>
-            Distribution of referrer sources
-          </CardDescription>
+          <CardDescription>Distribution of referrer sources</CardDescription>
         </CardHeader>
-        <CardContent className="flex items-center justify-center h-[300px]">
+        <CardContent className="flex h-[300px] items-center justify-center">
           <p className="text-muted-foreground">No referrer data available</p>
         </CardContent>
       </Card>
@@ -98,9 +99,7 @@ export const ReferrerChart = ({ data, totalViews }: Props) => {
     <Card>
       <CardHeader>
         <CardTitle>Traffic Sources</CardTitle>
-        <CardDescription>
-          Distribution of referrer sources
-        </CardDescription>
+        <CardDescription>Distribution of referrer sources</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
@@ -110,7 +109,9 @@ export const ReferrerChart = ({ data, totalViews }: Props) => {
               cx="50%"
               cy="50%"
               labelLine={false}
-              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+              label={({ name, percent }) =>
+                `${name} ${(percent * 100).toFixed(0)}%`
+              }
               outerRadius={80}
               fill="#8884d8"
               dataKey="count"
@@ -122,10 +123,7 @@ export const ReferrerChart = ({ data, totalViews }: Props) => {
             <ChartTooltip
               content={
                 <ChartTooltipContent
-                  formatter={(value, name) => [
-                    `${value} visitors`,
-                    name
-                  ]}
+                  formatter={(value, name) => [`${value} visitors`, name]}
                 />
               }
             />

@@ -98,3 +98,29 @@ export interface LinkItem {
 }
 
 export * from "./blog";
+
+export interface TypeItem {
+  name: string;
+  count: number;
+}
+
+export interface CategoryData {
+  month: string;
+  total: number;
+  fuelType: TypeItem[];
+  vehicleType: TypeItem[];
+}
+
+export interface TrendPoint {
+  month: string;
+  total: number;
+  [key: string]: number | string;
+}
+
+export interface MarketInsight {
+  title: string;
+  value: string | number;
+  delta?: number;
+  deltaType?: "increase" | "decrease" | "unchanged";
+  description?: string;
+}
