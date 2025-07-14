@@ -28,6 +28,11 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
     },
+    {
+      url: `${SITE_URL}/faq`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    },
     ...SITE_LINKS.map((link) => ({
       url: `${SITE_URL}${link.href}`,
       lastModified: new Date(),
