@@ -64,6 +64,10 @@ export const Header = (props: NavbarProps) => {
               key={navLinks.cars.overview.title}
               href={navLinks.cars.overview.url}
               className="text-foreground hover:text-primary"
+              startContent={
+                <navLinks.cars.overview.icon className="size-6 text-blue-500" />
+              }
+              description={navLinks.cars.overview.description}
             >
               {navLinks.cars.overview.title}
             </DropdownItem>
@@ -71,6 +75,10 @@ export const Header = (props: NavbarProps) => {
               key={navLinks.cars.fuelTypes.title}
               href={navLinks.cars.fuelTypes.url}
               className="text-foreground hover:text-primary"
+              startContent={
+                <navLinks.cars.fuelTypes.icon className="size-6 text-green-500" />
+              }
+              description={navLinks.cars.fuelTypes.description}
             >
               {navLinks.cars.fuelTypes.title}
             </DropdownItem>
@@ -78,6 +86,10 @@ export const Header = (props: NavbarProps) => {
               key={navLinks.cars.vehicleTypes.title}
               href={navLinks.cars.vehicleTypes.url}
               className="text-foreground hover:text-primary"
+              startContent={
+                <navLinks.cars.vehicleTypes.icon className="size-6 text-purple-500" />
+              }
+              description={navLinks.cars.vehicleTypes.description}
             >
               {navLinks.cars.vehicleTypes.title}
             </DropdownItem>
@@ -103,15 +115,30 @@ export const Header = (props: NavbarProps) => {
               base: "gap-4",
             }}
           >
-            {navLinks.coe.map((item) => (
-              <DropdownItem
-                key={item.title}
-                href={item.url}
-                className="text-foreground hover:text-primary"
-              >
-                {item.title}
-              </DropdownItem>
-            ))}
+            {navLinks.coe.map((item, index) => {
+              const colors = [
+                "text-orange-500",
+                "text-red-500",
+                "text-indigo-500",
+                "text-amber-500",
+                "text-teal-500",
+              ];
+              return (
+                <DropdownItem
+                  key={item.title}
+                  href={item.url}
+                  className="text-foreground hover:text-primary"
+                  startContent={
+                    <item.icon
+                      className={`size-6 ${colors[index % colors.length]}`}
+                    />
+                  }
+                  description={item.description}
+                >
+                  {item.title}
+                </DropdownItem>
+              );
+            })}
           </DropdownMenu>
         </Dropdown>
         <UnreleasedFeature>

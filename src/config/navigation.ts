@@ -5,11 +5,24 @@ import {
   SiLinkedin,
   SiX,
 } from "@icons-pack/react-simple-icons";
+import {
+  BarChart3,
+  Calculator,
+  Car,
+  Clock,
+  FilePlus,
+  FileText,
+  Fuel,
+  Gavel,
+  TrendingUp,
+} from "lucide-react";
 import { sortByName } from "@/utils/sorting";
 
 export interface NavigationItem {
   title: string;
   url: string;
+  icon: ComponentType<{ className?: string }>;
+  description: string;
 }
 
 export interface SocialMediaItem {
@@ -57,46 +70,66 @@ export const navLinks: NavLinks = {
     overview: {
       title: "New Registrations",
       url: "/cars",
+      icon: FilePlus,
+      description: "Monthly car registration statistics and trends",
     },
     fuelTypes: {
       title: "Fuel Types",
       url: "/cars/fuel-types",
+      icon: Fuel,
+      description: "Breakdown by petrol, diesel, hybrid and electric",
     },
     vehicleTypes: {
       title: "Vehicle Types",
       url: "/cars/vehicle-types",
+      icon: Car,
+      description: "Analysis of saloons, hatchbacks, SUVs and more",
     },
   },
   coe: [
     {
       title: "Overview",
       url: "/coe",
+      icon: BarChart3,
+      description: "Current COE premiums and market overview",
     },
     {
       title: "Historical Results",
       url: "/coe/results",
+      icon: Clock,
+      description: "Past bidding rounds and premium history",
     },
     {
       title: "Trends Analysis",
       url: "/coe/trends",
+      icon: TrendingUp,
+      description: "Market trends and price movement analysis",
     },
     {
       title: "Bidding Results",
       url: "/coe/bidding",
+      icon: Gavel,
+      description: "Latest bidding exercise outcomes",
     },
     {
       title: "PQP Rates",
       url: "/coe/pqp",
+      icon: Calculator,
+      description: "Prevailing quota premiums and calculations",
     },
   ],
   general: [
     {
       title: "Blog",
       url: "/blog",
+      icon: FileText,
+      description: "Insights and analysis on Singapore's car market",
     },
     {
       title: "Visitors",
       url: "/visitors",
+      icon: BarChart3,
+      description: "Website traffic and visitor analytics",
     },
   ],
   socialMedia: sortByName(socialMedia, { sortKey: "title" }),
