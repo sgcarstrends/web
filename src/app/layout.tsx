@@ -10,9 +10,7 @@ import { Announcement } from "@/components/announcement";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { NotificationPrompt } from "@/components/notification-prompt";
-import { StructuredData } from "@/components/structured-data";
 import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
-import { generateWebSiteSchema, generateLTAOrganizationSchema } from "@/lib/structured-data";
 import "./globals.css";
 import type { Metadata } from "next";
 
@@ -55,8 +53,6 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <html lang="en">
       <body className={classNames(inter.className)}>
-        <StructuredData data={{ "@context": "https://schema.org", ...generateWebSiteSchema() }} />
-        <StructuredData data={{ "@context": "https://schema.org", ...generateLTAOrganizationSchema() }} />
         <Providers>
           <NotificationPrompt />
           {ANNOUNCEMENT && <Announcement>{ANNOUNCEMENT}</Announcement>}

@@ -1,5 +1,5 @@
-import { SITE_TITLE, SITE_URL } from "@/config";
-import type { Dataset, FAQPage, Organization, WebSite } from "schema-dts";
+import { SITE_URL } from "@/config";
+import type { Dataset, FAQPage } from "schema-dts";
 
 /**
  * Generate Dataset schema for Singapore car registration data
@@ -61,73 +61,6 @@ export const generateDatasetSchema = (): Dataset => ({
     "Market share by manufacturer",
     "Fuel type distribution",
     "Vehicle category breakdown",
-  ],
-});
-
-/**
- * Generate Organization schema for Land Transport Authority
- */
-export const generateLTAOrganizationSchema = (): Organization => ({
-  "@type": "Organization",
-  name: "Land Transport Authority",
-  alternateName: "LTA",
-  url: "https://www.lta.gov.sg",
-  description:
-    "Singapore's statutory board responsible for planning, operating, and maintaining the land transport infrastructure and systems",
-  parentOrganization: {
-    "@type": "Organization",
-    name: "Government of Singapore",
-    url: "https://www.gov.sg",
-  },
-  areaServed: {
-    "@type": "Place",
-    name: "Singapore",
-  },
-  foundingDate: "1995-09-01",
-  contactPoint: {
-    "@type": "ContactPoint",
-    contactType: "customer service",
-    url: "https://www.lta.gov.sg/content/ltagov/en/contact_us.html",
-  },
-});
-
-/**
- * Generate WebSite schema with search functionality
- */
-export const generateWebSiteSchema = (): WebSite => ({
-  "@type": "WebSite",
-  name: SITE_TITLE,
-  url: SITE_URL,
-  description:
-    "Singapore's authoritative source for automotive market analytics, COE bidding results, and vehicle registration trends",
-  publisher: {
-    "@type": "Organization",
-    name: SITE_TITLE,
-    url: SITE_URL,
-  },
-  potentialAction: {
-    "@type": "SearchAction",
-    target: {
-      "@type": "EntryPoint",
-      urlTemplate: `${SITE_URL}/cars/makes/{search_term_string}`,
-    },
-  },
-  about: [
-    {
-      "@type": "Thing",
-      name: "Certificate of Entitlement",
-      description: "Singapore's vehicle quota system",
-    },
-    {
-      "@type": "Thing",
-      name: "Vehicle Registration Statistics",
-      description: "Monthly car registration data for Singapore",
-    },
-    {
-      "@type": "Thing",
-      name: "Automotive Market Analysis",
-      description: "Singapore car market trends and insights",
-    },
   ],
 });
 
