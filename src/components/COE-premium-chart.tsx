@@ -164,7 +164,10 @@ export const COEPremiumChart = ({ data, months }: Props) => {
       </CardHeader>
       <CardContent className="p-6">
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
-          <LineChart data={filteredData}>
+          <LineChart
+            data={filteredData}
+            aria-label={`COE premium trends chart showing ${TIME_RANGES.find((range) => range.timeRange === timeRange)?.label.toLowerCase()} data for selected categories`}
+          >
             <CartesianGrid />
             <XAxis
               dataKey="month"
@@ -232,6 +235,47 @@ export const COEPremiumChart = ({ data, months }: Props) => {
             <ChartLegend />
           </LineChart>
         </ChartContainer>
+        <div className="mt-4 space-y-3">
+          <div className="text-muted-foreground text-sm">
+            <h4 className="text-foreground mb-2 font-semibold">
+              Chart Description
+            </h4>
+            <p>
+              This chart displays Certificate of Entitlement (COE) premium
+              trends over{" "}
+              {TIME_RANGES.find(
+                (range) => range.timeRange === timeRange,
+              )?.label.toLowerCase()}
+              . COE premiums represent the cost of obtaining the right to own
+              and operate a vehicle in Singapore for 10 years. Higher premiums
+              typically indicate increased demand for vehicles or reduced quota
+              availability.
+            </p>
+          </div>
+          <div className="bg-muted/30 grid grid-cols-1 gap-3 rounded-lg p-3 sm:grid-cols-3">
+            <div className="text-center">
+              <div className="text-foreground text-lg font-semibold">
+                {filteredData.length > 0 ? filteredData.length : 0}
+              </div>
+              <div className="text-muted-foreground text-xs">Data Points</div>
+            </div>
+            <div className="text-center">
+              <div className="text-foreground text-lg font-semibold">
+                {Object.entries(categories).filter(([, value]) => value).length}
+              </div>
+              <div className="text-muted-foreground text-xs">Categories</div>
+            </div>
+            <div className="text-center">
+              <div className="text-foreground text-lg font-semibold">
+                {timeRange === "ALL"
+                  ? "All Time"
+                  : TIME_RANGES.find((range) => range.timeRange === timeRange)
+                      ?.label || "Custom"}
+              </div>
+              <div className="text-muted-foreground text-xs">Time Range</div>
+            </div>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
