@@ -119,6 +119,17 @@ The codebase uses HeroUI as the primary component library:
 
 - `components/ui/**` - shadcn/ui code (avoid enhancing, prefer replacing during refactors)
 
+## GitHub Operations
+
+- **Use GitHub CLI (`gh`) for all GitHub-related tasks**:
+  - Creating pull requests: `gh pr create`
+  - Viewing issues: `gh issue list`
+  - Managing repositories: `gh repo view`
+  - Working with releases: `gh release create`
+  - Authentication and configuration: `gh auth login`
+- Prefer `gh` commands over web interface interactions when possible
+- Use `gh` for automation and scripting GitHub workflows
+
 ## Development Guidelines
 
 - DO NOT build the project after making changes
