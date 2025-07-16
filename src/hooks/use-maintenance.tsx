@@ -9,7 +9,7 @@ const useMaintenance = (pollingInterval = 5000) => {
     const checkMaintenance = async () => {
       try {
         // TODO: Simulating this for now
-        const isMaintenanceMode = process.env.MAINTENANCE_MODE;
+        const isMaintenanceMode = process.env.MAINTENANCE_MODE === "true";
 
         if (!isMaintenanceMode) {
           const from = searchParams.get("from");
