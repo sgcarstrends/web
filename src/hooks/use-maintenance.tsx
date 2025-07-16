@@ -5,12 +5,12 @@ const useMaintenance = (pollingInterval = 5000) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // TODO: Simulating this for now
+  const isMaintenanceMode = process.env.MAINTENANCE_MODE === "true";
+
   useEffect(() => {
     const checkMaintenance = async () => {
       try {
-        // TODO: Simulating this for now
-        const isMaintenanceMode = process.env.MAINTENANCE_MODE === "true";
-
         if (!isMaintenanceMode) {
           const from = searchParams.get("from");
           if (from) {
@@ -24,12 +24,12 @@ const useMaintenance = (pollingInterval = 5000) => {
       }
     };
 
-    const interval = setInterval(checkMaintenance, pollingInterval);
+    const interval = setInterval(() => isMaintenanceMode, pollingInterval);
 
     void checkMaintenance();
 
     return () => clearInterval(interval);
-  }, [pollingInterval, router, searchParams]);
+  }, [isMaintenanceMode, pollingInterval, router, searchParams]);
 };
 
 export default useMaintenance;
