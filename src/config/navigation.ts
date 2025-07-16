@@ -14,6 +14,7 @@ import {
   FileText,
   Fuel,
   Gavel,
+  HelpCircle,
   TrendingUp,
 } from "lucide-react";
 import { sortByName } from "@/utils/sorting";
@@ -124,6 +125,12 @@ export const navLinks: NavLinks = {
       url: "/blog",
       icon: FileText,
       description: "Insights and analysis on Singapore's car market",
+    },
+    {
+      title: "FAQ",
+      url: "/faq",
+      icon: HelpCircle,
+      description: "Frequently asked questions about COE and car buying",
     },
     {
       title: "Visitors",
