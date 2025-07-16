@@ -29,6 +29,7 @@ export default $config({
         dns: sst.cloudflare.dns(),
       },
       environment: {
+        TZ: "Asia/Singapore",
         SG_CARS_TRENDS_API_TOKEN: process.env.SG_CARS_TRENDS_API_TOKEN!,
         DATABASE_URL: process.env.DATABASE_URL!,
         UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL!,
