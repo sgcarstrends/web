@@ -20,7 +20,7 @@ interface FAQSectionsProps {
 export const FAQSections = ({ sections }: FAQSectionsProps) => (
   <div className="flex flex-col gap-4">
     {sections.map(({ items, title }) => (
-      <>
+      <div key={title}>
         <Typography.H3>{title}</Typography.H3>
         <Accordion>
           {items.map(({ answer, question }) => (
@@ -29,7 +29,7 @@ export const FAQSections = ({ sections }: FAQSectionsProps) => (
             </AccordionItem>
           ))}
         </Accordion>
-      </>
+      </div>
     ))}
     <div>
       <Typography.H3>Still Have Questions?</Typography.H3>

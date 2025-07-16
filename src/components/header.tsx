@@ -141,6 +141,9 @@ export const Header = (props: NavbarProps) => {
             })}
           </DropdownMenu>
         </Dropdown>
+        <NavbarItem>
+          <Link href="/faq">FAQ</Link>
+        </NavbarItem>
         <UnreleasedFeature>
           <NavbarItem>
             <Link href="/blog">Blog</Link>
@@ -217,6 +220,9 @@ export const Header = (props: NavbarProps) => {
           </NavbarMenuItem>
         ))}
 
+        <NavbarMenuItem>
+          <Link href="/faq">FAQ</Link>
+        </NavbarMenuItem>
         <UnreleasedFeature>
           <NavbarMenuItem>
             <Link href="/blog">Blog</Link>
