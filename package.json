@@ -22,7 +22,6 @@
     "tag-release": "changeset tag"
   },
   "dependencies": {
-    "@heroui/navbar": "^2.2.20",
     "@heroui/react": "2.8.0-beta.15",
     "@icons-pack/react-simple-icons": "^10.2.0",
     "@neondatabase/serverless": "^0.9.4",
