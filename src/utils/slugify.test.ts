@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { deslugify, slugify } from "@/utils/slugify";
 
 describe("slugify", () => {

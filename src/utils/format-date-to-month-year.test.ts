@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
 
 describe("formatDateToMonthYear", () => {

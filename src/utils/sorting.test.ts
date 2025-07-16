@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { SortDirection, sortByName, sortByValue } from "@/utils/sorting";
 
 describe("SortDirection", () => {

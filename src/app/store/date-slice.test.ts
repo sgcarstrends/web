@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { create } from "zustand";
 import { createDateSlice, type DateState, type DateAction } from "./date-slice";
 

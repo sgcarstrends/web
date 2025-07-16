@@ -1,13 +1,4 @@
 import { render, screen } from "@testing-library/react";
-import {
-  afterAll,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from "vitest";
 import useStore from "@/app/store";
 import { NotificationPrompt } from "./notification-prompt";
 

@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { create } from "zustand";
 import { createCoeSlice, type COEState, type COEAction } from "./coe-slice";
 

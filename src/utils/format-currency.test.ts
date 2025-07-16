@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { formatCurrency } from "@/utils/format-currency";
 
 describe("formatCurrency", () => {

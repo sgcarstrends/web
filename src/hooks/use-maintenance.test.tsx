@@ -1,6 +1,5 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { renderHook } from "@testing-library/react";
-import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import useMaintenance from "./use-maintenance";
 
 // Mock Next.js navigation hooks

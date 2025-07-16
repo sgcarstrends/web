@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { formatOrdinal } from "@/utils/format-ordinal";
 
 describe("formatOrdinal", () => {

@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import dayjs from "dayjs";
-import { vi, describe, it, beforeAll, afterAll, expect } from "vitest";
 import { LastUpdated } from "./last-updated";
 
 const mockLastUpdated = 1735660800; // 1 Jan 2025, 00:00:00 GMT+8

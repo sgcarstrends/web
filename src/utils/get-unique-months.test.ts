@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { getUniqueMonths } from "@/utils/get-unique-months";
 
 describe("getUniqueMonths", () => {
