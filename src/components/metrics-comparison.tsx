@@ -1,6 +1,11 @@
 import { TrendingDown, TrendingUp } from "lucide-react";
 import { formatPercent } from "@/utils/format-percent";
 
+interface StatsCompareProps {
+  current: number;
+  previousMonth: number;
+}
+
 interface TrendIndicatorProps {
   change: number;
   label: string;
@@ -21,25 +26,16 @@ const TrendIndicator = ({ change, label }: TrendIndicatorProps) => (
     <span className="text-muted-foreground text-sm">{label}</span>
   </div>
 );
- 
-interface MetricsComparisonProps {
-  current: number;
-  previousMonth: number;
-  previousYear: number;
-}
 
 export const MetricsComparison = ({
   current,
   previousMonth,
-  previousYear,
-}: MetricsComparisonProps) => {
+}: StatsCompareProps) => {
   const monthChange = (current - previousMonth) / previousMonth;
-  const yearChange = (current - previousYear) / previousYear;
 
   return (
     <div className="flex flex-col gap-1">
       <TrendIndicator change={monthChange} label="vs. Last Month" />
-      <TrendIndicator change={yearChange} label="vs. Last Year" />
     </div>
   );
 };

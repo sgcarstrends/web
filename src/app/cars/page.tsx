@@ -19,7 +19,6 @@ import {
 import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
 import { generateDatasetSchema } from "@/lib/structured-data";
-import { type LatestMonth, RevalidateTags } from "@/types";
 import { fetchApi } from "@/utils/fetch-api";
 import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@/utils/month-utils";
@@ -170,7 +169,6 @@ const CarsPage = async ({ searchParams }: Props) => {
                   <MetricsComparison
                     current={cars.total}
                     previousMonth={comparison.previousMonth.total}
-                    previousYear={comparison.previousYear.total}
                   />
                 </CardFooter>
               </Card>
@@ -195,11 +193,6 @@ const CarsPage = async ({ searchParams }: Props) => {
                         (f) => f.label === topTypes.topFuelType.name,
                       )?.count ?? 0
                     }
-                    previousYear={
-                      comparison.previousYear.fuelType.find(
-                        (f) => f.label === topTypes.topFuelType.name,
-                      )?.count ?? 0
-                    }
                   />
                 </CardFooter>
               </Card>
@@ -221,11 +214,6 @@ const CarsPage = async ({ searchParams }: Props) => {
                     current={topTypes.topVehicleType.total}
                     previousMonth={
                       comparison.previousMonth.vehicleType.find(
-                        (v) => v.label === topTypes.topVehicleType.name,
-                      )?.count ?? 0
-                    }
-                    previousYear={
-                      comparison.previousYear.vehicleType.find(
                         (v) => v.label === topTypes.topVehicleType.name,
                       )?.count ?? 0
                     }
