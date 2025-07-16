@@ -4,6 +4,7 @@ import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import classNames from "classnames";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import LoadingIndicator from "@/app/loading-indicator";
 import { Providers } from "@/app/providers";
 import { Analytics } from "@/components/analytics";
 import { Announcement } from "@/components/announcement";
@@ -57,6 +58,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
           <NotificationPrompt />
           {ANNOUNCEMENT && <Announcement>{ANNOUNCEMENT}</Announcement>}
           <NuqsAdapter>
+            <LoadingIndicator />
             <Header />
             <main className="container mx-auto px-4 py-8">{children}</main>
             <Footer />
