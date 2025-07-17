@@ -127,3 +127,18 @@ The codebase uses HeroUI as the primary component library:
 - **Customisation**: Apply HeroUI's theming system to match Singapore car market branding
 - **Performance**: Take advantage of HeroUI's tree-shakeable, optimised components
 - **Legacy Code**: Gradually migrate existing shadcn/ui components to HeroUI equivalents
+
+## Documentation Reference
+
+When Claude needs to refer to library documentation, use the Context7 MCP server:
+
+1. **Resolve Library ID**: Use `mcp__context7__resolve-library-id` to find the correct library identifier
+2. **Fetch Documentation**: Use `mcp__context7__get-library-docs` with the resolved ID to get up-to-date documentation
+3. **Common Libraries**: For this project, frequently referenced libraries include:
+   - Next.js (`/vercel/next.js`)
+   - React (`/facebook/react`)
+   - Tailwind CSS (`/tailwindlabs/tailwindcss`)
+   - Drizzle ORM (`/drizzle-team/drizzle-orm`)
+   - Zustand (`/pmndrs/zustand`)
+   - Vitest (`/vitest-dev/vitest`)
+   - Playwright (`/microsoft/playwright`)
