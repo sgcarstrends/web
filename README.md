@@ -18,7 +18,7 @@ Certificate of Entitlement) bidding results, and market trends.
 - **Tailwind CSS v4** for styling
 - **Drizzle ORM** with PostgreSQL (Neon Database)
 - **Zustand** for state management
-- **shadcn/ui** + Radix UI components
+- **HeroUI** components with professional design system
 - **Vitest** for unit testing, **Playwright** for E2E testing
 - **SST** for AWS deployment
 
@@ -27,7 +27,7 @@ Certificate of Entitlement) bidding results, and market trends.
 ### Prerequisites
 
 - Node.js 18+
-- pnpm (recommended package manager)
+- pnpm 10.8.0+ (recommended package manager)
 
 ### Installation
 
@@ -58,24 +58,44 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
 
 ## Available Scripts
 
-- `pnpm build` - Build for production (uses Turbopack)
+### Development
 - `pnpm dev` - Start development server (uses Turbopack)
-- `pnpm lint` - Run ESLint
+- `pnpm build` - Build for production (uses Turbopack)
+- `pnpm start` - Start production server
+
+### Testing
+- `pnpm test` - Run unit tests with Vitest
+- `pnpm test:run` - Run tests once
 - `pnpm test:coverage` - Run unit tests with coverage
 - `pnpm test:e2e` - Run E2E tests with Playwright
 - `pnpm test:e2e:ui` - Run E2E tests with Playwright UI
+
+### Code Quality
+- `pnpm lint` - Run ESLint
+
+### Database
 - `pnpm migrate` - Run database migrations
+
+### Deployment
+- `pnpm deploy:dev` - Deploy to dev environment
+- `pnpm deploy:staging` - Deploy to staging environment
+- `pnpm deploy:prod` - Deploy to production environment
 
 ## Project Structure
 
 ```
 src/
-├── app/           # Next.js App Router pages and API routes
-├── components/    # React components
-├── config/        # Database and app configuration
-├── schema/        # Drizzle database schemas
-├── types/         # TypeScript type definitions
-└── utils/         # Utility functions
+├── app/               # Next.js App Router - pages, layouts, API routes
+│   ├── (home)/       # Home page route group
+│   ├── api/          # API routes (analytics, OG images, revalidation)
+│   ├── cars/         # Car-related pages with parallel routes
+│   ├── coe/          # COE (Certificate of Entitlement) pages
+│   └── store/        # Zustand store slices
+├── components/       # React components with tests
+├── config/          # App configuration (DB, Redis, navigation)
+├── schema/          # Drizzle database schemas
+├── types/           # TypeScript definitions
+└── utils/           # Utility functions with comprehensive tests
 ```
 
 ## Contributing
@@ -89,8 +109,13 @@ src/
 
 ## Deployment
 
-This application is deployed on AWS using SST with CloudFlare DNS. The deployment process is automated through the
-configured CI/CD pipeline.
+Multi-stage deployment via SST on AWS with CloudFlare DNS:
+
+- **dev**: [dev.sgcarstrends.com](https://dev.sgcarstrends.com)
+- **staging**: [staging.sgcarstrends.com](https://staging.sgcarstrends.com)
+- **prod**: [sgcarstrends.com](https://sgcarstrends.com)
+
+Infrastructure uses AWS Lambda with ARM64 architecture. The deployment process is automated through the configured CI/CD pipeline.
 
 ## Repo Activity
 
