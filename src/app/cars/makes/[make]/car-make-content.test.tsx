@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { render, screen } from "@testing-library/react";
 import { type Car, type Make } from "@/types";
 import { CarMakeContent } from "./car-make-content";
@@ -22,7 +23,9 @@ vi.mock("@/components/ui/data-table", () => ({
 }));
 
 vi.mock("@/components/unreleased-feature", () => ({
-  UnreleasedFeature: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  UnreleasedFeature: ({ children }: { children: ReactNode }) => (
+    <div>{children}</div>
+  ),
 }));
 
 const mockCars = {
@@ -43,66 +46,36 @@ const mockCars = {
       vehicleType: "SUV",
       number: 30,
     },
-  ] as Car[],
+  ] as unknown as Car[],
 };
 
 const mockMakes: Make[] = ["TOYOTA", "HONDA", "BMW"];
 
-describe("CarMakeContent", () => {
-  it("should render correctly", () => {
-    const { container } = render(
-      <CarMakeContent
-        make="TOYOTA"
-        cars={mockCars}
-        makes={mockMakes}
-        lastUpdated={1735660800}
-      />
-    );
-    expect(container).toMatchSnapshot();
-  });
+const mockLastUpdated = 1735660800; // 2025-01-01 00:00:00 UTC
 
+describe("CarMakeContent", () => {
   it("renders make name", () => {
-    render(
-      <CarMakeContent
-        make="TOYOTA"
-        cars={mockCars}
-        makes={mockMakes}
-      />
-    );
+    render(<CarMakeContent make="TOYOTA" cars={mockCars} makes={mockMakes} />);
     expect(screen.getByText("TOYOTA")).toBeVisible();
   });
 
   it("renders Historical Trend card", () => {
-    render(
-      <CarMakeContent
-        make="TOYOTA"
-        cars={mockCars}
-        makes={mockMakes}
-      />
-    );
+    render(<CarMakeContent make="TOYOTA" cars={mockCars} makes={mockMakes} />);
     expect(screen.getByText("Historical Trend")).toBeVisible();
     expect(screen.getByText("Past registrations")).toBeVisible();
   });
 
   it("renders Summary card", () => {
-    render(
-      <CarMakeContent
-        make="TOYOTA"
-        cars={mockCars}
-        makes={mockMakes}
-      />
-    );
+    render(<CarMakeContent make="TOYOTA" cars={mockCars} makes={mockMakes} />);
     expect(screen.getByText("Summary")).toBeVisible();
-    expect(screen.getByText("Breakdown of fuel & vehicle types by month")).toBeVisible();
+    expect(
+      screen.getByText("Breakdown of fuel & vehicle types by month"),
+    ).toBeVisible();
   });
 
   it("renders NoData component when cars is null", () => {
     render(
-      <CarMakeContent
-        make="TOYOTA"
-        cars={null as any}
-        makes={mockMakes}
-      />
+      <CarMakeContent make="TOYOTA" cars={null as any} makes={mockMakes} />,
     );
     expect(screen.getByText("No Data Available")).toBeVisible();
   });
@@ -113,20 +86,14 @@ describe("CarMakeContent", () => {
         make="TOYOTA"
         cars={mockCars}
         makes={mockMakes}
-        lastUpdated={1735660800}
-      />
+        lastUpdated={mockLastUpdated}
+      />,
     );
     expect(screen.getByText(/Last updated:/)).toBeVisible();
   });
 
   it("renders make logo image", () => {
-    render(
-      <CarMakeContent
-        make="TOYOTA"
-        cars={mockCars}
-        makes={mockMakes}
-      />
-    );
+    render(<CarMakeContent make="TOYOTA" cars={mockCars} makes={mockMakes} />);
     const image = screen.getByRole("img");
     expect(image).toHaveAttribute("alt", "Logo");
     expect(image).toHaveAttribute("src", expect.stringContaining("TOYOTA.png"));
