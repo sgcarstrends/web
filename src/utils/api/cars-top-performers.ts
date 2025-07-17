@@ -25,7 +25,9 @@ export interface TopPerformersData {
   topMakes: TopMakeData[];
 }
 
-export const fetchTopPerformers = async (month: string): Promise<TopPerformersData> => {
+export const fetchTopPerformers = async (
+  month: string,
+): Promise<TopPerformersData> => {
   const [topTypes, topMakes] = await Promise.all([
     fetchApi<{
       month: string;
@@ -33,24 +35,31 @@ export const fetchTopPerformers = async (month: string): Promise<TopPerformersDa
       fuelType: Array<{ name: string; count: number }>;
       vehicleType: Array<{ name: string; count: number }>;
     }>(`${API_URL}/cars/top-types?month=${month}`),
-    fetchApi<Array<{ make: string; count: number; fuelType?: string; vehicleType?: string }>>(
-      `${API_URL}/cars/top-makes?month=${month}`
-    )
+    fetchApi<
+      Array<{
+        make: string;
+        count: number;
+        fuelType?: string;
+        vehicleType?: string;
+      }>
+    >(`${API_URL}/cars/top-makes?month=${month}`),
   ]);
 
   const topFuelTypes = (topTypes.fuelType || []).map((fuel, index) => ({
     name: fuel.name,
     count: fuel.count,
     percentage: (fuel.count / topTypes.total) * 100,
-    rank: index + 1
+    rank: index + 1,
   }));
 
-  const topVehicleTypes = (topTypes.vehicleType || []).map((vehicle, index) => ({
-    name: vehicle.name,
-    count: vehicle.count,
-    percentage: (vehicle.count / topTypes.total) * 100,
-    rank: index + 1
-  }));
+  const topVehicleTypes = (topTypes.vehicleType || []).map(
+    (vehicle, index) => ({
+      name: vehicle.name,
+      count: vehicle.count,
+      percentage: (vehicle.count / topTypes.total) * 100,
+      rank: index + 1,
+    }),
+  );
 
   const topMakesData = (topMakes || []).map((make, index) => ({
     make: make.make,
@@ -58,7 +67,7 @@ export const fetchTopPerformers = async (month: string): Promise<TopPerformersDa
     percentage: (make.count / topTypes.total) * 100,
     rank: index + 1,
     fuelType: make.fuelType,
-    vehicleType: make.vehicleType
+    vehicleType: make.vehicleType,
   }));
 
   return {
@@ -66,27 +75,8 @@ export const fetchTopPerformers = async (month: string): Promise<TopPerformersDa
     total: topTypes.total,
     topFuelTypes,
     topVehicleTypes,
-    topMakes: topMakesData
+    topMakes: topMakesData,
   };
-};
-
-export const fetchTopMakesByCategory = async (
-  month: string,
-  category: "fuel-types" | "vehicle-types",
-  categoryValue: string
-): Promise<TopMakeData[]> => {
-  const endpoint = category === "fuel-types" 
-    ? `${API_URL}/cars/top-makes?month=${month}&fuelType=${encodeURIComponent(categoryValue)}`
-    : `${API_URL}/cars/top-makes?month=${month}&vehicleType=${encodeURIComponent(categoryValue)}`;
-
-  const data = await fetchApi<Array<{ make: string; count: number; total: number }>>(endpoint);
-
-  return (data || []).map((make, index) => ({
-    make: make.make,
-    count: make.count,
-    percentage: (make.count / make.total) * 100,
-    rank: index + 1
-  }));
 };
 
 export const getRankingEmoji = (rank: number): string => {

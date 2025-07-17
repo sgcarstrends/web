@@ -52,7 +52,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
   const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body className={classNames(inter.className)}>
         <Providers>
           <NotificationPrompt />

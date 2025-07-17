@@ -72,6 +72,17 @@ export const Header = (props: NavbarProps) => {
               {navLinks.cars.overview.title}
             </DropdownItem>
             <DropdownItem
+              key={navLinks.cars.makes.title}
+              href={navLinks.cars.makes.url}
+              className="text-foreground hover:text-primary"
+              startContent={
+                <navLinks.cars.makes.icon className="size-6 text-pink-500" />
+              }
+              description={navLinks.cars.makes.description}
+            >
+              {navLinks.cars.makes.title}
+            </DropdownItem>
+            <DropdownItem
               key={navLinks.cars.fuelTypes.title}
               href={navLinks.cars.fuelTypes.url}
               className="text-foreground hover:text-primary"
