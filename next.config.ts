@@ -8,16 +8,10 @@ if (isProd) {
   redirects = [{ source: "/", destination: "/cars", permanent: false }];
 }
 
-// Temporary redirects until features in the respective page is completed
-redirects = redirects.concat([
-  {
-    source: "/cars/makes",
-    destination: "/cars",
-    permanent: false,
-  },
-]);
-
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [new URL("https://assets.sgcarstrends.com/logos/**")],
+  },
   logging: {
     fetches: {
       fullUrl: true,

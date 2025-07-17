@@ -1,25 +1,12 @@
 import slugify from "@sindresorhus/slugify";
-import { columns } from "@/app/cars/makes/[make]/columns";
+import { CarMakeContent } from "@/app/cars/makes/[make]/car-make-content";
 import { loadSearchParams } from "@/app/cars/makes/[make]/search-params";
-import { TrendChart } from "@/app/cars/makes/[make]/trend-chart";
-import { MakeSelector } from "@/components/make-selector";
-import NoData from "@/components/no-data";
-import { PageHeader } from "@/components/page-header";
 import { StructuredData } from "@/components/structured-data";
-import Typography from "@/components/typography";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
 import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
-import { type Car, type LatestMonth, type Make, type Month, RevalidateTags } from "@/types";
+import { type Car, type Make } from "@/types";
 import { fetchApi } from "@/utils/fetch-api";
-import { fetchMonthsForCars, getMonthOrLatest } from "@/utils/month-utils";
+import { getMonthOrLatest } from "@/utils/month-utils";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -78,13 +65,12 @@ export const generateStaticParams = async () => {
 const CarMakePage = async ({ params }: Props) => {
   const { make } = await params;
 
-  const [cars, makes, months]: [{ make: string; total: number; data: Car[] }, Make[], Month[]] =
+  const [cars, makes]: [{ make: string; total: number; data: Car[] }, Make[]] =
     await Promise.all([
       fetchApi<{ make: string; total: number; data: Car[] }>(
         `${API_URL}/cars/makes/${slugify(make)}`,
       ),
       fetchApi<Make[]>(`${API_URL}/cars/makes`),
-      fetchMonthsForCars(),
     ]);
   const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
 
@@ -103,43 +89,15 @@ const CarMakePage = async ({ params }: Props) => {
     },
   };
 
-  if (!cars) {
-    return <NoData />;
-  }
-
   return (
     <>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-4">
-        <PageHeader
-          title={cars.make}
-          lastUpdated={lastUpdated}
-          months={months}
-          showMonthSelector={true}
-        >
-          <MakeSelector makes={makes} selectedMake={make} />
-        </PageHeader>
-        <Card>
-          <CardHeader>
-            <CardTitle>Historical Trend</CardTitle>
-            <CardDescription>Past registrations</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <TrendChart data={cars.data.toReversed()} />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Summary</CardTitle>
-            <CardDescription>
-              Breakdown of fuel &amp; vehicle types by month
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <DataTable columns={columns} data={cars.data} />
-          </CardContent>
-        </Card>
-      </div>
+      <CarMakeContent
+        make={make}
+        cars={cars}
+        makes={makes}
+        lastUpdated={lastUpdated}
+      />
     </>
   );
 };

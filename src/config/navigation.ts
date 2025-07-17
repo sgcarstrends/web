@@ -9,6 +9,7 @@ import {
   BarChart3,
   Calculator,
   Car,
+  CarFront,
   Clock,
   FilePlus,
   FileText,
@@ -35,6 +36,7 @@ export interface SocialMediaItem {
 export interface NavLinks {
   cars: {
     overview: NavigationItem;
+    makes: NavigationItem;
     fuelTypes: NavigationItem;
     vehicleTypes: NavigationItem;
   };
@@ -73,6 +75,12 @@ export const navLinks: NavLinks = {
       url: "/cars",
       icon: FilePlus,
       description: "Monthly car registration statistics and trends",
+    },
+    makes: {
+      title: "Makes",
+      url: "/cars/makes",
+      icon: CarFront,
+      description: "Car makes statistics and market share analysis",
     },
     fuelTypes: {
       title: "Fuel Types",
