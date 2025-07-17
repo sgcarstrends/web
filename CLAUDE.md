@@ -2,106 +2,120 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Commands
+## Development Commands
 
-- Build: `pnpm build` (uses Turbopack)
-- Dev: `pnpm dev` (uses Turbopack)
-- Lint: `pnpm lint`
-- Test: `pnpm test:coverage` (Vitest with jsdom and coverage reporting)
-- Test single file: `pnpm test -- path/to/file.test.ts`
-- Test watch mode: `pnpm test:watch`
-- E2E tests: `pnpm test:e2e` (Playwright)
-- E2E tests UI: `pnpm test:e2e:ui`
-- DB migrations: `pnpm migrate`
+Essential commands for development:
+
+```bash
+# Development
+pnpm dev                 # Start development server with Turbopack
+pnpm build              # Build for production with Turbopack
+pnpm start              # Start production server
+
+# Testing
+pnpm test               # Run unit tests with Vitest
+pnpm test:run           # Run tests once
+pnpm test:coverage      # Run tests with coverage report
+pnpm test:e2e           # Run Playwright E2E tests
+pnpm test:e2e:ui        # Run E2E tests with Playwright UI
+
+# Code Quality
+pnpm lint               # Run ESLint
+
+# Database
+pnpm migrate            # Run Drizzle database migrations
+
+# Deployment
+pnpm deploy:dev         # Deploy to dev environment
+pnpm deploy:staging     # Deploy to staging environment
+pnpm deploy:prod        # Deploy to production environment
+```
 
 ## Architecture Overview
 
 ### Tech Stack
+- **Framework**: Next.js 15 with App Router and React 19
+- **Database**: PostgreSQL (Neon) with Drizzle ORM
+- **State Management**: Zustand with persistence
+- **Styling**: Tailwind CSS v4 with HeroUI components
+- **Testing**: Vitest for unit tests, Playwright for E2E
+- **Deployment**: SST on AWS (Singapore region)
 
-- **Next.js 15** with App Router and React 19
-- **TypeScript** with strict type checking
-- **Tailwind CSS** (v4) with prettier-plugin-tailwindcss for class sorting
-- **Drizzle ORM** with PostgreSQL (Neon Database)
-- **Zustand** for state management with persistence
-- **HeroUI** components for modern, professional UI (transitioning away from shadcn/ui)
-- **Vitest** for unit tests, **Playwright** for E2E tests
-- **SST** for AWS deployment with CloudFlare DNS
+### Key Directories
 
-### Project Structure
+```
+src/
+├── app/               # Next.js App Router - pages, layouts, API routes
+│   ├── (home)/       # Home page route group
+│   ├── api/          # API routes (analytics, OG images, revalidation)
+│   ├── cars/         # Car-related pages with parallel routes
+│   ├── coe/          # COE (Certificate of Entitlement) pages
+│   └── store/        # Zustand store slices
+├── components/       # React components with tests
+├── config/          # App configuration (DB, Redis, navigation)
+├── schema/          # Drizzle database schemas
+├── types/           # TypeScript definitions
+└── utils/           # Utility functions with comprehensive tests
+```
 
-- `src/app/` - Next.js App Router with route-based organization
-- `src/components/` - React components (HeroUI + custom)
-- `src/config/` - Database and application configuration
-- `src/utils/` - Utility functions with comprehensive test coverage
-- `src/types/` - TypeScript type definitions
-- `src/schema/` - Drizzle database schema definitions
+### Data Architecture
 
-### Business Domain
+**Database**: Uses Drizzle ORM with PostgreSQL for car registration data and COE bidding results. Database connection configured in `src/config/db.ts`.
 
-Singapore car market analytics:
+**State Management**: Zustand store with persistence in `src/app/store.ts` manages:
+- Date selection across components
+- COE category filters
+- Notification preferences
 
-- Car registration data by make, fuel type, vehicle type
-- COE (Certificate of Entitlement) bidding results and premiums
-- Month-over-month and year-over-year trend analysis
-- Geographic user analytics
+**Caching**: Redis (Upstash) for API response caching and rate limiting.
 
-### Key Patterns
+### API Structure
 
-#### State Management
+External API integration through `src/utils/api/` for:
+- Car comparison data
+- Market share analytics
+- Top performer statistics
 
-- Zustand store with modular slices (COE, Date, Notification)
-- Selective persistence with storage middleware
-- URL state management via nuqs for shareable links
+### Component Patterns
 
-#### API Integration
+**UI Components**: Located in `src/components/ui/` following HeroUI patterns with professional design system.
 
-- Custom `fetchApi` utility with authentication headers
-- RESTful API endpoints in `src/app/api/`
-- Upstash Redis for caching with Next.js revalidation tags
+**Charts**: Recharts-based components in `src/components/charts/` for data visualization.
 
-#### Data Visualisation
+**Layout**: Shared layout components (Header, Footer) with responsive design.
 
-- **Chart Types**: AreaChart, BarChart, DonutChart, LineChart for analytics
-- **Responsive design** with mobile-first approach
-- **Custom tooltips** and interactive features for enhanced UX
-- **Performance**: Use dynamic imports for chart components to reduce bundle size
-- **Migration**: Gradually migrate existing Recharts components to Tremor equivalents
+### Testing Strategy
 
-## Code Style
+**Unit Tests**: Co-located with components using Vitest and Testing Library. Run tests before commits.
 
-- File naming: kebab-case for utils and components
-- Import order: built-in > external > internal > parent > sibling
-- React functional components with TypeScript
-- Error handling: try/catch blocks with meaningful messages
-- Absolute imports with `@/` alias
-- Follow ESLint rules configured in project
-- Use British English spelling
-- Prefer HeroUI components for new features and refactoring
-- Use HeroUI's TypeScript-first approach with proper component typing
-- Leverage HeroUI's professional design system for analytics dashboard components
+**E2E Tests**: Playwright tests in `tests/` directory covering critical user flows.
 
-## Testing
+**Coverage**: Generate coverage reports with `pnpm test:coverage`.
 
-- Unit tests: Vitest with jsdom environment, @testing-library/react
-- E2E tests: Playwright (Chromium only)
-- Test files excluded from Vitest: `tests/` directory (reserved for E2E)
-- Setup file: `setup-tests.ts`
-- **Focus on basic functionality testing only** - test core component behaviour, prop handling, and essential user
-  interactions rather than comprehensive edge cases
-- **Write tests to increase code coverage** - prioritise coverage of untested components and utilities, but keep tests
-  simple and focused on core functionality
+### Environment Configuration
 
-## Database
+Environment variables managed through SST config:
+- `DATABASE_URL`: Neon PostgreSQL connection
+- `UPSTASH_REDIS_REST_URL/TOKEN`: Redis caching
+- `SG_CARS_TRENDS_API_TOKEN`: External API authentication
+- `APP_ENV`: Environment stage (dev/staging/prod)
 
-- Drizzle ORM with type-safe queries
-- Simple analytics schema for page views and geolocation
-- Migrations managed via drizzle-kit
+### Deployment
 
-## Deployment
+Multi-stage deployment via SST:
+- **dev**: `dev.sgcarstrends.com`
+- **staging**: `staging.sgcarstrends.com` 
+- **prod**: `sgcarstrends.com`
 
-- SST on AWS with ARM64 architecture
-- Environment-specific configurations (dev/staging/prod)
-- Lambda warming to reduce cold starts
+Infrastructure uses AWS Lambda with ARM64 architecture and CloudFlare DNS.
+
+## Development Notes
+
+- **Package Manager**: Uses pnpm (version 10.8.0)
+- **TypeScript**: Strict mode enabled
+- **Turbopack**: Enabled for faster builds and development
+- **Feature Flags**: Controlled via `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`
+- **Analytics**: Integrated with Google Analytics and custom analytics
 
 ## UI Component Strategy
 
@@ -113,23 +127,3 @@ The codebase uses HeroUI as the primary component library:
 - **Customisation**: Apply HeroUI's theming system to match Singapore car market branding
 - **Performance**: Take advantage of HeroUI's tree-shakeable, optimised components
 - **Legacy Code**: Gradually migrate existing shadcn/ui components to HeroUI equivalents
-- **DaisyUI Removal**: Remove DaisyUI dependency once HeroUI migration is completed
-
-## Excluded Areas
-
-- `components/ui/**` - shadcn/ui code (avoid enhancing, prefer replacing during refactors)
-
-## GitHub Operations
-
-- **Use GitHub CLI (`gh`) for all GitHub-related tasks**:
-  - Creating pull requests: `gh pr create`
-  - Viewing issues: `gh issue list`
-  - Managing repositories: `gh repo view`
-  - Working with releases: `gh release create`
-  - Authentication and configuration: `gh auth login`
-- Prefer `gh` commands over web interface interactions when possible
-- Use `gh` for automation and scripting GitHub workflows
-
-## Development Guidelines
-
-- DO NOT build the project after making changes
