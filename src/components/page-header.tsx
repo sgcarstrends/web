@@ -19,7 +19,6 @@ interface Props {
 export const PageHeader = ({
   title,
   subtitle,
-  description,
   children,
   className,
   lastUpdated,
@@ -32,9 +31,9 @@ export const PageHeader = ({
         <div className="flex flex-col">
           <Typography.H1>{title}</Typography.H1>
           {subtitle && (
-            <Typography.P className="text-muted-foreground">
+            <Typography.H2 className="text-muted-foreground">
               {subtitle}
-            </Typography.P>
+            </Typography.H2>
           )}
         </div>
         <div className="flex flex-row-reverse items-center justify-between gap-2 lg:flex-row">
