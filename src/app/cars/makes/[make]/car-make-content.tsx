@@ -21,6 +21,7 @@ interface CarMakeContentProps {
   cars: { make: string; total: number; data: Car[] };
   makes: Make[];
   lastUpdated?: number | null;
+  logoUrl?: string | null;
 }
 
 export function CarMakeContent({
@@ -28,6 +29,7 @@ export function CarMakeContent({
   cars,
   makes,
   lastUpdated,
+  logoUrl,
 }: CarMakeContentProps) {
   if (!cars) {
     return <NoData />;
@@ -39,12 +41,14 @@ export function CarMakeContent({
         <div className="flex flex-col justify-between gap-2 lg:flex-row lg:items-center">
           <div className="flex flex-col items-center">
             <UnreleasedFeature>
-              <Image
-                alt="Logo"
-                src={`https://assets.sgcarstrends.com/logos/${make}.png`}
-                width={128}
-                height={128}
-              />
+              {logoUrl && (
+                <Image
+                  alt={`${cars.make} logo`}
+                  src={logoUrl}
+                  width={128}
+                  height={128}
+                />
+              )}
             </UnreleasedFeature>
             <Typography.H1>{cars.make}</Typography.H1>
           </div>

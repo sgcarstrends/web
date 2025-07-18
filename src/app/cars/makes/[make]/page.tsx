@@ -59,19 +59,30 @@ export const generateMetadata = async ({
 
 export const generateStaticParams = async () => {
   const makes = await fetchApi<Make[]>(`${API_URL}/cars/makes`);
-  return makes.map((make) => ({ make: slugify(make) }));
+  return makes.map(async (make) => {
+    await fetch(
+      `https://car-logos.sgcarstrends.workers.dev/logos/${slugify(make)}`,
+    );
+    return { make: slugify(make) };
+  });
 };
 
 const CarMakePage = async ({ params }: Props) => {
   const { make } = await params;
 
-  const [cars, makes]: [{ make: string; total: number; data: Car[] }, Make[]] =
-    await Promise.all([
-      fetchApi<{ make: string; total: number; data: Car[] }>(
-        `${API_URL}/cars/makes/${slugify(make)}`,
-      ),
-      fetchApi<Make[]>(`${API_URL}/cars/makes`),
-    ]);
+  const [cars, makes, logoUrl]: [
+    { make: string; total: number; data: Car[] },
+    Make[],
+    string,
+  ] = await Promise.all([
+    fetchApi<{ make: string; total: number; data: Car[] }>(
+      `${API_URL}/cars/makes/${slugify(make)}`,
+    ),
+    fetchApi<Make[]>(`${API_URL}/cars/makes`),
+    fetch(`https://car-logos.sgcarstrends.workers.dev/logos/${slugify(make)}`)
+      .then((res) => res.json())
+      .then((res) => res.logo.url),
+  ]);
   const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
 
   const title = `${cars.make} Cars Overview: Registration Trends`;
@@ -97,6 +108,7 @@ const CarMakePage = async ({ params }: Props) => {
         cars={cars}
         makes={makes}
         lastUpdated={lastUpdated}
+        logoUrl={logoUrl}
       />
     </>
   );
